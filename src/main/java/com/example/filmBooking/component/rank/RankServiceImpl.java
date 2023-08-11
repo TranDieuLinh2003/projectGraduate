@@ -4,7 +4,9 @@ import com.example.filmBooking.model.Rank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -20,7 +22,9 @@ public class RankServiceImpl implements RankService {
 
     @Override
     public Rank save(Rank rank) {
-        System.out.println(rank);
+        Random generator = new Random();
+        int value = generator.nextInt((100000 - 1) + 1) + 1;
+        rank.setCode("code_"+ value );
         return repository.save(rank);
     }
 
