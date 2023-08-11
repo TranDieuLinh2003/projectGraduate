@@ -10,7 +10,10 @@ public interface RankService {
 
     Rank save(Rank rank);
 
-    Rank findById(UUID id);
+    Rank update(UUID id, Rank rank);
 
     void delete(UUID id);
+
+    Rank findById(UUID id);
+
 }

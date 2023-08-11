@@ -1,6 +1,7 @@
-package com.example.filmBooking.component.rank;
+package com.example.filmBooking.component.customer;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.model.Rank;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/rank")
-@Tag(name = "rank")
-public class RankController {
+@RequestMapping("/customer")
+@Tag(name = "customer")
+public class CustomerController {
     @Autowired
-    private RankService service;
+    private CustomerService service;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -38,21 +39,21 @@ public class RankController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Rank rank) {
+    public ResponseEntity<Object> save(@RequestBody @Valid Customer customer) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(rank));
+        responseBean.setData(service.save(customer));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Rank rank) {
+    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, rank));
+        responseBean.setData(service.update(id, customer));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
