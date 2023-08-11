@@ -67,14 +67,14 @@ public class CustomerController {
         responseBean.setData(id);
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-
-    @GetMapping("/findById/{id}")
-    @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setCode(HttpStatus.OK.toString());
-        responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.findById(id));
-        return new ResponseEntity<>(responseBean, HttpStatus.OK);
-    }
+//
+//    @GetMapping("/findById/{id}")
+//    @Operation(summary = "[Tìm kiếm theo id]")
+//    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+//        ResponseBean responseBean = new ResponseBean();
+//        responseBean.setCode(HttpStatus.OK.toString());
+//        responseBean.setMessage("SUCCESS");
+//        responseBean.setData(service.findById(id));
+//        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+//    }
 }
