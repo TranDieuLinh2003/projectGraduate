@@ -30,8 +30,8 @@ public class Promotion {
     @Column(name = "percent")
     private Integer percent;
 
-    @Column(name = "range")
-    private Integer range;
+    @Column(name = "comparison_point")
+    private Integer comparisonPoint;
 }
 
 
