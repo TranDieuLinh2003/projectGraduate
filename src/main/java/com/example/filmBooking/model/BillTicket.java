@@ -1,5 +1,6 @@
 package com.example.filmBooking.model;
 
+import com.example.filmBooking.component.buil.Bill;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

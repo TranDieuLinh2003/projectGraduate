@@ -1,5 +1,8 @@
-package com.example.filmBooking.model;
+package com.example.filmBooking.component.buil;
 
+import com.example.filmBooking.model.BillFood;
+import com.example.filmBooking.model.BillTicket;
+import com.example.filmBooking.model.Customer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
