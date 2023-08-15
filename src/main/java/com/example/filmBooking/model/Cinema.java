@@ -34,6 +34,9 @@ public class Cinema {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "address", length = 560)
+    private String address;
+
     @Column(name = "description", length = 560)
     private String description;
 }
