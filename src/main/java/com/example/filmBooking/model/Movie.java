@@ -26,6 +26,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "movie")
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -50,8 +51,8 @@ public class Movie {
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private Date endDate;
 
-    @Column(name = "status")
-    private Boolean status;
+//    @Column(name = "status")
+//    private String status = status(premiereDate, endDate);
 
     @Column(name = "director")
     private String director;
@@ -71,4 +72,14 @@ public class Movie {
     @Column(name = "description", length = 1000)
     private String description;
 
+    public String status(Date premiereDate, Date endDate) {
+        java.util.Date date = new java.util.Date();
+        if(date.after(endDate)){
+            return "Đã chiếu";
+        }else if(date.before(premiereDate)){
+            return "Sắp chiếu";
+        }else {
+            return "Đang chiếu";
+        }
+    }
 }
