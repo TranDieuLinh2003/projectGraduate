@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.sql.Date;
 import java.util.UUID;
 
 @Entity
@@ -40,12 +41,21 @@ public class Movie {
     @Column(name = "trailer")
     private String trailer;
 
+    @Column(name = "premiere_date")
+    private Date premiereDate;
+
+    @Column(name = "end_date")
+    private Date endDate;
+
+    @Column(name = "status")
+    private Boolean status;
+
     @Column(name = "image")
     private String image;
 
     @Column(name = "type_ids")
     private String typeIds;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 }

@@ -46,6 +46,6 @@ public class Room {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 560)
     private String description;
 }

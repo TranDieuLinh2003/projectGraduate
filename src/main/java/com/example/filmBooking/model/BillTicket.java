@@ -41,6 +41,7 @@ public class BillTicket {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "promotion_id")
-    private Long promotionId;
+    @ManyToOne
+    @JoinColumn(name = "promotion")
+    private Promotion promotion;
 }
