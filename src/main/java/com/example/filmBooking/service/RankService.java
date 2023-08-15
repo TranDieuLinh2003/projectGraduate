@@ -1,4 +1,4 @@
-package com.example.filmBooking.component.rank;
+package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Rank;
 

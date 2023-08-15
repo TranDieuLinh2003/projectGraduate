@@ -1,6 +1,7 @@
-package com.example.filmBooking.component.rank;
+package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.service.RankService;
 import com.example.filmBooking.model.Rank;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

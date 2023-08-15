@@ -1,6 +1,8 @@
-package com.example.filmBooking.component.rank;
+package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Rank;
+import com.example.filmBooking.repository.RankRepository;
+import com.example.filmBooking.service.RankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

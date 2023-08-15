@@ -1,6 +1,9 @@
-package com.example.filmBooking.component.customer;
+package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.model.Rank;
+import com.example.filmBooking.repository.CustomerRepository;
+import com.example.filmBooking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +47,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void delete(UUID id) {
         repository.delete(findById(id));
+    }
+
+    @Override
+    public String soSanhPoint(List<Rank> listRank, UUID id) {
+        Customer customer= findById(id);
+        String tenRank= "";
+        for (Rank rank : listRank) {
+            if(customer.getPoint()< rank.getPoint()){
+//                tenRank= rank.getName();
+                System.out.println("điểm KH: "+customer.getPoint());
+                System.out.println("diểm ss: "+rank.getPoint());
+            }
+        }
+        System.out.println("rank lafaaa: "+tenRank);
+        return tenRank;
     }
 }
