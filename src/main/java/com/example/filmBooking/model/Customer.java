@@ -50,5 +50,5 @@ public class Customer {
     private String password;
 
     @Column(name = "point")
-    private String point;
+    private Integer point;
 }

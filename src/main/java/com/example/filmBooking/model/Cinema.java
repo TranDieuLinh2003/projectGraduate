@@ -34,6 +34,6 @@ public class Cinema {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 560)
     private String description;
 }

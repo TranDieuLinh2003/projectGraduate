@@ -37,4 +37,7 @@ public class SeatType {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @Column(name = "description", length = 560)
+    private String description;
 }

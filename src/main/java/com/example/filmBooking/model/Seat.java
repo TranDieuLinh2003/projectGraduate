@@ -53,5 +53,4 @@ public class Seat {
     @Column(name = "description")
     private String description;
 
-
 }

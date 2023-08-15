@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +35,6 @@ public class MovieType {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 560)
     private String description;
 }

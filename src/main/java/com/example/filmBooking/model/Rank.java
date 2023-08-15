@@ -37,6 +37,6 @@ public class Rank {
     @Column(name = "point")
     private Integer point;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 560)
     private String description;
 }
