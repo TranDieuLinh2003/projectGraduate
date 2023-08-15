@@ -1,8 +1,9 @@
-package com.example.filmBooking.component.customer;
+package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.service.RankService;
 import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.model.Rank;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,6 +27,8 @@ import java.util.UUID;
 public class CustomerController {
     @Autowired
     private CustomerService service;
+    @Autowired
+    private RankService serviceR;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -75,6 +78,17 @@ public class CustomerController {
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         responseBean.setData(service.findById(id));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
+    @GetMapping("/ss/{id}")
+    @Operation(summary = "[Tìm kiếm rank của khách theo id]")
+    public ResponseEntity<?> ss(@PathVariable("id") UUID id) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        String tenR= service.soSanhPoint(serviceR.fillAll(), id);
+        responseBean.setData(tenR);
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

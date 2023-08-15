@@ -1,4 +1,4 @@
-package com.example.filmBooking.component.rank;
+package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Rank;
 import org.springframework.data.jpa.repository.JpaRepository;
