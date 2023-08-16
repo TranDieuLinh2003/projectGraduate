@@ -37,7 +37,7 @@ public class Food {
     private String name;
 
     @Column(name = "image")
-    private File image;
+    private String image;
 
     @Column(name = "price")
     private BigDecimal price;
