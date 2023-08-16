@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -34,6 +35,9 @@ public class Food {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "image")
+    private File image;
 
     @Column(name = "price")
     private BigDecimal price;
