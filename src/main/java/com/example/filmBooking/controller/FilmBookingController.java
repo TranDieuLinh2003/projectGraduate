@@ -8,9 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
-import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/filmbooking")
@@ -33,11 +32,12 @@ public class FilmBookingController {
     }
 
     @GetMapping("/phimchieu")
-    public String showPhimChieu(){
+    public String showPhimChieu() {
         return "admin/Phim";
     }
+
     @GetMapping("/lichchieu")
-    public String showLichChieu(){
+    public String showLichChieu() {
         return "admin/LichChieu";
     }
 }
