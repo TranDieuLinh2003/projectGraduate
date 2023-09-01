@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head>
+    <title>FILMBOOKING</title>
+    <link rel="stylesheet" th:href="@{/admin/css/web.css}">
+</head>
+
+<body>
+<div th:replace="~{/layout/Header :: header}"></div>
+<div class="main">
+    <div class="content">
+        <h1>Web <br><span>FILMBOOKING</span></h1>
+
+        <p class="par">Xem càng nhiều ưu đãi càng lớn, nhiều phần quá lớn đang chờ đón các bạn <br>
+            Ưu đãi cực khủng dành cho những ngày lễ
+            <br>
+            Ưu đãi combo cho những cặp đôi vào ngày lễ tình nhân <br>
+            <b style="font-size: 20px;color: #ff7200;">Từ thứ 4 đến thứ 6 giá vé chỉ 45k </b>
+        </p>
+
+    </div>
+</div>
+
+
+<!-- header -->
+
+<h2>FILMBOOKING</h2>
+<div class="warpper">
+    <input class="radio" id="one" name="group" type="radio" checked>
+    <input class="radio" id="two" name="group" type="radio">
+    <input class="radio" id="three" name="group" type="radio">
+    <div class="tabs">
+        <label class="tab" id="one-tab" for="one">PHIM ĐANG CHIẾU</label>
+        <label class="tab" id="two-tab" for="two">PHIM SẮP CHIẾU</label>
+    </div>
+    <div class="panels">
+        <div class="panel" id="one-panel">
+            <div class="khoi">
+                <th:block th:each="movie : ${listmovie}">
+                    <figure class="snip1208">
+                        <img th:src="${movie.image}" style="width: 100%; height: 459px">
+                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <i id="myBtn${movie.id}" class=""> Xem trailer</i>
+                        <figcaption>
+                            <h3>
+                                <td>[[${movie.name}]]</td>
+                            </h3>
+                            <p>
+                                - Thể loại: [[${movie.movieType}]]<br>
+                                - Thời lượng: [[${movie.movieDuration}]] <br>
+                                - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
+                            </p>
+                            <button onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                            <!-- id="myBtn1" -->
+                        </figcaption>
+                    </figure>
+                </th:block>
+
+            </div>
+        </div>
+        <div class="panel" id="two-panel">
+            <div class="khoi">
+                <th:block th:each="movie1 : ${listmovie1}">
+                    <figure class="snip1208">
+                        <img th:src="${movie1.image}" style="width: 100%; height: 459px">
+                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <i id="myBtnn[[${movie1.id}]]" class=""> Xem trailer</i>
+                        <figcaption>
+                            <h3>
+                                <td>[[${movie1.name}]]</td>
+                            </h3>
+                            <p>
+                                - Thể loại: [[${movie1.movieType}]]<br>
+                                - Thời lượng: [[${movie1.movieDuration}]] <br>
+                                - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
+                            </p>
+                            <button onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                        </figcaption>
+                    </figure>
+                </th:block>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- gọi trailer phim đang chiếu -->
+<th:block th:each="movie : ${listmovie}">
+    <div id="myModal${movie.id}"  class="modal">
+        <div class="modal-content" >
+            <span class="close">&times;</span>
+            <h2>TRAILER - [[${movie.name}]]</h2>
+            <hr style="margin-top: 20px; opacity: 0.5">
+            <div class="embed-responsive embed-responsive-16by9 video">
+                <iframe width="80%" height="315" th:src="${movie.trailer}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!--  gọi trailer phim sắp chiếu-->
+<th:block th:each="movie1 : ${listmovie1}">
+    <div id="myModall[[${movie1.id}]]" class="modal">
+        <div  class="modal-content">
+            <span class="closee">&times;</span>
+            <h2>TRAILER - [[${movie1.name}]]</h2>
+            <hr style="margin-top: 20px; opacity: 0.5">
+            <div class="embed-responsive embed-responsive-16by9 video">
+                <iframe width="80%" height="315" th:src="${movie1.trailer}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!--  -->
+<br>
+<section class="khuyenmai">
+    <h3>KHUYẾN MÃI</h3>
+    <div class="khoi1">
+        <div class="card">
+            <div class="header">
+                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+            </div>
+            <div class="info">
+                <a rel="noopener noreferrer" href="" class="block">
+                    <span class="title">CHƯƠNG TRÌNH PHIM HÈ 2023 (Từ 26/5/2023 đến 30/6/2023) </span>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+            </div>
+            <div class="info">
+                <a rel="noopener noreferrer" href="" class="block">
+                    <span class="title">CHƯƠNG TRÌNH PHIM HÈ 2023 (Từ 26/5/2023 đến 30/6/2023) </span>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+            </div>
+            <div class="info">
+                <a rel="noopener noreferrer" href="" class="block">
+                    <span class="title">CHƯƠNG TRÌNH PHIM HÈ 2023 (Từ 26/5/2023 đến 30/6/2023) </span>
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="header">
+                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+            </div>
+            <div class="info">
+                <a rel="noopener noreferrer" href="" class="block">
+                    <span class="title">CHƯƠNG TRÌNH PHIM HÈ 2023 (Từ 26/5/2023 đến 30/6/2023) </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- gọi đặt vé -->
+<div id="myModal1" class="modal1">
+    <div class="modal-content1">
+        <span class="close1">&times;</span>
+        <h3>LỊCH CHIẾU - THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</h3>
+        <hr style=" margin-top:10px;margin-bottom: 20px;opacity: 0.5">
+        <b>Rạp FilmBooking </b>
+        <hr style="opacity: 0.2; margin-top: 5px;">
+
+        <div>
+            <!-- Tabs menu -->
+            <div class="tabs">
+                <div class="tab-item active">
+                    05/08-T7
+                </div>
+                <div class="tab-item">
+                    05/09-CN
+                </div>
+                <div class="tab-item">
+                    05/10-T2
+                </div>
+                <div class="tab-item">
+                    05/11-T3
+                </div>
+                <div class="line"></div>
+            </div>
+
+            <!-- Tab content -->
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <h2>2D PHỤ ĐỀ</h2>
+                    <br>
+                    <div class="time_seat">
+                        <div class="time">
+                            <button data-modal-target="modal3">09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="tab-pane">
+                    <h2>2D PHỤ ĐỀ</h2>
+                    <br>
+                    <div class="time_seat">
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane">
+                    <h2>2D PHỤ ĐỀ</h2>
+                    <br>
+                    <div class="time_seat">
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane">
+                    <h2>2D PHỤ ĐỀ</h2>
+                    <br>
+                    <div class="time_seat">
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                        <div class="time">
+                            <button href=""> 09:30</button>
+                            <div class="seat">135 ghế trống</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thông tin rap, chọn rạp  -->
+<div id="id01" class="w3-modal" style="display: none;">
+    <div class="w3-modal-content">
+        <div class="w3-container">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="w3-button w3-display-topright">&times;</span>
+            <div class="w3-cinema">
+                <div>
+                    <h3>Khu vực: Hà Nội</h3>
+                </div>
+                <p>Tên Rạp:</p> <br>
+                <div class="w3-cinema-1">
+                    <button class="w3-cinema-button" id="myBtn1"
+                            onclick="document.getElementById('id01').style.display='none'"> FilmBooking Mỹ Đình
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- thông báo xác nhận vé  -->
+<div class="modal-view" id="modal3">
+    <div class="modal-content-view">
+        <span class="modal-close-view">&times;</span>
+        <h3>BẠN ĐANG ĐẶT VÉ XEM PHIM</h3>
+        <hr style="opacity: 0.3; margin-top: 5px; margin-bottom: 30px;">
+        <b>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</b>
+        <hr style="opacity: 0.2; margin-top: 5px; margin-bottom: 15px;">
+        <table style="margin-bottom: 30px;">
+            <tr>
+                <th>Rạp chiếu</th>
+                <th>Ngày chiếu</th>
+                <th>Giờ chiếu</th>
+            </tr>
+            <tr>
+                <td>Peter</td>
+                <td>Griffin</td>
+                <td>$100</td>
+            </tr>
+        </table>
+
+        <div style="text-align: center;">
+            <button class="mybtn bronze">Đồng Ý</button>
+        </div>
+    </div>
+</div>
+<div th:replace="~{/layout/Footer :: footer}"></div>
+</body>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<script th:src="@{/admin/js/web.js}"></script>
+
+</html>

@@ -69,6 +69,9 @@ public class Movie {
     @Column(name = "type_ids")
     private String typeIds;
 
+    @Column(name = "movie_type")
+    private String movieType;
+
     @Column(name = "description", length = 1000)
     private String description;
 
