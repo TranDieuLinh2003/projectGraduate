@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt vé</title>
+    <link rel="stylesheet" th:href="@{/users/css/doan.css}">
+
+
+</head>
+
+<body>
+<!-- navbar -->
+<div th:replace="~{/layout/Header :: header}"></div>
+<br>
+<div id="frame">
+    <section class="split_frame">
+        <div class="split_frame_1">
+            <div class="movie-container">
+                <label>Phim:</label>
+                <span id="movie">
+                        Trang chủ/Đặt vé/Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu
+                    </span>
+            </div>
+            <hr style="opacity: 0.4; width: 900px;">
+            <div class="tt">
+                <h3><i class='fas fa-user-tag'></i> THÔNG TIN THANH TOÁN</h3>
+            </div>
+            <div class="tt-1">
+                <div class="tt-name">
+                    <b> Họ Tên: </b>
+                    <br>
+                    <br>
+                    <p>Hoàng Toản</p>
+                </div>
+                <div class="tt-name">
+                    <b> Số điện thoại: </b>
+                    <br>
+                    <br>
+                    <p>03371283984</p>
+                </div>
+                <div class="tt-name">
+                    <b> Email: </b>
+                    <br>
+                    <br>
+                    <p>toanhdph21326@gmail.com</p>
+                </div>
+            </div>
+            <div class="tt-2">
+                <b> Ghế thường: </b>
+                <p> 1 x 45.000 = 45.000 vnđ</p>
+
+            </div>
+            <hr style="opacity: 0.4; width: 900px;">
+            <div class="combo">
+                <h3><img th:src="@{/admin/img/combo.png}" width="30px" height="35px" alt=""> COMBO ƯU ĐÃI </h3>
+            </div>
+            <div class="combo_tt">
+                <p>Hình ảnh </p>
+                <p>Tên Combo </p>
+                <p>Mô tả</p>
+                <p>Số lượng </p>
+            </div>
+            <hr style="opacity: 0.6; width: 900px;">
+            <div class="combo_tt">
+                <img th:src="@{/admin/img/combo.png}" alt="" width="70px" height="70px">
+                <b>Combo hạnh phúc </b>
+                <p class="mot">TIẾT KIỆM 36K!!! Gồm: 1 Bắp(69oz)
+                    + 2 Nước có gaz(22oz) </p>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="0">
+                </div>
+            </div>
+            <hr style="opacity: 0.6; width: 900px;">
+            <div class="combo_tt">
+                <img th:src="@{/admin/img/combo.png}" alt="" width="70px" height="70px">
+                <b>Combo hạnh phúc </b>
+                <p class="mot">TIẾT KIỆM 36K!!! Gồm: 1 Bắp(69oz)
+                    + 2 Nước có gaz(22oz) </p>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="0">
+                </div>
+            </div>
+            <hr style="opacity: 0.6; width: 900px;">
+            <div class="combo_tt">
+                <img th:src="@{/admin/img/combo.png}" alt="" width="70px" height="70px">
+                <b>Combo hạnh phúc </b>
+                <p class="mot">TIẾT KIỆM 36K!!! Gồm: 1 Bắp(69oz)
+                    + 2 Nước có gaz(22oz) </p>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="0">
+                </div>
+            </div>
+            <hr style="opacity: 0.4; width: 900px;">
+            <!--  -->
+            <div class="tt">
+                <h3><i class='fa fa-credit-card'></i> ƯU ĐÃI</h3>
+            </div>
+            <details class="accordion">
+                <summary class="accordion-header">
+                    <div class="accordion-header-content">
+                        <span class="accordion-header-content-label">Ưu đãi <i>(Nhấn vào đây để hiện thị danh sách voucher)</i></span>
+                        <h3 class="accordion-header-content-title">FilmBooking Voucher</h3>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <b>Chọn Voucher</b> <br>
+                    <select class="classic">
+                        <option></option>
+                        <option>CSS SELECT arrow (classic)</option>
+                        <option>No external background image</option>
+                        <option>No wrapper</option>
+                    </select>
+                    <br>
+                    <div class="classic-1">
+                        <b>Mã Voucher</b>
+                        <b>Nội dung Voucher</b>
+                        <b>Ngày hết hạn</b>
+                    </div>
+                    <hr style="opacity: 0.4; width: 865px;">
+                    <div class="classic-1">
+                        <p>VC4424</p>
+                        <p>Ưu đãi</p>
+                        <p>Ngày hết hạn</p>
+                    </div>
+
+                </div>
+            </details>
+            <br>
+            <!--  -->
+            <details class="accordion ">
+                <summary class="accordion-header">
+                    <div class="accordion-header-content">
+                        <span class="accordion-header-content-label">Ưu đãi <i>(Nhấn vào đây để xem điểm tích lũy)</i></span>
+                        <h3 class="accordion-header-content-title">Điểm FilmBooking</h3>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <i style="opacity: 0.6;">(Đổi điểm : 1.000 point = 1.000 vnđ)</i>
+                    <div class="classic-2">
+                        <b>Điểm hiện có:
+                            <br>
+                            <br> 100000</b>
+                        <div><b>Nhập điểm:</b><br><br>
+                            <input type="text" name="" id="">
+                        </div>
+                        <b>Số tiền được giảm <br><br>
+                            0đ</b>
+                        <button class="cn"><a href="">Đổi điểm</a></button>
+
+                    </div>
+                </div>
+            </details>
+            <!--  -->
+            <br>
+            <hr style="opacity: 0.4; width: 900px;">
+            <div class="sum">
+                <p>Tổng tiền:</p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>
+                <p>Số tiền được giảm:</p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>
+                <p>Số tiền cần thanh toán:</p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>
+            </div>
+            <!--  -->
+            <hr style="opacity: 0.1; width: 900px;">
+            <div class="tt">
+                <h3><i class='fa fa-credit-card'></i>PHƯƠNG THỨC THANH TOÁN</h3>
+            </div>
+            <div class="cartt">
+                <p>Chọn thẻ thanh toán </p>
+                <div style="display: grid;
+                    grid-template-columns: 0.3fr 0.3fr ;">
+                    <div class="cartt_radio">
+                        <input type="radio" name="optradio" checked> <img th:src="@{/admin/img/the1.png}" alt="" width="50px"
+                                                                          height="45px"> Thẻ nội địa</label>
+                    </div>
+                    <div class="cartt_radio">
+                        <input type="radio" name="optradio"> <img th:src="@{/admin/img/the2.png}" alt="" width="50px"
+                                                                  height="45px"> Momo</label>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+            <i style="margin-left: 20px;">Vui lòng kiểm tra thông tin đầy đủ trước khi qua bước tiếp theo.
+                *Vé mua rồi không hoàn trả lại dưới mọi hình thức.</i>
+        </div>
+        <!--  -->
+        <div class="split_frame_2">
+            <div class="block">
+                <img th:src="@{/admin/img/anh.jpg}" alt="">
+                <div class="block_1">
+                    <h3>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</h3><br>
+                    <p>2D Phụ đề</p>
+                </div>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-film'></i> Thể loại </p>
+                <b>Kinh dị, vui nhộn </b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-history'></i> Thời lượng </p>
+                <b>100 phút</b>
+            </div>
+            <p style="opacity: 0.3;">
+                ---------------------------------------------------------------------------------------</p>
+            <div class="infor">
+                <p><i class='fa fa-home'></i> Rạp chiếu</p>
+                <b>FilmBooking Mỹ Đình</b>
+            </div>
+            <div class="infor">
+                <p><i class='fas fa-calendar-alt'></i> Ngày chiếu </p>
+                <b>23/08/2003</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-history'></i> Giờ chiếu </p>
+                <b>20:35</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-tv'></i> Phòng chiếu </p>
+                <b>P1</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-wheelchair'></i> Ghế ngồi </p>
+                <b>0</b>
+            </div>
+            <button class="cn"><a href="/filmbooking/datve">Quay lại</a></button>
+            <button class="cn"><a href="">Tiếp tục</a></button>
+        </div>
+    </section>
+</div>
+<!--  -->
+<br>
+<div th:replace="~{/layout/Footer :: footer}"></div>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+</html>

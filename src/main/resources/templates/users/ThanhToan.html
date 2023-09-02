@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THANH TOÁN</title>
+    <link rel="stylesheet" th:href="@{/users/css/thanhtoan.css}">
+</head>
+
+<body>
+
+<!-- navbar -->
+<nav class="navbar fixed">
+
+
+    <div class="logo">
+        <img src="img/logo.png" alt="">
+    </div>
+    <div class="thongtin">
+        <div> <img src="img/telephone.png" alt=""> 1900 6666 666 (8h30 - 22h30)</div><br>
+        <div style="margin-top: -15px;"> <img src="img/gmail.png" alt=""> congty@gmail.com</div>
+    </div>
+
+</nav>
+<br>
+<div id="frame">
+    <section class="split_frame">
+        <div class="split_frame_1" style="margin-bottom: 10px;">
+            <div class="phuongthuc">
+                <p>Chọn phương thức thanh toán</p>
+            </div>
+            <details class="accordion">
+                <summary class="accordion-header">
+                    <div class="accordion-header-content">
+                        <h2 class="accordion-header-content-title">Thẻ ATM/ Tài khoản ngân hàng</h2>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <div class="search"> <input style="width: 465px; opacity: 0.6; height: 50px;" type="text"
+                                                name="" id="" placeholder="Tìm kiếm ngân hàng"></div>
+                </div>
+
+                <!--  thanh toán bằng thẻ-->
+                <div class="array">
+                    <div class="cart show-modal">
+                        <a href=""> <img src="img/vietcom.jpg"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/bidv.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/agri.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/viettin.png"></a>
+                    </div>
+                </div>
+                <br>
+                <div class="array">
+                    <div class="cart">
+                        <a href=""> <img src="img/tech.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/tp.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/mb.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/hd.jpg"></a>
+                    </div>
+                </div>
+            </details>
+            <!-- thanh toán qr -->
+            <details class="accordion">
+                <summary class="accordion-header">
+                    <div class="accordion-header-content">
+                        <h2 class="accordion-header-content-title">Thanh toán mã QR với Ứng dụng di động <img
+                                src="img/qr-code.png" alt=""></h2>
+                    </div>
+                </summary>
+                <div class="accordion-content">
+                    <div class="search"> <input style="width: 465px; opacity: 0.6; height: 50px;" type="text"
+                                                name=""  placeholder="Tìm kiếm ngân hàng"></div>
+                </div>
+
+                <!--  -->
+                <div class="array">
+                    <div class="cart">
+                        <img src="img/vietcom.jpg">
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/bidv.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/agri.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/viettin.png"></a>
+                    </div>
+                </div>
+                <br>
+                <div class="array">
+                    <div class="cart">
+                        <a href=""> <img src="img/tech.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/tp.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/mb.png"></a>
+                    </div>
+                    <div class="cart">
+                        <a href=""> <img src="img/hd.jpg"></a>
+                    </div>
+                </div>
+            </details>
+            <button id="btnOpen"
+                    style="margin-left: 595px; margin-bottom: 20px; font-size: 13px;text-decoration: none;">
+                x Hủy
+                giao dịch</button>
+
+            <br>
+        </div>
+        <!--  -->
+        <div class="split_frame_2">
+            <div class="phuongthuc2">
+                <p>Thông tin đơn hàng</p>
+            </div>
+            <div class="phuongthuc_thongtin">
+                <p style="margin-left: 10px; margin-top: 10px; font-size: 12px;opacity: 0.7;">Đơn vị châp nhận
+                    thanh toán</p>
+                <p style="margin-left: 10px; margin-top: 10px; font-size: 16px;;">FILMBOOKING</p>
+
+                <p style="margin-left: 10px; margin-top: 10px; font-size: 12px;opacity: 0.7;">Mã đơn hàng</p>
+                <p style="margin-left: 10px; margin-top: 10px; font-size: 16px;;">F43EH9FRH8FH9FH</p>
+                <hr style="opacity: 0.6; margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+                <div style="display: grid; grid-template-columns:  1fr 1fr;">
+                    <p style="margin-left: 10px; margin-top: 10px; font-size: 12px;opacity: 0.7;">Tổng tiền
+                        thanh toán </p>
+                    <p style="margin-left: 10px; margin-top: 10px; font-size: 16px;;">50.000 vnđ</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<!--  -->
+
+<!--  Modal hủy bỏ-->
+<dialog id="d1" class="dlg">
+    <form id="testForm" method="dialog">
+        <span class="header">Hủy giao dịch </span>
+        <hr style="opacity: 0.6; margin-top: 10px;margin-bottom: 20px;" />
+        <p style="text-align: center;">Xác nhận hủy giao dịch và quay về trang của <b>FilmBooking?</b></p>
+
+        <div class="footer">
+            <button type="submit" value="">X Bỏ qua</button>
+            <button type="submit" value="OK">Xác nhận</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- Modal thanh toán  -->
+<div class="modal hidden">
+    <button class="close-modal">
+        <div class="leftright"></div>
+        <div class="rightleft"></div>
+    </button>
+    <div class="title">
+        <h1>Modal window</h1>
+    </div>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+        excommodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum.</p>
+</div>
+<div class="overlay hidden"></div>
+<!--  -->
+</body>
+<script th:src="@{/users/js/thanhtoan.js}"></script>
+<script>// hủy bỏ
+btnOpen.addEventListener("click", e => {
+    console.clear()
+    d1.showModal()
+})
+
+d1.addEventListener("close", (event) => {
+    if (d1.returnValue == "OK") {
+        const fd = new FormData(testForm);
+        console.log(`Product: ${fd.get('prod')} has quantity of ${fd.get('qty')}`)
+        console.log(`${fd.get('desc')}`)
+        testForm.reset()
+    }
+});
+
+let high = 1157
+let low = 8888
+let step = 5
+
+let l = (low - (low % step))
+let h = (high - (high % step) + step)
+steps = (h - l) / step
+
+console.log(`for step=${step}, h=${h}, l=${l}, steps=${steps}`)</script>
+
+</html>
