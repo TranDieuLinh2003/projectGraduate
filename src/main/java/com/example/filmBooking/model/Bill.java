@@ -54,6 +54,9 @@ public class Bill {
             cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BillFood> listBillFood;
 
+    @ManyToOne
+    @JoinColumn(name = "cinema")
+    private Cinema cinema;
 
     @Column(name = "promotion_id")
     private Long promotionId;
