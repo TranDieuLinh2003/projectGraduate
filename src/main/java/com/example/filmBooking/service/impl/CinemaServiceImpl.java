@@ -1,11 +1,8 @@
 package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Rank;
 import com.example.filmBooking.repository.CinemaRepository;
-import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.service.CinemaService;
-import com.example.filmBooking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +24,7 @@ public class CinemaServiceImpl implements CinemaService {
     public Cinema save(Cinema cinema) {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
-        cinema.setCode("code_" + value);
+        cinema.setCode("CFBK" + value);
         return repository.save(cinema);
     }
 

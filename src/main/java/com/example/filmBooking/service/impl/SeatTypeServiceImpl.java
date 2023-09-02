@@ -1,6 +1,5 @@
 package com.example.filmBooking.service.impl;
 
-import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.SeatType;
 import com.example.filmBooking.repository.SeatTypeRepository;
 import com.example.filmBooking.service.SeatTypeService;
@@ -13,8 +12,9 @@ import java.util.UUID;
 
 @Service
 public class SeatTypeServiceImpl implements SeatTypeService {
-   @Autowired
-   private SeatTypeRepository seatTypeRepository;
+    @Autowired
+    private SeatTypeRepository seatTypeRepository;
+
     @Override
     public List<SeatType> getAll() {
         return seatTypeRepository.findAll();
@@ -24,7 +24,7 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     public SeatType save(SeatType seatType) {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
-        seatType.setCode("code_" + value);
+        seatType.setCode("ST" + value);
         return seatTypeRepository.save(seatType);
     }
 
@@ -32,7 +32,8 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     public SeatType update(UUID id, SeatType seatType) {
         SeatType seatTypeNew = findById(id);
         seatTypeNew.setName(seatType.getName());
-        seatTypeNew.setPrice(seatType.getPrice());
+        seatTypeNew.setWeekdayPrice(seatType.getWeekdayPrice());
+        seatTypeNew.setWeekendPrice(seatType.getWeekendPrice());
         seatTypeNew.setDescription(seatType.getDescription());
         return seatTypeRepository.save(seatTypeNew);
     }

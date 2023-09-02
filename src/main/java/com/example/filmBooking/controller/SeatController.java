@@ -10,7 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -24,20 +31,21 @@ public class SeatController {
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll() {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         responseBean.setData(seatService.getAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
+
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Seat seat) {
+    public ResponseEntity<Object> save(@RequestBody @Valid Seat seat, @RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("idSeatType") UUID idSeatType) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(seatService.save(seat));
+        responseBean.setData(seatService.save(seat, lineNumber, number, idSeatType));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

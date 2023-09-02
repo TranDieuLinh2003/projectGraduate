@@ -1,8 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.service.ScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/customer")
-@Tag(name = "customer")
-public class CustomerController {
+@RequestMapping("/schedule")
+@Tag(name = "schedule")
+public class ScheduleController {
     @Autowired
-    private CustomerService service;
+    private ScheduleService service;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -39,21 +39,21 @@ public class CustomerController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> save(@RequestBody @Valid Schedule schedule) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(customer));
+        responseBean.setData(service.save(schedule));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Schedule schedule) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, customer));
+        responseBean.setData(service.update(id, schedule));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

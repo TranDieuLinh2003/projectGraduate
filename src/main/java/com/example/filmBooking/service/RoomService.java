@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface RoomService {
     List<Room> fillAll();
 
+    void saveAll(UUID idCinema, Room room, int quantity);
+
     Room save(Room room);
 
     Room update(UUID id, Room room);
