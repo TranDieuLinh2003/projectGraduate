@@ -41,7 +41,7 @@ public class Schedule {
     private Date startAt;
 
     @Column(name = "finish_at")
-    private Date finishAt;
+    private Date finishAt_;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
