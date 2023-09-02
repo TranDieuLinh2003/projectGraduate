@@ -10,11 +10,11 @@ public class LoginController {
 
     @GetMapping("/dangnhap")
     public String dangNhap() {
-        return "admin/DangNhap";
+        return "users/DangNhap";
     }
 
     @GetMapping("/dangky")
     public String dangKy() {
-        return "admin/DangKy";
+        return "users/DangKy";
     }
 }

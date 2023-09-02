@@ -28,16 +28,16 @@ public class FilmBookingController {
 
         List<Movie> listmovie1 = (List<Movie>) repo.findAllBy1();
         model.addAttribute("listmovie1", listmovie1);
-        return "admin/FilmBooking";
+        return "users/FilmBooking";
     }
 
     @GetMapping("/phimchieu")
     public String showPhimChieu() {
-        return "admin/Phim";
+        return "users/Phim";
     }
 
     @GetMapping("/lichchieu")
     public String showLichChieu() {
-        return "admin/LichChieu";
+        return "users/LichChieu";
     }
 }

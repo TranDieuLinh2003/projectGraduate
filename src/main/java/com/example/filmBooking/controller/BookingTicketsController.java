@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BookingTicketsController {
     @GetMapping("/datve")
     public String webAll() {
-        return "admin/DatVe";
+        return "users/DatVe";
     }
 }

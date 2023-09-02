@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BookingFoodController {
     @GetMapping("/doan")
     public String dangNhap() {
-        return "admin/DoAn";
+        return "users/DoAn";
     }
 }

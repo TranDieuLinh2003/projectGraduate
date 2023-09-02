@@ -3,7 +3,7 @@
 
 <head>
     <title>FILMBOOKING</title>
-    <link rel="stylesheet" th:href="@{/admin/css/web.css}">
+    <link rel="stylesheet" th:href="@{/users/css/web.css}">
 </head>
 
 <body>
@@ -41,7 +41,7 @@
                     <figure class="snip1208">
                         <img th:src="${movie.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i id="myBtn${movie.id}" class=""> Xem trailer</i>
+                        <i id="myBtn"  class=""> Xem trailer</i>
                         <figcaption>
                             <h3>
                                 <td>[[${movie.name}]]</td>
@@ -65,7 +65,7 @@
                     <figure class="snip1208">
                         <img th:src="${movie1.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i id="myBtnn[[${movie1.id}]]" class=""> Xem trailer</i>
+                        <i id="myBtnn" class=""> Xem trailer</i>
                         <figcaption>
                             <h3>
                                 <td>[[${movie1.name}]]</td>
@@ -85,8 +85,8 @@
     </div>
 </div>
 <!-- gọi trailer phim đang chiếu -->
-<th:block th:each="movie : ${listmovie}">
-    <div id="myModal${movie.id}"  class="modal">
+<th:block th:each="movie : ${listmovie}">z
+    <div id="myModal"   class="modal">
         <div class="modal-content" >
             <span class="close">&times;</span>
             <h2>TRAILER - [[${movie.name}]]</h2>
@@ -102,7 +102,7 @@
 </th:block>
 <!--  gọi trailer phim sắp chiếu-->
 <th:block th:each="movie1 : ${listmovie1}">
-    <div id="myModall[[${movie1.id}]]" class="modal">
+    <div id="myModall" class="modal">
         <div  class="modal-content">
             <span class="closee">&times;</span>
             <h2>TRAILER - [[${movie1.name}]]</h2>
@@ -385,6 +385,6 @@
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
-<script th:src="@{/admin/js/web.js}"></script>
+<script th:src="@{/users/js/web.js}"></script>
 
 </html>

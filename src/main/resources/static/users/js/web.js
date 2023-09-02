@@ -2,14 +2,16 @@
 
 // Obtener referencias a los elementos del DOM
 // Obtener referencias a los elementos del DOM
-var modal = document.getElementById("myModal${movie.id}");
-var btn = document.getElementById("myBtn${movie.id}");
+var modal = document.getElementById("myModal");
+var btn = document.getElementById("myBtn");
 var closeBtn = document.getElementsByClassName("close")[0];
 
 // Abrir modal al hacer clic en el botón1
 //đang chiếu
 btn.addEventListener("click", function() {
     modal.style.display = "block";
+    modal.style.display = "block";
+
 });
 
 // Cerrar modal al hacer clic en el botón de cerrar
@@ -24,8 +26,8 @@ window.addEventListener("click", function(event) {
     }
 });
 //sắp chiếu
-var modall = document.getElementById("myModall[[${movie1.id}]]");
-var btnn = document.getElementById("myBtnn[[${movie1.id}]]");
+var modall = document.getElementById("myModall");
+var btnn = document.getElementById("myBtnn");
 var closeBtnn = document.getElementsByClassName("closee")[0];
 
 // Abrir modal al hacer clic en el botón
