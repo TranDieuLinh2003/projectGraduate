@@ -1,8 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.model.Room;
+import com.example.filmBooking.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/customer")
-@Tag(name = "customer")
-public class CustomerController {
+@RequestMapping("/room")
+@Tag(name = "room")
+public class RoomController {
     @Autowired
-    private CustomerService service;
+    private RoomService service;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -39,21 +40,22 @@ public class CustomerController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> save(@RequestParam("idCinema") UUID idCinema, @RequestBody @Valid Room room, @RequestParam("quantity") int quantity) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(customer));
+        service.saveAll(idCinema, room, quantity);
+        responseBean.setData(findAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Room room) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, customer));
+        responseBean.setData(service.update(id, room));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

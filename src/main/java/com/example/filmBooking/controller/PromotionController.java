@@ -1,8 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.model.Promotion;
+import com.example.filmBooking.service.PromotionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,60 +21,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/customer")
-@Tag(name = "customer")
-public class CustomerController {
+@RequestMapping("/promotion")
+@Tag(name = "promotion")
+public class PromotionController {
     @Autowired
-    private CustomerService service;
-
+    private PromotionService promotionService;
     @GetMapping("/find-all")
-    @Operation(summary = "[Hiển thị tất cả]")
-    public ResponseEntity<?> findAll() {
+    @Operation(summary = "[Hiển thị dữ liệu Promotion]")
+    public ResponseEntity<?>getAll(){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.fillAll());
+        responseBean.setData(promotionService.fillAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-
     @PostMapping("/save")
-    @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Customer customer) {
+    @Operation(summary = "[Thêm dữ liệu vào Promotion]")
+    public ResponseEntity<Object>save(@RequestBody @Valid Promotion promotion){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(customer));
+        responseBean.setData(promotionService.save(promotion));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
+    @Operation(summary = "[Cập nhật dữ liệu Promotion]")
+    public ResponseEntity<Object>update(@PathVariable UUID id, @RequestBody @Valid Promotion promotion){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, customer));
+        responseBean.setData(promotionService.update(id, promotion));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    @Operation(summary = "[Xóa]")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+    @Operation(summary = "[Xóa dữ liệu Promotion]")
+    public ResponseEntity<?>delete(@PathVariable UUID id){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        service.delete(id);
+        promotionService.delete(id);
         responseBean.setData(id);
-        return new ResponseEntity<>(responseBean, HttpStatus.OK);
-    }
-
-    @GetMapping("/findById/{id}")
-    @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setCode(HttpStatus.OK.toString());
-        responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

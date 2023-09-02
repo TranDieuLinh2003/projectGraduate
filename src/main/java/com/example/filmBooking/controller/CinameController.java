@@ -1,31 +1,26 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.service.CinemaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/customer")
-@Tag(name = "customer")
-public class CustomerController {
+@RequestMapping("/cinema")
+@Tag(name = "cinema")
+public class CinameController {
     @Autowired
-    private CustomerService service;
+    private CinemaService service;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -39,21 +34,21 @@ public class CustomerController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> save(@RequestBody @Valid Cinema cinema) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(customer));
+        responseBean.setData(service.save(cinema));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Cinema cinema) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, customer));
+        responseBean.setData(service.update(id, cinema));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

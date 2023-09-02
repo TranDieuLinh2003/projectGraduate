@@ -1,5 +1,6 @@
 package com.example.filmBooking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -38,10 +39,12 @@ public class Schedule {
     private String name;
 
     @Column(name = "start_at")
-    private Date startAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    private LocalDateTime startAt;
 
     @Column(name = "finish_at")
-    private Date finishAt_;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    private LocalDateTime finishAt;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
