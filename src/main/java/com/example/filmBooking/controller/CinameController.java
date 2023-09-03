@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/cinema")
 @Tag(name = "cinema")
 public class CinameController {

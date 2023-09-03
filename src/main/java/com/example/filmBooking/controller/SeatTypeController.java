@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/seat-type")
 @Tag(name = "seat-type")
 public class SeatTypeController {
