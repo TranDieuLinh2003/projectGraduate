@@ -1,4 +1,4 @@
-package com.example.test1_final.service.impl;
+package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.repository.MovieRepository;
