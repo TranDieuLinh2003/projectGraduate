@@ -1,4 +1,4 @@
-package com.example.test1_final.service.impl;
+package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.repository.MovieRepository;
@@ -36,6 +36,15 @@ public class MovieServiceImpl implements MovieService {
         return repository.findAll();
     }
 
+    @Override
+    public List<Movie> showPhimDangChieu() {
+        return repository.showPhimDangChieu();
+    }
+
+    @Override
+    public List<Movie> showPhimSapChieu() {
+        return repository.showPhimSapChieu();
+    }
     @Override
     public Movie save(Movie movie) {
         Random generator = new Random();

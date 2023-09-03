@@ -1,4 +1,4 @@
-package com.example.test1_final.service;
+package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Movie;
 
@@ -19,4 +19,7 @@ public interface MovieService {
     void exportExcel();
 
     Movie readExcel();
+
+    List<Movie> showPhimDangChieu();
+    List<Movie> showPhimSapChieu();
 }

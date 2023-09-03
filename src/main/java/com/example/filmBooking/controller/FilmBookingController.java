@@ -14,8 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/filmbooking")
 public class FilmBookingController {
-    @Autowired
-    private MovieRepository repo;
+
 
     @Autowired
     private MovieServiceImpl service;
@@ -23,10 +22,10 @@ public class FilmBookingController {
 
     @GetMapping("/trangchu")
     public String showFilm(Model model) {
-        List<Movie> listmovie = (List<Movie>) repo.findAllBy();
+        List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
         model.addAttribute("listmovie", listmovie);
 
-        List<Movie> listmovie1 = (List<Movie>) repo.findAllBy1();
+        List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
         model.addAttribute("listmovie1", listmovie1);
         return "users/FilmBooking";
     }
