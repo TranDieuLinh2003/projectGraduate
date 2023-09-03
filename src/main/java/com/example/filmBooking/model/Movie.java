@@ -70,9 +70,6 @@ public class Movie {
     @Column(name = "movie_type")
     private String movieType;
 
-    @Column(name = "movie_type")
-    private String movieType;
-
     @Column(name = "description", length = 1000)
     private String description;
 
