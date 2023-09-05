@@ -61,9 +61,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         System.out.println(finishAt);
-//        schedule.setFinishAt(timestamp.toLocalDateTime());
-//        System.out.println(startAt.format(formatter));
-//        System.out.println(finishAt.format(formatter));
         return repository.save(schedule);
 //        return null;
     }
@@ -97,7 +94,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setMovie(schedule.getMovie());
         scheduleNew.setName(schedule.getName());
         scheduleNew.setStartAt(schedule.getStartAt());
-        scheduleNew.setFinishAt(schedule.getFinishAt());
+        Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        //lấy thời gian bắt đầu
+        LocalDateTime startAt = schedule.getStartAt();
+        //lấy thời gian kết thúc
+        LocalDateTime finishAt = schedule.getFinishAt();
+        //lấy thời lượng phim( đơn vị phút)
+        Integer movieDuration = movie.getMovieDuration();
+        Timestamp timestamp = Timestamp.valueOf(startAt);
+//        Set thời gian kết thúc= thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
+        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + 900000);
+        finishAt = timestamp.toLocalDateTime();
+        scheduleNew.setFinishAt(finishAt);
         return repository.save(scheduleNew);
     }
 
