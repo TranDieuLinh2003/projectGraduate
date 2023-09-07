@@ -72,6 +72,4 @@ public class Movie {
 
     @Column(name = "description", length = 1000)
     private String description;
-
-
 }

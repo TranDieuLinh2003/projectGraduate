@@ -856,7 +856,8 @@ a:hover {
 
 /* end media footer-2 */
 /* modal */
-.modal {
+.modal,
+.modall{
     display: none;
     /* Ocultar modal de forma predeterminada */
     position: fixed;
@@ -1182,7 +1183,10 @@ a:hover {
 
 .w3-cinema-1 {
     display: grid;
-    grid-template-columns: 0.2fr 0.2fr 0.2fr;
+    grid-template-columns: auto auto auto auto;
+    /*justify-content: center;*/
+    flex-wrap: nowrap;
+
 }
 
 /*  */
