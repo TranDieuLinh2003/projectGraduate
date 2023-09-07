@@ -33,6 +33,9 @@ public class Ticket {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "status")
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
