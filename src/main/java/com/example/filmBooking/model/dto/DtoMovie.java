@@ -18,6 +18,9 @@ public class DtoMovie {
     private Date premiereDate;
     private String image;
     private String movieType;
+    private String director;
+    private String performers;
+    private String languages;
 
 
 }
