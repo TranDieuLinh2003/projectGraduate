@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface TicketService {
     List<Ticket> fillAll();
 
-    Ticket save(Ticket ticket);
+    Ticket autoSave(UUID idSchedule);
 
     Ticket update(UUID id, Ticket ticket);
 

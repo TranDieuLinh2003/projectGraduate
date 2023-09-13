@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ScheduleService {
-    List<Schedule> fillAll();
+    List<Schedule> findAll();
 
-    Schedule save(Schedule schedule);
+    UUID save(Schedule schedule);
 
     Schedule update(UUID id, Schedule schedule);
 
