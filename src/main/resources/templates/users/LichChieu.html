@@ -4,6 +4,8 @@
 <head>
   <title>Lịch Chiếu</title>
   <link rel="stylesheet" th:href="@{/users/css/lichchieu.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -42,7 +44,7 @@
               <b>2D PHỤ ĐỀ</b>
 
               <div class="bottom">
-                <button class="end"><b>19:14</b></button>
+                <button class="end" data-toggle="modal" data-target="#myModall"><b>19:14</b></button>
                 <button class="end"><b>19:14</b></button>
                 <button class="end"><b>19:14</b></button>
               </div>
@@ -100,7 +102,7 @@
               <b>2D PHỤ ĐỀ</b>
 
               <div class="bottom">
-                <button class="end"><b>19:14</b></button>
+                <button class="end" ><b>19:14</b></button>
                 <button class="end"><b>19:14</b></button>
                 <button class="end"><b>19:14</b></button>
               </div>
@@ -115,9 +117,9 @@
   <div th:replace="~{/layout/Footer :: footer}"></div>
 
   <!-- thông báo xác nhận vé  -->
-  <div class="modal-view" id="modal3">
+  <div class="modal-view" id="myModall">
     <div class="modal-content-view">
-      <span class="modal-close-view">&times;</span>
+      <span class="modal-close-view" data-dismiss="modal">&times;</span>
       <h3>BẠN ĐANG ĐẶT VÉ XEM PHIM</h3>
       <hr style="opacity: 0.3; margin-top: 5px; margin-bottom: 30px;">
       <b>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</b>
@@ -138,9 +140,47 @@
       <div style="text-align: center;"><button class="mybtn bronze">Đồng Ý </button></div>
     </div>
   </div>
+
+<!--chọn rap chiếu phim-->
+  <div class="w3-modal"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+                <span data-dismiss="modal"
+                      class="w3-button w3-display-topright">&times;</span>
+        <div class="w3-cinema">
+          <div>
+            <h3>Khu vực: Hà Nội</h3>
+          </div>
+          <p>Tên Rạp:</p> <br>
+          <div class="w3-cinema-1">
+            <button class="w3-cinema-button" data-dismiss="modal"> FilmBooking Mỹ Đình
+            </button>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /.modal -->
+
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
 <script th:src="@{/users/js/lichchieu.js}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+  $(window).on('load', function () {
+    $('#myModal').modal('show');
+  });
+</script>
 </html>

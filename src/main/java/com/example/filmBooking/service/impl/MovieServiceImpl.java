@@ -82,14 +82,24 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
-//    @Override
-//    public Movie update(UUID id, Movie Movie) {
-//        Movie typeNew = findById(id);
-//        typeNew.setName(rank.getName());
-//        rankNew.setPoint(rank.getPoint());
-//        rankNew.setDescription(rank.getDescription());
-//        return repository.save(rankNew);
-//    }
+    @Override
+    public Movie update(UUID id, Movie movie) {
+        Movie movieNew = findById(id);
+        movieNew.setName(movie.getName());
+        movieNew.setMovieDuration(movie.getMovieDuration());
+        movieNew.setTrailer(movie.getTrailer());
+        movieNew.setPremiereDate(movie.getPremiereDate());
+        movieNew.setEndDate(movie.getEndDate());
+        movieNew.setStatus(movie.getStatus());
+        movieNew.setEndDate(movie.getEndDate());
+        movieNew.setDirector(movie.getDirector());
+        movieNew.setPerformers(movie.getPerformers());
+        movieNew.setLanguages(movie.getLanguages());
+        movieNew.setImage(movie.getImage());
+        movieNew.setMovieType(movie.getMovieType());
+        movieNew.setDescription(movie.getDescription());
+        return repository.save(movieNew);
+    }
 
     @Override
     public Movie findById(UUID id) {
