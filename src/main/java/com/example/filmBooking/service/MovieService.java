@@ -1,4 +1,4 @@
-package com.example.test1_final.service;
+package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Movie;
 
@@ -10,7 +10,7 @@ public interface MovieService {
 
     Movie save(Movie movie);
 
-//    Movie update(UUID id, Movie Movie);
+    Movie update(UUID id, Movie Movie);
 
     void delete(UUID id);
 
