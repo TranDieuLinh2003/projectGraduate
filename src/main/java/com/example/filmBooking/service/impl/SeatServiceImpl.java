@@ -3,6 +3,7 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.SeatType;
+import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.repository.SeatTypeRepository;
 import com.example.filmBooking.service.SeatService;
@@ -20,6 +21,8 @@ public class SeatServiceImpl implements SeatService {
 
     @Autowired
     private SeatTypeRepository seatTypeRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
     public static void main(String[] args) {
 //        saveSeat();
@@ -31,7 +34,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat save(Seat seat, Integer lineNumber, Integer number, UUID idSeatType) {
+    public Seat save(Integer lineNumber, Integer number, UUID idSeatType, UUID idRoom) {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
@@ -43,15 +46,18 @@ public class SeatServiceImpl implements SeatService {
             listLine.add(i);
         }
         char line = listLine.get(lineNumber);
+        Seat seat = new Seat();
         for (char i = 'A'; i <= line - 1; i++) {
             for (int j = 1; j <= number; j++) {
+                seat.setId(UUID.randomUUID());
+                seat.setSeatType(seatTypeRepository.findById(idSeatType).get());
+                seat.setRoom(roomRepository.findById(idRoom).get());
                 seat.setCode(i + "" + j);
                 seat.setLine(i + "");
                 seat.setNumber(j);
                 seatRepository.save(seat);
             }
         }
-//        return seatRepository.save(seat);
         return null;
     }
 

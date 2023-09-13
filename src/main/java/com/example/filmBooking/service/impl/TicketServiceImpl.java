@@ -1,11 +1,19 @@
 package com.example.filmBooking.service.impl;
 
+import com.example.filmBooking.model.Room;
+import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
+import com.example.filmBooking.repository.RoomRepository;
+import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.repository.TicketRepository;
+import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -15,6 +23,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private TicketRepository repository;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private ScheduleService scheduleRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public List<Ticket> fillAll() {
@@ -22,11 +36,42 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket save(Ticket ticket) {
-        Random generator = new Random();
-        int value = generator.nextInt((100000 - 1) + 1) + 1;
-        ticket.setCode("TK" + value);
-        return repository.save(ticket);
+    public Ticket autoSave(UUID idSchedule) {
+        Schedule schedule = scheduleRepository.findById(idSchedule);
+        Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+        Ticket ticket = new Ticket();
+        List<Seat> numberSeat1 = new ArrayList<>();
+        List<Seat> seats = seatRepository.findAllByRoom(room.getId());
+        for (Seat seat : seats) {
+            numberSeat1.add(seat);
+        }
+        for (int i = 0; i < numberSeat1.size(); i++) {
+            ticket.setId(UUID.randomUUID());
+            Random generator = new Random();
+            int value = generator.nextInt((1000 - 1) + 1) + 1;
+            ticket.setCode("TK" + value);
+            ticket.setSchedule(schedule);
+            ticket.setSeat(numberSeat1.get(i));
+            repository.save(ticket);
+        }
+        return null;
+    }
+
+    // Đổi trạng thái vé
+//    @Scheduled(fixedRate = 60000)
+    public void scheduleFixedRate() {
+        // danh sách lịch chiếu
+        List<Ticket> listTicket = repository.findAll();
+        for (Ticket ticket : listTicket) {
+            Schedule schedule = scheduleRepository.findById(ticket.getSchedule().getId());
+            if (schedule.getStatus() == "Đã chiếu") {
+                ticket.setStatus("Hết hạn");
+                repository.save(ticket);
+            } else {
+                ticket.setStatus("Hạn sử dụng đến: " + schedule.getFinishAt());
+                repository.save(ticket);
+            }
+        }
     }
 
     @Override
