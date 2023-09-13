@@ -3,6 +3,7 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.common.ResponseBean;
 import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.service.ScheduleService;
+import com.example.filmBooking.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,13 +30,16 @@ public class ScheduleController {
     @Autowired
     private ScheduleService service;
 
+    @Autowired
+    private TicketService ticketService;
+
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
     public ResponseEntity<?> findAll() {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.fillAll());
+        responseBean.setData(service.findAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
@@ -45,7 +49,7 @@ public class ScheduleController {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(schedule));
+        responseBean.setData(ticketService.autoSave(service.save(schedule)));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
