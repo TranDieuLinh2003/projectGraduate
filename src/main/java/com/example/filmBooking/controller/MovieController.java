@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,15 +55,15 @@ public class MovieController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-//    @PutMapping("/update/{id}")
-//    @Operation(summary = "[Chỉnh sửa]")
-//    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Rank rank) {
-//        ResponseBean responseBean = new ResponseBean();
-//        responseBean.setCode(HttpStatus.OK.toString());
-//        responseBean.setMessage("SUCCESS");
-//        responseBean.setData(service.update(id, rank));
-//        return new ResponseEntity<>(responseBean, HttpStatus.OK);
-//    }
+    @PutMapping("/update/{id}")
+    @Operation(summary = "[Chỉnh sửa]")
+    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Movie movie) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(service.update(id, movie));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")

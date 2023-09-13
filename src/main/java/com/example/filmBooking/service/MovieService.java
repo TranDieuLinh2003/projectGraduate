@@ -10,7 +10,7 @@ public interface MovieService {
 
     Movie save(Movie movie);
 
-//    Movie update(UUID id, Movie Movie);
+    Movie update(UUID id, Movie Movie);
 
     void delete(UUID id);
 
