@@ -1,8 +1,11 @@
 package com.example.filmBooking.model.dto;
 
+import com.example.filmBooking.model.Movie;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.HashSet;
+import java.util.Set;
 
 import java.sql.Date;
 import java.util.UUID;
@@ -24,6 +27,7 @@ public class MovieDto {
     private String image;
     private String typeIds;
     private String description;
+    private String movieType;
     private String status = status(premiereDate, endDate);
 
     private String status(Date premiereDate, Date endDate) {
@@ -36,4 +40,6 @@ public class MovieDto {
             return "Đang chiếu";
         }
     }
+
+
 }

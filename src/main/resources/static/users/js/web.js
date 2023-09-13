@@ -1,51 +1,49 @@
-
-
-// Obtener referencias a los elementos del DOM
-// Obtener referencias a los elementos del DOM
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("myBtn");
-var closeBtn = document.getElementsByClassName("close")[0];
-
-// Abrir modal al hacer clic en el botón1
-//đang chiếu
-btn.addEventListener("click", function() {
-    modal.style.display = "block";
-    modal.style.display = "block";
-
-});
-
-// Cerrar modal al hacer clic en el botón de cerrar
-closeBtn.addEventListener("click", function() {
-    modal.style.display = "none";
-});
-
-// Cerrar modal al hacer clic fuera del contenido del modal
-window.addEventListener("click", function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-});
-//sắp chiếu
-var modall = document.getElementById("myModall");
-var btnn = document.getElementById("myBtnn");
-var closeBtnn = document.getElementsByClassName("closee")[0];
-
-// Abrir modal al hacer clic en el botón
-btnn.addEventListener("click", function() {
-    modall.style.display = "block";
-});
-
-// Cerrar modal al hacer clic en el botón de cerrar
-closeBtnn.addEventListener("click", function() {
-    modall.style.display = "none";
-});
-
-// Cerrar modal al hacer clic fuera del contenido del modal
-window.addEventListener("click", function(event) {
-    if (event.target == modall) {
-        modall.style.display = "none";
-    }
-});
+//
+//
+// // Obtener referencias a los elementos del DOM
+// // Obtener referencias a los elementos del DOM
+// var modal = document.getElementById("myModal");
+// var btn = document.getElementById("myBtn");
+// var closeBtn = document.getElementsByClassName("close")[0];
+//
+// // Abrir modal al hacer clic en el botón1
+// //đang chiếu
+// // btn.addEventListener("click", function() {
+// //     modal.style.display = "block";
+// // });
+//
+// // Cerrar modal al hacer clic en el botón de cerrar
+// closeBtn.addEventListener("click", function() {
+//     modal.style.display = "none";
+// });
+//
+// // Cerrar modal al hacer clic fuera del contenido del modal
+// window.addEventListener("click", function(event) {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// });
+// //sắp chiếu
+// var modall = document.getElementById("myModall");
+// var btnn = document.getElementById("myBtnn");
+// var closeBtnn = document.getElementsByClassName("closee")[0];
+//
+// // Abrir modal al hacer clic en el botón
+// // btnn.addEventListener("click", function() {
+// //     modall.style.display = "block";
+// // });
+//
+// // Cerrar modal al hacer clic en el botón de cerrar
+// closeBtnn.addEventListener("click", function() {
+//     modall.style.display = "none";
+// });
+//
+// // Cerrar modal al hacer clic fuera del contenido del modal
+// window.addEventListener("click", function(event) {
+//     if (event.target == modall) {
+//         modall.style.display = "none";
+//     }
+// });
 
 
 
