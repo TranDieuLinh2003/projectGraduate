@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface SeatService {
     List<Seat> getAll();
 
-    Seat save(Seat seat, Integer lineNumber, Integer number, UUID idSeatType);
+    Seat save(Integer lineNumber, Integer number, UUID idSeatType, UUID idRoom);
 
     Seat update(UUID id, Seat seat);
 
