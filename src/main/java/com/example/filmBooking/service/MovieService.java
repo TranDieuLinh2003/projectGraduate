@@ -19,4 +19,7 @@ public interface MovieService {
     void exportExcel();
 
     Movie readExcel();
+
+    List<Movie> showPhimDangChieu();
+    List<Movie> showPhimSapChieu();
 }

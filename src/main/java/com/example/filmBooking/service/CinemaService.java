@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface CinemaService {
     List<Cinema> fillAll();
 
+
     Cinema save(Cinema cinema);
 
     Cinema update(UUID id, Cinema cinema);

@@ -17,8 +17,10 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     public List<Cinema> fillAll() {
+
         return repository.findAll();
     }
+
 
     @Override
     public Cinema save(Cinema cinema) {

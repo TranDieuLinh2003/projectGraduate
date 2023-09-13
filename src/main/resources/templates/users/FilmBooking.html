@@ -4,6 +4,8 @@
 <head>
     <title>FILMBOOKING</title>
     <link rel="stylesheet" th:href="@{/users/css/web.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -41,18 +43,17 @@
                     <figure class="snip1208">
                         <img th:src="${movie.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i id="myBtn"  class=""> Xem trailer</i>
+                        <i class="myBtn" data-toggle="modal" data-target="#myModal"  th:attrappend="data-target=${movie.id}" > Xem trailer</i>
                         <figcaption>
-                            <h3>
-                                <td>[[${movie.name}]]</td>
+                            <!--                            <h3>-->
+                            <td>[[${movie.name}]]</td>
                             </h3>
                             <p>
                                 - Thể loại: [[${movie.movieType}]]<br>
                                 - Thời lượng: [[${movie.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
-                            <button onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
-                            <!-- id="myBtn1" -->
+                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
                         </figcaption>
                     </figure>
                 </th:block>
@@ -65,7 +66,7 @@
                     <figure class="snip1208">
                         <img th:src="${movie1.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i id="myBtnn" class=""> Xem trailer</i>
+                        <i class="myBtnn" data-toggle="modal" data-target="#myModall"  th:attrappend="data-target=${movie1.id}"> Xem trailer</i>
                         <figcaption>
                             <h3>
                                 <td>[[${movie1.name}]]</td>
@@ -75,7 +76,7 @@
                                 - Thời lượng: [[${movie1.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
-                            <button onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
                         </figcaption>
                     </figure>
                 </th:block>
@@ -85,10 +86,10 @@
     </div>
 </div>
 <!-- gọi trailer phim đang chiếu -->
-<th:block th:each="movie : ${listmovie}">z
-    <div id="myModal"   class="modal">
-        <div class="modal-content" >
-            <span class="close">&times;</span>
+<th:block th:each="movie : ${listmovie}">
+    <div  id="myModal"  th:attrappend="id=${movie.id}"  class="modal">
+        <div class="modal-content">
+            <span class="close" data-dismiss="modal">&times;</span>
             <h2>TRAILER - [[${movie.name}]]</h2>
             <hr style="margin-top: 20px; opacity: 0.5">
             <div class="embed-responsive embed-responsive-16by9 video">
@@ -102,9 +103,9 @@
 </th:block>
 <!--  gọi trailer phim sắp chiếu-->
 <th:block th:each="movie1 : ${listmovie1}">
-    <div id="myModall" class="modal">
-        <div  class="modal-content">
-            <span class="closee">&times;</span>
+    <div id="myModall" th:attrappend="id=${movie1.id}" class="modal">
+        <div class="modal-content">
+            <span class="closee" data-dismiss="modal">&times;</span>
             <h2>TRAILER - [[${movie1.name}]]</h2>
             <hr style="margin-top: 20px; opacity: 0.5">
             <div class="embed-responsive embed-responsive-16by9 video">
@@ -116,6 +117,34 @@
         </div>
     </div>
 </th:block>
+
+<!-- Thông tin rap, chọn rạp  -->
+<div id="id01" class="w3-modal" style="display: none;">
+    <div class="w3-modal-content">
+        <div class="w3-container">
+                <span onclick="document.getElementById('id01').style.display='none'"
+                      class="w3-button w3-display-topright">&times;</span>
+            <div class="w3-cinema">
+
+                <div>
+                    <h3>Khu vực: Hà Nội</h3>
+                </div>
+
+                <p>Tên Rạp:</p> <br>
+
+                <div class="w3-cinema-1">
+                    <th:block th:each="cinema : ${listcinema}">
+                        <button class="w3-cinema-button myBtn1" data-toggle="modal" data-target="#myModalll"
+                                onclick="document.getElementById('id01').style.display='none'"> [[${cinema.name}]]
+                        </button>
+                    </th:block>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 <!--  -->
 <br>
 <section class="khuyenmai">
@@ -123,7 +152,7 @@
     <div class="khoi1">
         <div class="card">
             <div class="header">
-                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+                <img th:src="@{/users/img/khuyenmai.jpg}" alt="sample66"/>
             </div>
             <div class="info">
                 <a rel="noopener noreferrer" href="" class="block">
@@ -133,7 +162,7 @@
         </div>
         <div class="card">
             <div class="header">
-                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+                <img th:src="@{/users/img/khuyenmai.jpg}" alt="sample66"/>
             </div>
             <div class="info">
                 <a rel="noopener noreferrer" href="" class="block">
@@ -143,7 +172,7 @@
         </div>
         <div class="card">
             <div class="header">
-                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+                <img th:src="@{/users/img/khuyenmai.jpg}" alt="sample66"/>
             </div>
             <div class="info">
                 <a rel="noopener noreferrer" href="" class="block">
@@ -153,7 +182,7 @@
         </div>
         <div class="card">
             <div class="header">
-                <img th:src="@{/admin/img/khuyenmai.jpg}" alt="sample66"/>
+                <img th:src="@{/users/img/khuyenmai.jpg}" alt="sample66"/>
             </div>
             <div class="info">
                 <a rel="noopener noreferrer" href="" class="block">
@@ -165,9 +194,9 @@
 </section>
 
 <!-- gọi đặt vé -->
-<div id="myModal1" class="modal1">
+<div id="myModalll" class="modal1">
     <div class="modal-content1">
-        <span class="close1">&times;</span>
+        <span class="close1" data-dismiss="modal">&times;</span>
         <h3>LỊCH CHIẾU - THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</h3>
         <hr style=" margin-top:10px;margin-bottom: 20px;opacity: 0.5">
         <b>Rạp FilmBooking </b>
@@ -331,30 +360,7 @@
     </div>
 </div>
 
-<!-- Thông tin rap, chọn rạp  -->
-<div id="id01" class="w3-modal" style="display: none;">
-    <div class="w3-modal-content">
-        <div class="w3-container">
-                <span onclick="document.getElementById('id01').style.display='none'"
-                      class="w3-button w3-display-topright">&times;</span>
-            <div class="w3-cinema">
-                <div>
-                    <h3>Khu vực: Hà Nội</h3>
-                </div>
-                <p>Tên Rạp:</p> <br>
-                <div class="w3-cinema-1">
-                    <button class="w3-cinema-button" id="myBtn1"
-                            onclick="document.getElementById('id01').style.display='none'"> FilmBooking Mỹ Đình
-                    </button>
 
-                </div>
-
-
-            </div>
-
-        </div>
-    </div>
-</div>
 <!-- thông báo xác nhận vé  -->
 <div class="modal-view" id="modal3">
     <div class="modal-content-view">

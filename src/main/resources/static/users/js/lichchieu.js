@@ -1,22 +1,22 @@
-const $ = document.querySelector.bind(document)
-const $$ = document.querySelectorAll.bind(document)
+const $1 = document.querySelector.bind(document)
+const $$2 = document.querySelectorAll.bind(document)
 
-const tabActive = $('.tab-item.active');
-const line = $('.tabs .line')
+const tabActive = $1('.tab-item.active');
+const line = $1('.tabs .line')
 
 line.style.left = tabActive.offsetLeft  +'px';
 line.style.width = tabActive.offsetWidth  +'px';
 
 
-const tabs = $$('.tab-item')
-const panes = $$('.tab-pane')
+const tabs = $$2('.tab-item')
+const panes = $$2('.tab-pane')
 
 tabs.forEach((tab,index) => {
   const pane = panes[index];
 
   tab.onclick = function (){
-    $('.tab-item.active').classList.remove('active');
-    $('.tab-pane.active').classList.remove('active');
+    $1('.tab-item.active').classList.remove('active');
+    $1('.tab-pane.active').classList.remove('active');
 
     line.style.left = this.offsetLeft + 0 +'px';
     line.style.width = this.offsetWidth  +'px';
@@ -54,3 +54,5 @@ const menuSlide = () => {
 };
 
 menuSlide();
+
+

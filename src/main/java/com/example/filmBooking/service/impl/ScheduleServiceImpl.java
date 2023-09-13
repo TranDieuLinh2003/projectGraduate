@@ -82,6 +82,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(finishAt);
         repository.save(schedule);
         return schedule.getId();
+        return repository.save(schedule);
+//        return null;
     }
 
     //    @Scheduled(fixedRate = 60000)
@@ -134,6 +136,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setName(schedule.getName());
         scheduleNew.setStartAt(schedule.getStartAt());
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         //lấy thời gian bắt đầu
         LocalDateTime startAt = schedule.getStartAt();
         //lấy thời gian kết thúc
