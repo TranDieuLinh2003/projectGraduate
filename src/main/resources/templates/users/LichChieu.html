@@ -17,96 +17,28 @@
     <div>
       <!-- Tabs menu -->
       <div class="tabs">
-        <div class="tab-item active">
-          05/08-T7
-        </div>
-        <div class="tab-item">
-          05/09-CN
-        </div>
-        <div class="tab-item">
-          05/10-T2
-        </div>
-        <div class="tab-item">
-          05/11-T3
+        <div class="tab-item" th:each="date : ${scheduleDates}">
+          <a href="#" th:text="${date}"></a>
         </div>
         <div class="line"></div>
       </div>
 
       <!-- Tab content -->
-      <div class="tab-content">
-        <div class="tab-pane active">
-          <div class="card">
-            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
-            <div class="content">
-              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
-              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
-              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
-              <b>2D PHỤ ĐỀ</b>
+      <div th:each="schedule : ${scheduleList}">
+        <div class="tab-content">
+          <div class="tab-pane active">
+            <div class="card">
+              <div class="card-image "><img th:src="${schedule.movie.image}" width="250px" height="350px" alt=""></div>
+              <div class="content">
+                <h2 th:text="${schedule.movie.name}"></h2><br>
+                <p><i class='fa fa-film'></i> Thể loại: <b th:text="${schedule.movie.movieType}"> </b></p> <br>
+                <p><i class='fa fa-history'></i> Thời lượng: <b th:text="${schedule.movie.movieDuration}"></b> Phút</p><br>
+                <b>2D PHỤ ĐỀ</b>
 
-              <div class="bottom">
-                <button class="end" data-toggle="modal" data-target="#myModall"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
+                <div class="bottom">
+                  <button class="end"><b th:text="${#temporals.format(schedule.startAt, 'HH:mm')}"></b></button>
+                </div>
               </div>
-
-            </div>
-          </div>
-
-        </div>
-
-        <div class="tab-pane">
-          <div class="card">
-            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
-            <div class="content">
-              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
-              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
-              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
-              <b>2D PHỤ ĐỀ</b>
-
-              <div class="bottom">
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane">
-          <div class="card">
-            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
-            <div class="content">
-              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
-              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
-              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
-              <b>2D PHỤ ĐỀ</b>
-
-              <div class="bottom">
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane">
-          <div class="card">
-            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
-            <div class="content">
-              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
-              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
-              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
-              <b>2D PHỤ ĐỀ</b>
-
-              <div class="bottom">
-                <button class="end" ><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-                <button class="end"><b>19:14</b></button>
-              </div>
-
             </div>
           </div>
         </div>
