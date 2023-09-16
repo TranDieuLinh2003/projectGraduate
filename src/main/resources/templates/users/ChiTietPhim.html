@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb"><head>
+    <title>Chi tiết phim</title>
+    <!-- <link rel="stylesheet" href="css/web.css"> -->
+    <link rel="stylesheet" th:href="@{/users/css/dangky.css}">
+    <link rel="stylesheet" th:href="@{/users/css/chitietphim.css}">
+
+</head>
+
+<body>
+<!-- navbar -->
+<div th:replace="~{/layout/Header :: header}"></div>
+<br>
+<div style="margin-bottom: -20px; margin-top: 30px">
+    <form action="#"
+          th:object="${movie}"
+          method="get">
+        <section>
+
+            <div class="col1"><img src="" th:src="*{image}" alt=""></div>
+            <div class="col2">
+<!--                <input style="border: #ffffff" type="text" th:field="*{name}" id="name" placeholder="Name">-->
+                <h2 th:utext="*{name}"></h2><br>
+                <p th:utext="*{description}"> </p> <br>
+                <div class="khoi" ><b>ĐẠO DIỄN:</b> <p th:utext="*{director}"></p> </div>
+                <div class="khoi"><b>DIỄN VIÊN:</b> <p th:utext="*{performers}"></p> </div>
+                <div class="khoi"><b>THỂ LOẠI:</b> <p th:utext="*{movieType}"></p></div>
+                <div class="khoi"><b>THỜI LƯỢNG:</b> <p th:utext="*{movieDuration}"></p> </div>
+                <div class="khoi"><b>NGÔN NGỮ:</b> <p th:utext="*{languages}"></p> </div>
+                <div class="khoi"><b>NGÀY KHỞI CHIẾU:</b> <p th:utext="*{premiereDate}" value="dd/MM/yy"></p> </div>
+                </div>
+
+        </section>
+        <div class="trailler">
+            <h2>TRAILLER</h2>
+            <hr style="margin-left: 700px;  margin-right: 700px; height: 3px; background-color: rgb(140, 140, 236);">
+            <div class="embed-responsive embed-responsive-16by9 video">
+                <iframe width="800" height="515" th:src="*{trailer}"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--  -->
+
+<div th:replace="~{/layout/Footer :: footer}"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+</html>
