@@ -3,7 +3,6 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.dto.DtoMovie;
-import com.example.filmBooking.model.dto.ScheduleDto;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.impl.CinemaServiceImpl;
