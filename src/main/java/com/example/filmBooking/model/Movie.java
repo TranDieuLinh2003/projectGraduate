@@ -79,29 +79,5 @@ public class Movie {
 
     @Column(name = "description", length = 1000)
     private String description;
-//
-//        public static void main(String[] args) throws ParseException {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//        Date premiereDate = dateFormat.parse("01/09/2023");
-//        Date endDate = dateFormat.parse("10/09/2023");
-//
-//        displayDatesAndDays(premiereDate, endDate);
-//    }
-//
-//    public static void displayDatesAndDays(Date premiereDate, Date endDate) {
-//        if (premiereDate != null && endDate != null) {
-//            LocalDate premiereLocalDate = premiereDate.toInstant().atZone(ZoneId.of("Asia/Bangkok")).toLocalDate();
-//            LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.of("Asia/Bangkok")).toLocalDate();
-//
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.US);
-//
-//            while (!premiereLocalDate.isAfter(endLocalDate)) {
-//                String dayOfWeek = premiereLocalDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-//                System.out.println("Date: " + premiereLocalDate.format(formatter) + " (Day: " + dayOfWeek + ")");
-//                premiereLocalDate = premiereLocalDate.plusDays(1);
-//            }
-//        } else {
-//            System.out.println("Premiere date or end date is missing.");
-//        }
-//    }
+
 }
