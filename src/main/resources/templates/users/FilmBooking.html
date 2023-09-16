@@ -43,17 +43,18 @@
                     <figure class="snip1208">
                         <img th:src="${movie.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i class="myBtn" data-toggle="modal" data-target="#myModal"  th:attrappend="data-target=${movie.id}" > Xem trailer</i>
+                        <i class="myBtn" data-toggle="modal" data-target="#myModal"
+                           th:attrappend="data-target=${movie.id}"> Xem trailer</i>
                         <figcaption>
-                            <!--                            <h3>-->
-                            <td>[[${movie.name}]]</td>
+                            <h3>
+                                <a th:href="@{'/filmbooking/movie/edit/' + ${movie.id}}">[[${movie.name}]]</a>
                             </h3>
                             <p>
                                 - Thể loại: [[${movie.movieType}]]<br>
                                 - Thời lượng: [[${movie.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
-                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                            <button data-toggle="modal" data-target="#id01" > Đặt vé</button>
                         </figcaption>
                     </figure>
                 </th:block>
@@ -66,17 +67,18 @@
                     <figure class="snip1208">
                         <img th:src="${movie1.image}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
-                        <i class="myBtnn" data-toggle="modal" data-target="#myModall"  th:attrappend="data-target=${movie1.id}"> Xem trailer</i>
+                        <i class="myBtnn" data-toggle="modal" data-target="#myModall"
+                           th:attrappend="data-target=${movie1.id}"> Xem trailer</i>
                         <figcaption>
                             <h3>
-                                <td>[[${movie1.name}]]</td>
+                                <a th:href="@{'/filmbooking/movie/edit/' + ${movie1.id}}">[[${movie1.name}]]</a>
                             </h3>
                             <p>
                                 - Thể loại: [[${movie1.movieType}]]<br>
                                 - Thời lượng: [[${movie1.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
-                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                            <button data-toggle="modal" data-target="#id01" >Đặt vé</button>
                         </figcaption>
                     </figure>
                 </th:block>
@@ -87,7 +89,7 @@
 </div>
 <!-- gọi trailer phim đang chiếu -->
 <th:block th:each="movie : ${listmovie}">
-    <div  id="myModal"  th:attrappend="id=${movie.id}"  class="modal">
+    <div id="myModal" th:attrappend="id=${movie.id}" class="modal">
         <div class="modal-content">
             <span class="close" data-dismiss="modal">&times;</span>
             <h2>TRAILER - [[${movie.name}]]</h2>
@@ -133,9 +135,10 @@
                 <p>Tên Rạp:</p> <br>
 
                 <div class="w3-cinema-1">
-                    <th:block th:each="cinema : ${listcinema}">
+                    <th:block th:each="cinema : ${scheduleDtoList}">
                         <button class="w3-cinema-button myBtn1" data-toggle="modal" data-target="#myModalll"
-                                onclick="document.getElementById('id01').style.display='none'"> [[${cinema.name}]]
+
+                                onclick="document.getElementById('id01').style.display='none'"> [[${cinema.cinema_name}]]
                         </button>
                     </th:block>
                 </div>
@@ -146,6 +149,177 @@
     </div>
 </div>
 <!--  -->
+
+
+<!-- gọi đặt vé -->
+
+    <div id="myModalll" class="modal" >
+        <div class="modal-content1">
+            <span class="close1" data-dismiss="modal">&times;</span>
+            <h3>LỊCH CHIẾU -</h3>
+            <hr style=" margin-top:10px;margin-bottom: 20px;opacity: 0.5">
+            <b>Rạp  </b>
+            <hr style="opacity: 0.2; margin-top: 5px;">
+
+            <div>
+                <!-- Tabs menu -->
+                <div class="tabs">
+                    <div class="tab-item active">
+                        05/09-CN
+                    </div>
+                    <div class="tab-item">
+                        05/09-CN
+                    </div>
+                    <div class="tab-item">
+                        05/10-T2
+                    </div>
+                    <div class="tab-item">
+                        05/11-T3
+                    </div>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Tab content -->
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <h2>2D PHỤ ĐỀ</h2>
+                        <br>
+                        <div class="time_seat">
+                            <div class="time">
+                                <button data-modal-target="modal3">09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane">
+                        <h2>2D PHỤ ĐỀ</h2>
+                        <br>
+                        <div class="time_seat">
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane">
+                        <h2>2D PHỤ ĐỀ</h2>
+                        <br>
+                        <div class="time_seat">
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane">
+                        <h2>2D PHỤ ĐỀ</h2>
+                        <br>
+                        <div class="time_seat">
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                            <div class="time">
+                                <button href=""> 09:30</button>
+                                <div class="seat">135 ghế trống</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<!---->
 <br>
 <section class="khuyenmai">
     <h3>KHUYẾN MÃI</h3>
@@ -192,175 +366,6 @@
         </div>
     </div>
 </section>
-
-<!-- gọi đặt vé -->
-<div id="myModalll" class="modal1">
-    <div class="modal-content1">
-        <span class="close1" data-dismiss="modal">&times;</span>
-        <h3>LỊCH CHIẾU - THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</h3>
-        <hr style=" margin-top:10px;margin-bottom: 20px;opacity: 0.5">
-        <b>Rạp FilmBooking </b>
-        <hr style="opacity: 0.2; margin-top: 5px;">
-
-        <div>
-            <!-- Tabs menu -->
-            <div class="tabs">
-                <div class="tab-item active">
-                    05/08-T7
-                </div>
-                <div class="tab-item">
-                    05/09-CN
-                </div>
-                <div class="tab-item">
-                    05/10-T2
-                </div>
-                <div class="tab-item">
-                    05/11-T3
-                </div>
-                <div class="line"></div>
-            </div>
-
-            <!-- Tab content -->
-            <div class="tab-content">
-                <div class="tab-pane active">
-                    <h2>2D PHỤ ĐỀ</h2>
-                    <br>
-                    <div class="time_seat">
-                        <div class="time">
-                            <button data-modal-target="modal3">09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="tab-pane">
-                    <h2>2D PHỤ ĐỀ</h2>
-                    <br>
-                    <div class="time_seat">
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane">
-                    <h2>2D PHỤ ĐỀ</h2>
-                    <br>
-                    <div class="time_seat">
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane">
-                    <h2>2D PHỤ ĐỀ</h2>
-                    <br>
-                    <div class="time_seat">
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                        <div class="time">
-                            <button href=""> 09:30</button>
-                            <div class="seat">135 ghế trống</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- thông báo xác nhận vé  -->
 <div class="modal-view" id="modal3">
     <div class="modal-content-view">
