@@ -20,7 +20,7 @@ public class CinemaApi {
 
 
     @GetMapping
-    private ResponseEntity<List<Cinema>> getCinemaThatShowTheMovie(@RequestParam UUID movieId){
+    private ResponseEntity<List<Cinema>> getCinemaThatShowTheMovie(@RequestParam String movieId){
         return new ResponseEntity<>(cinemaRepository.getCinemaThatShowTheMovie(movieId), HttpStatus.OK);
     }
 }

@@ -55,7 +55,7 @@ public class CinemaServiceImpl implements CinemaService {
         repository.delete(findById(id));
     }
 
-    public Cinema findByIdCinema(UUID id){
+    public Cinema findByIdCinema(String id){
         return repository.findById(id).orElse(null);
     }
 
