@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.UUID;
+import java.text.ParseException;
+
 
 @Controller
 @CrossOrigin("*")
@@ -45,7 +46,7 @@ public class ScheduleController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Schedule schedule) {
+    public ResponseEntity<Object> save(@RequestBody @Valid Schedule schedule) throws ParseException {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -55,7 +56,7 @@ public class ScheduleController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Schedule schedule) {
+    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid Schedule schedule) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -65,7 +66,7 @@ public class ScheduleController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -76,7 +77,7 @@ public class ScheduleController {
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

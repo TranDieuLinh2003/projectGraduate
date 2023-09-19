@@ -3,18 +3,18 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Room;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface RoomService {
     List<Room> fillAll();
 
-    void saveAll(UUID idCinema, Room room, int quantity);
+    void saveAll(String idCinema, int quantity);
 
     Room save(Room room);
 
-    Room update(UUID id, Room room);
+    Room update(String id, Room room);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Room findById(UUID id);
+    Room findById(String id);
 }

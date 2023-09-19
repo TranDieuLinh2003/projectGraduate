@@ -3,16 +3,16 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Seat;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface SeatService {
     List<Seat> getAll();
 
-    Seat save(Integer lineNumber, Integer number, UUID idSeatType, UUID idRoom);
+    Seat save(Integer lineNumber, Integer number, String idSeatType, String idRoom);
 
-    Seat update(UUID id, Seat seat);
+    Seat update(String id, Seat seat);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Seat findById(UUID id);
+    Seat findById(String id);
 }

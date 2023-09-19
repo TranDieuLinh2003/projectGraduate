@@ -2,18 +2,19 @@ package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Schedule;
 
+import java.text.ParseException;
 import java.util.List;
-import java.util.UUID;
+
 
 public interface ScheduleService {
     List<Schedule> findAll();
 
-    UUID save(Schedule schedule);
+    String save(Schedule schedule) throws ParseException;
 
-    Schedule update(UUID id, Schedule schedule);
+    Schedule update(String id, Schedule schedule);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Schedule findById(UUID id);
+    Schedule findById(String id);
 
 }

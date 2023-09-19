@@ -8,13 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import java.sql.Date;
-import java.util.UUID;
+
 
 @Data
 @Getter
 @Setter
 public class MovieDto {
-    private UUID id;
+    private String id;
     private String code;
     private String name;
     private Integer movieDuration;

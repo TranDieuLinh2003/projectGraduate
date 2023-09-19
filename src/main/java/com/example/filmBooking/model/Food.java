@@ -15,7 +15,7 @@ import lombok.ToString;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -28,7 +28,8 @@ import java.util.UUID;
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "code")
     private String code;

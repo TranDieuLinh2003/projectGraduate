@@ -10,13 +10,13 @@ import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -36,7 +36,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket autoSave(UUID idSchedule) {
+    public Ticket autoSave(String idSchedule) {
         Schedule schedule = scheduleRepository.findById(idSchedule);
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
         Ticket ticket = new Ticket();
@@ -46,7 +46,7 @@ public class TicketServiceImpl implements TicketService {
             numberSeat1.add(seat);
         }
         for (int i = 0; i < numberSeat1.size(); i++) {
-            ticket.setId(UUID.randomUUID());
+            ticket.setId(UUID.randomUUID().toString());
             Random generator = new Random();
             int value = generator.nextInt((1000 - 1) + 1) + 1;
             ticket.setCode("TK" + value);
@@ -75,7 +75,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket update(UUID id, Ticket ticket) {
+    public Ticket update(String id, Ticket ticket) {
         Ticket ticketNew = findById(id);
         ticketNew.setSchedule(ticket.getSchedule());
         ticketNew.setSeat(ticket.getSeat());
@@ -83,12 +83,12 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket findById(UUID id) {
+    public Ticket findById(String id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.delete(findById(id));
     }
 }

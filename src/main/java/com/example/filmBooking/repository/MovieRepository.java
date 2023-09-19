@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
-public interface MovieRepository extends JpaRepository<Movie, UUID> {
+
+public interface MovieRepository extends JpaRepository<Movie, String> {
 
     String showPhimDangChieu = "select * from projectLinh.movie where status like 'Đang chiếu'; " ;
     @Query(value = showPhimDangChieu, nativeQuery = true)

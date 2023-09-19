@@ -6,16 +6,16 @@ import com.example.filmBooking.model.Rank;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+
 public interface FoodService {
     List<Food> fillAll();
 
     Food save(Food food);
 
-    Food update(UUID id, Food food);
+    Food update(String id, Food food);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Food findById(UUID id);
+    Food findById(String id);
 
 }

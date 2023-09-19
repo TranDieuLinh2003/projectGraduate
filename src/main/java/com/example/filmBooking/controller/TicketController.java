@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.UUID;
+
 
 @Controller
 @CrossOrigin("*")
@@ -46,7 +46,7 @@ public class TicketController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestParam("idSchedule") UUID idSchedule) {
+    public ResponseEntity<Object> save(@RequestParam("idSchedule") String idSchedule) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -57,7 +57,7 @@ public class TicketController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Ticket ticket) {
+    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid Ticket ticket) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -67,7 +67,7 @@ public class TicketController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -78,7 +78,7 @@ public class TicketController {
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer update(UUID id, Customer customer) {
+    public Customer update(String id, Customer customer) {
         Customer customerNew = findById(id);
         customerNew.setName(customer.getName());
 //        customerNew.setPoint(customer.getPoint());
@@ -87,12 +87,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer findById(UUID id) {
+    public Customer findById(String id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.delete(findById(id));
     }
 }

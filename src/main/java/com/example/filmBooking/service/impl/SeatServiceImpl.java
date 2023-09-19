@@ -1,6 +1,7 @@
 package com.example.filmBooking.service.impl;
 
 
+import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.SeatType;
 import com.example.filmBooking.repository.RoomRepository;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 public class SeatServiceImpl implements SeatService {
     @Autowired
@@ -24,9 +26,6 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private RoomRepository roomRepository;
 
-    public static void main(String[] args) {
-//        saveSeat();
-    }
 
     @Override
     public List<Seat> getAll() {
@@ -34,7 +33,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat save(Integer lineNumber, Integer number, UUID idSeatType, UUID idRoom) {
+    public Seat save(Integer lineNumber, Integer number, String idSeatType, String idRoom) {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
@@ -49,7 +48,7 @@ public class SeatServiceImpl implements SeatService {
         Seat seat = new Seat();
         for (char i = 'A'; i <= line - 1; i++) {
             for (int j = 1; j <= number; j++) {
-                seat.setId(UUID.randomUUID());
+                seat.setId(UUID.randomUUID().toString());
                 seat.setSeatType(seatTypeRepository.findById(idSeatType).get());
                 seat.setRoom(roomRepository.findById(idRoom).get());
                 seat.setCode(i + "" + j);
@@ -58,11 +57,14 @@ public class SeatServiceImpl implements SeatService {
                 seatRepository.save(seat);
             }
         }
+        Room room = roomRepository.findById(idRoom).get();
+        room.setCapacity(roomRepository.findNumber(room.getId()));
+        roomRepository.save(room);
         return null;
     }
 
     @Override
-    public Seat update(UUID id, Seat seat) {
+    public Seat update(String id, Seat seat) {
         Seat seatNew = findById(id);
         seatNew.setNumber(seat.getNumber());
         seatNew.setLine(seat.getLine());
@@ -72,12 +74,12 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         seatRepository.delete(findById(id));
     }
 
     @Override
-    public Seat findById(UUID id) {
+    public Seat findById(String id) {
         return seatRepository.findById(id).get();
     }
 }

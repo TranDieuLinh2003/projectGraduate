@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -83,7 +83,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie update(UUID id, Movie movie) {
+    public Movie update(String id, Movie movie) {
         Movie movieNew = findById(id);
         movieNew.setName(movie.getName());
         movieNew.setMovieDuration(movie.getMovieDuration());
@@ -102,7 +102,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie findById(UUID id) {
+    public Movie findById(String id) {
         return repository.findById(id).get();
     }
 
@@ -154,7 +154,7 @@ public class MovieServiceImpl implements MovieService {
 
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.delete(findById(id));
     }
 }

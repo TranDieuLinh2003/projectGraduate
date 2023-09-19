@@ -16,7 +16,7 @@ import lombok.ToString;
 
 
 import java.util.Date;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -30,7 +30,8 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "code")
     private String code;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 
 @Service
 public class PromotionServiceImpl implements PromotionService {
@@ -29,7 +29,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public Promotion update(UUID id, Promotion promotion) {
+    public Promotion update(String id, Promotion promotion) {
         Promotion promotionNew = findById(id);
         promotionNew.setCode(promotion.getCode());
         promotionNew.setName(promotion.getName());
@@ -44,12 +44,12 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         promotionRepository.deleteById(id);
     }
 
     @Override
-    public Promotion findById(UUID id) {
+    public Promotion findById(String id) {
         return promotionRepository.findById(id).get();
     }
 }

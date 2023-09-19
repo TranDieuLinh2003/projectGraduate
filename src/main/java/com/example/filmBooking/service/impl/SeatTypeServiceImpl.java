@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 
 @Service
 public class SeatTypeServiceImpl implements SeatTypeService {
@@ -29,7 +29,7 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     }
 
     @Override
-    public SeatType update(UUID id, SeatType seatType) {
+    public SeatType update(String id, SeatType seatType) {
         SeatType seatTypeNew = findById(id);
         seatTypeNew.setName(seatType.getName());
         seatTypeNew.setWeekdayPrice(seatType.getWeekdayPrice());
@@ -39,12 +39,12 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         seatTypeRepository.delete(findById(id));
     }
 
     @Override
-    public SeatType findById(UUID id) {
+    public SeatType findById(String id) {
         return seatTypeRepository.findById(id).get();
     }
 }

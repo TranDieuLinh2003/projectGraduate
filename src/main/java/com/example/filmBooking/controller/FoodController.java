@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/filmbookings")
@@ -51,7 +51,7 @@ public class FoodController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu Food]")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -62,7 +62,7 @@ public class FoodController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Cập nhật dữ liệu Food]")
-    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody @Valid Food food) {
+    public ResponseEntity<Object> update(@PathVariable String id, @RequestBody @Valid Food food) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

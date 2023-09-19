@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.UUID;
+
 
 @Controller
 @CrossOrigin("*")
@@ -42,18 +42,18 @@ public class RoomController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestParam("idCinema") UUID idCinema, @RequestBody @Valid Room room, @RequestParam("quantity") int quantity) {
+    public ResponseEntity<Object> save(@RequestParam("idCinema") String idCinema, @RequestParam("quantity") int quantity) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        service.saveAll(idCinema, room, quantity);
+        service.saveAll(idCinema, quantity);
         responseBean.setData(findAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Room room) {
+    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid Room room) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -63,7 +63,7 @@ public class RoomController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -74,7 +74,7 @@ public class RoomController {
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

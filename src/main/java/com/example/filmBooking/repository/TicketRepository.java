@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface TicketRepository extends JpaRepository<Ticket, UUID> {
+
+public interface TicketRepository extends JpaRepository<Ticket, String> {
     String str_findBySchedule =
             "select * from ticket where  (schedule_id = (:scheduleId) )";
 
     @Query(nativeQuery = true, value = str_findBySchedule)
-    List<Ticket> findBySchedule(@Param("scheduleId") UUID scheduleId);
+    List<Ticket> findBySchedule(@Param("scheduleId") String scheduleId);
 }

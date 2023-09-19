@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -28,12 +28,14 @@ import java.util.UUID;
 public class BillTicket {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "bill_id")
     private Bill bill;

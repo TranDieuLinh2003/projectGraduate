@@ -3,18 +3,18 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Movie;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface MovieService {
     List<Movie> fillAll();
 
     Movie save(Movie movie);
 
-    Movie update(UUID id, Movie Movie);
+    Movie update(String id, Movie Movie);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Movie findById(UUID id);
+    Movie findById(String id);
 
     void exportExcel();
 

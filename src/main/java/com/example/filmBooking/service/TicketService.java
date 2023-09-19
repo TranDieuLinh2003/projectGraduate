@@ -3,17 +3,17 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Ticket;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface TicketService {
     List<Ticket> fillAll();
 
-    Ticket autoSave(UUID idSchedule);
+    Ticket autoSave(String idSchedule);
 
-    Ticket update(UUID id, Ticket ticket);
+    Ticket update(String id, Ticket ticket);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Ticket findById(UUID id);
+    Ticket findById(String id);
 
 }

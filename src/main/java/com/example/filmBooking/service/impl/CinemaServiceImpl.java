@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 @Service
 public class CinemaServiceImpl implements CinemaService {
 
@@ -31,7 +31,7 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public Cinema update(UUID id, Cinema cinema) {
+    public Cinema update(String id, Cinema cinema) {
         Cinema customerNew = findById(id);
         customerNew.setName(cinema.getName());
         customerNew.setDescription(cinema.getDescription());
@@ -41,12 +41,12 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public Cinema findById(UUID id) {
+    public Cinema findById(String id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.delete(findById(id));
     }
 

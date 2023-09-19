@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 @Service
 public class FoodServiceImpl implements FoodService {
     @Autowired
@@ -27,7 +27,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Food update(UUID id, Food food) {
+    public Food update(String id, Food food) {
         Food foods = findById(id);
         foods.setCode(food.getCode());
         foods.setDescription(food.getDescription());
@@ -38,12 +38,12 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         footRepository.delete(findById(id));
     }
 
     @Override
-    public Food findById(UUID id) {
+    public Food findById(String id) {
         return footRepository.findById(id).get();
     }
 }

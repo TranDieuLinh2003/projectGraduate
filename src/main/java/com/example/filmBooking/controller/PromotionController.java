@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/promotion")
@@ -49,7 +49,7 @@ public class PromotionController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Cập nhật dữ liệu Promotion]")
-    public ResponseEntity<Object>update(@PathVariable UUID id, @RequestBody @Valid Promotion promotion){
+    public ResponseEntity<Object>update(@PathVariable String id, @RequestBody @Valid Promotion promotion){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -59,7 +59,7 @@ public class PromotionController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu Promotion]")
-    public ResponseEntity<?>delete(@PathVariable UUID id){
+    public ResponseEntity<?>delete(@PathVariable String id){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
