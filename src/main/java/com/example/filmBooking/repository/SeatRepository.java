@@ -16,5 +16,4 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
     List<Seat> findAllByRoom(@Param("roomId") String roomId);
 
 
-
 }

@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-
 public interface TicketRepository extends JpaRepository<Ticket, String> {
     String str_findBySchedule =
             "select * from ticket where  (schedule_id = (:scheduleId) )";

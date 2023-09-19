@@ -8,8 +8,7 @@ import java.sql.Date;
 
 
 @Data
-@Getter
-@Setter
+
 public class DtoMovie {
     private String id;
     private String name;
