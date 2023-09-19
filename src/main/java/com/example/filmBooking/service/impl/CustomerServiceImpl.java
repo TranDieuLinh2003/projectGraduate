@@ -5,14 +5,13 @@ import com.example.filmBooking.model.Rank;
 import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.repository.RankRepository;
 import com.example.filmBooking.service.CustomerService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-
-
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -75,6 +74,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+
+
     @Override
     public Customer update(String id, Customer customer) {
         Customer customerNew = findById(id);
@@ -95,4 +96,10 @@ public class CustomerServiceImpl implements CustomerService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+
+
+
+//
+
+
 }

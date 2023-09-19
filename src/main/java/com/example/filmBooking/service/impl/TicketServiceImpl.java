@@ -10,6 +10,7 @@ import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

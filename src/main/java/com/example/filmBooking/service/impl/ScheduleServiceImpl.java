@@ -8,6 +8,7 @@ import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -36,7 +37,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findAll() {
-//        timeSchedule();
         return repository.findAll();
     }
 
@@ -80,6 +80,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             System.out.println(finishAt);
             repository.save(schedule);
 //        }
+      
         //set trạng thái lịch chiếu
 //        if (date1 > date) {
 //            schedule.setStatus("Sắp chiếu");
@@ -96,19 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedule.getId();
     }
 
-    //    @Scheduled(fixedRate = 60000)
-
-//    public static void main(String[] args) {
-//        ScheduleService scheduleService = new ScheduleServiceImpl();
-//        for (Schedule schedule : scheduleService.findAll()
-//        ) {
-//            Date date = Date.from(schedule.getStartAt().atZone(ZoneId.systemDefault()).toInstant());
-//            if()
-//            System.out.println(date);
-//        }
-//
-//    }
-
+   
     //    @Scheduled(cron = "* * * * * *")
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
@@ -161,7 +150,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 //    }
-
     @Override
     public Schedule update(String id, Schedule schedule) {
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();

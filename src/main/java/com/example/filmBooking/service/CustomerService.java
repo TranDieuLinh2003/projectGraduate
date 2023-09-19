@@ -21,4 +21,6 @@ public interface CustomerService {
 
 //    String soSanhPoint(List<Rank> listRank, String id);
 
+
+
 }

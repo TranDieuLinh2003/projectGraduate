@@ -145,7 +145,7 @@ body{
     position: relative;
     margin: 5% auto;
     width: 600px;
-    height: 450px;
+    max-height: 100%;
     background: #FFF;
     border-radius: 2px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -154,13 +154,13 @@ body{
 }
 
 .left {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     box-sizing: border-box;
     padding: 40px;
     width: 300px;
-    height: 400px;
+    height: 100%;
 }
 
 h1 {
@@ -420,7 +420,7 @@ a:hover {
 }
 /* end media footer */
 .footer-2{
-    max-width: 100%;
+    width: 76.3%;
     height: 45px;
     padding: 15px 180px;
     background-color: #252121;
@@ -479,4 +479,17 @@ a:hover {
         padding: 5px 15px;
         float: none;
     }
+}
+
+.alert {
+    /*padding: 15px;*/
+    /*margin-bottom: 20px;*/
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-warning {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1
 }

@@ -144,7 +144,6 @@ body {
 .main {
     width: 100%;
     background: url(../img/banner2.jpg) no-repeat center center/cover;
-;
     background-position: center;
     background-size: cover;
     height: 100vh;
@@ -519,14 +518,19 @@ figure.snip1208 button {
     cursor: pointer;
 }
 
-figure.snip1208 a {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    z-index: 1;
+figure.snip1208 button a{
+
+    cursor: pointer;
+    color: #FFFFFF;
+    text-decoration: none;
 }
+
+figure.snip1208 a {
+    cursor: pointer;
+    color: #000000;
+    text-decoration: none;
+}
+
 
 figure.snip1208:hover img,
 figure.snip1208.hover img {
@@ -1069,7 +1073,10 @@ a:hover {
 .time_seat {
     display: grid;
     grid-template-columns: 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
-    margin-left: 70px;
+    /* margin-left: 70px; */
+    align-items:center;
+    justify-content:center;
+    padding:2em;
 }
 
 /* chon rap */
@@ -1178,13 +1185,13 @@ a:hover {
 .w3-cinema-button {
     height: 35px;
     width: 150px;
+    margin-bottom: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .w3-cinema-1 {
     display: grid;
     grid-template-columns: auto auto auto auto;
-    /*justify-content: center;*/
     flex-wrap: nowrap;
 
 }

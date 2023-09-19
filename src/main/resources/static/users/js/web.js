@@ -50,28 +50,28 @@
 
 
 // dat ve
-var modal1 = document.getElementById("myModal1");
-var btn1 = document.getElementById("myBtn1");
-var closeBtn1 = document.getElementsByClassName("close1")[0];
-
-// Abrir modal al hacer clic en el botón
-btn1.addEventListener("click", function() {
-    modal1.style.display = "block";
-});
-
-// Cerrar modal al hacer clic en el botón de cerrar
-closeBtn1.addEventListener("click", function() {
-    modal1.style.display = "none";
-});
-
-// Cerrar modal al hacer clic fuera del contenido del modal
-window.addEventListener("click", function(event) {
-    if (event.target == modal1) {
-        modal1.style.display = "none";
-    }
-});
-// lịch chiếu
-
+// var modal1 = document.getElementById("myModal1");
+// var btn1 = document.getElementById("myBtn1");
+// var closeBtn1 = document.getElementsByClassName("close1")[0];
+//
+// // Abrir modal al hacer clic en el botón
+// btn1.addEventListener("click", function() {
+//     modal1.style.display = "block";
+// });
+//
+// // Cerrar modal al hacer clic en el botón de cerrar
+// closeBtn1.addEventListener("click", function() {
+//     modal1.style.display = "none";
+// });
+//
+// // Cerrar modal al hacer clic fuera del contenido del modal
+// window.addEventListener("click", function(event) {
+//     if (event.target == modal1) {
+//         modal1.style.display = "none";
+//     }
+// });
+// // lịch chiếu
+//
 
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)

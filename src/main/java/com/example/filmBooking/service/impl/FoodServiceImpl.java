@@ -13,6 +13,7 @@ import java.util.Random;
 public class FoodServiceImpl implements FoodService {
     @Autowired
     private FootRepository footRepository;
+
     @Override
     public List<Food> fillAll() {
         return footRepository.findAll();
@@ -22,19 +23,18 @@ public class FoodServiceImpl implements FoodService {
     public Food save(Food food) {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
-        food.setCode("code_food_" + value);
+        food.setCode("F" + value);
         return footRepository.save(food);
     }
 
     @Override
     public Food update(String id, Food food) {
         Food foods = findById(id);
-        foods.setCode(food.getCode());
         foods.setDescription(food.getDescription());
         foods.setName(food.getName());
         foods.setPrice(food.getPrice());
         foods.setImage(food.getImage());
-        return footRepository.save(food);
+        return footRepository.save(foods);
     }
 
     @Override

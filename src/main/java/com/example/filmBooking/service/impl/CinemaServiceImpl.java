@@ -3,6 +3,7 @@ package com.example.filmBooking.service.impl;
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.service.CinemaService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,11 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+
 public class CinemaServiceImpl implements CinemaService {
 
+    @Autowired
+    private ModelMapper modelMapper;
     @Autowired
     private CinemaRepository repository;
 
@@ -45,9 +49,14 @@ public class CinemaServiceImpl implements CinemaService {
         return repository.findById(id).get();
     }
 
+
     @Override
     public void delete(String id) {
         repository.delete(findById(id));
+    }
+
+    public Cinema findByIdCinema(UUID id){
+        return repository.findById(id).orElse(null);
     }
 
 }

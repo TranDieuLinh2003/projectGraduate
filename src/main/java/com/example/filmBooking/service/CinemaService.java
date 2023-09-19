@@ -1,7 +1,6 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Rank;
 
 import java.util.List;
 
@@ -17,5 +16,7 @@ public interface CinemaService {
     void delete(String id);
 
     Cinema findById(String id);
+
+
 
 }
