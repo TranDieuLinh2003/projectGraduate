@@ -2,12 +2,10 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.repository.BillRepository;
-import com.example.filmBooking.repository.testQR;
 import com.example.filmBooking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
