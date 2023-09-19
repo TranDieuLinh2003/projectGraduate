@@ -55,13 +55,7 @@ public class FilmBookingController {
         List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie1", listmovie1);
 
-////      rap
-//        List<Cinema> listcinema = (List<Cinema>) cinemaService.fillAll();
-//        model.addAttribute("listcinema", listcinema);
 //
-////      phim theo rạp
-//        List<ScheduleDto> scheduleDtoList = repository.ListAll();
-//        model.addAttribute("scheduleDtoList", scheduleDtoList);
         return "users/FilmBooking";
     }
 

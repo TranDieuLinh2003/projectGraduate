@@ -8,8 +8,7 @@ import java.sql.Date;
 import java.util.UUID;
 
 @Data
-@Getter
-@Setter
+
 public class DtoMovie {
     private UUID id;
     private String name;

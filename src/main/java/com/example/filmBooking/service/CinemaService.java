@@ -1,7 +1,6 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Rank;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +13,11 @@ public interface CinemaService {
 
     Cinema update(UUID id, Cinema cinema);
 
+
     void delete(UUID id);
 
     Cinema findById(UUID id);
+
+
 
 }

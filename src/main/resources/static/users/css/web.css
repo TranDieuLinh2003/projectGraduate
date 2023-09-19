@@ -518,14 +518,19 @@ figure.snip1208 button {
     cursor: pointer;
 }
 
+figure.snip1208 button a{
+
+    cursor: pointer;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
 figure.snip1208 a {
     cursor: pointer;
     color: #000000;
     text-decoration: none;
 }
-figure.snip1208 a:hover {
-    color: #ff7200;
-}
+
 
 figure.snip1208:hover img,
 figure.snip1208.hover img {
