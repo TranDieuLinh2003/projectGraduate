@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -69,7 +71,6 @@ public class Movie {
 
     @Column(name = "description", length = 1000)
     private String description;
-
 
 
 }

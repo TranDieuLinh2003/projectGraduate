@@ -61,7 +61,7 @@ public class FilmBookingController {
 
 
     @GetMapping("/movie/edit/{id}")
-    public String chiTietPhim(@PathVariable("id") UUID id, Model model) {
+    public String chiTietPhim(@PathVariable("id") String id, Model model) {
         Movie movie = service.findById(id);
         model.addAttribute("movie", movie);
 

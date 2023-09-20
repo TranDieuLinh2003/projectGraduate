@@ -15,8 +15,6 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     private BillRepository repository;
-    @Autowired
-    private testQR testQR;
 
     @Override
     public List<Bill> findAll() {
