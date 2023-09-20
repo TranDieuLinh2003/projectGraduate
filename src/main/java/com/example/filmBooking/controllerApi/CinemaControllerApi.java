@@ -28,7 +28,7 @@ public class CinemaControllerApi {
 
     public static String apiGetBranches = Api.baseURL+"/api/cinema";
     @GetMapping
-    public String displayBranchesPage(@RequestParam UUID movieId, Model model, HttpServletRequest request){
+    public String displayBranchesPage(@RequestParam String movieId, Model model, HttpServletRequest request){
         // Gắn movie id vào session lát sau dùng tiếp để tìm ra lịch xem cụ thể dựa trên movie id đó
         HttpSession session = request.getSession();
         session.setAttribute("movieId",movieId);
@@ -45,7 +45,7 @@ public class CinemaControllerApi {
                 .queryParam("movieId", "{movieId}")
                 .encode()
                 .toUriString();
-        Map<String, UUID> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("movieId", movieId);
 
         HttpEntity<Cinema[]> response = restTemplate.exchange(
