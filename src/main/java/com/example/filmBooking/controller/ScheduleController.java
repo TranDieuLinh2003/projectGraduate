@@ -6,8 +6,11 @@ import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,8 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 
 
 @Controller
@@ -44,13 +49,28 @@ public class ScheduleController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
+    @GetMapping("/find-time")
+    @Operation(summary = "[lấy khoảng thời gian]")
+    public ResponseEntity<?> findTime(@RequestParam("id")String id,
+                                      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") @Nullable @RequestParam(name = "from_startAt", required = false) LocalDateTime from_startAt,
+                                      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") @Nullable @RequestParam(name = "to_startAt", required = false) LocalDateTime to_startAt,
+                                      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") @Nullable @RequestParam(name = "from_finishAt", required = false) LocalDateTime from_finishAt,
+                                      @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") @Nullable @RequestParam(name = "to_finishAt", required = false) LocalDateTime to_finishAt) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(service.CheckConstraint(id,from_startAt, to_startAt, from_finishAt, to_finishAt));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
     public ResponseEntity<Object> save(@RequestBody @Valid Schedule schedule) throws ParseException {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(ticketService.autoSave(service.save(schedule)));
+//        responseBean.setData(ticketService.autoSave(service.save(schedule)));
+        responseBean.setData(service.save(schedule));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

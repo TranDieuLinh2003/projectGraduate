@@ -10,10 +10,10 @@ import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.ScheduleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.DateFormatter;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,65 +42,69 @@ public class ScheduleServiceImpl implements ScheduleService {
     private ModelMapper modelMapper;
 
     @Override
+    public List<Time> layThoiGian() {
+//        List<LocalDateTime> times = new ArrayList<LocalDateTime>();
+        List<Schedule> listSchedule = findAll();
+        for (int i = 0; i < listSchedule.size(); i++) {
+            LocalDateTime end = listSchedule.get(i).getFinishAt();
+            LocalDateTime start = listSchedule.get(i + 1).getStartAt();
+            java.sql.Time startCv = java.sql.Time.valueOf(start.toLocalTime());
+            java.sql.Time endCv = java.sql.Time.valueOf(end.toLocalTime());
+//            times = repository.layKhoangTrong(startCv, endCv);
+            System.out.println(repository.layKhoangTrong(startCv, endCv));
+        }
+        return null;
+    }
+
+    public long CheckConstraint(String id,
+                                LocalDateTime from_startAt,
+                                LocalDateTime to_startAt,
+                                LocalDateTime from_finishAt,
+                                LocalDateTime to_finishAt) {
+        return repository.CheckConstraint(id, from_startAt, from_startAt,
+                to_startAt, to_startAt,
+                from_finishAt, from_finishAt, to_finishAt, to_finishAt);
+    }
+
+    @Override
     public List<Schedule> findAll() {
         return repository.findAll();
     }
 
     @Override
     public String save(Schedule schedule) throws ParseException {
-        //Tạo lịch chiếu
-        //random mã lịch
+        //tạo mã suất chiếu
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         schedule.setCode("SCD" + value);
+        // lấy thông tin phim của suất chiếu
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
+        // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+        //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        //lấy ngày hiện tại
-        LocalDateTime localDateTime = LocalDateTime.now();
-//        ZonedDateTime zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
-//        long date = zdt.toInstant().toEpochMilli();
+        // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
         //lấy thời gian bắt đầu
         LocalDateTime startAt = schedule.getStartAt();
-//        ZonedDateTime zdt1 = ZonedDateTime.of(startAt, ZoneId.systemDefault());
-//        long date1 = zdt1.toInstant().toEpochMilli();
-        //lấy thời gian kết thúc
-        LocalDateTime finishAt = schedule.getFinishAt();
-//        ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
-//        long date2 = zdt2.toInstant().toEpochMilli();
         //lấy thời lượng phim( đơn vị phút)
         Integer movieDuration = movie.getMovieDuration();
         Timestamp timestamp = Timestamp.valueOf(startAt);
-//        Set thời gian kết thúc= thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
         timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + 900000);
-        finishAt = timestamp.toLocalDateTime();
-        //suất chiếu phải nằm trong khoảng ngày bắt đầu và kết thúc của phim
-//        String date = schedule.getStartAt().format(formatter);
-//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-//        if (date1.before(movie.getPremiereDate()) && date1.after(movie.getEndDate())) {
-//            System.out.println("lỗi rồi má oi");
-//        } else {
-//            System.out.println("Thêm được nhe");
-            schedule.setFinishAt(finishAt);
-            System.out.println(finishAt);
+        LocalDateTime finishAt = timestamp.toLocalDateTime();
+        schedule.setFinishAt(finishAt);
+        if (checkScheduleConflict(schedule, schedule.getRoom().getId())) {
+            // Lưu suất chiếu mới vào cơ sở dữ liệu
             repository.save(schedule);
-//        }
-      
-        //set trạng thái lịch chiếu
-//        if (date1 > date) {
-//            schedule.setStatus("Sắp chiếu");
-//            repository.save(schedule);
-//        } else if (date2 <= date) {
-//            schedule.setStatus("Đã chiếu");
-//            repository.save(schedule);
-//        } else {
-//            schedule.setStatus("Đang chiếu");
-//            repository.save(schedule);
-//        }
-//        scheduleFixedRate();
+            System.out.println("Lưu suất chiếu mới thành công.");
+        } else {
+            System.out.println("Xung đột suất chiếu. Không thể lưu.");
+//            return schedule.getId();
+        }
+//        suất chiếu phải nằm trong khoảng ngày bắt đầu và kết thúc của phim
 
-        return schedule.getId();
+//            System.out.println(finishAt);
+        return null;
+
     }
 
    
@@ -216,4 +220,30 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+
+    public boolean checkScheduleConflict(Schedule newSchedule, String idRoom) {
+        // Lấy ra các suất chiếu của phòng
+        List<Schedule> roomSchedules = repository.findByRoom(idRoom);
+        for (Schedule schedule : roomSchedules) {
+            if ( //thời gian bắt đầu của suất chiếu mới trước thời gian kết thúc của suất chiếu cũ
+                    roomSchedules != null && newSchedule.getStartAt().isBefore(schedule.getFinishAt()) &&
+                            //thời gian kết thúc của suất chiếu cũ trước thời gian bắt đầu của suất chiếu mới
+                            schedule.getStartAt().isBefore(newSchedule.getFinishAt())
+            ) {
+                return false; // không có xung đột
+            }
+            System.out.println(roomSchedules);
+        }
+        return true; // Có xung đột
+    }
+    // ngày bắt đầu suất chiếu mới nằm trong khoảng ngày bắt đầu và kết thúc suất cũ
+//                    (schedule.getStartAt().isBefore(newSchedule.getStartAt()) && newSchedule.getStartAt().isBefore(schedule.getFinishAt())
+//            ) || (
+    // ngày kết thúc suất chiếu mới nằm trong khoảng ngày bắt đầu và kết thúc suất cũ
+//            schedule.getStartAt().isBefore(newSchedule.getFinishAt()) && newSchedule.getFinishAt().isBefore(schedule.getFinishAt())
+//            )
+
+
 }
+
+
