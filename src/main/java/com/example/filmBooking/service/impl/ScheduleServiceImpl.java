@@ -3,24 +3,27 @@ package com.example.filmBooking.service.impl;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.dto.ScheduleDto;
 import com.example.filmBooking.repository.MovieRepository;
 import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.ScheduleService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.DateFormatter;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,6 +37,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<Schedule> findAll() {
@@ -177,6 +183,34 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Schedule findById(String id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public List<String> getTimeAt(String movieId, String cinemaId ) {
+        return repository.getstartAtAndFinishAt(movieId,cinemaId)
+                .stream().map(localTime -> localTime.format(DateTimeFormatter.ofPattern("HH:mm")))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getStartAt(String movieId, String cinemaId ) {
+        return repository.getstartAtAndFinishAt(movieId,cinemaId)
+                .stream().map(localDateTime -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<String> getFinishAt(String movieId, String cinemaId ) {
+        return repository.getstartAtAndFinishAt(movieId,cinemaId)
+                .stream().map(localDateTime -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .collect(Collectors.toList());
+    }
+//
+//    @Override
+//    public List<ScheduleDto> getSchedules(String movieId, String cinemaId, String startAt,  String roomId) {
+//        return repository.getSchedulesByMovie_IdAndCinema_IdAndStartDateAndStartTimeAndRoom_Id(movieId,cinemaId
+//                , LocalDateTime.parse(startAt), roomId)
+//                .stream().map(schedule -> modelMapper.map(schedule,ScheduleDto.class))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public void delete(String id) {

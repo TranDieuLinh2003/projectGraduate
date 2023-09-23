@@ -80,8 +80,8 @@ public class FilmBookingController {
         model.addAttribute("listmovie1", listmovie1);
 
 //      rap
-        List<Cinema> listcinema = (List<Cinema>) cinemaService.fillAll();
-        model.addAttribute("listcinema", listcinema);
+//        List<Cinema> listcinema = (List<Cinema>) cinemaService.fillAll();
+//        model.addAttribute("listcinema", listcinema);
 
 
         return "users/Phim";
