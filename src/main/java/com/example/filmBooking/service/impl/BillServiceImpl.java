@@ -16,7 +16,6 @@ public class BillServiceImpl implements BillService {
     @Autowired
     private BillRepository repository;
 
-
     @Override
     public List<Bill> findAll() {
         return repository.findAll();
