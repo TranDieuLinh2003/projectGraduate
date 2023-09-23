@@ -1,22 +1,26 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.model.Rank;
 
 import java.util.List;
-import java.util.UUID;
+
 
 public interface CustomerService {
     List<Customer> fillAll();
 
     Customer save(Customer customer);
 
-    Customer update(UUID id, Customer customer);
+    Customer update(String id, Customer customer);
 
-    void delete(UUID id);
+    void delete(String id);
 
-    Customer findById(UUID id);
+    Customer findById(String id);
 
-    String soSanhPoint(List<Rank> listRank, UUID id);
+    void autoCheckPoint();
+
+
+//    String soSanhPoint(List<Rank> listRank, String id);
+
+
 
 }

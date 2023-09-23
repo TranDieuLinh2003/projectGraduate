@@ -1,5 +1,6 @@
 package com.example.filmBooking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -28,8 +29,10 @@ import java.util.UUID;
 public class BillFood {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "bill_id")
     private Bill bill;

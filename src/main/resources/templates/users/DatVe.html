@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt vé</title>
+    <link rel="stylesheet" th:href="@{/users/css/datve.css}">
+
+
+</head>
+
+<body>
+<!-- navbar -->
+<div th:replace="~{/layout/Header :: header}"></div>
+<br>
+<div id="frame">
+    <section class="split_frame">
+        <div class="split_frame_1">
+            <div class="movie-container">
+                <label>Phim:</label>
+                <span id="movie">
+                        Trang chủ/Đặt vé/Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu
+                    </span>
+            </div>
+
+
+            <ul class="showcase">
+                <li>
+                    <div class="seat"></div>
+                    <small>Chưa chọn</small>
+                </li>
+                <li>
+                    <div class="seat selected"></div>
+                    <small> Đang chọn</small>
+                </li>
+                <li>
+                    <div class="seat occupied"></div>
+                    <small>Đã Chọn</small>
+                </li>
+            </ul>
+
+            <div class="container">
+                <div class="movie-screen">
+                    <img th:src='@{/admin/img/screen-thumb.png}' alt='screen' />
+<!--                    <img th:src="@{/admin/img/screen-thumb.png}" alt="">-->
+                </div>
+
+                <div class="row-container">
+                    <h5 class='subtitle'>Ghê đơn</h5>
+
+                    <div class="row">
+                        <div class="seat">A1</div>
+                        <div class="seat">A2</div>
+                        <div class="seat">A3</div>
+                        <div class="seat">A4</div>
+                        <div class="seat">A5</div>
+                        <div class="seat">A6</div>
+                        <div class="seat">A7</div>
+                        <div class="seat">A8</div>
+                    </div>
+                    <div class="row">
+                        <div class="seat">B1</div>
+                        <div class="seat">B2</div>
+                        <div class="seat">B3</div>
+                        <div class="seat">B4</div>
+                        <div class="seat">B5</div>
+                        <div class="seat">B6</div>
+                        <div class="seat">B7</div>
+                        <div class="seat">B8</div>
+                    </div>
+                    <div class="row">
+                        <div class="seat">C1</div>
+                        <div class="seat">C2</div>
+                        <div class="seat">C3</div>
+                        <div class="seat">C4</div>
+                        <div class="seat">C5</div>
+                        <div class="seat">C6</div>
+                        <div class="seat">C7</div>
+                        <div class="seat">C8</div>
+                    </div>
+                    <div class="row">
+                        <div class="seat">D1</div>
+                        <div class="seat">D2</div>
+                        <div class="seat">D3</div>
+                        <div class="seat">D4</div>
+                        <div class="seat">D5</div>
+                        <div class="seat">D6</div>
+                        <div class="seat">D7</div>
+                        <div class="seat">D8</div>
+                    </div>
+                    <div class="row">
+                        <div class="seat">E1</div>
+                        <div class="seat">E2</div>
+                        <div class="seat">E3</div>
+                        <div class="seat ">E4</div>
+                        <div class="seat">E5</div>
+                        <div class="seat">E6</div>
+                        <div class="seat">E7</div>
+                        <div class="seat">E8</div>
+                    </div>
+                    <h5 class='subtitle'>Ghê đôi</h5>
+                    <div class="row">
+                        <div class="row-seat">
+                            <div class="seat">F1</div>
+                        </div>
+                        <div class="row-seat">
+                            <div class="seat">F2</div>
+                        </div>
+                        <div class="row-seat">
+                            <div class="seat">F3</div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="row-seat">
+                            <div class="seat">G1</div>
+                        </div>
+                        <div class="row-seat">
+                            <div class="seat">G2</div>
+                        </div>
+                        <div class="row-seat">
+                            <div class="seat">G3</div>
+                        </div>
+                    </div>
+
+
+                    <div class="text-wrapper">
+                        <p class="text">Selected Seats <span id='count'>0</span>
+                        <p class="text">Tổng tiền: <span id="total">0</span></p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="split_frame_2">
+            <div class="block">
+                <img th:src="@{/admin/img/anh.jpg}" alt="">
+                <div class="block_1">
+                    <h3>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</h3><br>
+                    <p>2D Phụ đề</p>
+                </div>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-film'></i> Thể loại </p>
+                <b>Kinh dị, vui nhộn </b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-history'></i> Thời lượng </p>
+                <b>100 phút</b>
+            </div>
+            <p style="opacity: 0.3;">---------------------------------------------------------------------------------------</p>
+            <div class="infor">
+                <p><i class='fa fa-home'></i> Rạp chiếu</p>
+                <b>FilmBooking Mỹ Đình</b>
+            </div>
+            <div class="infor">
+                <p><i class='fas fa-calendar-alt'></i> Ngày chiếu </p>
+                <b>23/08/2003</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-history'></i> Giờ chiếu </p>
+                <b>20:35</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-tv'></i> Phòng chiếu </p>
+                <b>P1</b>
+            </div>
+            <div class="infor">
+                <p><i class='fa fa-wheelchair'></i> Ghế ngồi </p>
+                <b>0</b>
+            </div>
+
+            <button class="cn"><a href="/filmbooking/doan">Tiếp tục</a></button>
+        </div>
+    </section>
+</div>
+<!--  -->
+<br>
+<div th:replace="~{/layout/Footer :: footer}"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<script th:src="@{/users/js/datve.js}"></script>
+
+</html>

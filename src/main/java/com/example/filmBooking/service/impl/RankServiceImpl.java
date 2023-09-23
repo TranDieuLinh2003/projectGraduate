@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
+
 
 @Service
 public class RankServiceImpl implements RankService {
@@ -30,7 +30,7 @@ public class RankServiceImpl implements RankService {
     }
 
     @Override
-    public Rank update(UUID id, Rank rank) {
+    public Rank update(String id, Rank rank) {
         Rank rankNew = findById(id);
         rankNew.setName(rank.getName());
         rankNew.setPoint(rank.getPoint());
@@ -39,12 +39,12 @@ public class RankServiceImpl implements RankService {
     }
 
     @Override
-    public Rank findById(UUID id) {
+    public Rank findById(String id) {
         return repository.findById(id).get();
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(String id) {
         repository.delete(findById(id));
     }
 }

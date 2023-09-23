@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -26,7 +26,8 @@ import java.util.UUID;
 public class Rank {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "code")
     private String code;

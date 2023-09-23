@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head>
+    <title>FILMBOOKING</title>
+    <link rel="stylesheet" th:href="@{/users/css/web.css}">
+</head>
+<body>
+<nav class="navbar fixed" th:fragment="header" >
+    <div class="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="logo">
+        <img th:src="@{/users/img/logo.png}" alt="">
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="/filmbooking/trangchu">TRANG CHỦ</a></li>
+        <li><a href="/filmbooking/phimchieu">PHIM CHIẾU</a></li>
+        <li><a href="/filmbooking/lichchieu">LỊCH CHIẾU</a></li>
+        <li><a href="/filmbooking/khuyenmai">KHUYẾN MÃI</a></li>
+        <li><a href="/filmbooking/dangnhap">ĐĂNG NHẬP</a></li>
+        <li><a href="/filmbooking/dangky">ĐĂNG KÝ</a></li>
+    </ul>
+</nav>
+</body>
+</html>

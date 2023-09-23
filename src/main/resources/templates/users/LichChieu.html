@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head>
+  <title>Lịch Chiếu</title>
+  <link rel="stylesheet" th:href="@{/users/css/lichchieu.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <!-- navbar -->
+
+  <div th:replace="~{/layout/Header :: header}"></div>
+  <!--  -->
+  <section>
+    <div>
+      <!-- Tabs menu -->
+      <div class="tabs">
+        <div class="tab-item active">
+          05/08-T7
+        </div>
+        <div class="tab-item">
+          05/09-CN
+        </div>
+        <div class="tab-item">
+          05/10-T2
+        </div>
+        <div class="tab-item">
+          05/11-T3
+        </div>
+        <div class="line"></div>
+      </div>
+
+      <!-- Tab content -->
+      <div class="tab-content">
+        <div class="tab-pane active">
+          <div class="card">
+            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
+            <div class="content">
+              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
+              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
+              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
+              <b>2D PHỤ ĐỀ</b>
+
+              <div class="bottom">
+                <button class="end" data-toggle="modal" data-target="#myModall"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tab-pane">
+          <div class="card">
+            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
+            <div class="content">
+              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
+              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
+              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
+              <b>2D PHỤ ĐỀ</b>
+
+              <div class="bottom">
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane">
+          <div class="card">
+            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
+            <div class="content">
+              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
+              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
+              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
+              <b>2D PHỤ ĐỀ</b>
+
+              <div class="bottom">
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane">
+          <div class="card">
+            <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
+            <div class="content">
+              <h2>Thử Thách #CáVoiXanh: Trò Chơi Kết Liễu</h2><br>
+              <p><i class='fa fa-film'></i> Thể loại: <b>Kinh dị, vui nhộn </b></p> <br>
+              <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
+              <b>2D PHỤ ĐỀ</b>
+
+              <div class="bottom">
+                <button class="end" ><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+                <button class="end"><b>19:14</b></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--  -->
+  <div th:replace="~{/layout/Footer :: footer}"></div>
+
+  <!-- thông báo xác nhận vé  -->
+  <div class="modal-view" id="myModall">
+    <div class="modal-content-view">
+      <span class="modal-close-view" data-dismiss="modal">&times;</span>
+      <h3>BẠN ĐANG ĐẶT VÉ XEM PHIM</h3>
+      <hr style="opacity: 0.3; margin-top: 5px; margin-bottom: 30px;">
+      <b>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</b>
+      <hr style="opacity: 0.2; margin-top: 5px; margin-bottom: 15px;">
+      <table style="margin-bottom: 30px;">
+        <tr>
+          <th>Rạp chiếu</th>
+          <th>Ngày chiếu</th>
+          <th>Giờ chiếu</th>
+        </tr>
+        <tr>
+          <td>Peter</td>
+          <td>Griffin</td>
+          <td>$100</td>
+        </tr>
+      </table>
+
+      <div style="text-align: center;"><button class="mybtn bronze">Đồng Ý </button></div>
+    </div>
+  </div>
+
+<!--chọn rap chiếu phim-->
+  <div class="w3-modal"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+                <span data-dismiss="modal"
+                      class="w3-button w3-display-topright">&times;</span>
+        <div class="w3-cinema">
+          <div>
+            <h3>Khu vực: Hà Nội</h3>
+          </div>
+          <p>Tên Rạp:</p> <br>
+          <div class="w3-cinema-1">
+            <button class="w3-cinema-button" data-dismiss="modal"> FilmBooking Mỹ Đình
+            </button>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /.modal -->
+
+</body>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<script th:src="@{/users/js/lichchieu.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+  $(window).on('load', function () {
+    $('#myModal').modal('show');
+  });
+</script>
+</html>

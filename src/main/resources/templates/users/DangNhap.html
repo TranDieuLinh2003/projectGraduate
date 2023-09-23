@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>ĐĂNG NHẬP FILMBOOKING</title>
+    <!-- <link rel="stylesheet" href="css/web.css"> -->
+    <link rel="stylesheet" th:href="@{/users/css/dangky.css}">
+
+</head>
+
+<body>
+<!-- navbar -->
+<div th:replace="~{/layout/Header :: header}"></div>
+<br>
+<div id="login-box">
+    <div class="left">
+        <h1>ĐĂNG NHẬP</h1>
+        <div style="margin-top: 70px;">
+            <input type="text" name="email" placeholder="E-mail" />
+            <input type="password" name="password" placeholder="Password" />
+            <input type="submit" name="signup_submit" value="ĐĂNG KÝ" />
+        </div>
+
+    </div>
+
+    <div class="right">
+        <span class="loginwith">Đăng nhập với<br />social network</span>
+
+        <button class="social-signin facebook">Log in with facebook</button>
+        <button class="social-signin twitter">Log in with Twitter</button>
+        <button class="social-signin google">Log in with Google+</button>
+    </div>
+    <div class="or">OR</div>
+</div>
+<!--  -->
+<br>
+<div th:replace="~{/layout/Footer :: footer}"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<script th:src="@{/users/js/dangky.js}"></script>
+
+</html>

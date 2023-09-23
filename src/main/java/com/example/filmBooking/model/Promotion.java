@@ -16,7 +16,7 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -29,7 +29,8 @@ import java.util.UUID;
 public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "code")
     private String code;

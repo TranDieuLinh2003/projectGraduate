@@ -1,5 +1,6 @@
 package com.example.filmBooking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,8 +16,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 
 @Entity
 @Getter
@@ -29,7 +34,8 @@ import java.util.UUID;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "code")
     private String code;
@@ -38,10 +44,15 @@ public class Schedule {
     private String name;
 
     @Column(name = "start_at")
-    private Date startAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    private LocalDateTime startAt;
 
     @Column(name = "finish_at")
-    private Date finishAt;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    private LocalDateTime finishAt;
+
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
@@ -50,4 +61,9 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
+
+
+
+
+
 }

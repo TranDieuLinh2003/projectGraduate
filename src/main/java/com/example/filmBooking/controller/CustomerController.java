@@ -1,9 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.service.CustomerService;
-import com.example.filmBooking.service.RankService;
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,16 +19,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.UUID;
+
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/customer")
 @Tag(name = "customer")
 public class CustomerController {
     @Autowired
     private CustomerService service;
-    @Autowired
-    private RankService serviceR;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -52,7 +51,7 @@ public class CustomerController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") UUID id, @RequestBody @Valid Customer customer) {
+    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid Customer customer) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -62,7 +61,7 @@ public class CustomerController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")
-    public ResponseEntity<?> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> delete(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -73,22 +72,11 @@ public class CustomerController {
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "[Tìm kiếm theo id]")
-    public ResponseEntity<?> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         responseBean.setData(service.findById(id));
-        return new ResponseEntity<>(responseBean, HttpStatus.OK);
-    }
-
-    @GetMapping("/ss/{id}")
-    @Operation(summary = "[Tìm kiếm rank của khách theo id]")
-    public ResponseEntity<?> ss(@PathVariable("id") UUID id) {
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setCode(HttpStatus.OK.toString());
-        responseBean.setMessage("SUCCESS");
-        String tenR= service.soSanhPoint(serviceR.fillAll(), id);
-        responseBean.setData(tenR);
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }
