@@ -59,7 +59,7 @@ public class ScheduleController {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.CheckConstraint(id,from_startAt, to_startAt, from_finishAt, to_finishAt));
+        responseBean.setData(service.layThoiGian());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

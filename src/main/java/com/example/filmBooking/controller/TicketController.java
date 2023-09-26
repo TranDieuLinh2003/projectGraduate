@@ -3,7 +3,9 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.common.ResponseBean;
 import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.service.TicketService;
+import com.example.filmBooking.service.impl.QrServiceImpl.GenerateQR;
 import com.example.filmBooking.service.impl.TicketServiceImpl;
+import com.google.zxing.WriterException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+
 
 @Controller
 @CrossOrigin("*")
@@ -32,6 +36,8 @@ public class TicketController {
 
     @Autowired
     private TicketServiceImpl service1;
+
+    private GenerateQR generateQR = new GenerateQR();
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -82,6 +88,17 @@ public class TicketController {
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         responseBean.setData(service.findById(id));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
+    @GetMapping("/qr/{id}")
+    @Operation(summary = "[tạo QR]")
+    public ResponseEntity<?> qr(@PathVariable("id") String id) throws IOException, WriterException {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        generateQR.driver(id);
+        responseBean.setData("success");
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

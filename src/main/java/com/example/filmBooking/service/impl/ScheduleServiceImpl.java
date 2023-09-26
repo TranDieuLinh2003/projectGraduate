@@ -56,16 +56,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         return null;
     }
 
-    public long CheckConstraint(String id,
-                                LocalDateTime from_startAt,
-                                LocalDateTime to_startAt,
-                                LocalDateTime from_finishAt,
-                                LocalDateTime to_finishAt) {
-        return repository.CheckConstraint(id, from_startAt, from_startAt,
-                to_startAt, to_startAt,
-                from_finishAt, from_finishAt, to_finishAt, to_finishAt);
-    }
-
     @Override
     public List<Schedule> findAll() {
         return repository.findAll();
@@ -227,7 +217,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         for (Schedule schedule : roomSchedules) {
             if ( //thời gian bắt đầu của suất chiếu mới trước thời gian kết thúc của suất chiếu cũ
                     roomSchedules != null && newSchedule.getStartAt().isBefore(schedule.getFinishAt()) &&
-                            //thời gian kết thúc của suất chiếu cũ trước thời gian bắt đầu của suất chiếu mới
+                            //thời gian bắt đầu của suất chiếu cũ trước thời gian kết thúc của suất chiếu mới
                             schedule.getStartAt().isBefore(newSchedule.getFinishAt())
             ) {
                 return false; // không có xung đột

@@ -39,23 +39,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
-    String str_CheckConstraint_count = "select count(1) from `schedule` s where s.room_id= ?1" +
-            "AND (?2 is null or start_at >= ?3 ) " +
-            "AND  (?4 is null or start_at <= ?5 ) " +
-            "AND (?6 is null or finish_at >= ?7 ) " +
-            "AND  (?8 is null or finish_at <= ?9)  ";
-
-
-    @Query(value = str_CheckConstraint_count, nativeQuery = true)
-    long CheckConstraint(String id,
-                          LocalDateTime from_startAt,
-                          LocalDateTime startAt_from,
-                          LocalDateTime to_startAt,
-                          LocalDateTime startAt_to,
-                          LocalDateTime from_finishAt,
-                          LocalDateTime finishAt_from,
-                          LocalDateTime to_finishAt,
-                          LocalDateTime finishAt_to);
 
 
 }
