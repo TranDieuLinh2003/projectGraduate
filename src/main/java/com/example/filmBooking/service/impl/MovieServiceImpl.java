@@ -45,6 +45,12 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> showPhimSapChieu() {
         return repository.showPhimSapChieu();
     }
+
+    @Override
+    public List<Movie> getMovie(String cinemaId, String movieId) {
+        return repository.getMovie(cinemaId,movieId);
+    }
+
     @Override
     public Movie save(Movie movie) {
         Random generator = new Random();

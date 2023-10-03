@@ -1,4 +1,4 @@
-const $1 = document.querySelector.bind(document)
+const $ = document.querySelector.bind(document)
 const $$2 = document.querySelectorAll.bind(document)
 
 const tabActive = $1('.tab-item.active');

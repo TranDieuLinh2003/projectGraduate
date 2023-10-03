@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
 <html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 
 <head>
@@ -11,6 +9,131 @@
 
 </head>
 <body>
+<div th:replace="~{/layout/Header :: header}"></div>
 
+<div class="modal-content1" style="margin-bottom: -50px">
+    <th:block th:each="movie : ${listmovie}">
+        <h3>LỊCH CHIẾU - PHIM [[${movie.name}]]</h3>
+    </th:block>
+    <hr style="margin-bottom: 20px;">
+    <th:block th:each="cinema : ${listcinema}">
+        <b>Rạp [[${cinema.name}]] </b>
+    </th:block>
+
+    <hr style="opacity: 0.2; margin-top: 5px;">
+
+    <div>
+        <!-- Tabs menu -->
+<!--                        <div class="tabs" id="statr_at">-->
+<!--                            <th:block th:each="startAt : ${listStartAt}">-->
+<!--                                <div class="tab-item active" id="listDate">-->
+<!--                                    Thứ [[${startAt}]]-->
+<!--                                </div>-->
+<!--                            </th:block>-->
+<!--                            <div class="line"></div>-->
+<!--                        </div>-->
+
+        <!--                &lt;!&ndash; Tab content &ndash;&gt;-->
+        <!--                <div class="tab-content">-->
+        <!--                    <div class="tab-pane active">-->
+        <!--                        <h2>2D PHỤ ĐỀ</h2>-->
+        <!--                        <br>-->
+        <!--                        <div class="time_seat" id="list_time">-->
+        <!--                            <th:block th:each="start_at : ${listTime}">-->
+        <!--                            <div class="time" >-->
+        <!--                                <button data-modal-target="modal3">[[${start_at}]]</button>-->
+        <!--                                <div class="seat">135 ghế trống</div>-->
+        <!--                            </div>-->
+        <!--                            </th:block>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <select id="listDate" name="listDate">
+            <option th:each="option : ${listStartAt}" th:value="${option}" th:text="${option}">${option}</option>
+        </select>
+        <br>
+        <!--        <p>Chọn giờ xem phim (HH:mm)</p>-->
+        <select id="listTimes">
+            <th:block th:each="startTime : ${listTime}">
+                <option th:value="${startTime}" th:text="${startTime}">
+
+                </option>
+            </th:block>
+        </select>
+
+    </div>
+</div>
+
+<div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<!--<script th:src="@{/users/js/web.js}"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+    function callAPI() {
+        console.log("da goi duoc api!")
+        $.ajax({
+            url: "http://localhost:8080/api/schedule/time?movieId=${sessionScope.movieId}&cinemaId=${sessionScope.cinemaId}&start_at=" +
+                $("#listDate").find(":selected").text().trim(),
+            type: 'GET',
+
+            success: function (data) {
+                console.log("data: " + data)
+                $("#listTimes").html("");
+                data.forEach(startTime => {
+                    $("#listTimes").append("<option value=" + '"' + startTime + '"' + ">" + startTime + "</option>")
+                });
+            },
+            error: function (error) {
+                alert(error)
+            }
+        })
+    }
+    console.log("#listDate")
+
+    $(document).ready(function () {
+        $('#listDate').on('change', function () {
+            // alert( this.value ); // or $(this).val()
+            callAPI();
+        });
+    });
+
+    // chọn giờ chiếu
+    const $1 = document.querySelector.bind(document)
+    const $$2 = document.querySelectorAll.bind(document)
+
+    const tabActive = $1('.tab-item.active');
+    const line = $1('.tabs .line')
+
+    line.style.left = tabActive.offsetLeft + 'px';
+    line.style.width = tabActive.offsetWidth + 'px';
+
+
+    const tabs = $$2('.tab-item')
+    const panes = $$2('.tab-pane')
+
+    tabs.forEach((tab, index) => {
+        const pane = panes[index];
+
+        tab.onclick = function () {
+            $1('.tab-item.active').classList.remove('active');
+            $1('.tab-pane.active').classList.remove('active');
+
+            line.style.left = this.offsetLeft - 5 + 'px';
+            line.style.width = this.offsetWidth + 'px';
+
+            this.classList.add('active');
+            pane.classList.add('active');
+        }
+    });
+
+
+    // <!--    -->
+
+    //
+
+</script>
 </html>

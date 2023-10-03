@@ -3,6 +3,7 @@ package com.example.filmBooking.service.impl;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.model.dto.ScheduleDto;
 import com.example.filmBooking.repository.MovieRepository;
 import com.example.filmBooking.repository.RoomRepository;
@@ -189,32 +190,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<String> getTimeAt(String movieId, String cinemaId ) {
-        return repository.getstartAtAndFinishAt(movieId,cinemaId)
-                .stream().map(localTime -> localTime.format(DateTimeFormatter.ofPattern("HH:mm")))
-                .collect(Collectors.toList());
+    public List<String> getStart_At(String movieId, String cinemaId) {
+       return repository.getstartAtAndFinishAt(movieId, cinemaId);
     }
 
     @Override
-    public List<String> getStartAt(String movieId, String cinemaId ) {
-        return repository.getstartAtAndFinishAt(movieId,cinemaId)
-                .stream().map(localDateTime -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .collect(Collectors.toList());
+    public List<String> getStart_At_Time(String movieId, String cinemaId,String start_at) {
+
+        return repository.getTime(movieId, cinemaId, start_at);
     }
-    @Override
-    public List<String> getFinishAt(String movieId, String cinemaId ) {
-        return repository.getstartAtAndFinishAt(movieId,cinemaId)
-                .stream().map(localDateTime -> localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .collect(Collectors.toList());
-    }
-//
-//    @Override
-//    public List<ScheduleDto> getSchedules(String movieId, String cinemaId, String startAt,  String roomId) {
-//        return repository.getSchedulesByMovie_IdAndCinema_IdAndStartDateAndStartTimeAndRoom_Id(movieId,cinemaId
-//                , LocalDateTime.parse(startAt), roomId)
-//                .stream().map(schedule -> modelMapper.map(schedule,ScheduleDto.class))
-//                .collect(Collectors.toList());
-//    }
+
 
     @Override
     public void delete(String id) {

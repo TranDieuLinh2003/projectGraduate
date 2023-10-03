@@ -1,35 +1,48 @@
 package com.example.filmBooking.repository;
 
+import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.dto.ScheduleDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
+import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.sql.Date;
 import java.util.List;
 
 
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
-//            @Query("SELECT s.startAt, s.finishAt \n" +
-//                "FROM Cinema c\n" +
-//                "JOIN Room r ON c.id = r.cinema.id\n" +
-//                "JOIN Schedule s ON r.id = s.room.id\n" +
-//                "JOIN Movie m ON s.movie.id = m.id\n" +
-//                "where m.id= ?1 and c.id=?2")
-    @Query("SELECT DISTINCT s.startAt FROM Schedule s WHERE s.movie.id=:movieId AND s.room.cinema.id" +
-            "= :cinemaId ")
-    List<LocalDateTime> getstartAtAndFinishAt(@Param("movieId") String movieId
+//    lấy ra ngày tháng và thứ
+    String Start_at = ("SELECT DISTINCT CONCAT(dayofweek(s.start_at), ' - ', DATE_FORMAT(s.start_at,  '%d/%m'))\n" +
+            "FROM projectLinh.cinema c\n" +
+            "JOIN projectLinh.room r ON c.id = r.cinema_id\n" +
+            "JOIN projectLinh.schedule s ON r.id = s.room_id\n" +
+            "JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
+            "where c.id=:cinemaId and m.id=:movieId");
+    @Query(value = Start_at, nativeQuery = true)
+    List<String> getstartAtAndFinishAt(@Param("movieId") String movieId
             , @Param("cinemaId") String cinemaId);
 
-    @Query("SELECT DISTINCT s.finishAt FROM Schedule s WHERE s.movie.id=:movieId AND s.room.cinema.id" +
-            "= :cinemaId ")
-    List<LocalDateTime> getstartAtAndFinishAt1(@Param("movieId") String movieId
-            , @Param("cinemaId") String cinemaId);
+//   lấy ra thời gian
+    String time = ("\n" +
+        "\tselect distinct   DATE_FORMAT(s.start_at , '%H:%i')\n" +
+        "\tfrom projectLinh.cinema c\n" +
+        "\tjoin projectLinh.room r on r.cinema_id = c.id\n" +
+        "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
+        "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
+        "where m.id=:movieId\n" +
+        " and c.id =:cinemaId and CONCAT(dayofweek(s.start_at), ' - ', DATE_FORMAT(s.start_at,  '%d/%m'))=:start_at");
+    @Query(value = time, nativeQuery = true)
+    List<String> getTime(@Param("movieId") String movieId,
+                         @Param("cinemaId") String cinemaId,
+                         @Param("start_at") String start_at);
 
-//    List<Schedule> getALL(String movieId,String roomId, LocalDateTime startAt,String cinemaId);
 
+
+
+    //linh làm
     @Query(value = "SELECT TIMEDIFF(?1, ?2)", nativeQuery = true)
     List<Time> layKhoangTrong(Time start, Time end);
 
@@ -48,14 +61,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     @Query(value = str_CheckConstraint_count, nativeQuery = true)
     long CheckConstraint(String id,
-                          LocalDateTime from_startAt,
-                          LocalDateTime startAt_from,
-                          LocalDateTime to_startAt,
-                          LocalDateTime startAt_to,
-                          LocalDateTime from_finishAt,
-                          LocalDateTime finishAt_from,
-                          LocalDateTime to_finishAt,
-                          LocalDateTime finishAt_to);
+                         LocalDateTime from_startAt,
+                         LocalDateTime startAt_from,
+                         LocalDateTime to_startAt,
+                         LocalDateTime startAt_to,
+                         LocalDateTime from_finishAt,
+                         LocalDateTime finishAt_from,
+                         LocalDateTime to_finishAt,
+                         LocalDateTime finishAt_to);
 
 
 }

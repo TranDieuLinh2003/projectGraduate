@@ -1,8 +1,10 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.model.dto.ScheduleDto;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -22,10 +24,8 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-    List<String> getTimeAt(String movieId, String cinemaId);
-    List<String> getStartAt(String movieId, String cinemaId);
-    List<String> getFinishAt(String movieId, String cinemaId);
-//    List<ScheduleDto> getSchedules(String movieId, String cinemaId, String startAt, String roomId);
+    List<String> getStart_At(String movieId, String cinemaId);
+    List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
 
     List<Time> layThoiGian();
 

@@ -1,16 +1,26 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface CinemaRepository extends JpaRepository<Cinema, String> {
-//        @Query("SELECT c FROM Room r JOIN r.cinema c where c.id in " +
-//            "(SELECT s.room.id FROM Schedule s JOIN s.movie m WHERE s.movie.id = :movieId  )")
-//    List<Cinema> getCinemaThatShowTheMovie(@Param("movieId") UUID movieId);
+    String cinema = ("SELECT DISTINCT c.name, c.id, c.address, c.description, c.code\n" +
+            "FROM projectLinh.cinema c\n" +
+            "JOIN projectLinh.room r ON c.id = r.cinema_id\n" +
+            "JOIN projectLinh.schedule s ON r.id = s.room_id\n" +
+            "JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
+            "where c.id=:cinemaId and m.id=:movieId");
+    @Query(value = cinema, nativeQuery = true)
+    List<Cinema> getCinema(@Param("movieId") String movieId
+            , @Param("cinemaId") String cinemaId);
+
+
     @Query("SELECT c FROM Cinema c  where c.id in " +
             "(SELECT s.room.cinema.id FROM Schedule s JOIN s.movie m JOIN s.room r WHERE s.movie.id = :movieId  )")
     List<Cinema> getCinemaThatShowTheMovie(@Param("movieId") String movieId);
