@@ -72,25 +72,25 @@ public class ScheduleControllerApi {
 
 
 //       lấy ra  giờ phim
-//        String urlTemplateTime = UriComponentsBuilder.fromHttpUrl(apiGetTime)
-//                .queryParam("movieId", "{movieId}")
-//                .queryParam("cinemaId", "{cinemaId}")
-//                .queryParam("start_at", "{start_at}")
-//                .encode()
-//                .toUriString();
-//
-//            for (String ngay : listStartAt) {
-//                System.out.println(ngay);
-//                listRequestParam.put("start_at", ngay+""); ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(
-//                        urlTemplateTime,
-//                        HttpMethod.GET,
-//                        entity,
-//                        String[].class,
-//                        listRequestParam);
-//                List<String> listTime = Arrays.asList(listStartTimesEntity.getBody());
-//                model.addAttribute("listTime", listTime);
-//                break;
-//            }
+        String urlTemplateTime = UriComponentsBuilder.fromHttpUrl(apiGetTime)
+                .queryParam("movieId", "{movieId}")
+                .queryParam("cinemaId", "{cinemaId}")
+                .queryParam("start_at", "{start_at}")
+                .encode()
+                .toUriString();
+
+            for (String ngay : listStartAt) {
+                System.out.println(ngay);
+                listRequestParam.put("start_at", ngay+""); ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(
+                        urlTemplateTime,
+                        HttpMethod.GET,
+                        entity,
+                        String[].class,
+                        listRequestParam);
+                List<String> listTime = Arrays.asList(listStartTimesEntity.getBody());
+                model.addAttribute("listTime", listTime);
+                break;
+            }
 
 
 
