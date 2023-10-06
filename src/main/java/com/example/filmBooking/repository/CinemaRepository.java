@@ -14,4 +14,7 @@ public interface CinemaRepository extends JpaRepository<Cinema, String> {
     @Query("SELECT c FROM Cinema c  where c.id in " +
             "(SELECT s.room.cinema.id FROM Schedule s JOIN s.movie m JOIN s.room r WHERE s.movie.id = :movieId  )")
     List<Cinema> getCinemaThatShowTheMovie(@Param("movieId") String movieId);
+
+//    @Query(value = "SELECT c.name, m.id FROM cinema c JOIN room r on c.id = r.cinema_id JOIN schedule s on r.id = s.room_id JOIN movie m on m.id = s.movie_id", nativeQuery = true)
+//    List<CinemaDto> fillCinema();
 }

@@ -2,8 +2,10 @@ package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.repository.CinemaRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,13 +20,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/cinema/api")
 public class CinemaControllerApi {
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private CinemaRepository repository;
+
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public static String apiGetBranches = Api.baseURL+"/api/cinema";
     @GetMapping
@@ -58,8 +66,7 @@ public class CinemaControllerApi {
         Cinema[] cinema = response.getBody();
         model.addAttribute("cinema",cinema);
 
-        return "users/FilmBooking";
-
+        return "users/Cinema";
     }
 
 }

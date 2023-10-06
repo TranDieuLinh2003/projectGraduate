@@ -1,6 +1,7 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.dto.ScheduleDto;
 
 import java.sql.Time;
 import java.text.ParseException;
