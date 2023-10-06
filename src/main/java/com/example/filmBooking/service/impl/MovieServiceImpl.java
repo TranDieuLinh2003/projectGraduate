@@ -159,4 +159,8 @@ public class MovieServiceImpl implements MovieService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+     @Override
+    public List<Movie> getMovie(String cinemaId, String movieId) {
+        return repository.getMovie(cinemaId,movieId);
+    }
 }
