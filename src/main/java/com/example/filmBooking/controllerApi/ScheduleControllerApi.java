@@ -1,37 +1,39 @@
 package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.apis.Api;
+import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Movie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
-@RequestMapping("/schedule/api")
+@RequestMapping("/lichchieu")
 public class ScheduleControllerApi {
     @Autowired
     private RestTemplate restTemplate;
 
-    public static String API_GET_START_TIMES = Api.baseURL+"/api/schedule/time-at";
-    public static String API_GET_START_AT = Api.baseURL+"/api/schedule/startAt-at";
-    @GetMapping
-    public String displaySchedulePage(@RequestParam String movieId, @RequestParam String cinemaId, Model model, HttpServletRequest request){
-        HttpSession session = request.getSession();
-        session.setAttribute("cinemaId",cinemaId);
+    public static String API_GET_START_AT = Api.baseURL + "/api/schedule/start_at";
+    public static String apiGetCinema = Api.baseURL + "/api/schedule/cinema_name";
+    public static String apiGetMovie = Api.baseURL + "/api/schedule/movie_name";
+    public static String apiGetTime = Api.baseURL + "/api/schedule/time";
 
+    @GetMapping
+    public String displaySchedulePage(@RequestParam String movieId, @RequestParam String cinemaId, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("cinemaId", cinemaId);
+        model.addAttribute("cinemaId", cinemaId);
+
+        session.setAttribute("movieId", movieId);
+        model.addAttribute("movieId", movieId);
         // Gắn access token jwt vào header để gửi kèm request
         HttpHeaders headers = new HttpHeaders();
 //        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -39,35 +41,85 @@ public class ScheduleControllerApi {
 //        headers.set(HttpHeaders.AUTHORIZATION,"Bearer "+jwtResponseDTO.getAccessToken());
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        // Lấy ra ngày
+
+        //lấy ra ngày chiếu phim
         String urlTemplate = UriComponentsBuilder.fromHttpUrl(API_GET_START_AT)
                 .queryParam("movieId", "{movieId}")
-                .queryParam("branchId","{branchId}")
+                .queryParam("cinemaId", "{cinemaId}")
                 .encode()
                 .toUriString();
-        Map<String,String> liststarAt = new HashMap<>();
-        liststarAt.put("movieId", movieId+"");
-        liststarAt.put("branchId",cinemaId+"");
-        ResponseEntity<String[]> listStart = restTemplate.exchange(urlTemplate,
-                HttpMethod.GET,entity,String[].class,liststarAt);
+        Map<String, String> listRequestParam = new HashMap<>();
+        listRequestParam.put("movieId", movieId + "");
+        listRequestParam.put("cinemaId", cinemaId + "");
 
-        //Lấy ra những thời điểm bắt đầu tính từ hôm nay:
-        String urlTemplate1 = UriComponentsBuilder.fromHttpUrl(API_GET_START_TIMES)
+        ResponseEntity<String[]> listStartAtEntity = restTemplate.exchange(urlTemplate,
+                HttpMethod.GET,
+                entity,
+                String[].class,
+                listRequestParam);
+        List<String> listStartAt = Arrays.asList(listStartAtEntity.getBody());
+        model.addAttribute("listStartAt", listStartAt);
+
+
+//       lấy ra  giờ phim
+        String urlTemplateTime = UriComponentsBuilder.fromHttpUrl(apiGetTime)
                 .queryParam("movieId", "{movieId}")
-                .queryParam("branchId","{branchId}")
+                .queryParam("cinemaId", "{cinemaId}")
+                .queryParam("start_at", "{start_at}")
                 .encode()
                 .toUriString();
-        Map<String,String> listRequestParam = new HashMap<>();
-        listRequestParam.put("movieId", movieId+"");
-        listRequestParam.put("branchId",cinemaId+"");
+
+            for (String ngay : listStartAt) {
+                System.out.println(ngay);
+                listRequestParam.put("start_at", ngay+"");
+                model.addAttribute("start_at", ngay);
+//                break;
+//                continue;
+            }
+        ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(
+                urlTemplateTime,
+                HttpMethod.GET,
+                entity,
+                String[].class,
+                listRequestParam);
+        List<String> listTime = Arrays.asList(listStartTimesEntity.getBody());
+        model.addAttribute("listTime", listTime);
 
 
-        ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(urlTemplate1,
-                HttpMethod.GET,entity,String[].class,listRequestParam);
+//        lấy ra rap
+        String urlTemplate1 = UriComponentsBuilder.fromHttpUrl(apiGetCinema)
+                .queryParam("movieId", "{movieId}")
+                .queryParam("cinemaId", "{cinemaId}")
+                .encode()
+                .toUriString();
+        HttpEntity<Cinema[]> responsecinema = restTemplate.exchange(
+                urlTemplate1,
+                HttpMethod.GET,
+                null,
+                Cinema[].class,
+                listRequestParam
+        );
+        Cinema[] listcinema = responsecinema.getBody();
+        model.addAttribute("listcinema", listcinema);
 
-        model.addAttribute("listDates", listStart.getBody());
-        model.addAttribute("listStartTimes",listStartTimesEntity.getBody());
-//        model.addAttribute("user",new User());
+
+//        lấy ra movie
+        String urlTemplate2 = UriComponentsBuilder.fromHttpUrl(apiGetMovie)
+                .queryParam("movieId", "{movieId}")
+                .queryParam("cinemaId", "{cinemaId}")
+                .encode()
+                .toUriString();
+        HttpEntity<Movie[]> responseMovie = restTemplate.exchange(
+                urlTemplate2,
+                HttpMethod.GET,
+                null,
+                Movie[].class,
+                listRequestParam
+        );
+        Movie[] listmovie = responseMovie.getBody();
+        model.addAttribute("listmovie", listmovie);
         return "users/Schedule";
     }
+
+
 }
