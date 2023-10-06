@@ -21,5 +21,8 @@ public interface MovieService {
     Movie readExcel();
 
     List<Movie> showPhimDangChieu();
+    
     List<Movie> showPhimSapChieu();
+
+    List<Movie> getMovie(String cinemaId, String movieId);
 }
