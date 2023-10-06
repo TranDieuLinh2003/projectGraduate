@@ -59,4 +59,14 @@ public class CinemaServiceImpl implements CinemaService {
         return repository.findById(id).orElse(null);
     }
 
+    
+    @Override
+    public List<Cinema> getCinema(String movieId) {
+        return repository.getCinemaThatShowTheMovie( movieId);
+    }
+
+    @Override
+    public List<Cinema> getCinemaAndMovie(String movieId, String cinemaId) {
+        return repository.getCinema( movieId, cinemaId);
+    }
 }
