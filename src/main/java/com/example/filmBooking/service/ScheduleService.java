@@ -20,4 +20,11 @@ public interface ScheduleService {
 
     List<Schedule> findByNameContains(String name);
 
+    List<String> getStart_At(String movieId, String cinemaId);
+
+    List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
+
+    List<String> getTimeAt(String movieId, String cinemaId);
+
+    List<String> getStartAt(String movieId, String cinemaId);
 }
