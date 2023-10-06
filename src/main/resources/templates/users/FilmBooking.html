@@ -54,7 +54,7 @@
                                 - Thời lượng: [[${movie.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
-                            <button data-toggle="modal"><a th:href="@{'/cinema/api?movieId='+${movie.id}}">Đặt vé</a>
+                            <button ><a th:href="@{'/cinema/api?movieId='+${movie.id}}">Đặt vé</a>
                             </button>
                         </figcaption>
                     </figure>
@@ -79,7 +79,7 @@
                                 - Thời lượng: [[${movie1.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
-                            <button data-toggle="modal" data-target="#id01">Đặt vé</button>
+                            <button ><a th:href="@{'/cinema/api?movieId='+${movie1.id}}">Đặt vé</a></button>
                         </figcaption>
                     </figure>
                 </th:block>
@@ -122,35 +122,6 @@
 </th:block>
 
 <!-- Thông tin rap, chọn rạp  -->
-
-    <div id="id01" class="w3-modal" style="display: none;">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-                <span onclick="document.getElementById('id01').style.display='none'"
-                      class="w3-button w3-display-topright">&times;</span>
-                <div class="w3-cinema">
-
-                    <div>
-                        <h3>Khu vực: Hà Nội</h3>
-                    </div>
-
-                    <p>Tên Rạp:</p> <br>
-
-                    <div class="w3-cinema-1">
-                        <th:block th:each="cinema : ${cinema}">
-                        <button class="w3-cinema-button myBtn1" data-toggle="modal" data-target="#myModalll"
-
-                                onclick="document.getElementById('id01').style.display='none'">
-                            [[${cinema.name}]]
-                        </button>
-                        </th:block>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
 
 <!--  -->
 
