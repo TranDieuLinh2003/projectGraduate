@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface MovieService {
-    List<Movie> fillAll();
+    List<Movie> findAll();
 
     Movie save(Movie movie);
 

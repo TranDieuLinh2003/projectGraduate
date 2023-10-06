@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -64,14 +66,15 @@ public class TicketServiceImpl implements TicketService {
         // danh sách lịch chiếu
         List<Ticket> listTicket = repository.findAll();
         for (Ticket ticket : listTicket) {
-            Schedule schedule = scheduleRepository.findById(ticket.getSchedule().getId());
-            if (schedule.getStatus() == "Đã chiếu") {
-                ticket.setStatus("Hết hạn");
-                repository.save(ticket);
-            } else {
-                ticket.setStatus("Hạn sử dụng đến: " + schedule.getFinishAt());
-                repository.save(ticket);
-            }
+//            Schedule schedule = scheduleRepository.findById(ticket.getSchedule().getId());
+//            System.out.println(ticket.getSchedule().getId());
+//            if (schedule.getStatus() == "Đã chiếu") {
+//                ticket.setStatus("Hết hạn");
+//                repository.save(ticket);
+//            } else {
+//                ticket.setStatus("Hạn sử dụng đến: " + schedule.getFinishAt());
+//                repository.save(ticket);
+//            }
         }
     }
 
@@ -92,4 +95,28 @@ public class TicketServiceImpl implements TicketService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+
+    public static void main(String[] args) {
+        // Giá ban đầu
+        BigDecimal originalPrice = new BigDecimal("100.00");
+
+        // Thời gian suất chiếu
+        LocalTime showTime = LocalTime.of(10, 0);
+
+        // Thời gian hiện tại
+        LocalTime currentTime = LocalTime.now();
+
+        // Kiểm tra xem nếu là suất chiếu sau 17 giờ
+        if (currentTime.isAfter(showTime)) {
+            // Tính giá mới với tăng 10%
+            BigDecimal newPrice = originalPrice.multiply(BigDecimal.valueOf(1.1));
+
+            // In ra giá mới
+            System.out.println("Giá mới: " + newPrice);
+        } else {
+            // Suất chiếu trước 17 giờ, giá không thay đổi
+            System.out.println("Giá không thay đổi: " + originalPrice);
+        }
+    }
+
 }

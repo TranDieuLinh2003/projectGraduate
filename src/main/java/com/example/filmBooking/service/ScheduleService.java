@@ -18,6 +18,6 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-    List<Time> layThoiGian();
+    List<Schedule> findByNameContains(String name);
 
 }

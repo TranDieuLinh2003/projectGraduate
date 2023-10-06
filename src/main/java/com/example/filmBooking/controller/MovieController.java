@@ -39,9 +39,7 @@ public class MovieController {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.fillAll());
-
-
+        responseBean.setData(service.findAll());
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
@@ -105,7 +103,7 @@ public class MovieController {
         String headerValue = "attachment; filename=movie" + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
-        List<Movie> listMovie = service.fillAll();
+        List<Movie> listMovie = service.findAll();
 
         ExportMovie excelExporter = new ExportMovie(listMovie);
 
