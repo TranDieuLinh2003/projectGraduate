@@ -17,6 +17,9 @@ public interface CinemaService {
 
     Cinema findById(String id);
 
+    List<Cinema> getCinema( String movieId);
+
+    List<Cinema> getCinemaAndMovie( String movieId, String cinemaId);
 
 
 }
