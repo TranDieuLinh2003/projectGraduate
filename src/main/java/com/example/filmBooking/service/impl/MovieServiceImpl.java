@@ -32,7 +32,7 @@ public class MovieServiceImpl implements MovieService {
 //    private ImportMovie importMovie = new ImportMovie();
 
     @Override
-    public List<Movie> fillAll() {
+    public List<Movie> findAll() {
         return repository.findAll();
     }
 
@@ -45,6 +45,7 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> showPhimSapChieu() {
         return repository.showPhimSapChieu();
     }
+
     @Override
     public Movie save(Movie movie) {
         Random generator = new Random();
@@ -98,6 +99,7 @@ public class MovieServiceImpl implements MovieService {
         movieNew.setImage(movie.getImage());
         movieNew.setMovieType(movie.getMovieType());
         movieNew.setDescription(movie.getDescription());
+        movieNew.setRated(movie.getRated());
         return repository.save(movieNew);
     }
 

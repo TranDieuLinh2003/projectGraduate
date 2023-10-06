@@ -54,7 +54,7 @@ public class Promotion {
     private Date endDate;
 
     @Column(name = "quantity")
-    private Date quantity;
+    private Integer quantity;
 
     @OneToMany(mappedBy = "promotion")
     private List<BillFood> listBillFood;

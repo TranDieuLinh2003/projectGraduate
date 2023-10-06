@@ -1,0 +1,45 @@
+package com.example.filmBooking.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalTime;
+import java.util.Timer;
+
+@Entity
+@Getter
+@Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "general_setting")
+public class GeneralSetting {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private String id;
+
+    // Giờ bắt đầu thay đổi
+    @Column(name = "time_begins_to_change")
+    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    private LocalTime timeBeginsToChange;
+
+    // phần trăm
+    @Column(name = "percent_day")
+    private Integer percentDay;
+
+    //ngày thay đổi
+//    @Column(name = "weekend")
+//    private Integer weekend;
+
+    //phần trăm thay đổi ngày
+    @Column(name = "percent_weekend")
+    private Integer percentWeekend;
+
+    //thời gian giữa các suất chiếu
+    @Column(name = "break_time")
+    private Integer breakTime;
+
+}
