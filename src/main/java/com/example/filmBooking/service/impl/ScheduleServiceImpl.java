@@ -207,52 +207,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         return false;
     }
 
-//    public List<Schedule> findAll() {
-//        List<Schedule> newList = new ArrayList<>();
-//        LocalDateTime startTime = LocalDateTime.of(2023, 8, 20, 8, 0); // Thời gian bắt đầu đầu tiên
-//        LocalDateTime endTime = LocalDateTime.of(2023, 8, 21, 2, 0); // Thời gian kết thúc
-//        LocalDateTime currentStartTime = startTime;
-//
-//        List<Movie> movieList = movieRepository.findAll(); // Danh sách phim
-//        List<Room> roomList = roomRepository.findAll(); // Danh sách phòng chiế
-////        roomList.forEach(room -> {
-////            movieList.forEach(movie -> {
-////                Schedule roomSchedule = new Schedule();
-////                roomSchedule.setRoom(room);
-////                //process
-////                int movieDuration = movie.getMovieDuration(); // Thời lượng phim (tính bằng phút)
-////                LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + 15); // Thời gian kết thúc = thời lượng phim + 15 phút
-////
-////
-////
-////                roomSchedule.setFinishAt(currentEndTime);
-////                roomSchedule.setMovie(movie);
-////                newList.add(roomSchedule);
-////                if (currentEndTime.isAfter(endTime)) {
-////                    break;
-////                }
-////            });
-////        });
-//        for(Room room: roomList){
-//            for (Movie movie: movieList){
-//                Schedule roomSchedule = new Schedule();
-//                roomSchedule.setRoom(room);
-//                //process
-//                int movieDuration = movie.getMovieDuration(); // Thời lượng phim (tính bằng phút)
-//                LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + 15); // Thời gian kết thúc = thời lượng phim + 15 phút
-//                roomSchedule.setStartAt(startTime);
-//                roomSchedule.setMovie(movie);
-//                roomSchedule.setFinishAt(currentEndTime);
-//                newList.add(roomSchedule);
-//                if (currentEndTime.isAfter(endTime)) {
-//                    break;
-//                }
-//                currentStartTime = currentEndTime;
-//            }
-//        }
-//        return newList;
-//    }
-
     public List<Schedule> generateSchedule() throws ParseException {
         List<Schedule> newList = new ArrayList<>();
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 20, 8, 0); // Thời gian bắt đầu đầu tiên
@@ -286,8 +240,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(newList);
         return newList;
     }
+ @Override
+    public List<String> getStart_At(String movieId, String cinemaId) {
+       return repository.getstartAtAndFinishAt(movieId, cinemaId);
+    }
 
+    @Override
+    public List<String> getStart_At_Time(String movieId, String cinemaId,String start_at) {
 
+        return repository.getTime(movieId, cinemaId, start_at);
+    }
 }
 
 
