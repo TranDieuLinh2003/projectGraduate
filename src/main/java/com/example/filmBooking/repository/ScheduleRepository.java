@@ -20,18 +20,21 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 //                "where m.id= ?1 and c.id=?2")
     @Query("SELECT DISTINCT s.startAt FROM Schedule s WHERE s.movie.id=:movieId AND s.room.cinema.id" +
             "= :cinemaId ")
-    List<LocalDateTime> getstartAtAndFinishAt(@Param("movieId") String movieId
+    List<String> getstartAtAndFinishAt(@Param("movieId") String movieId
             , @Param("cinemaId") String cinemaId);
 
-    @Query("SELECT DISTINCT s.finishAt FROM Schedule s WHERE s.movie.id=:movieId AND s.room.cinema.id" +
-            "= :cinemaId ")
-    List<LocalDateTime> getstartAtAndFinishAt1(@Param("movieId") String movieId
-            , @Param("cinemaId") String cinemaId);
-
-//    List<Schedule> getALL(String movieId,String roomId, LocalDateTime startAt,String cinemaId);
-
-    @Query(value = "SELECT TIMEDIFF(?1, ?2)", nativeQuery = true)
-    List<Time> layKhoangTrong(Time start, Time end);
+    String time = ("\n" +
+            "\tselect distinct   DATE_FORMAT(s.start_at , '%H:%i')\n" +
+            "\tfrom projectLinh.cinema c\n" +
+            "\tjoin projectLinh.room r on r.cinema_id = c.id\n" +
+            "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
+            "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
+            "where m.id=:movieId\n" +
+            " and c.id =:cinemaId and CONCAT(dayofweek(s.start_at), ' - ', DATE_FORMAT(s.start_at,  '%d/%m'))=:start_at");
+    @Query(value = time, nativeQuery = true)
+    List<String> getTime(@Param("movieId") String movieId,
+                         @Param("cinemaId") String cinemaId,
+                         @Param("start_at") String start_at);
 
     @Query(value = "select*from schedule ORDER BY start_at ASC", nativeQuery = true)
     List<Schedule> findAll();
