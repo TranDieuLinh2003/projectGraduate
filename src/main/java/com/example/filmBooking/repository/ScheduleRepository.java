@@ -39,6 +39,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
-
+    List<Schedule> findByNameContains(String name);
 
 }

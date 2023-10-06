@@ -1,12 +1,10 @@
 package com.example.filmBooking.service.impl;
 
-import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
             room.setId(UUID.randomUUID().toString());
             room.setCode("RM" + value);
             room.setCinema(repositoryCinema.findById(idCinema).get());
-            room.setName("Room" + i);
+            room.setName("Room" + i + "_" + room.getCinema().getName());
             repository.save(room);
         }
     }
@@ -60,10 +58,10 @@ public class RoomServiceImpl implements RoomService {
 //    @Scheduled(fixedRate = 6000)
 //    public void scheduleFixedRate() {
 //        // check danh sách movie
-//        List<Room> movies = repository.findAll();
-//        for (Room dto : movies) {
-//            dto.setCapacity(repository.findNumber(dto.getId()));
-//            repository.save(dto);
+//        List<Room> roomList = repository.findAll();
+//        for (Room room : roomList) {
+//            room.setName(room.getName()+ "_"+room.getCinema().getName());
+//            repository.save(room);
 //        }
 //
 //    }

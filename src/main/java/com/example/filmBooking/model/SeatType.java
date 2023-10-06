@@ -36,11 +36,8 @@ public class SeatType {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "weekday_price")
-    private BigDecimal weekdayPrice;
-
-    @Column(name = "weekend_price")
-    private BigDecimal weekendPrice;
+    @Column(name = "price")
+    private BigDecimal price;
 
     @Column(name = "description", length = 560)
     private String description;
