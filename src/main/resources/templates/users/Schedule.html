@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
 <html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 
 <head>
@@ -11,6 +9,121 @@
 
 </head>
 <body>
+<div th:replace="~{/layout/Header :: header}"></div>
 
+<div class="modal-content1" style="margin-bottom: -50px">
+    <th:block th:each="movie : ${listmovie}">
+        <h3>LỊCH CHIẾU - PHIM [[${movie.name}]]</h3>
+    </th:block>
+    <hr style="margin-bottom: 20px;">
+    <th:block th:each="cinema : ${listcinema}">
+        <b>Rạp [[${cinema.name}]] </b>
+    </th:block>
+
+    <hr style="opacity: 0.2; margin-top: 5px;">
+
+    <div>
+        <!-- Tabs menu -->
+        <div class="tabs" id="statr_at">
+            <th:block th:each="startAt : ${listStartAt}">
+                <div class="tab-item active" id="listDate">
+                    Thứ [[${startAt}]]
+                </div>
+            </th:block>
+            <div class="line"></div>
+        </div>
+
+        <!-- Tab content -->
+        <div class="tab-content">
+            <div class="tab-pane active">
+                <h2>2D PHỤ ĐỀ</h2>
+                <br>
+                <div class="time_seat" id="list_time">
+                    <th:block th:each="start_at : ${listTime}">
+                        <div class="time">
+                            <button data-modal-target="modal3">[[${start_at}]]</button>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<a th:href="@{/lichchieu(movieId=${session['movieId']})     }">Link đến Cinema</a>-->
+<!--<a th:href="@{'http://localhost:8080/api/schedule/time?movieId=' + ${session.movieId} + '&cinemaId=' + ${session.cinemaId} }">Click here</a>-->
+<div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<!--<script th:src="@{/users/js/web.js}"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    function callAPI() {
+        var divElement = document.getElementById('listDate');
+        var data = divElement.innerText;
+        console.log(data)
+        console.log("da goi duoc api!")
+        $.ajax({
+            url: "http://localhost:8080/api/schedule/time?movieId=[[${movieId}]]&cinemaId=[[${cinemaId}]]&start_at=" + $("#listDate").find(".active").text().trim(),
+            // url: "http://localhost:8080/api/schedule/time?movieId=620fd4cb-bbae-46d9-ac61-1a7c9bd55083&cinemaId=3bb68911-8f8f-4131-a837-53b1a950ecad&start_at=2%20-%2011%2F09",
+            // + $("#listDate").find(".active").text().trim(),
+            type: 'GET',
+
+            success: function (data) {
+                console.log("data: " + data)
+                $("#list_time").html("");
+                data.forEach(start_at => {
+                    $("#list_time").append("<div class='time' >" + "<button>" + start_at + "</button>" + "</div>")
+                });
+            },
+            error: function (error) {
+                alert(error)
+            }
+        })
+    }
+
+
+    $(document).ready(function () {
+        $('#listDate').on('change', function () {
+            // alert( this.value ); // or $(this).val()
+            callAPI();
+        });
+    });
+
+    // chọn giờ chiếu
+    const $1 = document.querySelector.bind(document)
+    const $$2 = document.querySelectorAll.bind(document)
+
+    const tabActive = $1('.tab-item.active');
+    const line = $1('.tabs .line')
+
+    line.style.left = tabActive.offsetLeft + 'px';
+    line.style.width = tabActive.offsetWidth + 'px';
+
+
+    const tabs = $$2('.tab-item')
+    const panes = $$2('.tab-pane')
+
+    tabs.forEach((tab, index) => {
+        const pane = panes[index];
+
+        tab.onclick = function () {
+            $1('.tab-item.active').classList.remove(callAPI());
+            $1('.tab-pane.active').classList.remove(callAPI());
+
+            line.style.left = this.offsetLeft - 5 + 'px';
+            line.style.width = this.offsetWidth + 'px';
+
+            this.classList.add(callAPI());
+            // pane.classList.add('active');
+        }
+    });
+
+
+    // <!--    -->
+
+    //
+
+</script>
 </html>
