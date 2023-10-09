@@ -41,10 +41,6 @@ public class Seat {
     @Column(name = "number")
     private Integer number;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_type_id")
-    private SeatType seatType;
-
     @Column(name = "line")
     private String line;
 
