@@ -55,9 +55,6 @@ public class Bill {
             cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BillFood> listBillFood;
 
-    @Column(name = "promotion_id")
-    private Long promotionId;
-
     @Column(name = "date_create")
     private Date dateCreate;
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.Timer;
 
@@ -20,6 +21,9 @@ public class GeneralSetting {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private String id;
+
+    @Column(name = "fixed_ticket_price")
+    private BigDecimal fixedTicketPrice;
 
     // Giờ bắt đầu thay đổi
     @Column(name = "time_begins_to_change")
