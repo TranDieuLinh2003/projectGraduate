@@ -8,7 +8,7 @@ import java.util.List;
 public interface SeatService {
     List<Seat> getAll();
 
-    Seat save(Integer lineNumber, Integer number, String idSeatType, String idRoom);
+    Seat save(Integer lineNumber, Integer number, String idRoom);
 
     Seat update(String id, Seat seat);
 
