@@ -91,7 +91,14 @@ public class MovieServiceImpl implements MovieService {
         movieNew.setTrailer(movie.getTrailer());
         movieNew.setPremiereDate(movie.getPremiereDate());
         movieNew.setEndDate(movie.getEndDate());
-        movieNew.setStatus(movie.getStatus());
+        java.util.Date date = new java.util.Date();
+        if (date.after(movie.getEndDate())) {
+            movie.setStatus("Đã chiếu");
+        } else if (date.before(movie.getPremiereDate())) {
+            movie.setStatus("Sắp chiếu");
+        } else {
+            movie.setStatus("Đang chiếu");
+        }       
         movieNew.setEndDate(movie.getEndDate());
         movieNew.setDirector(movie.getDirector());
         movieNew.setPerformers(movie.getPerformers());
