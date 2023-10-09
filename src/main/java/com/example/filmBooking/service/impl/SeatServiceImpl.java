@@ -37,7 +37,6 @@ public class SeatServiceImpl implements SeatService {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
-        SeatType seatType = seatTypeRepository.findById(idSeatType).get();
         //Tạo mảng line
         List<Character> listLine = new ArrayList<>();
         //Thêm dữ liệu vào line
