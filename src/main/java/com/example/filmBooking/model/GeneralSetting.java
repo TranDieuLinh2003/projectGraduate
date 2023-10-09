@@ -21,6 +21,9 @@ public class GeneralSetting {
     @Column(name = "id")
     private String id;
 
+    @Column(name = "fixed_ticket_price")
+    private BigDecimal fixedTicketPrice;
+    
     // Giờ bắt đầu thay đổi
     @Column(name = "time_begins_to_change")
     @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
