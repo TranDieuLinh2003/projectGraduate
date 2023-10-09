@@ -90,15 +90,7 @@ public class MovieServiceImpl implements MovieService {
         movieNew.setMovieDuration(movie.getMovieDuration());
         movieNew.setTrailer(movie.getTrailer());
         movieNew.setPremiereDate(movie.getPremiereDate());
-        movieNew.setEndDate(movie.getEndDate());
-        java.util.Date date = new java.util.Date();
-        if (date.after(movie.getEndDate())) {
-            movie.setStatus("Đã chiếu");
-        } else if (date.before(movie.getPremiereDate())) {
-            movie.setStatus("Sắp chiếu");
-        } else {
-            movie.setStatus("Đang chiếu");
-        }       
+        movieNew.setEndDate(movie.getEndDate());     
         movieNew.setEndDate(movie.getEndDate());
         movieNew.setDirector(movie.getDirector());
         movieNew.setPerformers(movie.getPerformers());
@@ -107,6 +99,14 @@ public class MovieServiceImpl implements MovieService {
         movieNew.setMovieType(movie.getMovieType());
         movieNew.setDescription(movie.getDescription());
         movieNew.setRated(movie.getRated());
+        java.util.Date date = new java.util.Date();
+        if (date.after(movie.getEndDate())) {
+            movie.setStatus("Đã chiếu");
+        } else if (date.before(movie.getPremiereDate())) {
+            movie.setStatus("Sắp chiếu");
+        } else {
+            movie.setStatus("Đang chiếu");
+        }  
         return repository.save(movieNew);
     }
 
