@@ -33,7 +33,7 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Seat save(Integer lineNumber, Integer number, String idSeatType, String idRoom) {
+    public Seat save(Integer lineNumber, Integer number, String idRoom) {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
@@ -49,7 +49,6 @@ public class SeatServiceImpl implements SeatService {
         for (char i = 'A'; i <= line - 1; i++) {
             for (int j = 1; j <= number; j++) {
                 seat.setId(UUID.randomUUID().toString());
-                seat.setSeatType(seatTypeRepository.findById(idSeatType).get());
                 seat.setRoom(roomRepository.findById(idRoom).get());
                 seat.setCode(i + "" + j);
                 seat.setLine(i + "");
