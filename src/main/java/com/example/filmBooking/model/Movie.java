@@ -49,6 +49,7 @@ public class Movie {
     @Column(name = "status")
     private String status;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "rated_id")
     private Rated rated;
