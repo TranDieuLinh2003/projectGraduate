@@ -3,10 +3,8 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
-import com.example.filmBooking.model.SeatType;
 import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.SeatRepository;
-import com.example.filmBooking.repository.SeatTypeRepository;
 import com.example.filmBooking.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +19,6 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private SeatRepository seatRepository;
 
-    @Autowired
-    private SeatTypeRepository seatTypeRepository;
     @Autowired
     private RoomRepository roomRepository;
 
