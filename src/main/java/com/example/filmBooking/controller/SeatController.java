@@ -43,11 +43,11 @@ public class SeatController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("idSeatType") String idSeatType, @RequestParam("idRoom") String idRoom) {
+    public ResponseEntity<Object> save(@RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("idRoom") String idRoom) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(seatService.save(lineNumber, number, idSeatType, idRoom));
+        responseBean.setData(seatService.save(lineNumber, number, idRoom));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

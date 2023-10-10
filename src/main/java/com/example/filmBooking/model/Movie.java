@@ -1,6 +1,7 @@
 package com.example.filmBooking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@ToString
+//@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -3,7 +3,6 @@ package com.example.filmBooking.model.dto;
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Room;
-import com.example.filmBooking.model.SeatType;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,5 +19,4 @@ public class ScheduleDto {
     private Cinema cinema;
     private Room room;
     private Movie movie;
-    private SeatType seatType;
 }

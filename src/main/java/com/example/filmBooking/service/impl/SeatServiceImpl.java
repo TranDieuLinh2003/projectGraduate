@@ -3,10 +3,8 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
-import com.example.filmBooking.model.SeatType;
 import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.SeatRepository;
-import com.example.filmBooking.repository.SeatTypeRepository;
 import com.example.filmBooking.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,6 @@ public class SeatServiceImpl implements SeatService {
     private SeatRepository seatRepository;
 
     @Autowired
-    private SeatTypeRepository seatTypeRepository;
-    @Autowired
     private RoomRepository roomRepository;
 
 
@@ -37,7 +33,6 @@ public class SeatServiceImpl implements SeatService {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
-        SeatType seatType = seatTypeRepository.findById(idSeatType).get();
         //Tạo mảng line
         List<Character> listLine = new ArrayList<>();
         //Thêm dữ liệu vào line
