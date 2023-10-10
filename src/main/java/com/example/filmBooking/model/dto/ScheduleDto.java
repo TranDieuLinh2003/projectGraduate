@@ -20,5 +20,4 @@ public class ScheduleDto {
     private Cinema cinema;
     private Room room;
     private Movie movie;
-    private SeatType seatType;
 }
