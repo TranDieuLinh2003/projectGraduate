@@ -3,6 +3,7 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.GeneralSetting;
 
 import java.util.List;
+import java.math.BigDecimal;
 
 
 public interface GeneralSettingService {
