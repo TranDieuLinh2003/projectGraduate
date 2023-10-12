@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 
 @Controller
 @CrossOrigin("*")
@@ -31,23 +32,29 @@ public class GeneralSettingController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setCode(HttpStatus.OK.toString());
-        responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.save(GeneralSetting));
-        return new ResponseEntity<>(responseBean, HttpStatus.OK);
-    }
+    // @PostMapping("/save")
+    // @Operation(summary = "[Thêm mới]")
+    // public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
+    //     ResponseBean responseBean = new ResponseBean();
+    //     responseBean.setCode(HttpStatus.OK.toString());
+    //     responseBean.setMessage("SUCCESS");
+    //     responseBean.setData(service.save(GeneralSetting));
+    //     return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    // }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid GeneralSetting GeneralSetting) {
+    public ResponseEntity<Object> update(@RequestParam("gio1") Integer gio1, @RequestParam("phut1") Integer phut1,
+                                         @RequestParam("gio2") Integer gio2, @RequestParam("phut2") Integer phut2,
+                                         @RequestParam("gio3") Integer gio3, @RequestParam("phut3") Integer phut3,
+                                         @RequestParam("fixedTicketPrice") BigDecimal fixedTicketPrice,
+                                         @RequestParam("percentDay") Integer percentDay,
+                                         @RequestParam("percentWeekend") Integer percentWeekend,
+                                         @RequestParam("breakTime") Integer breakTime) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(id, GeneralSetting));
+        responseBean.setData(service.update(gio1, phut1, gio2, phut2, gio3, phut3, fixedTicketPrice, percentDay, percentWeekend, breakTime));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
