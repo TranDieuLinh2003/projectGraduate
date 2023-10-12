@@ -232,6 +232,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(fixedPrice);
         // Lấy mốc thời gian bắt đầu tăng giá trong ngày
         LocalTime timeBeginsToChange = findByIdSetting().getTimeBeginsToChange();
+        // Mốc thời gian kết thúc tăng giá
+        LocalTime endDay = findByIdSetting().getCloseTime();
         // Lấy tỷ lệ phần trăm tăng giá sau 17 giờ
         double percentDay = (double) findByIdSetting().getPercentDay() / 100;
         BigDecimal priceDay = fixedPrice.multiply(BigDecimal.valueOf(percentDay));
@@ -245,7 +247,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         // Kiểm tra xem ngày hiện tại có phải là cuối tuần hay không
         if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
             // Kiểm tra xem giờ bắt đầu của lịch có lớn hơn hoặc bằng thời gian bắt đầu thay đổi không
-            if (currentDate.getHour() >= timeBeginsToChange.getHour()) {
+            if (currentDate.getHour() >= timeBeginsToChange.getHour()&& currentDate.getHour() <= endDay.getHour()) {
                 // Thay đổi giá theo tỷ lệ phần trăm tăng giá cuối tuần sau 17 giờ
                 newPrice = fixedPrice.add(priceWeekend).add(priceDay);
                 System.out.println("Giá vé cuối tuần sau 17:00: " + newPrice);
@@ -256,7 +258,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         } else {
             // Kiểm tra xem giờ bắt đầu của lịch có lớn hơn hoặc bằng thời gian bắt đầu thay đổi và nhỏ hơn hoặc bằng 2 không
-            if (currentDate.getHour() >= timeBeginsToChange.getHour()) {
+            if (currentDate.getHour() >= timeBeginsToChange.getHour()&& currentDate.getHour() <= endDay.getHour()) {
                 // Thay đổi giá theo tỷ lệ phần trăm tăng giá sau 17 giờ
                 newPrice = fixedPrice.add(priceDay);
                 System.out.println("Giá vé sau 17:00: " + newPrice);
