@@ -10,7 +10,7 @@ import java.util.List;
 public interface ScheduleService {
     List<Schedule> findAll();
 
-    String save(Schedule schedule) throws ParseException;
+    String save(Schedule schedule);
 
     Schedule update(String id, Schedule schedule);
 

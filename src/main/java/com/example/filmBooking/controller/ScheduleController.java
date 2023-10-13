@@ -55,8 +55,8 @@ public class ScheduleController {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-//        responseBean.setData(ticketService.autoSave(service.save(schedule)));
-        responseBean.setData(service.save(schedule));
+        service.save(schedule);
+        responseBean.setData(ticketService.autoSave(service.save(schedule)));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 

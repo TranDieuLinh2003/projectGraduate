@@ -251,10 +251,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         return repository.getTime(movieId, cinemaId, start_at);
     }
 
-    @Override
-    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
-        return repository.getSchedule(movieId,cinemaId,startAt,startTime);
-    }
 
 
 }

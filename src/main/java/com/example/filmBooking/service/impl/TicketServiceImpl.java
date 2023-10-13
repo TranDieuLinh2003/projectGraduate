@@ -38,6 +38,7 @@ public class TicketServiceImpl implements TicketService {
         return repository.findAll();
     }
 
+
     @Override
     public Ticket autoSave(String idSchedule) {
         Schedule schedule = scheduleRepository.findById(idSchedule);
