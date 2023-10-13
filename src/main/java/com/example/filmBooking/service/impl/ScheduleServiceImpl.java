@@ -42,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public String save(Schedule schedule) throws ParseException {
+    public String save(Schedule schedule) {
         //tạo mã suất chiếu
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
@@ -251,6 +251,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         return repository.getTime(movieId, cinemaId, start_at);
     }
 
+    @Override
+    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
+        return repository.getSchedule(movieId,cinemaId,startAt,startTime);
+    }
 
 
 }
