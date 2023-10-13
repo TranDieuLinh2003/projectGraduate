@@ -28,9 +28,6 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
     @Override
     public List<Seat> getAll() {
         return seatRepository.findAll();
