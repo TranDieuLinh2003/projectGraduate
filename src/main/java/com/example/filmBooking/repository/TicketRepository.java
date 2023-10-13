@@ -13,4 +13,7 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
 
     @Query(nativeQuery = true, value = str_findBySchedule)
     List<Ticket> findBySchedule(@Param("scheduleId") String scheduleId);
+    List<Ticket> findTicketByScheduleId(String scheduleId);
+    List<Ticket> findTicketByScheduleIdAndSeatId(String scheduleId, String seatId);
+
 }
