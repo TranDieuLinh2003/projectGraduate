@@ -22,6 +22,14 @@ public class SeatServiceImpl implements SeatService {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<Seat> getAll() {
