@@ -15,4 +15,8 @@ public interface SeatService {
     void delete(String id);
 
     Seat findById(String id);
+
+    List<SeatDTO> getSeatsByScheduleId(String scheduleId);
+
+    List<Object[]> getSeatsByCustomerId(String customerId);
 }

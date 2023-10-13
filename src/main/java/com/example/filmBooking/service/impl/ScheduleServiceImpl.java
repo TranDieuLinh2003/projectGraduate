@@ -42,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public String save(Schedule schedule) throws ParseException {
+    public String save(Schedule schedule) {
         //tạo mã suất chiếu
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
@@ -192,12 +192,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime finishAt = schedule.getFinishAt();
         LocalTime scheduleStart = LocalTime.from(startAt.atZone(ZoneId.systemDefault()));
         LocalTime scheduleFinish = LocalTime.from(finishAt.atZone(ZoneId.systemDefault()));
-        LocalTime startDay = LocalTime.of(8, 0);
-        LocalTime endDay = LocalTime.of(2, 0);
+        LocalTime startDay = LocalTime.of(8, 00);
+        LocalTime endDay = LocalTime.of(2, 00);
         if (scheduleStart.isBefore(endDay) && scheduleFinish.isBefore(endDay)) {
             System.out.println("1");
             return true;
-        } else if (scheduleStart.isAfter(startDay) && scheduleFinish.isAfter(startDay)) {
+        } else if (scheduleStart.isAfter(startDay)||scheduleStart.equals(startDay) && scheduleFinish.isAfter(startDay)) {
             System.out.println("2");
             return true;
         } else if (scheduleStart.isBefore(endDay) && scheduleFinish.isAfter(startDay)) {
@@ -224,9 +224,9 @@ public class ScheduleServiceImpl implements ScheduleService {
                 int movieDuration = movie.getMovieDuration(); // Thời lượng phim (tính bằng phút)
                 LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + 15); // Thời gian kết thúc = thời lượng phim + 15 phút
 
-//                if (currentEndTime.isAfter(endTime)) {
-//                    break; // Nếu thời gian kết thúc của suất chiếu sau vượt quá thời gian kết thúc của ngày, thoát khỏi vòng lặp
-//                }
+                if (currentEndTime.isAfter(endTime)) {
+                    break; // Nếu thời gian kết thúc của suất chiếu sau vượt quá thời gian kết thúc của ngày, thoát khỏi vòng lặp
+                }
                 schedule.setFinishAt(currentEndTime);
 
                 // Lưu vào cơ sở dữ liệu hoặc thực hiện các xử lý khác tại đây
@@ -240,9 +240,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(newList);
         return newList;
     }
- @Override
+    @Override
     public List<String> getStart_At(String movieId, String cinemaId) {
-       return repository.getstartAtAndFinishAt(movieId, cinemaId);
+        return repository.getstartAtAndFinishAt(movieId, cinemaId);
     }
 
     @Override
@@ -251,7 +251,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return repository.getTime(movieId, cinemaId, start_at);
     }
 
-    
+    @Override
+    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
+        return repository.getSchedule(movieId,cinemaId,startAt,startTime);
+    }
+
 
 }
 

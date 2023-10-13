@@ -10,7 +10,7 @@ import java.util.List;
 public interface ScheduleService {
     List<Schedule> findAll();
 
-    String save(Schedule schedule) throws ParseException;
+    String save(Schedule schedule);
 
     Schedule update(String id, Schedule schedule);
 
@@ -23,4 +23,6 @@ public interface ScheduleService {
     List<String> getStart_At(String movieId, String cinemaId);
 
     List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
+
+    List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime);
 }

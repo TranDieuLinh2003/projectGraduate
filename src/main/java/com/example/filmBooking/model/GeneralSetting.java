@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Calendar;
 import java.util.Timer;
 
 @Entity
@@ -24,11 +27,19 @@ public class GeneralSetting {
 
     @Column(name = "fixed_ticket_price")
     private BigDecimal fixedTicketPrice;
-    
+
     // Giờ bắt đầu thay đổi
     @Column(name = "time_begins_to_change")
-    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+//    @JsonFormat(pattern = "HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private LocalTime timeBeginsToChange;
+
+    //Giờ mở cửa
+    @Column(name = "business_hours")
+    private LocalTime businessHours;
+
+    //Giờ đóng cửa
+    @Column(name = "close_time")
+    private LocalTime closeTime;
 
     // phần trăm
     @Column(name = "percent_day")

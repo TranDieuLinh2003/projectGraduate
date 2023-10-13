@@ -6,6 +6,8 @@ import com.example.filmBooking.service.GeneralSettingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -29,12 +31,21 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
     }
 
     @Override
-    public GeneralSetting update(String id, GeneralSetting generalSetting) {
-        GeneralSetting generalSettingNew = findById(id);
-        generalSettingNew.setTimeBeginsToChange(generalSetting.getTimeBeginsToChange());
-        generalSettingNew.setBreakTime(generalSetting.getBreakTime());
-        generalSettingNew.setPercentDay(generalSetting.getPercentDay());
-        generalSettingNew.setPercentWeekend(generalSetting.getPercentWeekend());
+    public GeneralSetting update(Integer gio1, Integer phut1,
+                                 Integer gio2, Integer phut2,
+                                 Integer gio3, Integer phut3,
+                                 BigDecimal fixedTicketPrice,
+                                 Integer percentDay,
+                                 Integer percentWeekend,
+                                 Integer breakTime) {
+        GeneralSetting generalSettingNew = findById("613d6a30-167e-4b7c-985e-b510dc9bae25");
+        generalSettingNew.setTimeBeginsToChange(LocalTime.of(gio1, phut1));
+        generalSettingNew.setBusinessHours(LocalTime.of(gio2, phut2));
+        generalSettingNew.setCloseTime(LocalTime.of(gio3, phut3));
+        generalSettingNew.setFixedTicketPrice(fixedTicketPrice);
+        generalSettingNew.setBreakTime(breakTime);
+        generalSettingNew.setPercentDay(percentDay);
+        generalSettingNew.setPercentWeekend(percentWeekend);
         return repository.save(generalSettingNew);
     }
 
