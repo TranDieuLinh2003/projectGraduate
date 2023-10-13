@@ -76,4 +76,31 @@ public class SeatServiceImpl implements SeatService {
     public Seat findById(String id) {
         return seatRepository.findById(id).get();
     }
+    
+    @Override
+    public List<SeatDTO> getSeatsByScheduleId(String scheduleId) {
+        Room room = scheduleRepository.getById(scheduleId).getRoom();
+
+        List<Seat> listSeat = seatRepository.getSeatByRoomId(room.getId());
+
+        List<Seat> occupiedSeats = ticketRepository.findTicketByScheduleId(scheduleId)
+                .stream().map(ticket -> ticket.getSeat())
+                .collect(Collectors.toList());
+        List<SeatDTO> filteredSeats = listSeat.stream().map(seat -> {
+                    SeatDTO seatDTO = modelMapper.map(seat, SeatDTO.class);
+                    if (occupiedSeats.stream()
+                            .map(occupiedSeat -> occupiedSeat.getId())
+                            .collect(Collectors.toList()).contains(seat.getId())) {
+                        seatDTO.setIsOccupied(1);
+                    }
+                    return seatDTO;
+                }
+        ).collect(Collectors.toList());
+        return filteredSeats;
+    }
+
+    @Override
+    public List<Object[]> getSeatsByCustomerId(String customerId) {
+        return seatRepository.findSeatsByCustomerId(customerId);
+    }
 }

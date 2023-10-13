@@ -81,5 +81,22 @@ public class SeatController {
         responseBean.setData(seatService.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-
+     @GetMapping("/getSeatsByScheduleId/{scheduleId}")
+    @Operation(summary = "[Lấy danh sách ghế theo ID lịch chiếu]")
+    public ResponseEntity<?> getSeatsByScheduleId(@PathVariable("scheduleId") String scheduleId) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(seatService.getSeatsByScheduleId(scheduleId));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+    @GetMapping("/getSeatsByCustomerId/{customerId}")
+    @Operation(summary = "[Lấy danh sách ghế theo ID khách hàng]")
+    public ResponseEntity<?> getSeatsByCustomerId(@PathVariable("customerId") String customerId) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(seatService.getSeatsByCustomerId(customerId));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
 }
