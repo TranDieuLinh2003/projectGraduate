@@ -120,7 +120,6 @@ public class BookingControllerApi {
                 Food[].class);
         model.addAttribute("listFood", listFood.getBody())    ;
         session.setAttribute("listFood",  listFood.getBody());
-        System.out.println(listFood.getBody());
 
         return "users/DatVe";
     }

@@ -59,7 +59,7 @@
                     <!--                    style=" pointer-events: none;"-->
                     <div class="row">
                         <th:block th:each="seat : ${listA}">
-                            <div class="seat"  onclick="hienGiaMoi(this)"> [[${seat.code}]]</div>
+                            <div class="seat" onclick="hienGiaMoi(this)"> [[${seat.code}]]</div>
                         </th:block>
                     </div>
                     <div class="row">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="row">
                         <th:block th:each="seat : ${listC}">
-                            <div class="seat occupied" onclick="hienGiaMoi(this)"> [[${seat.code}]]</div>
+                            <div class="seat " onclick="hienGiaMoi(this)"> [[${seat.code}]]</div>
                         </th:block>
                     </div>
                     <div class="row">
@@ -129,12 +129,12 @@
             </div>
             <div class="tt-2">
                 <b> Ghế : </b>
-                <p id="price_quantity"> </p>
+                <p id="price_quantity"></p>
 
             </div>
             <hr style="opacity: 0.4; width: 900px;">
             <div class="combo">
-                <h3><img  th:src="@{/users/img/combo.png}" width="30px" height="35px" alt=""> COMBO ƯU ĐÃI </h3>
+                <h3><img th:src="@{/users/img/combo.png}" width="30px" height="35px" alt=""> COMBO ƯU ĐÃI </h3>
             </div>
             <div class="combo_tt">
                 <p>Hình ảnh </p>
@@ -144,15 +144,15 @@
             </div>
             <hr style="opacity: 0.6; width: 900px;">
             <th:block th:each="food : ${listFood}">
-            <div class="combo_tt">
-                <img th:src="${food.image}" alt="" width="70px" height="70px">
-                <b>[[${food.name}]] </b>
-                <p class="mot">[[${food.description}]] </p>
-                <div class="cart-quantity cart-column">
-                    <input class="cart-quantity-input" type="number" min="0" value="0">
+                <div class="combo_tt">
+                    <img th:src="${food.image}" alt="" width="70px" height="70px">
+                    <b>[[${food.name}]] </b>
+                    <p class="mot">[[${food.description}]] </p>
+                    <div class="cart-quantity cart-column">
+                        <input class="cart-quantity-input" type="number" min="0" value="0">
+                    </div>
                 </div>
-            </div>
-            <hr style="opacity: 0.6; width: 900px;">
+                <hr style="opacity: 0.6; width: 900px;">
             </th:block>
 
             <!--  -->
@@ -219,11 +219,11 @@
             <hr style="opacity: 0.4; width: 900px;">
             <div class="sum">
                 <p>Tổng tiền:</p>
-                <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="tongtien" >  </p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="tongtien"></p>
                 <p>Số tiền được giảm:</p>
                 <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>
                 <p>Số tiền cần thanh toán:</p>
-                <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="thanhtien"> </p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="thanhtien"></p>
             </div>
             <!--  -->
             <hr style="opacity: 0.1; width: 900px;">
@@ -235,12 +235,12 @@
                 <div style="display: grid;
                     grid-template-columns: 0.3fr 0.3fr ;">
                     <div class="cartt_radio">
-                        <input type="radio" name="optradio" checked> <img  th:src="@{/users/img/the1.png}" alt=""
+                        <input type="radio" name="optradio" checked> <img th:src="@{/users/img/the1.png}" alt=""
                                                                           width="50px"
                                                                           height="45px"> Thẻ nội địa</label>
                     </div>
                     <div class="cartt_radio">
-                        <input type="radio" name="optradio"> <img  th:src="@{/users/img/the2.png}" alt="" width="50px"
+                        <input type="radio" name="optradio"> <img th:src="@{/users/img/the2.png}" alt="" width="50px"
                                                                   height="45px"> Momo</label>
                     </div>
                 </div>
@@ -309,7 +309,8 @@
         // Sử dụng dữ liệu trong JavaScript
     }
     var priceticket = schedule.price;
-    var numberWithCommas =  new Intl.NumberFormat().format(priceticket);;
+    var numberWithCommas = new Intl.NumberFormat().format(priceticket);
+    ;
     var price_ticket = numberWithCommas;
     // price.textContent = "Giá: " + price_ticket;
     var daThayDoi = false;
@@ -363,10 +364,10 @@
             let formattedTotalPrice = summoney.toFixed(3);
             total.textContent = "Tổng tiền: " + formattedTotalPrice + " vnd";
 
-            var number = selectedSeatsCount +  " x " + price_ticket + " = " + formattedTotalPrice + " vnd";
+            var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice + " vnd";
 
             price_quantity.textContent = number;
-            tongtien.textContent =  formattedTotalPrice + " vnd";
+            tongtien.textContent = formattedTotalPrice + " vnd";
             thanhtien.textContent = formattedTotalPrice + " vnd";
         }
 
@@ -380,22 +381,55 @@
         // Sử dụng dữ liệu trong JavaScript
     }
     var priceFood = food.price;
-    console.log(priceFood);
+    // console.log(priceFood);
 
     // lấy ra số lượng food nhập
-    let quantityInput = document.querySelector('.cart-quantity-input');
 
-    quantityInput.addEventListener('change', function() {
-        let selectedQuantity = parseInt(quantityInput.value);
-        let formattedTotalPriceFood = selectedQuantity.toFixed(3);
-        const tongtien = document.getElementById("tongtien").innerText;
-        const tongtien1 = document.getElementById("tongtien");
-        const thanhtien = document.getElementById("thanhtien");
+    var quantityInputs = document.getElementsByClassName("cart-quantity-input");
 
-        tongtien1.innerText = tongtien + formattedTotalPriceFood;
+    // Add event listeners to each input element
+    for (var i = 0; i < quantityInputs.length; i++) {
+        quantityInputs[i].addEventListener("change", handleQuantityChange);
+    }
 
-        console.log(selectedQuantity);
-        console.log( tongtien1.innerText = tongtien + formattedTotalPriceFood);
-    });
+    // Event listener function to handle quantity changes
+    function handleQuantityChange(event) {
+        var inputElement = event.target; // Element that triggered the event
+        var quantity = inputElement.value; // Get the current value
+
+        var priceElement = document.getElementById("tongtien");
+        var priceValue = priceElement.textContent;
+        var price = parseFloat(priceValue.replace(/[^\d]/g, "")).toFixed(0);
+        var formattedPrice = price.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+
+
+        var sumFood = quantity * priceFood;
+
+        // Loại bỏ số 0 cuối
+        var number = Number(sumFood);
+        var formattedNumber = number.toString();
+
+// Thêm dấu chấm để cách 3 số một lần
+        var formattedOutput = "";
+        for (var i = formattedNumber.length - 1; i >= 0; i--) {
+            formattedOutput = formattedNumber[i] + formattedOutput;
+            if ((formattedNumber.length - i) % 3 === 0 && i !== 0) {
+                formattedOutput = "." + formattedOutput;
+            }
+        }
+
+        // console.log(formattedOutput);
+        // console.log(formattedPrice);
+        const updatetongtien = document.getElementById("tongtien");
+        const updatethanhtien= document.getElementById("thanhtien");
+
+        var sumsum = parseFloat(formattedPrice)  + parseFloat(formattedOutput);
+
+        let formattedTotalSumsum = sumsum.toFixed(3);
+        console.log(formattedTotalSumsum)
+        updatetongtien.textContent =formattedTotalSumsum + " vnđ";
+        updatethanhtien.textContent =formattedTotalSumsum + " vnđ";
+    }
 </script>
 </html>
