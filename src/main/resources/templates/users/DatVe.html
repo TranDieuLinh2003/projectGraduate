@@ -360,7 +360,7 @@
             total.textContent = "";
         } else {
             count.textContent = "Tổng số ghế chọn: " + selectedSeatsCount;
-            var summoney = parseFloat(selectedSeatsCount) * parseFloat(price_ticket);
+            var summoney = parseFloat(selectedSeatsCount) * price_ticket;
             let formattedTotalPrice = summoney.toFixed(3);
             total.textContent = "Tổng tiền: " + formattedTotalPrice + " vnd";
             console.log(formattedTotalPrice)
