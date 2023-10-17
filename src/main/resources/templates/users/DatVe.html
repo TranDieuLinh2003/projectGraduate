@@ -309,8 +309,9 @@
         // Sử dụng dữ liệu trong JavaScript
     }
     var priceticket = schedule.price;
+
     var numberWithCommas = new Intl.NumberFormat().format(priceticket);
-    ;
+
     var price_ticket = numberWithCommas;
     // price.textContent = "Giá: " + price_ticket;
     var daThayDoi = false;
@@ -360,10 +361,10 @@
             total.textContent = "";
         } else {
             count.textContent = "Tổng số ghế chọn: " + selectedSeatsCount;
-            var summoney = parseInt(selectedSeatsCount) * parseInt(price_ticket);
+            var summoney = parseInt(selectedSeatsCount) * parseFloat(price_ticket);
             let formattedTotalPrice = summoney.toFixed(3);
             total.textContent = "Tổng tiền: " + formattedTotalPrice + " vnd";
-            console.log(formattedTotalPrice)
+            console.log(summoney)
             var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice + " vnd";
 
             price_quantity.textContent = number;
