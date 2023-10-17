@@ -1,9 +1,12 @@
 package com.example.filmBooking.apis;
 
 import com.example.filmBooking.model.*;
-import com.example.filmBooking.service.impl.MovieServiceImpl;
-import com.example.filmBooking.service.impl.RoomServiceImpl;
+import com.example.filmBooking.model.dto.DtoSeat;
+
+import com.example.filmBooking.repository.FootRepository;
+import com.example.filmBooking.service.impl.FoodServiceImpl;
 import com.example.filmBooking.service.impl.ScheduleServiceImpl;
+import com.example.filmBooking.service.impl.SeatServiceImpl;
 import com.example.filmBooking.service.impl.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,14 +26,32 @@ public class TicketApi {
     @Autowired
     private ScheduleServiceImpl scheduleService;
 
+    @Autowired
+    private SeatServiceImpl seatService;
+
+    @Autowired
+    private FootRepository foodService;
 
     @GetMapping("/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
                                                        @RequestParam String movieId,
                                                        @RequestParam String startAt,
                                                        @RequestParam String startTime) {
-        return new ResponseEntity<>(scheduleService.getSchedule(cinemaId, movieId, startAt,startTime), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.getSchedule(cinemaId, movieId, startAt, startTime), HttpStatus.OK);
     }
 
 
+    @GetMapping("/seat")
+    private ResponseEntity<List<DtoSeat>> getSeat(@RequestParam String cinemaId,
+                                                  @RequestParam String movieId,
+                                                  @RequestParam String startAt,
+                                                  @RequestParam String startTime) {
+        return new ResponseEntity<>(seatService.getSeats(cinemaId, movieId, startAt, startTime), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/food")
+    private ResponseEntity<List<Food>> getAllFood() {
+        return new ResponseEntity<>(foodService.findAll(), HttpStatus.OK);
+    }
 }

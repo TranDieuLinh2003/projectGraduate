@@ -1,5 +1,7 @@
 package com.example.filmBooking.model.dto;
 
+import com.example.filmBooking.model.Rated;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,6 @@ public class DtoMovie {
     private String director;
     private String performers;
     private String languages;
-
+    private Rated rated;
 
 }

@@ -35,7 +35,7 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
             "            join projectLinh.seat se on se.id= t.seat_id\n" +
             "            WHERE c.id = :cinemaId AND m.id = :movieId\n" +
             "            AND DATE(s.start_at ) = :startAt \n" +
-            "            AND DATE_FORMAT(s.start_at, '%H:%i') = :startTime");
+            "            AND DATE_FORMAT(s.start_at, '%H:%i') = :startTime ORDER BY se.code ASC");
     @Query(value = seat, nativeQuery = true)
     List<Seat> getSeat(@Param("cinemaId") String cinemaId,
                                @Param("movieId") String movieId,

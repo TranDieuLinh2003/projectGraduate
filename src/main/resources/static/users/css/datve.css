@@ -588,6 +588,9 @@ p.text span {
 
 .text-wrapper {
     margin-top: 50px;
+    /*display: grid;*/
+    /*grid-template-columns: auto auto ;*/
+    /*flex-wrap: nowrap;*/
 }
 .text-wrapper p{
     font-size: 25px;

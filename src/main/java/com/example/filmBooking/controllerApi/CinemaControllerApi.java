@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/rap")
+@RequestMapping("/show/cinema")
 public class CinemaControllerApi {
     @Autowired
     private RestTemplate restTemplate;
