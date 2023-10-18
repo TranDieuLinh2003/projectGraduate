@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/filmbookings")
+@RequestMapping("/food")
 @CrossOrigin("*")
 @Tag(name = "food")
 public class FoodController {
