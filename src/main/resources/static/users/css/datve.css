@@ -698,3 +698,78 @@ p.text span {
         font-size: 18px
     }
 }
+
+
+.error_container{
+    margin:20px;
+    max-height: 100px;
+    max-width:100%;
+    color: white;
+
+
+
+
+}
+.error_block{
+    display: flex;
+    background-color: rgba(217, 4, 41,0.9);
+    justify-content: center;
+    /* align-items: center; */
+    max-width: 25%;
+    /* float: right; */
+    color: white;
+    margin-left: 72%;
+}
+.error_block .error_imager{
+    width: 60px;
+    height: 70px;
+    margin: 10px;
+    z-index: 10000;
+
+}
+.error_message .error_head{
+    margin: 10px 10px 0px 10px;
+    z-index: 10000;
+    font-size: larger;
+}
+.error_message p{
+    margin: 10px;
+    z-index: 10000;
+}
+.error_undo button{
+    padding: 7px;
+    margin: 10px;
+    border: 0.5px solid #fff;
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255,0.3);
+    color:rgb(255, 255, 255);
+    font-weight: 800;
+
+}
+
+@media(max-width:700px){
+    .error_container{
+        position: absolute;
+        max-height: 70px;
+        max-width:70%;
+        left: 50px;
+        color: white;
+        z-index: 10000;
+
+
+
+    }
+    .error .error_head{
+        margin: 10px 10px 0px 10px;
+        font-weight: 600;
+
+        font-size:medium;
+    }
+    .error_message p{
+        font-size: small;
+        margin: 10px;
+    }}
+
+.error_message a{
+    color:#fff
+}

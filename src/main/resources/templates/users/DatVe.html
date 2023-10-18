@@ -7,18 +7,28 @@
     <title>Đặt vé</title>
     <link rel="stylesheet" th:href="@{/users/css/datve.css}">
     <link rel="stylesheet" th:href="@{/users/css/doan.css}">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 
 <body>
 <!-- navbar -->
 <div th:replace="~{/layout/Header :: header}"></div>
 <br>
+<div class="error_container" style=" color: red;position: sticky; top: 0;z-index: 10;display: none;" id="modalView">
+    <div class="error_block">
+        <div class="error_imager">
+            <img src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/000000/external-error-security-flaticons-flat-flat-icons.png"/>
 
-<div style=" color: red;     position: sticky;
-    top: 0;
-    z-index: 10;
-  display: none;" id="message"></div>
+        </div>
+        <div class="error_message">
+            <p class="error_head">Thông báo</p>
+            <p>Khách hàng chưa chọn chỗ ngồi ! </p>
+        </div>
+        <div class="error_undo">
+            <button type="submit" id="butt1">X</button>
+        </div>
+    </div>
+</div>
 <div id="frame">
     <section class="split_frame">
         <!--        đặt vé-->
@@ -84,7 +94,7 @@
                     </div>
                     <hr style="margin-top: 50px; opacity: 0.7; max-width: 100%">
 
-                    <div class="text-wrapper">
+                    <div class="text-wrapper" >
                         <p class="text" id="count" style="margin-left: -10px"></p>
                         <p class="text" id="price"></p>
                         <p class="text" id="total" style="margin-left: -10px"></p>
@@ -147,10 +157,9 @@
                 <div class="combo_tt">
                     <img th:src="${food.image}" alt="" width="70px" height="70px">
                     <b>[[${food.name}]] </b>
-                    <p class="mot">[[${food.description}]] </p>
+                    <p class="mot">[[${food.description}]] => Giá : <b class="priceFood">[[${food.price}]]</b></p>
                     <div class="cart-quantity cart-column">
-                        <input class="cart-quantity-input" type="number" min="0" value="0">
-                    </div>
+                        <input class="cart-quantity-input" type="number" min="0" value="0" onchange="sumFood()"></div>
                 </div>
                 <hr style="opacity: 0.6; width: 900px;">
             </th:block>
@@ -218,12 +227,15 @@
             <br>
             <hr style="opacity: 0.4; width: 900px;">
             <div class="sum">
-                <p>Tổng tiền:</p>
+                <p>Tổng tiền vé :</p>
                 <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="tongtien"></p>
-                <p>Số tiền được giảm:</p>
-                <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>
+<!--                <p>Số tiền được giảm:</p>-->
+<!--                <p style="margin-left: 20px;margin-bottom: 10px; color: red;"> 0 vnđ </p>-->
+                <p>Tổng tiền đồ ăn :</p>
+                <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="totalPrice">0</p>
                 <p>Số tiền cần thanh toán:</p>
                 <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="thanhtien"></p>
+
             </div>
             <!--  -->
             <hr style="opacity: 0.1; width: 900px;">
@@ -287,9 +299,8 @@
                 <p><i class='fa fa-wheelchair'></i> Ghế ngồi </p>
                 <b id="chair"></b>
             </div>
-
-            <button class="cn" id="showDivButton">Tiếp tục</button>
-
+            <button class="cn" id="showDivButton" onclick="showContinueButton()">Tiếp tục</button>
+            <button class="cn" id="comeBack" onclick="showBackButton()" style="display: none;">Quay lại</button>
         </div>
 
     </section>
@@ -303,8 +314,20 @@
 <script th:inline="javascript">
 
 
+    const button1=document.querySelector("#butt1")
+    const container1=document.querySelector(".error_container")
 
-    // lấy ra giá
+    button1.addEventListener("click",()=>{
+        container1.style.display="none"
+    })
+    setTimeout(()=>{
+        container1.style.display="none";
+
+    },4000)
+
+
+
+    // lấy ra giá ghế
     var listScheduleData = [[${listSchedule}]];
     var price = document.getElementById("price");
     for (var i = 0; i < listScheduleData.length; i++) {
@@ -313,13 +336,10 @@
     }
     var priceticket = schedule.price;
 
-    let formattedPriceticket =priceticket.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-    // var numberWithCommas = new Intl.NumberFormat().format(priceticket);
+    let formattedPriceticket = priceticket.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+
 
     var price_ticket = formattedPriceticket;
-    // price.textContent = "Giá: " + price_ticket;
-    var daThayDoi = false;
-
     var clickedSeats = [];
 
     function hienGiaMoi(seat) {
@@ -337,9 +357,17 @@
         if (clickedSeats.length === 0) {
             priceElement.innerHTML = "";
         } else {
-            priceElement.innerHTML = "Giá: " + price_ticket ;
+            priceElement.innerHTML = "Giá: " + price_ticket;
         }
 
+
+    }
+
+    var priceFoodd = document.getElementsByClassName("priceFood");
+    for (var i = 0; i < priceFoodd.length; i++) {
+        var giaTri = parseInt(priceFoodd[i].innerHTML);
+        let formattedGiaTri = giaTri.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+        priceFoodd[i].innerHTML = formattedGiaTri;
 
     }
 
@@ -349,6 +377,7 @@
         const price_quantity = document.getElementById("price_quantity");
         const tongtien = document.getElementById("tongtien");
         const thanhtien = document.getElementById("thanhtien");
+        const price_Food = document.getElementById("priceFood");
         const selectedSeats = document.querySelectorAll(".container .selected");
 
         seatsIndex = [...selectedSeats].map(function (seat) {
@@ -366,77 +395,19 @@
         } else {
             count.textContent = "Tổng số ghế chọn: " + selectedSeatsCount;
             var summoney = selectedSeatsCount * priceticket;
-            let formattedTotalPrice =summoney.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-            total.textContent = "Tổng tiền: " + formattedTotalPrice ;
+            let formattedTotalPrice = summoney.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+            total.textContent = "Tổng tiền: " + formattedTotalPrice;
 
-            var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice ;
+            var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice;
 
             price_quantity.textContent = number;
-            tongtien.textContent = formattedTotalPrice ;
-            thanhtien.textContent = formattedTotalPrice ;
+            tongtien.textContent = formattedTotalPrice;
+            thanhtien.textContent = formattedTotalPrice;
         }
 
     }
 
-    // lấy giá của food
-    var listFood = [[${listFood}]];
-
-    for (var i = 0; i < listFood.length; i++) {
-        var food = listFood[i];
-        // Sử dụng dữ liệu trong JavaScript
-    }
-    var priceFood = food.price;
-    // console.log(priceFood);
-
-    // lấy ra số lượng food nhập
-
-    var quantityInputs = document.getElementsByClassName("cart-quantity-input");
-
-    // Add event listeners to each input element
-    for (var i = 0; i < quantityInputs.length; i++) {
-        quantityInputs[i].addEventListener("change", handleQuantityChange);
-    }
-
-    // Event listener function to handle quantity changes
-    function handleQuantityChange(event) {
-        var inputElement = event.target; // Element that triggered the event
-        var quantity = inputElement.value; // Get the current value
-
-        var priceElement = document.getElementById("total");
-        var priceValue = priceElement.textContent;
-        var price = parseFloat(priceValue.replace(/[^\d]/g, "")).toFixed(0);
-        var formattedPrice = price.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
 
-        var sumFood = quantity * priceFood;
-        // console.log(quantity);
-        // console.log(sumFood);
-
-        // Loại bỏ số 0 cuối
-        var number = Number(sumFood);
-        var formattedNumber = number.toString();
-
-// Thêm dấu chấm để cách 3 số một lần
-        var formattedOutput = "";
-        for (var i = formattedNumber.length - 1; i >= 0; i--) {
-            formattedOutput = formattedNumber[i] + formattedOutput;
-            if ((formattedNumber.length - i) % 3 === 0 && i !== 0) {
-                formattedOutput = "." + formattedOutput;
-            }
-        }
-
-        console.log(formattedOutput);
-        console.log(formattedPrice);
-        const updatetongtien = document.getElementById("tongtien");
-        const updatethanhtien = document.getElementById("thanhtien");
-
-
-        var sumsum = parseFloat(formattedPrice) + parseFloat(formattedOutput);
-        // console.log(sumsum);
-        let formattedTotalSumsum = sumsum.toFixed(9);
-        // console.log(formattedTotalSumsum)
-        updatetongtien.textContent = formattedTotalSumsum + " vnđ";
-        updatethanhtien.textContent = formattedTotalSumsum + " vnđ";
-    }
 </script>
 </html>

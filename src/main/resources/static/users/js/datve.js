@@ -6,18 +6,7 @@ const movieSelect = document.getElementById("movie");
 
 // Another Approach
 
-// seats.forEach(function(seat) {
-//   seat.addEventListener("click", function(e) {
-//     seat.classList.add("selected");
-//     const selectedSeats = document.querySelectorAll(".container .selected");
-//     selectedSeathLength = selectedSeats.length;
-//     count.textContent = selectedSeathLength;
-//     let ticketPrice = +movieSelect.value;
-//     total.textContent = ticketPrice * selectedSeathLength;
-//   });
-// });
 
-// localStorage.clear();
 
 populateUI();
 
@@ -29,18 +18,6 @@ function setMovieData(movieIndex, moviePrice) {
     localStorage.setItem("selectedMoviePrice", moviePrice);
 }
 
-// function updateSelectedCount() {
-//     const selectedSeats = document.querySelectorAll(".container .selected");
-//
-//     seatsIndex = [...selectedSeats].map(function(seat) {
-//         return [...seats].indexOf(seat);
-//     });
-//
-//     localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
-//
-//     let selectedSeatsCount = selectedSeats.length;
-//     count.textContent = selectedSeatsCount;
-// }
 
 // Get data from localstorage and populate
 function populateUI() {
@@ -167,25 +144,6 @@ function toggleSelection() {
 }
 
 
-// Set all seats to the default color when the page is loaded
-// document.addEventListener('DOMContentLoaded', function () {
-//     setSeatsColor('default');
-// });
-//
-// // Function to set the color of all seats
-// function setSeatsColor(color) {
-//     // Get all the seat elements
-//     var seatElements = document.getElementsByClassName('seat');
-//
-//     // Loop through each seat element
-//     for (var i = 0; i < seatElements.length; i++) {
-//         // Remove the 'selected' class if it exists
-//         seatElements[i].classList.remove('selected');
-//
-//         // Set the color of the seat element
-//         seatElements[i].className = 'seat ' + color;
-//     }
-// }
 document.addEventListener('DOMContentLoaded', function() {
     setSeatsColor('default');
 });
@@ -211,13 +169,30 @@ function setSeatsColor(color) {
     }
 }
 // chọn trang
+// document.getElementById('showDivButton').addEventListener('click', function () {
+//     var div1 = document.getElementById('div1');
+//     var div2 = document.getElementById('div2');
+//     var chair = document.getElementById("chair");
+//     var message = document.getElementById('modalView');
+//     if (chair.innerHTML === '') {
+//         // message.innerHTML = "Thông báo: Vui lòng khách hàng chọn ghế";
+//         message.style.display = "block";
+//         div1.style.display = 'block';
+//         div2.style.display = 'none';
+//     } else {
+//         message.innerHTML = "";
+//         div1.style.display = 'none';
+//         div2.style.display = 'block';
+//         document.getElementById("comeBack").style.display = "block";
+//     }
+// });
 document.getElementById('showDivButton').addEventListener('click', function () {
     var div1 = document.getElementById('div1');
     var div2 = document.getElementById('div2');
     var chair = document.getElementById("chair");
-    var message = document.getElementById('message');
+    var message = document.getElementById('modalView');
     if (chair.innerHTML === '') {
-        message.innerHTML = "Thông báo: Vui lòng khách hàng chọn ghế";
+        // message.innerHTML = "Thông báo: Vui lòng khách hàng chọn ghế";
         message.style.display = "block";
         div1.style.display = 'block';
         div2.style.display = 'none';
@@ -225,7 +200,62 @@ document.getElementById('showDivButton').addEventListener('click', function () {
         message.innerHTML = "";
         div1.style.display = 'none';
         div2.style.display = 'block';
+        document.getElementById("comeBack").style.display = "block";
     }
 });
 
+document.getElementById('comeBack').addEventListener('click', function () {
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var chair = document.getElementById("chair");
+    var message = document.getElementById('modalView');
 
+    // Save the selected chair information or other relevant data before going back to the div1
+    // You can store it in a variable or use other appropriate methods
+
+    message.innerHTML = ""; // Clear any error message
+    div1.style.display = 'block'; // Show div1
+    div2.style.display = 'none'; // Hide div2
+    document.getElementById("comeBack").style.display = "none"; // Hide the "comeBack" button
+});
+
+// tính tổng tiền
+function sumFood() {
+    const comboElements = document.getElementsByClassName("combo_tt");
+    let total = 0;
+
+    for (let i = 0; i < comboElements.length; i++) {
+        const quantityElement = comboElements[i].querySelector(".cart-quantity-input");
+        const priceElement = comboElements[i].querySelector(".priceFood");
+
+        if (quantityElement && priceElement) {
+            const quantity = parseInt(quantityElement.value, 10);
+            const priceString = priceElement.innerText;
+
+            const price = parseFloat(priceString.replace("₫", "").replaceAll(".", "").replaceAll(",", "."));
+            total += quantity * price;
+        }
+    }
+
+    const formattedTotalPrice = total.toLocaleString("vi-VN", {
+        style: "currency",
+        currency: "VND",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 9
+    });
+    const totalPriceElement = document.getElementById("totalPrice");
+    var sumMoney = document.getElementById("tongtien").textContent;
+    const intoMoney = document.getElementById("thanhtien");
+    if (totalPriceElement) {
+        totalPriceElement.innerText =  formattedTotalPrice;
+        var number1 = sumMoney;
+        var number2 = formattedTotalPrice;
+        var parsedNumber1 = parseFloat(number1.replace(/\./g, ""));
+        var parsedNumber2 = parseFloat(number2.replace(/\./g, ""));
+        var sumsum = parsedNumber1 + parsedNumber2;
+        var formattedSum = sumsum.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+
+        intoMoney.innerText = formattedSum;
+
+    }
+}
