@@ -27,9 +27,9 @@ public class BookingControllerApi {
     @Autowired
     private RestTemplate restTemplate;
 
-    public static String apiGetSchedule = Api.baseURL + "/api/ticket/schedule";
-    public static String apiGetSeat = Api.baseURL + "/api/ticket/seat";
-    public static String apiGetFoot = Api.baseURL + "/api/ticket/food";
+    public static String apiGetSchedule = Api.baseURL + "/api/ticket/show/schedule";
+    public static String apiGetSeat = Api.baseURL + "/api/ticket/show/seat";
+    public static String apiGetFoot = Api.baseURL + "/api/ticket/show/food";
 
     @GetMapping
     public String displaySchedulePage(@RequestParam String cinemaId,

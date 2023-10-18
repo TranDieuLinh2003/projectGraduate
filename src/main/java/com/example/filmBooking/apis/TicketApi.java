@@ -32,7 +32,7 @@ public class TicketApi {
     @Autowired
     private FootRepository foodService;
 
-    @GetMapping("/schedule")
+    @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
                                                        @RequestParam String movieId,
                                                        @RequestParam String startAt,
@@ -41,7 +41,7 @@ public class TicketApi {
     }
 
 
-    @GetMapping("/seat")
+    @GetMapping("/show/seat")
     private ResponseEntity<List<DtoSeat>> getSeat(@RequestParam String cinemaId,
                                                   @RequestParam String movieId,
                                                   @RequestParam String startAt,
@@ -50,7 +50,7 @@ public class TicketApi {
     }
 
 
-    @GetMapping("/food")
+    @GetMapping("/show/food")
     private ResponseEntity<List<Food>> getAllFood() {
         return new ResponseEntity<>(foodService.findAll(), HttpStatus.OK);
     }
