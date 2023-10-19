@@ -1,12 +1,6 @@
 package com.example.filmBooking.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -44,23 +39,18 @@ public class Promotion {
     @Column(name = "percent")
     private Integer percent;
 
-    @Column(name = "comparison_point")
-    private Integer comparisonPoint;
+    @ManyToOne
+    @JoinColumn(name = "rank_id")
+    private Rank rank;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @Column(name = "quantity")
     private Integer quantity;
-
-    @OneToMany(mappedBy = "promotion")
-    private List<BillFood> listBillFood;
-
-    @OneToMany(mappedBy = "promotion")
-    private List<BillTicket> listBillTicket;
 
     @Column(name = "description", length = 560)
     private String description;

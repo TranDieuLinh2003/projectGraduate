@@ -44,7 +44,4 @@ public class BillFood {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "promotion")
-    private Promotion promotion;
 }
