@@ -1,6 +1,8 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.dto.DtoSeat;
+import com.example.filmBooking.model.dto.SeatDTO;
 
 import java.util.List;
 
@@ -15,4 +17,10 @@ public interface SeatService {
     void delete(String id);
 
     Seat findById(String id);
+
+    List<SeatDTO> getSeatsByScheduleId(String scheduleId);
+
+    List<Object[]> getSeatsByCustomerId(String customerId);
+
+    List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime);
 }

@@ -20,12 +20,13 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     @Query(value = showPhimSapChieu, nativeQuery = true)
     List<Movie> showPhimSapChieu();
 
-    String movie = ("select distinct m.rated_id ,m.name, m.code, m.description,m.director,m.end_date,m.id,m.image,m.language,m.movie_duration,m.movie_type,m.performers,m.premiere_date,m.status,m.trailer\n" +
-            "from projectLinh.cinema c\n" +
-            "join projectLinh.room r on r.cinema_id = c.id\n" +
-            "join projectLinh.schedule s on s.room_id = r.id\n" +
-            "join projectLinh.movie m on m.id = s.movie_id\n" +
-            "where c.id=:cinemaId and m.id=:movieId");
+    String movie = ("SELECT DISTINCT  m.id, m.code, m.name, m.movie_duration, m.trailer, m.premiere_date, m.end_date,m.status, m.rated_id, m.director, m.language, m.image,m.movie_type, m.description, m.performers\n" +
+            "\tfrom projectLinh.cinema c\n" +
+            "\tjoin projectLinh.room r on r.cinema_id = c.id\n" +
+            "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
+            "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
+            "where m.id=:movieId\n" +
+            " and c.id =:cinemaId");
     @Query(value = movie, nativeQuery = true)
     List<Movie> getMovie(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
 }

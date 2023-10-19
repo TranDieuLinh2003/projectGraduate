@@ -6,12 +6,111 @@
     <link rel="stylesheet" th:href="@{/users/css/web.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
 
+
+        .select {
+            position: relative;
+            display: flex;
+            width: 20em;
+            height: 3em;
+            line-height: 3;
+            background: #5c6664;
+            overflow: hidden;
+            border-radius: .25em;
+        }
+
+
+        .select::after {
+            content: '\25BC';
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0 1em;
+            background: #2b2e2e;
+            cursor: pointer;
+            pointer-events: none;
+            transition: .25s all ease;
+        }
+
+        .select:hover::after {
+            color: #23b499;
+        }
+
+        select {
+            width: 400px;
+            max-width: 100%;
+            overflow-y: auto;
+            cursor: pointer;
+            padding: 15px 25px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: none;
+            outline: none;
+            border-radius: 12px;
+            color: #444;
+            font-size: 18px;
+            box-shadow: -3px 3px 5px 0px rgba(0, 0, 0, 0.10);
+        }
+
+        select option {
+            padding: 10px 20px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            background-color: rgb(238, 238, 238);
+            white-space: pre-wrap;
+            cursor: pointer;
+        }
+
+        select option:hover {
+            background-color: rgb(223, 223, 223);
+        }
+
+        select option:checked {
+            box-shadow: 0 0 10px 100px #595959 inset;
+        }
+
+        select::-webkit-scrollbar-track {
+            background-color: #F5F5F5;
+            border-radius: 12px;
+        }
+
+        select::-webkit-scrollbar {
+            width: 8px;
+            background-color: #F5F5F5;
+        }
+
+        select::-webkit-scrollbar-thumb {
+            background-color: rgb(225, 225, 225);
+            border-radius: 12px;
+            background-image: -webkit-linear-gradient(90deg,
+            rgba(160, 160, 160, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(160, 160, 160, 0.2) 50%,
+            rgba(160, 160, 160, 0.2) 75%,
+            transparent 75%,
+            transparent)
+        }
+
+        select.fadeIn {
+            animation: fadeInDown 0.2s;
+        }
+
+        select.fadeOut {
+            animation: fadeInUp 0.2s;
+        }
+
+        .date {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{/layout/Header :: header}"></div>
 
-<div class="modal-content1" style="margin-bottom: -50px">
+<div class="modal-content1" style="margin-bottom: -80px" >
     <th:block th:each="movie : ${listmovie}">
         <h3>LỊCH CHIẾU - PHIM [[${movie.name}]]</h3>
     </th:block>
@@ -20,37 +119,64 @@
         <b>Rạp [[${cinema.name}]] </b>
     </th:block>
 
-    <hr style="opacity: 0.2; margin-top: 5px;">
+    <hr style="opacity: 0.2; margin-top: 5px;margin-bottom: 30px">
+    <div class="date">
+        <h3 style="font-size: 25px;">Chọn ngày : </h3>
+        <select size="1" id="listDate"  onchange="updateDiv()">
+            <option  th:each="date : ${listStartAt}" th:value="${date}" th:text="${date}"></option>
+        </select>
+    </div>
 
-    <div>
-        <!-- Tabs menu -->
-        <div class="tabs" id="statr_at">
-            <th:block th:each="startAt : ${listStartAt}">
-                <div class="tab-item active" id="listDate">
-                    Thứ [[${startAt}]]
-                </div>
-            </th:block>
-            <div class="line"></div>
+    <br>
+    <div class="tab-content">
+        <div class="tab-pane activee">
+            <h2>2D PHỤ ĐỀ</h2>
+            <br>
+            <div class="time_seat" id="listTime">
+                <th:block th:each="start_at : ${listTime}">
+                    <div class="time">
+                        <button data-modal-target="modal3" data-toggle="modal" data-target="#myModal" id="myButton"
+                                onclick="displayData(this)">
+                            [[${start_at}]]
+                        </button>
+                    </div>
+                </th:block>
+            </div>
         </div>
+    </div>
+    <!--thông báo xác nhận vé-->
+    <div class="modal-view" id="myModal">
 
-        <!-- Tab content -->
-        <div class="tab-content">
-            <div class="tab-pane active">
-                <h2>2D PHỤ ĐỀ</h2>
-                <br>
-                <div class="time_seat" id="list_time">
-                    <th:block th:each="start_at : ${listTime}">
-                        <div class="time">
-                            <button data-modal-target="modal3">[[${start_at}]]</button>
-                        </div>
+        <div class="modal-content-view">
+            <span class="modal-close-view" data-dismiss="modal" id="spanId">&times;</span>
+            <h3>BẠN ĐANG ĐẶT VÉ XEM PHIM</h3>
+            <hr style="opacity: 0.3; margin-top: 5px; margin-bottom: 30px;">
+            <th:block th:each="movie : ${listmovie}">
+                <b>[[${movie.name}]]</b>
+            </th:block>
+            <hr style="opacity: 0.2; margin-top: 5px; margin-bottom: 15px;">
+            <table style="margin-bottom: 30px;">
+                <tr>
+                    <th>Rạp chiếu</th>
+                    <th>Ngày chiếu</th>
+                    <th>Giờ chiếu</th>
+                </tr>
+                <tr>
+                    <th:block th:each="cinema : ${listcinema}">
+                        <td>[[${cinema.name}]]</td>
                     </th:block>
-                </div>
+                    <td id="myDivDate"></td>
+                    <td id="myDiv" ></td>
+                </tr>
+            </table>
+
+            <div style="text-align: center;">
+                <button class="mybtn bronze"><a id="myLink" th:href="@{'/show/booking?movieId='+${movieId}+'&cinemaId='+${cinemaId}}" >
+                    Đồng Ý</a></button>
             </div>
         </div>
     </div>
 </div>
-<!--<a th:href="@{/lichchieu(movieId=${session['movieId']})     }">Link đến Cinema</a>-->
-<!--<a th:href="@{'http://localhost:8080/api/schedule/time?movieId=' + ${session.movieId} + '&cinemaId=' + ${session.cinemaId} }">Click here</a>-->
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
@@ -58,23 +184,60 @@
 <!--<script th:src="@{/users/js/web.js}"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    // Lấy thẻ <span> bằng id
+    var spanElement = document.getElementById("spanId");
+
+    // Tạo một sự kiện click cho thẻ <span>
+    spanElement.addEventListener("click", function() {
+        // Tải lại trang web
+        location.reload();
+    });
+
+
+
+    // lấy ngày
+    function updateDiv() {
+        var selectedValue = document.getElementById("listDate").value;
+        document.getElementById("myDivDate").textContent = selectedValue;
+        var link = document.getElementById("myLink");
+
+        var url = "&startAt=" + selectedValue.trim()
+
+        link.href += url;
+        console.log(selectedValue)
+
+    }
+    window.addEventListener("DOMContentLoaded", function() {
+        updateDiv();
+    });
+    <!--    Lấy ra giờ chiếu -->
+    function displayData(button) {
+        // Lấy dữ liệu từ button
+        var buttonData = button.textContent;
+
+        // Chọn phần tử div bằng id
+        var myDiv = document.getElementById("myDiv");
+        var link = document.getElementById("myLink");
+        // Cập nhật nội dung của div với dữ liệu đã chọn
+        myDiv.textContent = buttonData;
+
+        var url = "&startTime=" + buttonData.trim()
+
+        link.href += url;
+        console.log(buttonData)
+    }
 
     function callAPI() {
-        var divElement = document.getElementById('listDate');
-        var data = divElement.innerText;
-        console.log(data)
+
         console.log("da goi duoc api!")
         $.ajax({
-            url: "http://localhost:8080/api/schedule/time?movieId=[[${movieId}]]&cinemaId=[[${cinemaId}]]&start_at=" + $("#listDate").find(".active").text().trim(),
-            // url: "http://localhost:8080/api/schedule/time?movieId=620fd4cb-bbae-46d9-ac61-1a7c9bd55083&cinemaId=3bb68911-8f8f-4131-a837-53b1a950ecad&start_at=2%20-%2011%2F09",
-            // + $("#listDate").find(".active").text().trim(),
+            url: "http://localhost:8080/api/schedule/time?movieId=[[${movieId}]]&cinemaId=[[${cinemaId}]]&start_at=" + $("#listDate").find(":selected").text().trim(),
             type: 'GET',
-
             success: function (data) {
                 console.log("data: " + data)
-                $("#list_time").html("");
+                $("#listTime").html("");
                 data.forEach(start_at => {
-                    $("#list_time").append("<div class='time' >" + "<button>" + start_at + "</button>" + "</div>")
+                    $("#listTime").append("<div class='time' data-toggle='modal' data-target='#myModal'  id='myButton' onclick='displayData(this)'>" + "<button>" + start_at + "</button>" + "</div>")
                 });
             },
             error: function (error) {
@@ -83,7 +246,6 @@
         })
     }
 
-
     $(document).ready(function () {
         $('#listDate').on('change', function () {
             // alert( this.value ); // or $(this).val()
@@ -91,39 +253,40 @@
         });
     });
 
-    // chọn giờ chiếu
-    const $1 = document.querySelector.bind(document)
-    const $$2 = document.querySelectorAll.bind(document)
+    let select = document.querySelector('select');
 
-    const tabActive = $1('.tab-item.active');
-    const line = $1('.tabs .line')
+    select.addEventListener('focus', () => {
+        select.size = 5;
+        select.classList.add('fadeIn');
+        select.classList.remove('fadeOut');
+        select.style.backgroundColor = '#FFF';
+    });
 
-    line.style.left = tabActive.offsetLeft + 'px';
-    line.style.width = tabActive.offsetWidth + 'px';
+    select.addEventListener('blur', () => {
+        select.size = 1;
+        select.classList.add('fadeOut');
+        select.classList.remove('fadeIn');
+        select.style.backgroundColor = '#FFF';
+    });
 
+    select.addEventListener('change', () => {
+        select.size = 1;
+        select.blur();
+        select.style.backgroundColor = '#FFF';
+    });
 
-    const tabs = $$2('.tab-item')
-    const panes = $$2('.tab-pane')
-
-    tabs.forEach((tab, index) => {
-        const pane = panes[index];
-
-        tab.onclick = function () {
-            $1('.tab-item.active').classList.remove(callAPI());
-            $1('.tab-pane.active').classList.remove(callAPI());
-
-            line.style.left = this.offsetLeft - 5 + 'px';
-            line.style.width = this.offsetWidth + 'px';
-
-            this.classList.add(callAPI());
-            // pane.classList.add('active');
+    select.addEventListener('mouseover', () => {
+        if (select.size == 1) {
+            select.style.backgroundColor = 'rgb(247, 247, 247)';
+        }
+    });
+    select.addEventListener('mouseout', () => {
+        if (select.size == 1) {
+            select.style.backgroundColor = '#FFF';
         }
     });
 
-
-    // <!--    -->
-
-    //
+//
 
 </script>
 </html>

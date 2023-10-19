@@ -10,6 +10,7 @@ import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findAll() {
+        generateSchedule();
         return repository.findAll();
     }
 
@@ -95,7 +97,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    //        @Scheduled(cron = "* * * * * *")
+//    @Async
+//    @Scheduled(fixedRate = 60000)
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
         List<Schedule> listSchedule = repository.findAll();
@@ -227,6 +230,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return false;
     }
 
+    //Kiểm tra và tăng giá suất chiếu
     public BigDecimal checkTheDayOfTheWeek(Schedule schedule) {
         BigDecimal fixedPrice = findByIdSetting().getFixedTicketPrice();
         System.out.println(fixedPrice);
@@ -247,7 +251,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         // Kiểm tra xem ngày hiện tại có phải là cuối tuần hay không
         if (currentDate.getDayOfWeek() == DayOfWeek.SATURDAY || currentDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
             // Kiểm tra xem giờ bắt đầu của lịch có lớn hơn hoặc bằng thời gian bắt đầu thay đổi không
-            if (currentDate.getHour() >= timeBeginsToChange.getHour()&& currentDate.getHour() <= endDay.getHour()) {
+            if (currentDate.getHour() >= timeBeginsToChange.getHour() && currentDate.getHour() <= endDay.getHour()) {
                 // Thay đổi giá theo tỷ lệ phần trăm tăng giá cuối tuần sau 17 giờ
                 newPrice = fixedPrice.add(priceWeekend).add(priceDay);
                 System.out.println("Giá vé cuối tuần sau 17:00: " + newPrice);
@@ -258,7 +262,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         } else {
             // Kiểm tra xem giờ bắt đầu của lịch có lớn hơn hoặc bằng thời gian bắt đầu thay đổi và nhỏ hơn hoặc bằng 2 không
-            if (currentDate.getHour() >= timeBeginsToChange.getHour()&& currentDate.getHour() <= endDay.getHour()) {
+            if (currentDate.getHour() >= timeBeginsToChange.getHour() && currentDate.getHour() <= endDay.getHour()) {
                 // Thay đổi giá theo tỷ lệ phần trăm tăng giá sau 17 giờ
                 newPrice = fixedPrice.add(priceDay);
                 System.out.println("Giá vé sau 17:00: " + newPrice);
@@ -271,7 +275,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return newPrice;
     }
 
-    public List<Schedule> generateSchedule() throws ParseException {
+    public List<Schedule> generateSchedule() {
         List<Schedule> newList = new ArrayList<>();
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 20, 8, 0); // Thời gian bắt đầu đầu tiên
         LocalDateTime endTime = LocalDateTime.of(2023, 8, 21, 2, 0); // Thời gian kết thúc
@@ -304,17 +308,23 @@ public class ScheduleServiceImpl implements ScheduleService {
         System.out.println(newList);
         return newList;
     }
-
     @Override
     public List<String> getStart_At(String movieId, String cinemaId) {
         return repository.getstartAtAndFinishAt(movieId, cinemaId);
     }
 
     @Override
-    public List<String> getStart_At_Time(String movieId, String cinemaId, String start_at) {
+    public List<String> getStart_At_Time(String movieId, String cinemaId,String start_at) {
 
         return repository.getTime(movieId, cinemaId, start_at);
     }
+
+    @Override
+    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
+        return repository.getSchedule(movieId,cinemaId,startAt,startTime);
+    }
+
+
 }
 
 

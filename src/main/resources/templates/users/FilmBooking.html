@@ -10,19 +10,29 @@
 
 <body>
 <div th:replace="~{/layout/Header :: header}"></div>
-<div class="main">
-    <div class="content">
-        <h1>Web <br><span>FILMBOOKING</span></h1>
-
-        <p class="par">Xem càng nhiều ưu đãi càng lớn, nhiều phần quá lớn đang chờ đón các bạn <br>
-            Ưu đãi cực khủng dành cho những ngày lễ
-            <br>
-            Ưu đãi combo cho những cặp đôi vào ngày lễ tình nhân <br>
-            <b style="font-size: 20px;color: #ff7200;">Từ thứ 4 đến thứ 6 giá vé chỉ 45k </b>
-        </p>
+<div class="slide-container">
+    <div class="slide fade">
+        <img th:src="@{/users/img/banner3.jpg}" style="width:100%;" alt="Slide 1">
 
     </div>
+
+    <div class="slide fade">
+        <img th:src="@{/users/img/banner3.jpg}" style="width:100%;" alt="Slide 2">
+    </div>
+
+    <div class="slide fade">
+        <img th:src="@{/users/img/banner3.jpg}" style="width:100%;" alt="Slide 3">
+    </div>
+    <a class="prev" onclick="plusSlide(-1)">&#10094</a>
+    <a class="next" onclick="plusSlide(1)">&#10095</a>
+    <div class="dots">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
 </div>
+
 
 
 <!-- header -->
@@ -42,7 +52,7 @@
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
                         <img th:src="${movie.image}" style="width: 100%; height: 459px">
-                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <div class="date"><span class="day">[[${movie.rated.code}]]</span><span class="month">Trailer</span></div>
                         <i class="myBtn" data-toggle="modal" data-target="#myModal"
                            th:attrappend="data-target=${movie.id}"> Xem trailer</i>
                         <figcaption>
@@ -54,7 +64,7 @@
                                 - Thời lượng: [[${movie.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
-                            <button ><a th:href="@{'/rap?movieId='+${movie.id}}">Đặt vé</a>
+                            <button ><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a>
                             </button>
                         </figcaption>
                     </figure>
@@ -67,7 +77,7 @@
                 <th:block th:each="movie1 : ${listmovie1}">
                     <figure class="snip1208">
                         <img th:src="${movie1.image}" style="width: 100%; height: 459px">
-                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <div class="date"><span class="day">[[${movie1.rated.code}]]</span><span class="month">Trailer</span></div>
                         <i class="myBtnn" data-toggle="modal" data-target="#myModall"
                            th:attrappend="data-target=${movie1.id}"> Xem trailer</i>
                         <figcaption>
@@ -79,7 +89,8 @@
                                 - Thời lượng: [[${movie1.movieDuration}]] <br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
-                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>              </figcaption>
+<!--                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>  -->
+                        </figcaption>
                     </figure>
                 </th:block>
             </div>
@@ -167,33 +178,11 @@
         </div>
     </div>
 </section>
-<!-- thông báo xác nhận vé  -->
-<div class="modal-view" id="modal3">
-    <div class="modal-content-view">
-        <span class="modal-close-view">&times;</span>
-        <h3>BẠN ĐANG ĐẶT VÉ XEM PHIM</h3>
-        <hr style="opacity: 0.3; margin-top: 5px; margin-bottom: 30px;">
-        <b>THỬ THÁCH #CÁ VOI XANH: TRÒ CHƠI KẾT LIỄU</b>
-        <hr style="opacity: 0.2; margin-top: 5px; margin-bottom: 15px;">
-        <table style="margin-bottom: 30px;">
-            <tr>
-                <th>Rạp chiếu</th>
-                <th>Ngày chiếu</th>
-                <th>Giờ chiếu</th>
-            </tr>
-            <tr>
-                <td>Peter</td>
-                <td>Griffin</td>
-                <td>$100</td>
-            </tr>
-        </table>
 
-        <div style="text-align: center;">
-            <button class="mybtn bronze">Đồng Ý</button>
-        </div>
-    </div>
-</div>
 <div th:replace="~{/layout/Footer :: footer}"></div>
+<script src="https://tudongchat.com/js/chatbox.js"></script>
+<script>const tudong_chatbox = new TuDongChat("C1tWgbGRbc6iYpd-oBqPI");
+tudong_chatbox.initial();</script>
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>

@@ -141,13 +141,7 @@ body {
     margin-left: -17px;
 }
 
-.main {
-    width: 100%;
-    background: url(../img/banner2.jpg) no-repeat center center/cover;
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-}
+
 
 .main::after {
     content: '';
@@ -1013,7 +1007,7 @@ a:hover {
     border-color: rgba(194, 53, 100, 0.1);
 }
 
-.tab-item.active {
+.tab-item.activee{
     opacity: 1;
 }
 
@@ -1027,7 +1021,7 @@ a:hover {
     display: none;
 }
 
-.tab-pane.active {
+.tab-pane.activee {
     display: block;
 }
 
@@ -1225,7 +1219,7 @@ a:hover {
     max-height: 75%;
     overflow: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    margin-top: 150px;
+    margin-top: 150px;margin-left: 25%;
 }
 
 .modal-view.modal-show .modal-content-view {
@@ -1264,7 +1258,9 @@ a:hover {
     font-family: Arial, Helvetica, sans-serif;
 }
 .modal-content-view b{
-    margin-left: 160px;
+    display: flex;
+    /* text-align: center; */
+    transform: translate(-40%, -50%);
     margin-top: 20px;
     font-weight: 600;
     font-size: 20px;
@@ -1380,7 +1376,10 @@ a:hover {
     outline: none;
     margin-bottom: -20px;
 }
-
+.mybtn a{
+    text-decoration: none;
+    color: #fff;
+}
 .mybtn:active{
     -webkit-transform: translateY(2px);
     transform: translateY(2px);
@@ -1430,4 +1429,107 @@ a:hover {
 
 .dropdown:hover .dropbtn {
     background-color: #8a5d37;
+}
+.slide-container {
+    position: relative;
+    max-width: 100%;
+    /* margin: auto; */
+    /* max-height: 500px; */
+}
+
+.slide {
+    text-align: center;
+
+}
+
+.slide img{
+    height: 600px;
+}
+
+.numText {
+    position: relative;
+    top: 20px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.7);
+    width: 40px;
+    color: #fff;
+}
+
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0 3px 3px 0;
+    transition: 600ms ease;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover,
+.next:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.text {
+    color: #f2f2f2;
+    font-size: 1.5rem;
+    padding: 8px 12px;
+    position: relative;
+    bottom: 90px;
+}
+
+.dots {
+    text-align: center;
+}
+
+.dot {
+    display: inline-block;
+    background: #b4b4b4;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: background 600ms ease;
+}
+
+.active,
+.dot:hover {
+    background: #717171;
+}
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.7s;
+    animation-name: fade;
+    animation-duration: 1.7s;
+}
+
+@-webkit-keyframes fade {
+    from {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 1;
+    }
 }

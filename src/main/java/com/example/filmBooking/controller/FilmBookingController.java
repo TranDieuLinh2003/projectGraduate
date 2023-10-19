@@ -98,16 +98,6 @@ public class FilmBookingController {
     }
 
 
-//
-//    public static void main(String[] args) {
-//        Movie movie = new Movie();
-//        movie.setPremiereDate(Date.valueOf(String.valueOf(LocalDateTime.of(2023, 8, 7, 9, 9))));
-//        movie.setPremiereDate(Date.valueOf(String.valueOf(LocalDateTime.of(2023, 8, 7, 9, 9))));
-//
-//        List<String> daysOfWeek = movie.getDaysOfWeek();
-//        for (String day : daysOfWeek) {
-//            System.out.println(day);
-//        }
-//    }
+
 
 }

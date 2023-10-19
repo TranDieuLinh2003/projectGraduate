@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.*;
 
 @Controller
-@RequestMapping("/lichchieu")
+@RequestMapping("/show/schedule")
 public class ScheduleControllerApi {
     @Autowired
     private RestTemplate restTemplate;
@@ -58,6 +58,7 @@ public class ScheduleControllerApi {
                 String[].class,
                 listRequestParam);
         List<String> listStartAt = Arrays.asList(listStartAtEntity.getBody());
+        Collections.sort(listStartAt);
         model.addAttribute("listStartAt", listStartAt);
 
 
@@ -69,13 +70,13 @@ public class ScheduleControllerApi {
                 .encode()
                 .toUriString();
 
-            for (String ngay : listStartAt) {
-                System.out.println(ngay);
-                listRequestParam.put("start_at", ngay+"");
-                model.addAttribute("start_at", ngay);
-//                break;
+        for (String ngay : listStartAt) {
+            System.out.println(ngay);
+            listRequestParam.put("start_at", ngay + "");
+//                model.addAttribute("start_at", ngay);
+            break;
 //                continue;
-            }
+        }
         ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(
                 urlTemplateTime,
                 HttpMethod.GET,
@@ -83,10 +84,11 @@ public class ScheduleControllerApi {
                 String[].class,
                 listRequestParam);
         List<String> listTime = Arrays.asList(listStartTimesEntity.getBody());
+        Collections.sort(listTime);
         model.addAttribute("listTime", listTime);
 
-
-//        lấy ra rap
+//
+////        lấy ra rap
         String urlTemplate1 = UriComponentsBuilder.fromHttpUrl(apiGetCinema)
                 .queryParam("movieId", "{movieId}")
                 .queryParam("cinemaId", "{cinemaId}")
@@ -102,8 +104,8 @@ public class ScheduleControllerApi {
         Cinema[] listcinema = responsecinema.getBody();
         model.addAttribute("listcinema", listcinema);
 
-
-//        lấy ra movie
+//
+////        lấy ra movie
         String urlTemplate2 = UriComponentsBuilder.fromHttpUrl(apiGetMovie)
                 .queryParam("movieId", "{movieId}")
                 .queryParam("cinemaId", "{cinemaId}")

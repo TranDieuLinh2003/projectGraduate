@@ -23,4 +23,6 @@ public interface ScheduleService {
     List<String> getStart_At(String movieId, String cinemaId);
 
     List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
+
+    List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime);
 }
