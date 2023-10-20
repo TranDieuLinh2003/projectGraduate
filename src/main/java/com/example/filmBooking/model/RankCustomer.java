@@ -22,8 +22,8 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rank")
-public class Rank {
+@Table(name = "rankCustomer")
+public class RankCustomer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID")

@@ -1,9 +1,11 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Controller
@@ -90,14 +94,17 @@ public class ScheduleController {
         responseBean.setData(service.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-
-    @GetMapping("/findByName/{name}")
+//    @Nullable @RequestParam(name = "userId", required = false) String userId
+    @GetMapping("/findByName")
     @Operation(summary = "[Tìm kiếm theo tên]")
-    public ResponseEntity<?> findByName(@PathVariable("name") String name) {
+    public ResponseEntity<?> findByName(@RequestParam("name") String name,
+                                        @RequestParam("startAt")
+                                        @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+                                        Optional<LocalDate> startAt, @RequestParam("movie") Optional<String> movieId) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.findByNameContains(name));
+//        responseBean.setData(service.findByNameContains(name, startAt, movieId));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

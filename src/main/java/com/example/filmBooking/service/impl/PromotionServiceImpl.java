@@ -22,9 +22,9 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public Promotion save(Promotion promotion) {
-        Random generator = new Random();
-        int value = generator.nextInt((100000 - 1) + 1) + 1;
-        promotion.setCode("code_promotion_" + value);
+//        Random generator = new Random();
+//        int value = generator.nextInt((100000 - 1) + 1) + 1;
+//        promotion.setCode("code_promotion_" + value);
         return promotionRepository.save(promotion);
     }
 
@@ -34,7 +34,7 @@ public class PromotionServiceImpl implements PromotionService {
         promotionNew.setCode(promotion.getCode());
         promotionNew.setName(promotion.getName());
         promotionNew.setDescription(promotion.getDescription());
-        promotionNew.setComparisonPoint(promotion.getComparisonPoint());
+        promotionNew.setRankCustomer(promotion.getRankCustomer());
         promotionNew.setEndDate(promotion.getEndDate());
         promotionNew.setStartDate(promotion.getStartDate());
         promotionNew.setPercent(promotion.getPercent());

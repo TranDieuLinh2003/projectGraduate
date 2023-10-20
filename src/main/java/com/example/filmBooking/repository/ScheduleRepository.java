@@ -1,11 +1,14 @@
 package com.example.filmBooking.repository;
 
+import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
@@ -60,6 +63,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
-    List<Schedule> findByNameContains(String name);
+//    List<Schedule> findByNameContains(String name);
+//@Query("SELECT s FROM Schedule s WHERE (:name IS NULL OR s.name = :name) AND (:startAt IS NULL OR s.startAt = :startAt) AND (:movieId IS NULL OR s.movie.id = :movieId)")
+//List<Schedule> findByConditions(@Param("name") String name, @Param("startAt") Optional<LocalDate> startAt, @Param("movieId") Movie movieId);
 
 }
