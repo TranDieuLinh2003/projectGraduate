@@ -13,12 +13,17 @@
 <div th:replace="~{/layout/Header :: header}"></div>
 <br>
 <div id="login-box">
+    <div th:if="${session.ERR_LOGIN != null}" class="alert alert-danger" role="alert">
+        [[${session.ERR_LOGIN}]]
+    </div>
     <div class="left">
         <h1>ĐĂNG NHẬP</h1>
         <div style="margin-top: 70px;">
+            <form action="/login" method="post">
             <input type="text" name="email" placeholder="E-mail" />
             <input type="password" name="password" placeholder="Password" />
-            <input type="submit" name="signup_submit" value="ĐĂNG KÝ" />
+            <input type="submit" name="signup_submit" value="ĐĂNG NHẬP" />
+            </form>
         </div>
 
     </div>
