@@ -1,10 +1,14 @@
 package com.example.filmBooking.service;
 
+import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 
 import java.sql.Time;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ScheduleService {
@@ -18,7 +22,7 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-    List<Schedule> findByNameContains(String name);
+//    List<Schedule> findByNameContains(String name, Optional<LocalDate> startAt, Optional<String> movieId);
 
     List<String> getStart_At(String movieId, String cinemaId);
 

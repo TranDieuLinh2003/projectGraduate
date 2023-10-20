@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,8 +40,8 @@ public class Customer {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "rank_id")
-    private Rank rank;
+    @JoinColumn(name = "rankCustomer_id")
+    private RankCustomer rankCustomer;
 
 //    @NotNull
 //    @Size(max = 10, min = 10, message = "Số điện thoại di động phải có 10 chữ số")

@@ -1,8 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.service.RankService;
-import com.example.filmBooking.model.Rank;
+import com.example.filmBooking.service.RankCustomerService;
+import com.example.filmBooking.model.RankCustomer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin("*")
 @RequestMapping("/rank")
 @Tag(name = "rank")
-public class RankController {
+public class RankCustomerController {
     @Autowired
-    private RankService service;
+    private RankCustomerService service;
 
     @GetMapping("/find-all")
     @Operation(summary = "[Hiển thị tất cả]")
@@ -41,7 +41,7 @@ public class RankController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestBody @Valid Rank rank) {
+    public ResponseEntity<Object> save(@RequestBody @Valid RankCustomer rank) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -51,7 +51,7 @@ public class RankController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid Rank rank) {
+    public ResponseEntity<Object> update(@PathVariable("id") String id, @RequestBody @Valid RankCustomer rank) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

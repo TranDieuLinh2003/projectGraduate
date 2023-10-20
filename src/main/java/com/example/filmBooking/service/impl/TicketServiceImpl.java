@@ -10,15 +10,15 @@ import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -62,20 +62,21 @@ public class TicketServiceImpl implements TicketService {
     }
 
     // Đổi trạng thái vé
+//    @Async
 //    @Scheduled(fixedRate = 60000)
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
         List<Ticket> listTicket = repository.findAll();
         for (Ticket ticket : listTicket) {
-//            Schedule schedule = scheduleRepository.findById(ticket.getSchedule().getId());
-//            System.out.println(ticket.getSchedule().getId());
-//            if (schedule.getStatus() == "Đã chiếu") {
-//                ticket.setStatus("Hết hạn");
-//                repository.save(ticket);
-//            } else {
-//                ticket.setStatus("Hạn sử dụng đến: " + schedule.getFinishAt());
-//                repository.save(ticket);
-//            }
+            Schedule schedule = scheduleRepository.findById(ticket.getSchedule().getId());
+            System.out.println(ticket.getSchedule().getId());
+            if (schedule.getStatus() == "Đã chiếu") {
+                ticket.setStatus("Hết hạn");
+                repository.save(ticket);
+            } else {
+                ticket.setStatus("Hạn sử dụng đến: " + schedule.getFinishAt());
+                repository.save(ticket);
+            }
         }
     }
 
@@ -99,25 +100,30 @@ public class TicketServiceImpl implements TicketService {
 
     public static void main(String[] args) {
         // Giá ban đầu
-        BigDecimal originalPrice = new BigDecimal("100.00");
-
-        // Thời gian suất chiếu
-        LocalTime showTime = LocalTime.of(10, 0);
-
-        // Thời gian hiện tại
-        LocalTime currentTime = LocalTime.now();
-
-        // Kiểm tra xem nếu là suất chiếu sau 17 giờ
-        if (currentTime.isAfter(showTime)) {
-            // Tính giá mới với tăng 10%
-            BigDecimal newPrice = originalPrice.multiply(BigDecimal.valueOf(1.1));
-
-            // In ra giá mới
-            System.out.println("Giá mới: " + newPrice);
-        } else {
-            // Suất chiếu trước 17 giờ, giá không thay đổi
-            System.out.println("Giá không thay đổi: " + originalPrice);
         }
+
+
+    // hàm check
+
+    public String checkSchedule(){
+        LocalDateTime date = LocalDateTime.now();
+        // list schedule
+        List<Schedule> listSchedule = scheduleRepository.findAll();
+        for(Schedule dto: listSchedule)
+        {
+            if(date.isAfter(dto.getFinishAt())){
+                //tìm kiếm tất cả vé
+                List<Ticket> tickets = repository.findBySchedule(dto.getId());
+                for (Ticket ticket : tickets){
+                    // thực hiện update
+                    ticket.setStatus("Đã chiếu");
+                    repository.save(ticket);
+                }
+
+            }
+        }
+
+        return null;
     }
 
 }

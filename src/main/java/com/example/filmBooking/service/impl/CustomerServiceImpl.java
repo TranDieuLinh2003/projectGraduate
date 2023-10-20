@@ -1,11 +1,10 @@
 package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.model.Rank;
+import com.example.filmBooking.model.RankCustomer;
 import com.example.filmBooking.repository.CustomerRepository;
-import com.example.filmBooking.repository.RankRepository;
+import com.example.filmBooking.repository.RankCustomerRepository;
 import com.example.filmBooking.service.CustomerService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository repository;
 
     @Autowired
-    private RankRepository rankRepository;
+    private RankCustomerRepository rankRepository;
 
     @Override
     public List<Customer> fillAll() {
@@ -32,17 +31,17 @@ public class CustomerServiceImpl implements CustomerService {
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         customer.setCode("code_" + value);
         customer.setPoint(0);
-        List<Rank> listRank = rankRepository.findAll();
+        List<RankCustomer> listRank = rankRepository.findAll();
         listRank.sort((o1, o2) -> {
             return o1.getPoint().compareTo(o2.getPoint());
         });
         if (customer.getPoint() > listRank.get(listRank.size() - 1).getPoint()) {
             //chuyển thành  goi cao nhat
-            customer.setRank(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
+            customer.setRankCustomer(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
         } else {
             for (int i = 0; i < listRank.size(); i++) {
                 if (customer.getPoint() >= listRank.get(i).getPoint() && customer.getPoint() < listRank.get(i + 1).getPoint()) {
-                    customer.setRank(rankRepository.findById(listRank.get(i).getId()).get());
+                    customer.setRankCustomer(rankRepository.findById(listRank.get(i).getId()).get());
                     break;
                 }
             }
@@ -54,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     //tự động cập nhật rank cho khách hàng
     @Scheduled(fixedRate = 86400000)
     public void autoCheckPoint() {
-        List<Rank> listRank = rankRepository.findAll();
+        List<RankCustomer> listRank = rankRepository.findAll();
         listRank.sort((o1, o2) -> {
             return o1.getPoint().compareTo(o2.getPoint());
         });
@@ -62,11 +61,11 @@ public class CustomerServiceImpl implements CustomerService {
         ) {
             if (customer.getPoint() > listRank.get(listRank.size() - 1).getPoint()) {
                 //chuyển thành  goi cao nhat
-                customer.setRank(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
+                customer.setRankCustomer(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
             } else {
                 for (int i = 0; i < listRank.size(); i++) {
                     if (customer.getPoint() >= listRank.get(i).getPoint() && customer.getPoint() < listRank.get(i + 1).getPoint()) {
-                        customer.setRank(rankRepository.findById(listRank.get(i).getId()).get());
+                        customer.setRankCustomer(rankRepository.findById(listRank.get(i).getId()).get());
                         break;
                     }
                 }

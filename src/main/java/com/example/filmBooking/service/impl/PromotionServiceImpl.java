@@ -34,7 +34,7 @@ public class PromotionServiceImpl implements PromotionService {
         promotionNew.setCode(promotion.getCode());
         promotionNew.setName(promotion.getName());
         promotionNew.setDescription(promotion.getDescription());
-        promotionNew.setRank(promotion.getRank());
+        promotionNew.setRankCustomer(promotion.getRankCustomer());
         promotionNew.setEndDate(promotion.getEndDate());
         promotionNew.setStartDate(promotion.getStartDate());
         promotionNew.setPercent(promotion.getPercent());

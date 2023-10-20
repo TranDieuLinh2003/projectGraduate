@@ -19,7 +19,7 @@ public interface CustomerService {
     void autoCheckPoint();
 
 
-//    String soSanhPoint(List<Rank> listRank, String id);
+//    String soSanhPoint(List<RankCustomer> listRank, String id);
 
 
 

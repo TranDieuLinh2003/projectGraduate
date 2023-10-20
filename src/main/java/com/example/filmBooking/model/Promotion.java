@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Entity
@@ -40,8 +38,8 @@ public class Promotion {
     private Integer percent;
 
     @ManyToOne
-    @JoinColumn(name = "rank_id")
-    private Rank rank;
+    @JoinColumn(name = "rankCustomer_id")
+    private RankCustomer rankCustomer;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
