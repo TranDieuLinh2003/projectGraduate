@@ -1,6 +1,7 @@
 package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.apis.Api;
+import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.model.Food;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Schedule;
@@ -53,6 +54,9 @@ public class BookingControllerApi {
 
 //        System.out.println(start_time);
 
+        Customer customer = (Customer) session.getAttribute("customer");
+        model.addAttribute("customer", customer);
+        HttpEntity<?> entity = new HttpEntity<>(customer);
 
         //lấy ra lịch chiếu
         String urlTemplateSchdeule = UriComponentsBuilder.fromHttpUrl(apiGetSchedule)
@@ -69,7 +73,7 @@ public class BookingControllerApi {
         listRequestParam.put("startAt", startAt + "");
         ResponseEntity<Schedule[]> listSchedule = restTemplate.exchange(urlTemplateSchdeule,
                 HttpMethod.GET,
-                null,
+                entity,
                 Schedule[].class,
                 listRequestParam);
         model.addAttribute("listSchedule", listSchedule.getBody());
@@ -85,7 +89,7 @@ public class BookingControllerApi {
                 .toUriString();
         ResponseEntity<DtoSeat[]> listSeat = restTemplate.exchange(urlTemplateSeat,
                 HttpMethod.GET,
-                null,
+                entity,
                 DtoSeat[].class,
                 listRequestParam);
 
@@ -116,7 +120,7 @@ public class BookingControllerApi {
                 .toUriString();
         HttpEntity<Food[]> listFood = restTemplate.exchange(urlTemplateFood,
                 HttpMethod.GET,
-                null,
+                entity,
                 Food[].class);
         model.addAttribute("listFood", listFood.getBody())    ;
         session.setAttribute("listFood",  listFood.getBody());

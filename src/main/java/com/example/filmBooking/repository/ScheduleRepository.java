@@ -17,7 +17,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "JOIN projectLinh.room r ON c.id = r.cinema_id\n" +
             "JOIN projectLinh.schedule s ON r.id = s.room_id\n" +
             "JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
-            "where c.id=:cinemaId and m.id=:movieId");
+            "where c.id=:cinemaId and m.id=:movieId   ORDER BY  DATE(s.start_at) ASC");
 
     @Query(value = Start_at, nativeQuery = true)
     List<String> getstartAtAndFinishAt(@Param("movieId") String movieId
@@ -31,7 +31,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
             "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
             "where m.id=:movieId\n" +
-            " and c.id =:cinemaId and  DATE(s.start_at)=:start_at");
+            " and c.id =:cinemaId and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
 
     @Query(value = time, nativeQuery = true)
     List<String> getTime(@Param("movieId") String movieId,

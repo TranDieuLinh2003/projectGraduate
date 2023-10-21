@@ -1533,3 +1533,53 @@ a:hover {
         opacity: 1;
     }
 }
+
+.Mes {
+    position: absolute;
+    top: 5%;
+    left: 36%;
+    height: 200px;
+    width: 410px;
+    border-radius: 20px;
+    background: white;
+    /*font-size: 20px;*/
+}
+.Mes h2{
+    color: #000;
+    text-align: center;
+    margin-top: 40px;
+   font-size: 1.3em;
+}
+.Modal-InText {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.Modal-InBtn {
+    padding: 10px 50px;
+    transform: translate(250px, 50px);
+    border-radius: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    outline: none;
+    border: 1px solid white;
+    transition:0.2s ease-in-out all;
+    cursor:pointer;
+}
+
+.Btn-Right:hover{
+    background:#fff;
+    border: 1px solid rgba(14, 255, 110, 0.85);
+}
+
+.Btn-Left:hover{
+    background:#fff;
+    border: 1px solid rgba(14, 255, 110, 0.85);
+}
+.Btn-Right{
+    background: #ff7200;
+}
+
+.Btn-Left{
+    background: #ff7200;
+    transform: translate(-100px, 50px);
+}

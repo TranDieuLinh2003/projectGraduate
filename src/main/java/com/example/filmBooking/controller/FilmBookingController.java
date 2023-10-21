@@ -1,6 +1,7 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.repository.CinemaRepository;
@@ -8,6 +9,7 @@ import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.impl.CinemaServiceImpl;
 import com.example.filmBooking.service.impl.MovieServiceImpl;
 import com.example.filmBooking.service.impl.ScheduleServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,21 +46,36 @@ public class FilmBookingController {
     @Autowired
     private CinemaRepository repository;
 
+    //    @GetMapping("/trangchu")
+//    public String getAllPosts(Model model, HttpServletRequest request) {
+//        HttpSession session = request.getSession();
+//        Customer customer = (Customer) session.getAttribute("customer");
+//        model.addAttribute("customer", customer);
+////      phim đang chiếu
+//        List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+//        model.addAttribute("listmovie", listmovie);
+//
+////      phim sap chiếu
+//        List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+//        model.addAttribute("listmovie1", listmovie1);
+//
+////
+//        return "users/FilmBooking";
+//    }
     @GetMapping("/trangchu")
-    public String getAllPosts( Model model) {
-
-//      phim đang chiếu
+    public String getAllPosts(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        model.addAttribute("customer", customer);
+        // Phim đang chiếu
         List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie", listmovie);
-
-//      phim sap chiếu
+        // Phim sắp chiếu
         List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie1", listmovie1);
-
-//
+        //
         return "users/FilmBooking";
     }
-
 
     @GetMapping("/movie/edit/{id}")
     public String chiTietPhim(@PathVariable("id") String id, Model model) {
@@ -96,8 +113,6 @@ public class FilmBookingController {
     public String showChiTietPhim() {
         return "users/ChiTietPhim";
     }
-
-
 
 
 }
