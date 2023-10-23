@@ -49,11 +49,11 @@ public class Schedule {
     private BigDecimal price;
 
     @Column(name = "start_at")
-//    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private LocalDateTime startAt;
 
     @Column(name = "finish_at")
-//    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private LocalDateTime finishAt;
 
     @Column(name = "status")

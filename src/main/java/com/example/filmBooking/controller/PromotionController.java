@@ -10,15 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -49,7 +41,7 @@ public class PromotionController {
 
     @PutMapping("/update/{id}")
     @Operation(summary = "[Cập nhật dữ liệu Promotion]")
-    public ResponseEntity<Object>update(@PathVariable String id, @RequestBody @Valid Promotion promotion){
+    public ResponseEntity<Object>update(@PathVariable("id") String id, @RequestBody @Valid Promotion promotion){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
@@ -59,12 +51,22 @@ public class PromotionController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu Promotion]")
-    public ResponseEntity<?>delete(@PathVariable String id){
+    public ResponseEntity<?>delete(@PathVariable("id") String id){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         promotionService.delete(id);
         responseBean.setData(id);
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
+    @GetMapping("/customer={customerId}")
+    @Operation(summary = "[Lấy ra voucher từng khách hàng]")
+    public ResponseEntity<?> listVoucherCustomer(@PathVariable("customerId") String customerId){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(promotionService.listVoucherCustomer(customerId));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

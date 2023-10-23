@@ -51,6 +51,7 @@ public class MovieServiceImpl implements MovieService {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         movie.setCode("mv" + value);
+        System.out.println(movie.getEndDate());
         java.util.Date date = new java.util.Date();
         if (date.after(movie.getEndDate())) {
             movie.setStatus("Đã chiếu");

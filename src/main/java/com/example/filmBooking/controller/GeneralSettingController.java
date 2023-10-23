@@ -32,15 +32,15 @@ public class GeneralSettingController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-    // @PostMapping("/save")
-    // @Operation(summary = "[Thêm mới]")
-    // public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
-    //     ResponseBean responseBean = new ResponseBean();
-    //     responseBean.setCode(HttpStatus.OK.toString());
-    //     responseBean.setMessage("SUCCESS");
-    //     responseBean.setData(service.save(GeneralSetting));
-    //     return new ResponseEntity<>(responseBean, HttpStatus.OK);
-    // }
+     @PostMapping("/save")
+     @Operation(summary = "[Thêm mới]")
+     public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
+         ResponseBean responseBean = new ResponseBean();
+         responseBean.setCode(HttpStatus.OK.toString());
+         responseBean.setMessage("SUCCESS");
+         responseBean.setData(service.save(GeneralSetting));
+         return new ResponseEntity<>(responseBean, HttpStatus.OK);
+     }
 
     @PutMapping("/update")
     @Operation(summary = "[Chỉnh sửa]")

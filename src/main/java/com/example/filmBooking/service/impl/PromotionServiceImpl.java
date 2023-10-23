@@ -52,4 +52,9 @@ public class PromotionServiceImpl implements PromotionService {
     public Promotion findById(String id) {
         return promotionRepository.findById(id).get();
     }
+
+    @Override
+    public List<Promotion> listVoucherCustomer(String customerId) {
+        return promotionRepository.listVoucherCustomer(customerId);
+    }
 }

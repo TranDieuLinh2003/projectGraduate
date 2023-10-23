@@ -53,7 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     // lấy thông tin cài đặt
     public GeneralSetting findByIdSetting() {
-        String id = "613d6a30-167e-4b7c-985e-b510dc9bae25";
+        String id = "hihi";
         GeneralSetting setting = settingRepository.findById(id).get();
         return setting;
     }
@@ -64,6 +64,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         schedule.setCode("SCD" + value);
+//        System.out.println("hihihi"+);
         // lấy thông tin phim của suất chiếu
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
@@ -98,8 +99,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-//    @Async
-//    @Scheduled(fixedRate = 60000)
+    @Async
+    @Scheduled(fixedRate = 60000)
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
         List<Schedule> listSchedule = repository.findAll();

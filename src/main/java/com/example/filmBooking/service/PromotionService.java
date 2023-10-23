@@ -2,6 +2,7 @@ package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Food;
 import com.example.filmBooking.model.Promotion;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface PromotionService {
     void delete(String id);
 
     Promotion findById(String id);
+
+    List<Promotion> listVoucherCustomer(String customerId);
 }
