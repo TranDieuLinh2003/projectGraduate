@@ -21,6 +21,6 @@ public interface CustomerService {
 
 //    String soSanhPoint(List<RankCustomer> listRank, String id);
 
-
+    Customer findByEmail(String email);
 
 }

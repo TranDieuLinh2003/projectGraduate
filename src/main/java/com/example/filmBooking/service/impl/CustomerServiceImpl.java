@@ -73,6 +73,12 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Override
+    public Customer findByEmail(String email) {
+        return repository.findEmail(email);
+    }
+
+
 
 
     @Override

@@ -2,6 +2,7 @@ package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.model.Movie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,11 +36,9 @@ public class ScheduleControllerApi {
         session.setAttribute("movieId", movieId);
         model.addAttribute("movieId", movieId);
         // Gắn access token jwt vào header để gửi kèm request
-        HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-//        JwtResponseDTO jwtResponseDTO = (JwtResponseDTO)session.getAttribute("jwtResponse");
-//        headers.set(HttpHeaders.AUTHORIZATION,"Bearer "+jwtResponseDTO.getAccessToken());
-        HttpEntity<?> entity = new HttpEntity<>(headers);
+        Customer customer = (Customer) session.getAttribute("customer");
+        model.addAttribute("customer", customer);
+        HttpEntity<?> entity = new HttpEntity<>(customer);
 
 
         //lấy ra ngày chiếu phim
@@ -97,7 +96,7 @@ public class ScheduleControllerApi {
         HttpEntity<Cinema[]> responsecinema = restTemplate.exchange(
                 urlTemplate1,
                 HttpMethod.GET,
-                null,
+                entity,
                 Cinema[].class,
                 listRequestParam
         );
@@ -114,7 +113,7 @@ public class ScheduleControllerApi {
         HttpEntity<Movie[]> responseMovie = restTemplate.exchange(
                 urlTemplate2,
                 HttpMethod.GET,
-                null,
+                entity,
                 Movie[].class,
                 listRequestParam
         );
