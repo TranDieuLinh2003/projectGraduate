@@ -65,18 +65,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
-//    List<Schedule> findByNameContains(String name);
-//    String searchName= "%movieName%"
-//@Query("select s from Schedule s " +
-//        " join Room r \n" +
-//        "on s.room= r\n" +
-//        "join Cinema c on c= r.cinema " +
-//        "WHERE (?1 IS NULL OR c.name = ?1) " +
-//        "AND (?2 IS NULL OR date(s.startAt )= ?2) " +
-//        "AND (?3 IS NULL OR s.movie.name like ?3)")
-//    @Query("FROM Schedule s WHERE :name is NULL OR s.room.cinema.name = :name " +
-//            "AND :startAt is NULL OR date(s.startAt) =: startAt " +
-//            "AND :movieName is NULL OR s.movie.name like :movieName ")
 @Query("FROM Schedule s WHERE ?1 is NULL OR s.room.cinema.name = ?1 " +
         "AND ?2 is NULL OR date(s.startAt) = ?2 " +
         "AND ?3 is NULL OR s.movie.name like ?3 ")
