@@ -33,7 +33,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
             "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
             "where m.id=:movieId\n" +
-            " and c.id =:cinemaId and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
+            " and c.id =:cinemaId and  s.status like 'Sắp chiếu' and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
 
     @Query(value = time, nativeQuery = true)
     List<String> getTime(@Param("movieId") String movieId,
