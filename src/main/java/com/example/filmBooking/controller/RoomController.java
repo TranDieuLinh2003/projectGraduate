@@ -1,6 +1,7 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.service.RoomService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,7 @@ public class RoomController {
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public ResponseEntity<Object> save(@RequestParam("idCinema") String idCinema, @RequestParam("quantity") int quantity) {
+    public ResponseEntity<Object> save(@RequestParam("idCinema") Cinema idCinema, @RequestParam("quantity") int quantity) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");

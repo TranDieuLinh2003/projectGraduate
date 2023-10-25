@@ -1,5 +1,6 @@
 package com.example.filmBooking.service;
 
+import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface RoomService {
     List<Room> fillAll();
 
-    void saveAll(String idCinema, int quantity);
+    void saveAll(Cinema idCinema, int quantity);
 
     Room save(Room room);
 

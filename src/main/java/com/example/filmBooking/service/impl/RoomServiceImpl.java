@@ -1,5 +1,6 @@
 package com.example.filmBooking.service.impl;
 
+import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.RoomRepository;
@@ -26,14 +27,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void saveAll(String idCinema, int quantity) {
+    public void saveAll(Cinema idCinema, int quantity) {
         for (int i = 1; i < quantity + 1; i++) {
             Random generator = new Random();
             int value = generator.nextInt((100000 - 1) + 1) + 1;
             Room room = new Room();
             room.setId(UUID.randomUUID().toString());
             room.setCode("RM" + value);
-            room.setCinema(repositoryCinema.findById(idCinema).get());
+            room.setCinema(idCinema);
             room.setName("Room" + i + "_" + room.getCinema().getName());
             repository.save(room);
         }
