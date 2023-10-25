@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,7 +66,20 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     List<Schedule> findByRoom(String id);
 
 //    List<Schedule> findByNameContains(String name);
-//@Query("SELECT s FROM Schedule s WHERE (:name IS NULL OR s.name = :name) AND (:startAt IS NULL OR s.startAt = :startAt) AND (:movieId IS NULL OR s.movie.id = :movieId)")
-//List<Schedule> findByConditions(@Param("name") String name, @Param("startAt") Optional<LocalDate> startAt, @Param("movieId") Movie movieId);
+//    String searchName= "%movieName%"
+//@Query("select s from Schedule s " +
+//        " join Room r \n" +
+//        "on s.room= r\n" +
+//        "join Cinema c on c= r.cinema " +
+//        "WHERE (?1 IS NULL OR c.name = ?1) " +
+//        "AND (?2 IS NULL OR date(s.startAt )= ?2) " +
+//        "AND (?3 IS NULL OR s.movie.name like ?3)")
+//    @Query("FROM Schedule s WHERE :name is NULL OR s.room.cinema.name = :name " +
+//            "AND :startAt is NULL OR date(s.startAt) =: startAt " +
+//            "AND :movieName is NULL OR s.movie.name like :movieName ")
+@Query("FROM Schedule s WHERE ?1 is NULL OR s.room.cinema.name = ?1 " +
+        "AND ?2 is NULL OR date(s.startAt) = ?2 " +
+        "AND ?3 is NULL OR s.movie.name like ?3 ")
+List<Schedule> findByConditions(String name, LocalDate startAt, String movieName);
 
 }

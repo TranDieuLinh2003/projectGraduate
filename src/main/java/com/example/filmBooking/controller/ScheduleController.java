@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -94,17 +95,17 @@ public class ScheduleController {
         responseBean.setData(service.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-//    @Nullable @RequestParam(name = "userId", required = false) String userId
+
+    //    @Nullable @RequestParam(name = "userId", required = false) String userId
     @GetMapping("/findByName")
     @Operation(summary = "[Tìm kiếm theo tên]")
-    public ResponseEntity<?> findByName(@RequestParam("name") String name,
-                                        @RequestParam("startAt")
-                                        @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
-                                        Optional<LocalDate> startAt, @RequestParam("movie") Optional<String> movieId) {
+    public ResponseEntity<?> findByName(@RequestParam(name = "name", required = false) String name,
+                                        @DateTimeFormat(pattern = "dd/MM/yyyy") @Nullable @RequestParam(name = "startAt", required = false) LocalDate startAt,
+                                        @RequestParam(name = "movieName", required = false) String movieName) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-//        responseBean.setData(service.findByNameContains(name, startAt, movieId));
+        responseBean.setData(service.findByNameContains(name, startAt, "%" + movieName + "%"));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

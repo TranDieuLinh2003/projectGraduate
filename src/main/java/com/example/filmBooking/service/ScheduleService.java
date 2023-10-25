@@ -7,6 +7,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-//    List<Schedule> findByNameContains(String name, Optional<LocalDate> startAt, Optional<String> movieId);
+    List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName);
 
     List<String> getStart_At(String movieId, String cinemaId);
 
