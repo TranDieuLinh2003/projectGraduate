@@ -23,7 +23,7 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-    List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName);
+    List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
 
     List<String> getStart_At(String movieId, String cinemaId);
 
