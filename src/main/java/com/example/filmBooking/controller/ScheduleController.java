@@ -96,16 +96,20 @@ public class ScheduleController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-    //    @Nullable @RequestParam(name = "userId", required = false) String userId
-    @GetMapping("/findByName")
-    @Operation(summary = "[Tìm kiếm theo tên]")
+    @GetMapping("/findSchedule")
+    @Operation(summary = "[Tìm kiếm lịch chiếu]")
     public ResponseEntity<?> findByName(@RequestParam(name = "name", required = false) String name,
                                         @DateTimeFormat(pattern = "dd/MM/yyyy") @Nullable @RequestParam(name = "startAt", required = false) LocalDate startAt,
-                                        @RequestParam(name = "movieName", required = false) String movieName) {
+                                        @RequestParam(name = "movieName", required = false) String movieName,
+                                        @RequestParam(name = "startTime", required = false) Integer startTime,
+                                        @RequestParam(name = "endTime", required = false) Integer endTime
+    ) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.findByNameContains(name, startAt, "%" + movieName + "%"));
+        name = Strings.isEmpty(name) ? null : "%" + name + "%";
+        movieName = Strings.isEmpty(movieName) ? null : "%" + movieName + "%";
+        responseBean.setData(service.findByNameContains(name, startAt, movieName, startTime, endTime));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }
