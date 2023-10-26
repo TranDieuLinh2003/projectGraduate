@@ -41,7 +41,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime) {
-//        Movie movie= movieRepository.findById(String.valueOf(movieId)).get();
         return repository.findByConditions(name, startAt, movieName, startTime, endTime);
     }
 

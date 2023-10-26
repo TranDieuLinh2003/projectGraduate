@@ -97,9 +97,8 @@ public class ScheduleController {
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-    //    @Nullable @RequestParam(name = "userId", required = false) String userId
-    @GetMapping("/findByName")
-    @Operation(summary = "[Tìm kiếm theo tên]")
+    @GetMapping("/findSchedule")
+    @Operation(summary = "[Tìm kiếm lịch chiếu]")
     public ResponseEntity<?> findByName(@RequestParam(name = "name", required = false) String name,
                                         @DateTimeFormat(pattern = "dd/MM/yyyy") @Nullable @RequestParam(name = "startAt", required = false) LocalDate startAt,
                                         @RequestParam(name = "movieName", required = false) String movieName,
