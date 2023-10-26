@@ -98,7 +98,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    @Async
+//    @Async
     @Scheduled(fixedRate = 60000)
     public void scheduleFixedRate() {
         // danh sách lịch chiếu

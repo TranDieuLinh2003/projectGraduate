@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
 @Controller
 @CrossOrigin("*")
 @RequestMapping("/seat")
@@ -81,7 +80,8 @@ public class SeatController {
         responseBean.setData(seatService.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
-     @GetMapping("/getSeatsByScheduleId/{scheduleId}")
+
+    @GetMapping("/getSeatsByScheduleId/{scheduleId}")
     @Operation(summary = "[Lấy danh sách ghế theo ID lịch chiếu]")
     public ResponseEntity<?> getSeatsByScheduleId(@PathVariable("scheduleId") String scheduleId) {
         ResponseBean responseBean = new ResponseBean();
@@ -90,6 +90,7 @@ public class SeatController {
         responseBean.setData(seatService.getSeatsByScheduleId(scheduleId));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
+
     @GetMapping("/getSeatsByCustomerId/{customerId}")
     @Operation(summary = "[Lấy danh sách ghế theo ID khách hàng]")
     public ResponseEntity<?> getSeatsByCustomerId(@PathVariable("customerId") String customerId) {
@@ -97,6 +98,16 @@ public class SeatController {
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
         responseBean.setData(seatService.getSeatsByCustomerId(customerId));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByRoom/{id}")
+    @Operation(summary = "[Tìm kiếm theo id]")
+    public ResponseEntity<?> findAllByRoom(@PathVariable("id") String id) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(seatService.findAllByRoom(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }

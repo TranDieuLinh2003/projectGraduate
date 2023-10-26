@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface SeatRepository extends JpaRepository<Seat, String> {
 
-    String str_findByPrimary =
+    String findAllByRoomValue =
             "select * from seat where  (room_id = (:roomId) )";
-    @Query(nativeQuery = true, value = str_findByPrimary)
+    @Query(nativeQuery = true, value = findAllByRoomValue)
     List<Seat> findAllByRoom(@Param("roomId") String roomId);
     @Query(value = "SELECT s, b.dateCreate FROM Seat s \n" +
             "               JOIN projectLinh.ticket t ON t.seat.id = s.id\n" +

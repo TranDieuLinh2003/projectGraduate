@@ -64,7 +64,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "AND ((?2 is NULL) OR (date(s.startAt) = Date(?2))) " +
             "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
             "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
-            "AND ((?3 is NULL) OR (s.movie.name like ?3)) "
+            "AND ((?3 is NULL) OR (s.movie.name like ?3)) " +
+            "ORDER BY s.startAt ASC"
     )
     List<Schedule> findByConditions(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
 }
