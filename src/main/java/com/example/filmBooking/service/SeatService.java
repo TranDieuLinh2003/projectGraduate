@@ -10,6 +10,8 @@ import java.util.List;
 public interface SeatService {
     List<Seat> getAll();
 
+    List<Seat> findAllByRoom(String roomId);
+
     Seat save(Integer lineNumber, Integer number, String idRoom);
 
     Seat update(String id, Seat seat);

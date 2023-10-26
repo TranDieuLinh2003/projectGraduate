@@ -42,6 +42,11 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
+    public List<Seat> findAllByRoom(String roomId) {
+        return seatRepository.findAllByRoom(roomId);
+    }
+
+    @Override
     public Seat save(Integer lineNumber, Integer number, String idRoom) {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
