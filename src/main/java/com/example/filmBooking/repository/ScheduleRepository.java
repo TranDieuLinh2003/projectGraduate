@@ -46,22 +46,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     @Query("FROM Schedule s WHERE " +
             " s.status like 'Sắp chiếu'" +
-            "AND ?1 is NULL OR s.room.cinema.name = ?1 " +
-            "AND ?2 is NULL OR date(s.startAt) = ?2 " +
-            "AND ?3 is NULL OR s.movie.name like ?3 "
+            "AND ((?1 is NULL) OR (s.room.cinema.name like ?1)) " +
+            "AND ((?2 is NULL) OR (date(s.startAt) = Date(?2))) " +
+            "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
+            "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
+            "AND ((?3 is NULL) OR (s.movie.name like ?3)) "
     )
-    List<Schedule> findByConditions(String name, LocalDate startAt, String movieName);
-
-    @Query("SELECT s FROM Schedule s " +
-            "JOIN s.room.cinema c " +
-            "JOIN s.movie m " +
-            "WHERE c.name = :nameCinema " +
-            "AND m.name = :nameMovie " +
-            "AND s.status LIKE 'Sắp chiếu' " +
-            "AND DATE(s.startAt) = :startAt " +
-            "ORDER BY s ASC")
-    List<Schedule> getSearchSchedulet(@Param("nameCinema") String nameCinema,
-                                      @Param("nameMovie") String nameMovie,
-                                      @Param("startAt") LocalDate startAt);
+    List<Schedule> findByConditions(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
 }
 
