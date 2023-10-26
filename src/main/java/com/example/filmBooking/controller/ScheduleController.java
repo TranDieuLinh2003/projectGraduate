@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.util.Strings;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -101,11 +102,16 @@ public class ScheduleController {
     @Operation(summary = "[Tìm kiếm theo tên]")
     public ResponseEntity<?> findByName(@RequestParam(name = "name", required = false) String name,
                                         @DateTimeFormat(pattern = "dd/MM/yyyy") @Nullable @RequestParam(name = "startAt", required = false) LocalDate startAt,
-                                        @RequestParam(name = "movieName", required = false) String movieName) {
+                                        @RequestParam(name = "movieName", required = false) String movieName,
+                                        @RequestParam(name = "startTime", required = false) Integer startTime,
+                                        @RequestParam(name = "endTime", required = false) Integer endTime
+    ) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.findByNameContains(name, startAt, "%" + movieName + "%"));
+        name = Strings.isEmpty(name) ? null : "%" + name + "%";
+        movieName = Strings.isEmpty(movieName) ? null : "%" + movieName + "%";
+        responseBean.setData(service.findByNameContains(name, startAt, movieName, startTime, endTime));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 }
