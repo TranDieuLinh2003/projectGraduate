@@ -18,8 +18,7 @@ public interface CustomerService {
 
     void autoCheckPoint();
 
-
-//    String soSanhPoint(List<RankCustomer> listRank, String id);
+    List<Customer> findByPromotion(String idPromotion);
 
     Customer findByEmail(String email);
 

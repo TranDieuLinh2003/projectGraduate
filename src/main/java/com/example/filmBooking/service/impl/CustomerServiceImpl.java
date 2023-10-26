@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -74,11 +75,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public List<Customer> findByPromotion(String idPromotion) {
+        return repository.findByPromotion(idPromotion);
+    }
+
+    @Override
     public Customer findByEmail(String email) {
         return repository.findEmail(email);
     }
-
-
 
 
     @Override
@@ -101,7 +105,6 @@ public class CustomerServiceImpl implements CustomerService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
-
 
 
 //

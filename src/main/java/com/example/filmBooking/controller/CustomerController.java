@@ -79,4 +79,14 @@ public class CustomerController {
         responseBean.setData(service.findById(id));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
+
+    @GetMapping("/findByPromotion/{id}")
+    @Operation(summary = "[Tìm kiếm khách hàng theo khuyến mãi]")
+    public ResponseEntity<?>findByPromotion(@PathVariable("id") String id) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(service.findByPromotion(id));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
 }
