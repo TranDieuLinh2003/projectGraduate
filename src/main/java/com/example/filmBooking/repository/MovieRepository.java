@@ -20,6 +20,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     @Query(value = showPhimSapChieu, nativeQuery = true)
     List<Movie> showPhimSapChieu();
 
+    String showPhimSapChieuAndDangChieu = "select * from projectLinh.movie where status IN ('Sắp chiếu', 'Đang chiếu');" ;
+    @Query(value = showPhimSapChieuAndDangChieu, nativeQuery = true)
+    List<Movie> showPhimSapChieuAndDangChieu();
+
     String movie = ("SELECT DISTINCT  m.id, m.code, m.name, m.movie_duration, m.trailer, m.premiere_date, m.end_date,m.status, m.rated_id, m.director, m.language, m.image,m.movie_type, m.description, m.performers\n" +
             "\tfrom projectLinh.cinema c\n" +
             "\tjoin projectLinh.room r on r.cinema_id = c.id\n" +
