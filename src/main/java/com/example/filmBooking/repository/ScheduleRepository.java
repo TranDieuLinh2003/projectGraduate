@@ -14,7 +14,12 @@ import java.util.Optional;
 
 
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
-    String Start_at = ("SELECT DISTINCT  DATE(s.start_at)\n" + "FROM projectLinh.cinema c\n" + "JOIN projectLinh.room r ON c.id = r.cinema_id\n" + "JOIN projectLinh.schedule s ON r.id = s.room_id\n" + "JOIN projectLinh.movie m ON s.movie_id = m.id\n" + "where c.id=:cinemaId and m.id=:movieId  and  s.status like 'Sắp chiếu'  ORDER BY  DATE(s.start_at) ASC");
+    String Start_at = ("SELECT DISTINCT  DATE(s.start_at)\n"
+            + "FROM projectLinh.cinema c\n"
+            + "JOIN projectLinh.room r ON c.id = r.cinema_id\n"
+            + "JOIN projectLinh.schedule s ON r.id = s.room_id\n"
+            + "JOIN projectLinh.movie m ON s.movie_id = m.id\n"
+            + "where c.id=:cinemaId and m.id=:movieId  and  s.status like 'Sắp chiếu'  ORDER BY  DATE(s.start_at) ASC");
 
     @Query(value = Start_at, nativeQuery = true)
     List<String> getstartAtAndFinishAt(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
@@ -46,4 +51,17 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "AND ?3 is NULL OR s.movie.name like ?3 "
     )
     List<Schedule> findByConditions(String name, LocalDate startAt, String movieName);
+
+    @Query("SELECT s FROM Schedule s " +
+            "JOIN s.room.cinema c " +
+            "JOIN s.movie m " +
+            "WHERE c.name = :nameCinema " +
+            "AND m.name = :nameMovie " +
+            "AND s.status LIKE 'Sắp chiếu' " +
+            "AND DATE(s.startAt) = :startAt " +
+            "ORDER BY s ASC")
+    List<Schedule> getSearchSchedulet(@Param("nameCinema") String nameCinema,
+                                      @Param("nameMovie") String nameMovie,
+                                      @Param("startAt") LocalDate startAt);
 }
+
