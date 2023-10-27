@@ -24,5 +24,7 @@ public interface MovieService {
     
     List<Movie> showPhimSapChieu();
 
+    List<Movie> showPhishowPhimSapChieuAndDangChieumSapChieu();
+
     List<Movie> getMovie(String cinemaId, String movieId);
 }
