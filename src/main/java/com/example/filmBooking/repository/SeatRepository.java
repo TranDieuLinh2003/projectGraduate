@@ -12,7 +12,7 @@ import java.util.List;
 public interface SeatRepository extends JpaRepository<Seat, String> {
 
     String findAllByRoomValue =
-            "select * from seat where  (room_id = (:roomId) )";
+            "select * from seat where  (room_id = (:roomId) ) ORDER BY line ASC, number ASC";
     @Query(nativeQuery = true, value = findAllByRoomValue)
     List<Seat> findAllByRoom(@Param("roomId") String roomId);
     @Query(value = "SELECT s, b.dateCreate FROM Seat s \n" +
