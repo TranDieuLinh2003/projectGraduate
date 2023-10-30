@@ -19,7 +19,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + "JOIN projectLinh.room r ON c.id = r.cinema_id\n"
             + "JOIN projectLinh.schedule s ON r.id = s.room_id\n"
             + "JOIN projectLinh.movie m ON s.movie_id = m.id\n"
-            + "where c.id=:cinemaId and m.id=:movieId  and  s.status like 'Sắp chiếu'  ORDER BY  DATE(s.start_at) ASC");
+            + "where c.id=:cinemaId and m.id=:movieId  and  s.status  IN ('Sắp chiếu', 'Đang chiếu')  ORDER BY  DATE(s.start_at) ASC");
+
     @Query(value = Start_at, nativeQuery = true)
     List<String> getstartAtAndFinishAt(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
 
@@ -31,6 +32,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + "\tjoin projectLinh.movie m on m.id = s.movie_id\n"
             + "where m.id=:movieId\n"
             + " and c.id =:cinemaId and  s.status like 'Sắp chiếu' and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
+
     @Query(value = time, nativeQuery = true)
     List<String> getTime(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId, @Param("start_at") String start_at);
 
@@ -49,6 +51,21 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     @Query(value = schedule, nativeQuery = true)
     List<Schedule> getSchedule(@Param("cinemaId") String cinemaId, @Param("movieId") String movieId, @Param("startAt") String startAt, @Param("startTime") String startTime);
+
+
+    String schedule1 = ("SELECT DISTINCT   s.id, s.code, s.name, s.price, s.start_at, s.finish_at, s.status, s.room_id, s.movie_id\n"
+            + "   FROM projectLinh.cinema c\n"
+            + "" +
+            " JOIN projectLinh.room r ON c.id = r.cinema_id\n"
+            + "  JOIN projectLinh.schedule s ON r.id = s.room_id\n"
+            + " JOIN projectLinh.movie m ON s.movie_id = m.id\n"
+            + " join projectLinh.ticket t on t.schedule_id = s.id\n"
+            + "   join projectLinh.seat se on se.id= t.seat_id\n"
+            + "    WHERE c.name = :cinemaName AND m.name = :movieName\n"
+            + "     AND s.start_at  = :startAt");
+
+    @Query(value = schedule1, nativeQuery = true)
+    List<Schedule> getSchedule1(@Param("cinemaName") String cinemaName, @Param("movieName") String movieName, @Param("startAt") String startAt);
 
 
     @Query(value = "select*from schedule ORDER BY start_at ASC", nativeQuery = true)

@@ -68,6 +68,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+        System.out.println(room);
         //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
         // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
@@ -323,6 +324,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
         return repository.getSchedule(movieId,cinemaId,startAt,startTime);
+    }
+
+    @Override
+    public List<Schedule> getSchedule1(String cinemaName,String movieName,  String startAt ) {
+        return repository.getSchedule1(cinemaName,movieName,startAt);
     }
 
 
