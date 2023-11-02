@@ -94,6 +94,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime) {
+        return repository.findTicketsBySchedule_Id(cinemaId,movieId,startAt,startTime);
+    }
+
+    @Override
     public void delete(String id) {
         repository.delete(findById(id));
     }

@@ -25,4 +25,7 @@ public interface SeatService {
     List<Object[]> getSeatsByCustomerId(String customerId);
 
     List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime);
+
+    List<DtoSeat> getSeats1(String cinemaName,String movieName,String startAt);
+
 }
