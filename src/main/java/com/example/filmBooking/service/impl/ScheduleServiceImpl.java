@@ -68,6 +68,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+        System.out.println(room);
         //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
         // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
@@ -76,7 +77,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         //lấy thời lượng phim( đơn vị phút)
         Integer movieDuration = movie.getMovieDuration();
         Timestamp timestamp = Timestamp.valueOf(startAt);
-        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime());
+        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime()*60000);
         LocalDateTime finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
@@ -150,7 +151,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Integer movieDuration = movie.getMovieDuration();
         Timestamp timestamp = Timestamp.valueOf(startAt);
 //        Set thời gian kết thúc= thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
-        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + 900000);
+        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime()*60000);
         finishAt = timestamp.toLocalDateTime();
         scheduleNew.setFinishAt(finishAt);
         return repository.save(scheduleNew);
@@ -281,6 +282,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 20, 8, 0); // Thời gian bắt đầu đầu tiên
         LocalDateTime endTime = LocalDateTime.of(2023, 8, 21, 2, 0); // Thời gian kết thúc
         LocalDateTime currentStartTime = startTime;
+        Integer breakTime= findByIdSetting().getBreakTime();
 
         List<Movie> movieList = movieRepository.findAll(); // Danh sách phim
         List<Room> roomList = roomRepository.findAll(); // Danh sách phòng chiếu
@@ -291,7 +293,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 schedule.setRoom(room);
                 schedule.setStartAt(currentStartTime);
                 int movieDuration = movie.getMovieDuration(); // Thời lượng phim (tính bằng phút)
-                LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + 15); // Thời gian kết thúc = thời lượng phim + 15 phút
+                LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + breakTime); // Thời gian kết thúc = thời lượng phim + 15 phút
 
                 if (currentEndTime.isAfter(endTime)) {
                     break; // Nếu thời gian kết thúc của suất chiếu sau vượt quá thời gian kết thúc của ngày, thoát khỏi vòng lặp
@@ -323,6 +325,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
         return repository.getSchedule(movieId,cinemaId,startAt,startTime);
+    }
+
+    @Override
+    public List<Schedule> getSchedule1(String cinemaName,String movieName,  String startAt ) {
+        return repository.getSchedule1(cinemaName,movieName,startAt);
     }
 
 

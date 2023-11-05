@@ -3,6 +3,7 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
 import com.example.filmBooking.repository.RoomRepository;
@@ -36,6 +37,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public List<Seat> getAll() {
         return seatRepository.findAll();
@@ -94,7 +96,7 @@ public class SeatServiceImpl implements SeatService {
     public Seat findById(String id) {
         return seatRepository.findById(id).get();
     }
-    
+
     @Override
     public List<SeatDTO> getSeatsByScheduleId(String scheduleId) {
         Room room = scheduleRepository.getById(scheduleId).getRoom();
@@ -124,7 +126,51 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public List<DtoSeat> getSeats(String cinemaId, String movieId, String startAt, String startTime) {
-        return seatRepository.getSeat(cinemaId, movieId, startAt, startTime).stream().map(seat -> modelMapper.map(seat,DtoSeat.class))
+
+        List<Seat> listSeat = seatRepository.getSeat(cinemaId, movieId, startAt, startTime);
+// Lấy ra các vé đã được đặt trong lịch đó rồi map sang các chỗ ngồi
+        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id(cinemaId, movieId, startAt, startTime)
+                .stream().map(ticket -> ticket.getSeat())
                 .collect(Collectors.toList());
+
+
+        // Map list chỗ ngồi của phòng ở bước 1 sang list dto
+        List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {
+            DtoSeat seatDTO = modelMapper.map(seat, DtoSeat.class);
+            if (occupiedSeats.stream()
+                    .map(occupiedSeat -> occupiedSeat.getId())
+                    .collect(Collectors.toList()).contains(seat.getId())) {
+                seatDTO.setIsOccupied("1"); // Nếu ghế nào nằm trong list ghế đã được occupied thì set = 1
+            }
+            return seatDTO;
+        }).collect(Collectors.toList());
+
+        return filteredSeats;
     }
+
+    @Override
+    public List<DtoSeat> getSeats1(String cinemaName, String movieName, String startAt) {
+
+        List<Seat> listSeat = seatRepository.getSeat1(cinemaName, movieName, startAt);
+// Lấy ra các vé đã được đặt trong lịch đó rồi map sang các chỗ ngồi
+        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id1(cinemaName, movieName, startAt)
+                .stream().map(ticket -> ticket.getSeat())
+                .collect(Collectors.toList());
+
+
+        // Map list chỗ ngồi của phòng ở bước 1 sang list dto
+        List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {
+            DtoSeat seatDTO = modelMapper.map(seat, DtoSeat.class);
+            if (occupiedSeats.stream()
+                    .map(occupiedSeat -> occupiedSeat.getId())
+                    .collect(Collectors.toList()).contains(seat.getId())) {
+                seatDTO.setIsOccupied("1"); // Nếu ghế nào nằm trong list ghế đã được occupied thì set = 1
+            }
+            return seatDTO;
+        }).collect(Collectors.toList());
+
+        return filteredSeats;
+    }
+
+
 }
