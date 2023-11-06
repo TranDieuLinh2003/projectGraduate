@@ -15,13 +15,10 @@ import java.util.Random;
 public class CinemaServiceImpl implements CinemaService {
 
     @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
     private CinemaRepository repository;
 
     @Override
     public List<Cinema> fillAll() {
-
         return repository.findAll();
     }
 
@@ -40,7 +37,6 @@ public class CinemaServiceImpl implements CinemaService {
         customerNew.setName(cinema.getName());
         customerNew.setDescription(cinema.getDescription());
         customerNew.setAddress(cinema.getAddress());
-//        customerNew.setDescription(rank.getDescription());
         return repository.save(customerNew);
     }
 

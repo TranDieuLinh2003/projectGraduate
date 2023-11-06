@@ -10,7 +10,6 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -51,14 +50,11 @@ public class Bill {
     private Promotion promotion;
 
     @Column(name = "date_create")
-    private LocalDateTime dateCreate;
+    private Date dateCreate;
 
     @Column(name = "status")
     private Integer status;
 
     @Column(name = "total_money")
     private BigDecimal totalMoney;
-
-    @Column(name = "trading_code")
-    private String tradingCode;
 }
