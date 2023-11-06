@@ -31,6 +31,7 @@ public class BookingControllerApi {
     public static String apiGetSeat1 = Api.baseURL + "/api/ticket/show/seat1";
     public static String apiGetFoot = Api.baseURL + "/api/ticket/show/food";
     public static String apiVoucher = Api.baseURL + "/api/ticket/show/voucher";
+    public static String apiGeneralSetting= Api.baseURL + "/api/ticket/show/generalSetting";
 
     @GetMapping("/schedule")
     public String booking(@RequestParam String cinemaId,
@@ -148,6 +149,18 @@ public class BookingControllerApi {
                 Promotion[].class,
                 listRequestParam);
         model.addAttribute("listVoucher", listVoucher.getBody());
+
+        //lấy ra thời gian đặt vé
+        String urlTemplateGeneralSetting = UriComponentsBuilder.fromHttpUrl(apiGeneralSetting)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<GeneralSetting[]> listGeneralSetting = restTemplate.exchange(urlTemplateGeneralSetting,
+                HttpMethod.GET,
+                entity,
+                GeneralSetting[].class,
+                listRequestParam);
+        model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
         return "users/DatVe";
     }
 
@@ -255,6 +268,17 @@ public class BookingControllerApi {
                 Promotion[].class,
                 listRequestParam1);
         model.addAttribute("listVoucher", listVoucher.getBody());
+
+        String urlTemplateGeneralSetting = UriComponentsBuilder.fromHttpUrl(apiGeneralSetting)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<GeneralSetting[]> listGeneralSetting = restTemplate.exchange(urlTemplateGeneralSetting,
+                HttpMethod.GET,
+                entity,
+                GeneralSetting[].class,
+                listRequestParam1);
+        model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
         return "users/DatVe";
     }
 }

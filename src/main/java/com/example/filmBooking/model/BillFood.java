@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 
 
 @Entity
@@ -44,4 +45,9 @@ public class BillFood {
     @Column(name = "quantity")
     private Integer quantity;
 
+    @Column(name = "total_money")
+    private BigDecimal totalMoney;
+
+    @Column(name = "status")
+    private Integer status;
 }

@@ -16,4 +16,7 @@ public class DtoSeat {
     private Integer status;
     private Integer number;
     private String isOccupied;
+    private String ticketId;
+
+
 }

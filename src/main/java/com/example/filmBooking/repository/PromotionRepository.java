@@ -14,7 +14,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, String> {
     String voucherCustomerValue = "select p.* from promotion p " +
             "join rank_customer r on p.rank_customer_id= r.id " +
             "join customer c on c.rank_customer_id= r.id " +
-            "where c.id= ?1";
+            "where c.id= ?1 and quantity>0";
 
     @Query(value = voucherCustomerValue, nativeQuery = true)
     List<Promotion> listVoucherCustomer(String customerId);

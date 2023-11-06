@@ -72,9 +72,10 @@
                     </div>
 
                     <div class="row-container">
-                        <div  class="row">
+                        <div class="row">
                             <div th:each="seat : ${listA}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 th:disabled="${seat.isOccupied == '1'}" th:value="${seat.id}"
+                                 data-selected="false"
+                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
                                 [[${seat.code}]]
@@ -83,7 +84,8 @@
 
                         <div class="row">
                             <div th:each="seat : ${listB}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 th:disabled="${seat.isOccupied == '1'}" th:value="${seat.id}"
+                                 data-selected="false"
+                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
                                 [[${seat.code}]]
@@ -91,7 +93,8 @@
                         </div>
                         <div class="row">
                             <div th:each="seat : ${listC}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 th:disabled="${seat.isOccupied == '1'}" th:value="${seat.id}"
+                                 data-selected="false"
+                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
                                 [[${seat.code}]]
@@ -99,7 +102,8 @@
                         </div>
                         <div class="row">
                             <div th:each="seat : ${listD}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 th:disabled="${seat.isOccupied == '1'}" th:value="${seat.id}"
+                                 data-selected="false"
+                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
                                 [[${seat.code}]]
@@ -107,7 +111,8 @@
                         </div>
                         <div class="row">
                             <div th:each="seat : ${listE}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 th:disabled="${seat.isOccupied == '1'}" th:value="${seat.id}"
+                                 data-selected="false"
+                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
                                 [[${seat.code}]]
@@ -168,7 +173,8 @@
                     <h3><img th:src="@{/users/img/combo.png}" width="30px" height="35px" alt=""> COMBO ƯU ĐÃI </h3>
                 </div>
                 <div class="input-box">
-                    <input style="border-color: #0abfbc" type="text" id="searchInput" onkeyup="searchList()" placeholder="Search.."/>
+                    <input style="border-color: #0abfbc" type="text" id="searchInput" onkeyup="searchList()"
+                           placeholder="Search.."/>
                     <span class="search"><i class="uil uil-search search-icon"></i></span>
                     <i class="uil uil-times close-icon"></i>
                 </div>
@@ -187,7 +193,8 @@
                             <th:block th:each="food : ${listFood}">
                                 <div class="combo_tt">
                                     <img th:src="${food.image}" alt="" width="70px" height="70px">
-                                    <b style="margin-left: -110px" id="namefood">[[${food.name}]] </b>
+                                    <b style="margin-left: -110px" id="namefood"
+                                       th:value="${food.id}">[[${food.name}]] </b>
                                     <p style="margin-left: -80px" class="mot">[[${food.description}]] => Giá : <b
                                             class="priceFood">[[${food.price}]]</b></p>
                                     <div class="cart-quantity cart-column">
@@ -234,15 +241,13 @@
                             <tbody>
                             <th:block th:each="voucher : ${listVoucher}">
                                 <tr>
-                                    <td>
+                                    <td th:value="${voucher.id}">
                                         [[${voucher.code}]]
                                     </td>
                                     <td class="phantramgiam">
                                         [[${voucher.percent}]]
                                     </td>
-                                    <td>
-                                        [[${voucher.endDate}]]
-                                    </td>
+                                    <td th:text="${#temporals.format(voucher.endDate, 'dd/MM/yyyy')}"></td>
                                     <td>
                                         <input type="checkbox" onclick="getPhanTramGiam(this)">
                                     </td>
@@ -265,6 +270,7 @@
                     <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="voucher">0</p>
                     <p>Số tiền cần thanh toán:</p>
                     <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="thanhtien"></p>
+
                 </div>
 
             </div>
@@ -285,7 +291,7 @@
                     </div>
                     <div class="infor">
                         <p><i class='fa fa-history'></i> Thời lượng </p>
-                        <b>[[${schdeule.movie.movieDuration}]]</b>
+                        <b>[[${schdeule.movie.movieDuration}]] phút</b>
                     </div>
                     <p style="opacity: 0.3;">
                         --------------------------------------------------------------------------------</p>
@@ -376,13 +382,19 @@
                             <div style="display: grid;
                             grid-template-columns: 0.3fr 0.3fr ;">
                                 <div class="cartt_radio">
-                                    <input type="radio" name="optradio" checked> Thẻ nội địa</label>
+                                    <label> <input type="radio" name="optradio" checked> Thẻ nội địa</label>
                                 </div>
                                 <div class="cartt_radio">
-                                    <input type="radio" name="optradio"> Quét mã</label>
+                                    <label><input type="radio" name="optradio"> Quét mã</label>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="selectedSeats" name="selectedSeats">
+                        <input type="hidden" id="priceTicket" name="priceTicket">
+                        <input type="hidden" id="selectedFood" name="selectedFood">
+                        <input type="hidden" id="selectedQuantity" name="selectedQuantity">
+                        <input type="hidden" id="selectedPrice" name="selectedPrice">
+                        <input type="hidden" id="selectedPromition" name="selectedPromition">
                         <button type="submit" id="cancel" class="buttonn cancel-button">Thanh toán</button>
                     </form>
                 </fieldset>
@@ -390,8 +402,13 @@
                 </button>
             </div>
         </div>
+        <p class="countdown"> Thời gian còn lại </p>
+        <th:block th:each="listGeneralSetting : ${listGeneralSetting}">
+            <div id="countdown"> [[${listGeneralSetting.waitingTime}]]:00</div>
+        </th:block>
+        <br>
     </div>
-
+    <!---->
     <br>
 </li>
 <li th:unless="${customer != null}">
@@ -427,24 +444,29 @@
         // Sử dụng dữ liệu trong JavaScript
     }
     var priceticket = schedule.price;
-
+    let priceInput = document.getElementById("priceTicket");
+    priceInput.value = priceticket;
     let formattedPriceticket = priceticket.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
 
 
     var price_ticket = formattedPriceticket;
+    var selectedSeatIds = [];
     var clickedSeats = [];
 
     function hienGiaMoi(seat) {
         var priceElement = document.getElementById("price");
         var seatIndex = clickedSeats.indexOf(seat);
+
         if (seat.classList.contains('occupied')) {
-            alert("Ghế đã được bán!")
+            alert("Ghế đã được bán!");
             return;
         }
+
         if (seat.classList.contains('black')) {
-            alert("Ghế đang được bảo trì!")
+            alert("Ghế đang được bảo trì!");
             return;
         }
+
         if (seatIndex === -1) {
             clickedSeats.push(seat);
             // seat.style.backgroundColor = "green";
@@ -454,13 +476,41 @@
         }
 
         if (clickedSeats.length === 0) {
-            priceElement.innerHTML = "";
+            if (priceElement) { // Check if priceElement exists
+                priceElement.innerHTML = "";
+            }
         } else {
-            priceElement.innerHTML = "Giá: " + price_ticket;
+            if (priceElement) { // Check if priceElement exists
+                priceElement.innerHTML = "Giá: " + price_ticket;
+            }
         }
 
+        var isSelected = seat.getAttribute('data-selected') === 'true';
+        var seatIdd = seat.getAttribute('data-value');
+        var selectedSeatsInput = document.getElementById('selectedSeats');
+
+        if (isSelected) {
+            // Deselect the seat
+            seat.setAttribute('data-selected', 'false');
+            // seat.classList.remove('selected');
+            var index = selectedSeatIds.indexOf(seatIdd);
+            if (index !== -1) {
+                selectedSeatIds.splice(index, 1);
+            }
+        } else {
+            // Select the seat
+            seat.setAttribute('data-selected', 'true');
+            // seat.classList.add('selected');
+            selectedSeatIds.push(seatIdd);
+        }
+
+        if (selectedSeatsInput) { // Check if selectedSeatsInput exists
+            selectedSeatsInput.value = selectedSeatIds.join(',');
+        }
+        console.log(selectedSeatIds)
 
     }
+
 
     var priceFoodd = document.getElementsByClassName("priceFood");
     for (var i = 0; i < priceFoodd.length; i++) {
@@ -505,10 +555,45 @@
             tongtien.textContent = formattedTotalPrice;
             thanhtien.textContent = formattedTotalPrice;
         }
-
     }
 
+    var listGeneralSetting = [[${listGeneralSetting}]];
+    for (var i = 0; i < listGeneralSetting.length; i++) {
+        var GeneralSetting = listGeneralSetting[i];
+        // Sử dụng dữ liệu trong JavaScript
+    }
+    var timeSetting = GeneralSetting.waitingTime;
+    console.log(timeSetting)
+    const countdownElement = document.getElementById("countdown");
 
+    // Đặt thời gian ban đầu là 9 phút (540 giây)
+    let timeInSeconds = timeSetting * 60;
+
+    // Hàm để đếm ngược
+    function countdown() {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = timeInSeconds % 60;
+
+        // Định dạng thời gian thành chuỗi "MM:SS"
+        const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+        // Gán giá trị định dạng thời gian vào phần tử hiển thị
+        countdownElement.textContent = formattedTime;
+
+        if (timeInSeconds > 0) {
+            // Giảm thời gian đi 1 giây
+            timeInSeconds--;
+
+            // Tiếp tục đếm ngược sau 1 giây
+            setTimeout(countdown, 1000);
+        } else {
+            // Đã hết thời gian đếm ngược
+            // countdownElement.textContent = "Hết thời gian!";
+            window.location.href = "/filmbooking/trangchu";
+        }
+    }
+
+    countdown();
 </script>
 <link
         rel="stylesheet"

@@ -1,4 +1,4 @@
-package com.example.filmBooking.service;
+package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.config.VNPayConfig;
 import jakarta.servlet.http.HttpServletRequest;

@@ -38,6 +38,7 @@ function setSeatsColor(color) {
         }
     }
 }
+
 // const seats = document.querySelectorAll(".row .seat:not(.occupied)");
 // const seatContainer = document.querySelector(".row-container");
 // let selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
@@ -168,7 +169,8 @@ var minute = dateTime.getMinutes();
 var formattedMinute = String(minute).padStart(2, '0');
 var formattedTime = formattedHour + ":" + formattedMinute;
 document.getElementById("gio").innerHTML = formattedTime;
-// myData.innerHTML = "<b>" + formattedTime + "</b>";
+myData.innerHTML = "<b>" + formattedTime + "</b>";
+
 
 
 //chọn ghế
@@ -177,6 +179,7 @@ var seat = document.getElementsByClassName("seat");
 Array.from(seat).forEach(function (seat) {
     seat.addEventListener("click", toggleSelection);
 });
+
 function toggleSelection() {
     var seatNumber = this.textContent;
     var seatNumber1 = this.textContent;
@@ -227,7 +230,6 @@ function toggleSelection() {
         selectedSeats1.appendChild(newSeat1); // Add the seat to the <p> tag if it doesn't already exist
     }
 }
-
 
 
 // chọn trang
@@ -313,7 +315,8 @@ function sumFood() {
     const comboElements = document.getElementsByClassName("combo_tt");
     let total = 0;
     let selectedFoods = [];
-
+    let selectedQuantity = [];
+    let selectedPrice = [];
     for (let i = 0; i < comboElements.length; i++) {
         const quantityElement = comboElements[i].querySelector(".cart-quantity-input");
         const priceElement = comboElements[i].querySelector(".priceFood");
@@ -328,11 +331,12 @@ function sumFood() {
             total += quantity * price;
             if (quantity > 0) {
                 selectedFoods.push(name + "(" + quantity + ")"); // Lưu tên đồ ăn vào mảng khi số lượng lớn hơn 0
-
+                selectedQuantity.push(quantity)
+                selectedPrice.push(quantity * price)
             }
         }
     }
-
+console.log(selectedPrice)
     const formattedTotalPrice = total.toLocaleString("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -362,10 +366,32 @@ function sumFood() {
     }
 
     document.getElementById("doan").innerHTML = selectedFoods;// In ra mảng các đồ ăn đã chọn
+
+    const selectedNameInput = document.getElementById('selectedQuantity'); // Lấy thẻ input theo ID
+    selectedNameInput.value = selectedQuantity.join(', ')
+
+    const selectedPriceInput = document.getElementById('selectedPrice'); // Lấy thẻ input theo ID
+    selectedPriceInput.value = selectedPrice.join(', ')
+
+    var selectedInput = document.getElementById('selectedFood');
+    var selectedIds = [];
+
+    for (var i = 0; i < comboElements.length; i++) {
+        var comboElement = comboElements[i];
+        var quantityInput = comboElement.querySelector('.cart-quantity-input');
+        var idElement = comboElement.querySelector('#namefood');
+
+        if (quantityInput && 'value' in quantityInput && quantityInput.value > 0) {
+            var id = idElement.getAttribute('value');
+            console.log('ID:', id);
+            selectedIds.push(id);
+        }
+    }
+
+    selectedInput.value = selectedIds.join();
 }
 
 //thanh toán
-
 
 
 var rapchieu = document.getElementById("phong").textContent;
@@ -402,27 +428,44 @@ function getPhanTramGiam(checkbox) {
         let phantramgiam = phantramgiamElement.textContent;
         let giatrigiamchia = phantramgiam / 100;
         let phantram = sum * giatrigiamchia
-        document.getElementById("tiendcgiam").innerHTML ="-" + phantram.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+        document.getElementById("tiendcgiam").innerHTML = "-" + phantram.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
         let giatrigiam = sum - phantram;
         let giatriThanhTien = giatrigiam.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
         document.getElementById("thanhtien").innerHTML = giatriThanhTien;
-        document.getElementById("voucher").innerHTML ="-" +phantram.toLocaleString("vi-VN", {style: "currency", currency: "VND"});;
+        document.getElementById("voucher").innerHTML = "-" + phantram.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+        ;
+        var row = checkbox.parentNode.parentNode;
+        var promotionID = row.querySelector('td[value]').getAttribute('value');
+        console.log(promotionID);
+        const selectedPromitionInput = document.getElementById('selectedPromition'); // Lấy thẻ input theo ID
+        selectedPromitionInput.value = promotionID
     } else {
         let giatriThanhTien = sum.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
         document.getElementById("thanhtien").innerHTML = giatriThanhTien;
         document.getElementById("tiendcgiam").innerHTML = 0
         document.getElementById("voucher").innerHTML = 0;
+        const selectedPromitionInput = document.getElementById('selectedPromition'); // Lấy thẻ input theo ID
+        selectedPromitionInput.value = ""
     }
 
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
     // Disable all checkboxes except the clicked one
-    checkboxes.forEach(function(checkboxItem) {
+    checkboxes.forEach(function (checkboxItem) {
         if (checkboxItem !== checkbox) {
             checkboxItem.disabled = checkbox.checked;
         }
     });
+
+
 }
+
 //tìm kiếm
 function searchList() {
     var input, filter, comboItems, item, i;
@@ -454,3 +497,6 @@ searchIcon.addEventListener('click', () => {
 closeIcon.addEventListener('click', () => {
     inputBox.classList.remove('open');
 });
+
+
+//đếm thời gian

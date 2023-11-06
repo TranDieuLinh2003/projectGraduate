@@ -1,7 +1,7 @@
 package com.example.filmBooking.service.impl;
 
-import com.example.filmBooking.model.Bill;
-import com.example.filmBooking.repository.BillRepository;
+import com.example.filmBooking.model.*;
+import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,18 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     private BillRepository repository;
+
+    @Autowired
+    private ScheduleServiceImpl scheduleRepository;
+
+    @Autowired
+    private CustomerServiceImpl customerService;
+
+    @Autowired
+    private BillTicketRepository billTicketRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Override
     public List<Bill> findAll() {
@@ -45,6 +57,8 @@ public class BillServiceImpl implements BillService {
     public Bill findById(String id) {
         return repository.findById(id).get();
     }
+
+//
 
     @Override
     public void delete(String id) {

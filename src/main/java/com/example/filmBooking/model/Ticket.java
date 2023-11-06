@@ -45,4 +45,5 @@ public class Ticket {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
+
 }

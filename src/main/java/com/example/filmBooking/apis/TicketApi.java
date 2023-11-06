@@ -19,7 +19,7 @@ import java.util.List;
 public class TicketApi {
 
     @Autowired
-    private ScheduleRepository repository;
+    private TicketServiceImpl ticketService;
 
     @Autowired
     private ScheduleServiceImpl scheduleService;
@@ -32,6 +32,10 @@ public class TicketApi {
 
     @Autowired
     private PromotionServiceImpl promotionService;
+
+    @Autowired
+    private GeneralSettingServiceImpl generalSettingService;
+
 
     @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
@@ -54,6 +58,15 @@ public class TicketApi {
                                                   @RequestParam String startTime) {
         return new ResponseEntity<>(seatService.getSeats(cinemaId, movieId, startAt, startTime), HttpStatus.OK);
     }
+
+    @GetMapping("/show/ticket")
+    private ResponseEntity<List<Ticket>> getSTicket(@RequestParam String cinemaId,
+                                                  @RequestParam String movieId,
+                                                  @RequestParam String startAt,
+                                                  @RequestParam String startTime) {
+        return new ResponseEntity<>(ticketService.getTicket(cinemaId, movieId, startAt, startTime), HttpStatus.OK);
+    }
+
     @GetMapping("/show/seat1")
     private ResponseEntity<List<DtoSeat>> getSeat1(@RequestParam String cinemaName,
                                                   @RequestParam String movieName,
@@ -68,5 +81,10 @@ public class TicketApi {
     @GetMapping("/show/voucher")
     private ResponseEntity<List<Promotion>> getAllVoucher(@RequestParam String customerId) {
         return new ResponseEntity<>(promotionService.listVoucherCustomer(customerId), HttpStatus.OK);
+    }
+
+    @GetMapping("/show/generalSetting")
+    private ResponseEntity<List<GeneralSetting>> getAllGeneralSetting() {
+        return new ResponseEntity<>(generalSettingService.fillAll(), HttpStatus.OK);
     }
 }

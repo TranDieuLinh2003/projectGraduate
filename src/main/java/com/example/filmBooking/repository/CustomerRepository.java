@@ -19,4 +19,5 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
             "WHERE p.id = ?1 ",nativeQuery = true)
     List<Customer> findByPromotion (String idPromotion);
 
+
 }

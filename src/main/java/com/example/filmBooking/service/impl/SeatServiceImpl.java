@@ -15,9 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -132,17 +130,31 @@ public class SeatServiceImpl implements SeatService {
         List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id(cinemaId, movieId, startAt, startTime)
                 .stream().map(ticket -> ticket.getSeat())
                 .collect(Collectors.toList());
-
-
+//        System.out.println(occupiedSeats);
+// Lấy ra các vé
+        List<Ticket> tickets = ticketRepository.ticketShow(cinemaId, movieId, startAt, startTime);
+//        System.out.println(tickets);
+//        tickets.forEach(ticket -> {
+//            String ticketId = ticket.getId();
+//            System.out.println("Ticket ID: " + ticketId);
+//        });
         // Map list chỗ ngồi của phòng ở bước 1 sang list dto
         List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {
-            DtoSeat seatDTO = modelMapper.map(seat, DtoSeat.class);
+            DtoSeat dtoSeat = modelMapper.map(seat, DtoSeat.class);
+
             if (occupiedSeats.stream()
                     .map(occupiedSeat -> occupiedSeat.getId())
                     .collect(Collectors.toList()).contains(seat.getId())) {
-                seatDTO.setIsOccupied("1"); // Nếu ghế nào nằm trong list ghế đã được occupied thì set = 1
+                dtoSeat.setIsOccupied("1"); // Nếu ghế nào nằm trong list ghế đã được occupied thì set = 1
             }
-            return seatDTO;
+//            List<Integer> ticketIdsWithSeat = new ArrayList<>();
+
+            for (Ticket ticket : tickets) {
+                if (ticket.getSeat().getId() == seat.getId()) {
+                    dtoSeat.setTicketId(ticket.getId());
+                }
+            }
+            return dtoSeat;
         }).collect(Collectors.toList());
 
         return filteredSeats;
@@ -157,6 +169,7 @@ public class SeatServiceImpl implements SeatService {
                 .stream().map(ticket -> ticket.getSeat())
                 .collect(Collectors.toList());
 
+        List<Ticket> tickets = ticketRepository.ticketShow1(cinemaName, movieName, startAt);
 
         // Map list chỗ ngồi của phòng ở bước 1 sang list dto
         List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {
@@ -165,6 +178,11 @@ public class SeatServiceImpl implements SeatService {
                     .map(occupiedSeat -> occupiedSeat.getId())
                     .collect(Collectors.toList()).contains(seat.getId())) {
                 seatDTO.setIsOccupied("1"); // Nếu ghế nào nằm trong list ghế đã được occupied thì set = 1
+            }
+            for (Ticket ticket : tickets) {
+                if (ticket.getSeat().getId() == seat.getId()) {
+                    seatDTO.setTicketId(ticket.getId());
+                }
             }
             return seatDTO;
         }).collect(Collectors.toList());
