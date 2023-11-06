@@ -58,4 +58,7 @@ public class Bill {
 
     @Column(name = "total_money")
     private BigDecimal totalMoney;
+
+    @Column(name = "trading_code")
+    private String tradingCode;
 }
