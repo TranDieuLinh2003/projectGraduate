@@ -9,6 +9,11 @@ import java.util.List;
 
 public interface CinemaRepository extends JpaRepository<Cinema, String> {
 
+    String findNumberOfRoom = "select COUNT(*) from room WHERE cinema_id =:id";
+
+    @Query(value = findNumberOfRoom, nativeQuery = true)
+    Integer findNumberOfRoom(String id);
+
     String cinema = ("SELECT DISTINCT c.name, c.id, c.address, c.description, c.code\n" +
             "FROM projectLinh.cinema c\n" +
             "JOIN projectLinh.room r ON c.id = r.cinema_id\n" +

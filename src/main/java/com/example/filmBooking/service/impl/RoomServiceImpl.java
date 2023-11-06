@@ -27,15 +27,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void saveAll(Cinema idCinema, int quantity) {
+    public void saveAll(Cinema cinema, int quantity) {
         for (int i = 1; i < quantity + 1; i++) {
             Random generator = new Random();
             int value = generator.nextInt((100000 - 1) + 1) + 1;
             Room room = new Room();
             room.setId(UUID.randomUUID().toString());
             room.setCode("RM" + value);
-            room.setCinema(idCinema);
+            room.setCinema(cinema);
             room.setName("Room" + i + "_" + room.getCinema().getName());
+            cinema.setCapacity(repositoryCinema.findNumberOfRoom(cinema.getId()));
             repository.save(room);
         }
     }
@@ -51,7 +52,7 @@ public class RoomServiceImpl implements RoomService {
         customerNew.setName(room.getName());
         customerNew.setDescription(room.getDescription());
         customerNew.setType(room.getType());
-        customerNew.setCapacity(room.getCapacity());
+//        customerNew.setCapacity(room.getCapacity());
         customerNew.setCinema(room.getCinema());
         return repository.save(customerNew);
     }
