@@ -27,7 +27,7 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
     List<Seat> getSeatByRoomId(String roomId);
 
 
-    String seat = ("SELECT DISTINCT    se.id, se.code, se.room_id, se.status, se.description, se.line, se.number\n" +
+    String seat = ("SELECT DISTINCT se.id, se.code, se.room_id, se.status, se.description, se.line, se.number\n" +
             "            FROM projectLinh.cinema c\n" +
             "            JOIN projectLinh.room r ON c.id = r.cinema_id\n" +
             "            JOIN projectLinh.schedule s ON r.id = s.room_id\n" +

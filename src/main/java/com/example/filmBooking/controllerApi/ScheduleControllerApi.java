@@ -60,7 +60,7 @@ public class ScheduleControllerApi {
                 listRequestParam);
         List<String> listStartAt = Arrays.asList(listStartAtEntity.getBody());
 //        System.out.println(listStartAt);
-        if ( listStartAt.isEmpty()){
+        if (listStartAt.isEmpty()){
             ra.addFlashAttribute("Message", "Rạp đang không có ngày chiếu nào");
             return "redirect:/show/cinema?movieId=" +movieId+ "&cinemaId=" +cinemaId;
         } else {
