@@ -183,6 +183,8 @@ Array.from(seat).forEach(function (seat) {
 function toggleSelection() {
     var seatNumber = this.textContent;
     var seatNumber1 = this.textContent;
+    var seatNumber2 = this.textContent;
+
     var seat = this;
     var selectedSeats = document.getElementById("chair");
     var existingSeats = selectedSeats.querySelectorAll("b");
@@ -190,8 +192,14 @@ function toggleSelection() {
     var selectedSeats1 = document.getElementById("tenghe");
     var existingSeats1 = selectedSeats1.querySelectorAll("p");
 
+    var selectedSeats2 = document.getElementById("tenghe1");
+    var existingSeats2 = selectedSeats2.querySelectorAll("p");
+
+
     var isAlreadySelected = false;
     var isAlreadySelected1 = false;
+    var isAlreadySelected2 = false;
+
 
     Array.from(existingSeats).forEach(function (existingSeat) {
         if (existingSeat.textContent === seatNumber) {
@@ -207,6 +215,13 @@ function toggleSelection() {
         }
     });
 
+    Array.from(existingSeats2).forEach(function (existingSeat) {
+        if (existingSeat.textContent === seatNumber2) {
+            isAlreadySelected2 = true;
+            existingSeat.remove(); // Remove seat from <p> tag if it already exists
+        }
+    });
+
     // Check if the seat is occupied
     if (seat.classList.contains('occupied')) {
         var occupiedSeats = document.getElementById("gia");
@@ -218,6 +233,7 @@ function toggleSelection() {
         occupiedSeats.textContent = ""; // Remove price if seat is occupied
         return; // Don't perform any actions for occupied seats
     }
+
     if (!isAlreadySelected) {
         var newSeat = document.createElement("b");
         newSeat.textContent = seatNumber;
@@ -228,6 +244,62 @@ function toggleSelection() {
         var newSeat1 = document.createElement("p");
         newSeat1.textContent = seatNumber1;
         selectedSeats1.appendChild(newSeat1); // Add the seat to the <p> tag if it doesn't already exist
+    }
+
+    if (!isAlreadySelected2) {
+        var newSeat2 = document.createElement("p");
+        newSeat2.textContent = seatNumber2;
+        selectedSeats2.appendChild(newSeat2); // Add the seat to the <p> tag if it doesn't already exist
+    }
+
+    if (!isAlreadySelected2) {
+        var seatInput = document.querySelector('input[name="seat"]');
+        seatInput.value = seatNumber2;
+        selectedSeats2.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
+        var allData = selectedSeats2.textContent; // Lấy tất cả dữ liệu trong selectedSeats2
+        allData1 = allData.replace(/\n/g, ",");
+        seatData = allData1.replace(/\s*,\s*/g, ",");
+        seatData1 = seatData.replace(/,+/g, ",");
+        document.querySelector('input[name="seat"]').value = seatData1; // Gán tất cả dữ liệu vào thẻ input ẩn
+    }
+    if (selectedSeats2.children.length === 0) {
+        // Clear the input value if no seat is selected
+        var seatInput = document.querySelector('input[name="seat"]');
+        seatInput.value = "";
+    }else {
+        var seatInput = document.querySelector('input[name="seat"]');
+        seatInput.value = seatNumber2;
+        selectedSeats2.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
+        var allData = selectedSeats2.textContent; // Lấy tất cả dữ liệu trong selectedSeats2
+        allData1 = allData.replace(/\n/g, ",");
+        seatData = allData1.replace(/\s*,\s*/g, ",");
+        seatData1 = seatData.replace(/,+/g, ",");
+        document.querySelector('input[name="seat"]').value = seatData1;
+    }
+
+    if (!isAlreadySelected1) {
+        var seatInput = document.querySelector('input[name="seatseat"]');
+        seatInput.value = seatNumber1;
+        selectedSeats1.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
+        var allData = selectedSeats1.textContent; // Lấy tất cả dữ liệu trong selectedSeats2
+        allData1 = allData.replace(/\n/g, ",");
+        seatData = allData1.replace(/\s*,\s*/g, ",");
+        seatData1 = seatData.replace(/,+/g, ",");
+        document.querySelector('input[name="seatseat"]').value = seatData1; // Gán tất cả dữ liệu vào thẻ input ẩn
+    }
+    if (selectedSeats1.children.length === 0) {
+        // Clear the input value if no seat is selected
+        var seatInput = document.querySelector('input[name="seatseat"]');
+        seatInput.value = "";
+    }else {
+        var seatInput = document.querySelector('input[name="seatseat"]');
+        seatInput.value = seatNumber2;
+        selectedSeats1.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
+        var allData = selectedSeats1.textContent; // Lấy tất cả dữ liệu trong selectedSeats2
+        allData1 = allData.replace(/\n/g, ",");
+        seatData = allData1.replace(/\s*,\s*/g, ",");
+        seatData1 = seatData.replace(/,+/g, ",");
+        document.querySelector('input[name="seatseat"]').value = seatData1;
     }
 }
 
@@ -259,6 +331,7 @@ document.getElementById('comeBack').addEventListener('click', function () {
     var div1 = document.getElementById('div1');
     var div2 = document.getElementById('div2');
     var div3 = document.getElementById('div3');
+    var div4 = document.getElementById('div4');
     var chair = document.getElementById("chair");
     var message = document.getElementById('modalView');
 
@@ -266,6 +339,8 @@ document.getElementById('comeBack').addEventListener('click', function () {
     div1.style.display = 'block'; // Show div1
     div2.style.display = 'none'; // Hide div2
     div3.style.display = 'none';
+    div4.style.display = 'none';
+
     document.getElementById("comeBack").style.display = "none";
     document.getElementById("showDivButton").style.display = "block";
     document.getElementById("showDivThanhToan").style.display = "none";
@@ -274,6 +349,67 @@ document.getElementById('showDivThanhToan').addEventListener('click', function (
     var div1 = document.getElementById('div1');
     var div2 = document.getElementById('div2');
     var div3 = document.getElementById('div3');
+    var div4 = document.getElementById('div4');
+    var split_frame_2 = document.getElementById('split_frame_2');
+    var chair = document.getElementById("chair");
+    var message = document.getElementById('modalView');
+
+    var firstRadio = document.getElementById('thenoidia');
+    var secondRadio = document.getElementById('quetma');
+    if (firstRadio.checked) {
+        // Display div for Thẻ nội dung địa chỉ
+        message.innerHTML = ""; // Clear any error message
+        div1.style.display = 'none'; // Show div1
+        div2.style.display = 'none'; // Hide div2
+        div3.style.display = 'block';
+        div4.style.display = 'none';
+        split_frame_2.style.display = 'none'
+
+        let amount = document.getElementById("thanhtien").textContent;
+        document.getElementById("amount").innerHTML = amount;
+        let amountt = parseInt(amount.replace("₫", "").replace(".", ""));
+        document.getElementsByName("amount")[0].value = amountt;
+
+        let amount1 = document.getElementById("thanhtien").textContent;
+        document.getElementById("amount1").innerHTML = amount1;
+        let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+        document.getElementsByName("amount1")[0].value = amountt1;
+
+
+        document.getElementById("comeBack").style.display = "block";
+        document.getElementById("showDivButton").style.display = "none";
+        document.getElementById("showDivThanhToan").style.display = "none";
+    } else if (secondRadio.checked) {
+        message.innerHTML = ""; // Clear any error message
+        div1.style.display = 'none'; // Show div1
+        div2.style.display = 'none'; // Hide div2
+        div3.style.display = 'none';
+        div4.style.display = 'block';
+
+        split_frame_2.style.display = 'none'
+
+        let amount = document.getElementById("thanhtien").textContent;
+        document.getElementById("amount").innerHTML = amount;
+        let amountt = parseInt(amount.replace("₫", "").replace(".", ""));
+        document.getElementsByName("amount")[0].value = amountt;
+        let amount1 = document.getElementById("thanhtien").textContent;
+        document.getElementById("amount1").innerHTML = amount1;
+        let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+        document.getElementsByName("amount1")[0].value = amountt1;
+        document.getElementById("comeBack").style.display = "block";
+        document.getElementById("showDivButton").style.display = "none";
+        document.getElementById("showDivThanhToan").style.display = "none";
+        document.getElementById("cancel1").style.display = "none";
+        document.getElementById("cancel2").style.display = "block";
+        document.getElementById("thongtinthanhtoan").style.display = "none";
+    }
+
+});
+document.getElementById('cancel2').addEventListener('click', function () {
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var div3 = document.getElementById('div3');
+    var div4 = document.getElementById('div4');
     var split_frame_2 = document.getElementById('split_frame_2');
     var chair = document.getElementById("chair");
     var message = document.getElementById('modalView');
@@ -281,17 +417,69 @@ document.getElementById('showDivThanhToan').addEventListener('click', function (
     message.innerHTML = ""; // Clear any error message
     div1.style.display = 'none'; // Show div1
     div2.style.display = 'none'; // Hide div2
-    div3.style.display = 'block';
+    div3.style.display = 'none';
+    div4.style.display = 'block';
+
     split_frame_2.style.display = 'none'
 
-    let amount = document.getElementById("thanhtien").textContent;
-    document.getElementById("amount").innerHTML = amount;
-    let amountt = parseInt(amount.replace("₫", "").replace(".", ""));
-    document.getElementsByName("amount")[0].value = amountt;
-
+    let amount1 = document.getElementById("thanhtien").textContent;
+    document.getElementById("amount1").innerHTML = amount1;
+    let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+    document.getElementsByName("amount1")[0].value = amountt1;
     document.getElementById("comeBack").style.display = "block";
     document.getElementById("showDivButton").style.display = "none";
     document.getElementById("showDivThanhToan").style.display = "none";
+    document.getElementById("cancel1").style.display = "block";
+    document.getElementById("cancel2").style.display = "none";
+    document.getElementById("thongtinthanhtoan").style.display = "block";
+
+
+});
+document.getElementById('cancel2').addEventListener('click', function () {
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var div3 = document.getElementById('div3');
+    var div4 = document.getElementById('div4');
+    var split_frame_2 = document.getElementById('split_frame_2');
+    var chair = document.getElementById("chair");
+    var message = document.getElementById('modalView');
+
+    message.innerHTML = ""; // Clear any error message
+    div1.style.display = 'none'; // Show div1
+    div2.style.display = 'none'; // Hide div2
+    div3.style.display = 'none';
+    div4.style.display = 'block';
+
+    split_frame_2.style.display = 'none'
+
+    let amount1 = document.getElementById("thanhtien").textContent;
+    document.getElementById("amount1").innerHTML = amount1;
+    let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+    document.getElementsByName("amount1")[0].value = amountt1;
+    document.getElementById("comeBack").style.display = "block";
+    document.getElementById("showDivButton").style.display = "none";
+    document.getElementById("showDivThanhToan").style.display = "none";
+    document.getElementById("cancel1").style.display = "block";
+    document.getElementById("cancel2").style.display = "none";
+    document.getElementById("image").style.display = "block";
+    document.getElementById("thongtinthanhtoan").style.display = "block";
+
+});
+var radioInputs = document.querySelectorAll('input[name="optradio"]');
+
+// Add change event listener to each radio input
+radioInputs.forEach(function(radioInput) {
+    radioInput.addEventListener('change', function() {
+        // Clear the 'checked' attribute from all radio inputs
+        radioInputs.forEach(function(input) {
+            input.removeAttribute('checked');
+        });
+
+        // Set the 'checked' attribute for the selected radio input
+        if (this.checked) {
+            this.setAttribute('checked', 'checked');
+        }
+    });
 });
 document.getElementById('comeBack2').addEventListener('click', function () {
     var div1 = document.getElementById('div1');
@@ -309,7 +497,27 @@ document.getElementById('comeBack2').addEventListener('click', function () {
     document.getElementById("showDivButton").style.display = "block";
     document.getElementById("showDivThanhToan").style.display = "none";
 });
+document.getElementById('comeBack3').addEventListener('click', function () {
+    var div1 = document.getElementById('div1');
+    var div2 = document.getElementById('div2');
+    var div3 = document.getElementById('div3');
+    var chair = document.getElementById("chair");
+    var div4 = document.getElementById('div4');
+    var message = document.getElementById('modalView');
+    var split_frame_2 = document.getElementById('split_frame_2');
+    message.innerHTML = ""; // Clear any error message
+    div1.style.display = 'block'; // Show div1
+    div2.style.display = 'none'; // Hide div2
+    div3.style.display = 'none';
+    div4.style.display = 'none';
+    split_frame_2.style.display = 'block'
+    document.getElementById("comeBack").style.display = "none";
+    document.getElementById("showDivButton").style.display = "block";
+    document.getElementById("showDivThanhToan").style.display = "none";
+    document.getElementById("image").style.display = "none";
+    document.getElementById("thongtinthanhtoan").style.display = "none";
 
+});
 // // tính tổng tiền
 function sumFood() {
     const comboElements = document.getElementsByClassName("combo_tt");
@@ -336,7 +544,6 @@ function sumFood() {
             }
         }
     }
-console.log(selectedPrice)
     const formattedTotalPrice = total.toLocaleString("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -358,6 +565,10 @@ console.log(selectedPrice)
         // var value = p.textContent
 
         document.getElementById("tongtiendoan").innerHTML = number2;
+        document.getElementById("tongtiendoan1").innerHTML = number2;
+        document.getElementsByName("priceFood")[0].value = number2;
+        document.getElementsByName("priceFoodFood")[0].value = number2;
+
         const formattedSum = sumsum.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
 
         intoMoney.innerText = formattedSum;
@@ -366,6 +577,11 @@ console.log(selectedPrice)
     }
 
     document.getElementById("doan").innerHTML = selectedFoods;// In ra mảng các đồ ăn đã chọn
+    document.getElementById("doan1").innerHTML = selectedFoods;
+    document.getElementsByName("foodd")[0].value = selectedFoods;
+    document.getElementsByName("foodfood")[0].value = selectedFoods;
+
+
 
     const selectedNameInput = document.getElementById('selectedQuantity'); // Lấy thẻ input theo ID
     selectedNameInput.value = selectedQuantity.join(', ')
@@ -373,9 +589,16 @@ console.log(selectedPrice)
     const selectedPriceInput = document.getElementById('selectedPrice'); // Lấy thẻ input theo ID
     selectedPriceInput.value = selectedPrice.join(', ')
 
+    const selectedNameInput1 = document.getElementById('selectedQuantity1'); // Lấy thẻ input theo ID
+    selectedNameInput1.value = selectedQuantity.join(', ')
+
+    const selectedPriceInput1 = document.getElementById('selectedPrice1'); // Lấy thẻ input theo ID
+    selectedPriceInput1.value = selectedPrice.join(', ')
+
     var selectedInput = document.getElementById('selectedFood');
     var selectedIds = [];
-
+    var selectedInput1 = document.getElementById('selectedFood1');
+    var selectedIds1 = [];
     for (var i = 0; i < comboElements.length; i++) {
         var comboElement = comboElements[i];
         var quantityInput = comboElement.querySelector('.cart-quantity-input');
@@ -385,10 +608,14 @@ console.log(selectedPrice)
             var id = idElement.getAttribute('value');
             console.log('ID:', id);
             selectedIds.push(id);
+            selectedIds1.push(id);
+
         }
     }
 
     selectedInput.value = selectedIds.join();
+    selectedInput1.value = selectedIds1.join();
+
 }
 
 //thanh toán
@@ -396,16 +623,20 @@ console.log(selectedPrice)
 
 var rapchieu = document.getElementById("phong").textContent;
 document.getElementById("phong2").innerHTML = rapchieu;
+document.getElementById("phong3").innerHTML = rapchieu;
 
 var ngaychieu = document.getElementById("ngay").textContent;
 document.getElementById("ngaychieu").innerHTML = ngaychieu;
+document.getElementById("ngaychieu1").innerHTML = ngaychieu;
+
 
 var giochieu = document.getElementById("gio").textContent;
 document.getElementById("giochieu").innerHTML = giochieu;
+document.getElementById("giochieu1").innerHTML = giochieu;
 
-var orderInfo = document.getElementById("tenphim").textContent;
-document.getElementById("orderInfo").innerHTML = orderInfo;
-document.getElementsByName("orderInfo")[0].value = orderInfo;
+var tenphim = document.getElementById("movie").textContent;
+document.getElementById("orderInfo").innerHTML = tenphim;
+document.getElementById("orderInfor").innerHTML = tenphim;
 
 
 function getPhanTramGiam(checkbox) {
@@ -432,8 +663,22 @@ function getPhanTramGiam(checkbox) {
             style: "currency",
             currency: "VND"
         });
+        document.getElementById("tiendcgiam1").innerHTML = "-" + phantram.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+        document.getElementsByName("discount")[0].value ="-" + phantram.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+        document.getElementsByName("discountcount")[0].value ="-" + phantram.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
         let giatrigiam = sum - phantram;
         let giatriThanhTien = giatrigiam.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+
+
         document.getElementById("thanhtien").innerHTML = giatriThanhTien;
         document.getElementById("voucher").innerHTML = "-" + phantram.toLocaleString("vi-VN", {
             style: "currency",
@@ -442,9 +687,11 @@ function getPhanTramGiam(checkbox) {
         ;
         var row = checkbox.parentNode.parentNode;
         var promotionID = row.querySelector('td[value]').getAttribute('value');
-        console.log(promotionID);
         const selectedPromitionInput = document.getElementById('selectedPromition'); // Lấy thẻ input theo ID
         selectedPromitionInput.value = promotionID
+
+        const selectedPromitionInput1 = document.getElementById('selectedPromition1'); // Lấy thẻ input theo ID
+        selectedPromitionInput1.value = promotionID
     } else {
         let giatriThanhTien = sum.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
         document.getElementById("thanhtien").innerHTML = giatriThanhTien;
@@ -498,5 +745,27 @@ closeIcon.addEventListener('click', () => {
     inputBox.classList.remove('open');
 });
 
+//lấy thông tin gửi snag controller để gửi về mail
+var namePhim = document.getElementById("orderInfor").textContent;
+document.getElementsByName("orderInfor")[0].value = namePhim;
+var nameFilm = document.getElementById("orderInfo").textContent;
+document.getElementsByName("nameFiml")[0].value = nameFilm;
 
-//đếm thời gian
+var nameRoom = document.getElementById("phong3").textContent;
+document.getElementsByName("room")[0].value = nameRoom;
+var nameRoomm = document.getElementById("phong2").textContent;
+document.getElementsByName("roomm")[0].value = nameRoomm;
+
+var date = document.getElementById("ngaychieu1").textContent;
+document.getElementsByName("date")[0].value = date;
+var datedate = document.getElementById("ngaychieu").textContent;
+document.getElementsByName("datedate")[0].value = datedate
+
+var time = document.getElementById("giochieu1").textContent;
+document.getElementsByName("time")[0].value = time;
+var timetime = document.getElementById("giochieu").textContent;
+document.getElementsByName("timetime")[0].value = timetime;
+
+
+
+

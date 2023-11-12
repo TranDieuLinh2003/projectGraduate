@@ -211,7 +211,7 @@
                 <hr style="opacity: 0.4; width: 900px;">
                 <!--  -->
                 <div class="tt">
-                    <h3><i class='fa fa-credit-card'></i> ƯU ĐÃI</h3>
+                    <h3><i class="fa-thin fa-percent"></i> ƯU ĐÃI</h3>
                 </div>
                 <details class="accordion">
                     <summary class="accordion-header">
@@ -259,8 +259,31 @@
                     </div>
                 </details>
                 <br>
+                <div class="tt">
+                    <h3><i class='fa fa-credit-card'></i> CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
+                </div>
+                <div class="cartt">
+
+                    <div style="display: grid;
+                    grid-template-columns: 0.3fr 0.3fr ;">
+                        <div class="cartt_radio">
+                            <input type="radio" id="thenoidia" name="optradio" checked> <img src="img/the1.png" alt=""
+                                                                                             width="50px"
+                                                                                             height="45px"> Thẻ nội
+                            địa</label>
+                        </div>
+                        <div class="cartt_radio">
+                            <input type="radio" id="quetma" name="optradio"> <img src="img/the2.png" alt="" width="50px"
+                                                                                  height="45px"> Quét mã</label>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+                <i style="margin-left: 20px;">Vui lòng kiểm tra thông tin đầy đủ trước khi qua bước tiếp theo.
+                    *Vé mua rồi không hoàn trả lại dưới mọi hình thức.</i>
                 <br>
                 <hr style="opacity: 0.4; width: 900px;">
+                <br>
                 <div class="sum">
                     <p>Tổng tiền vé :</p>
                     <p style="margin-left: 20px;margin-bottom: 10px; color: red;" id="tongtien"></p>
@@ -315,7 +338,7 @@
                 </div>
                 <div style="display: grid;grid-template-columns: auto auto auto auto;flex-wrap: nowrap; margin-left: -30px">
                     <button class="cn" id="showDivButton" onclick="showContinueButton()">Tiếp tục</button>
-                    <button style="display: none" class="cn" id="showDivThanhToan" onclick="showContinueThanhToan()">
+                    <button class="cn" style="display: none" id="showDivThanhToan" onclick="showContinueThanhToan()">
                         Tiếp tục
                     </button>
                     <button class="cn" id="comeBack" onclick="showBackButton()" style="display: none;">Quay lại</button>
@@ -324,47 +347,62 @@
             </div>
 
         </section>
+        <!--        -->
         <div style="display: none" id="div3">
-            <div class="containerr" id="app">
+            <div class="containerr">
                 <fieldset class="card_info">
                     <legend>Thanh toán đơn hàng</legend>
                     <form th:action="@{/submitOrder}" method="post">
                         <div class="card_info_movie">
                             <b for="orderInfo">Tên phim: </b>
                             <p id="orderInfo"></p>
-                            <input type="hidden" name="orderInfo" value="">
+                            <input type="hidden" name="orderInfo" value="Giao dịch được thực hiện tại Web FimlBooking">
+                            <input type="hidden" name="nameFiml" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Rạp/Phòng chiếu: </b>
                             <p id="phong2"></p>
+                            <input type="hidden" name="roomm" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Ngày chiếu: </b>
                             <p id="ngaychieu"></p>
+                            <input type="hidden" name="datedate" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Giờ chiếu: </b>
                             <p id="giochieu"></p>
+                            <input type="hidden" name="timetime" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Đồ ăn: </b>
                             <p id="doan">không có</p>
+                            <input type="hidden" name="foodfood" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Tên ghế: <p id="sove"></p></b>
                             <p id="tenghe"></p>
+                            <input type="hidden" name="seatseat" value="">
+                            <input type="hidden" name="seatCountCount" value="">
+
                         </div>
                         <div class="card_info_movie">
                             <b>Tổng tiền vé: </b>
                             <p id="tongtienve"></p>
+                            <input type="hidden" name="priceSeatSeat" value="">
+
                         </div>
                         <div class="card_info_movie">
                             <b>Tổng đồ ăn: </b>
                             <p id="tongtiendoan">0</p>
+                            <input type="hidden" name="priceFoodFood" value="">
+
                         </div>
                         <div class="card_info_movie">
                             <b>Tiền được giảm: </b>
                             <p id="tiendcgiam">0</p>
+                            <input type="hidden" name="discountcount" value="">
+
                         </div>
                         <hr>
                         <br>
@@ -375,20 +413,7 @@
                         </div>
                         <hr style="opacity: 0.3; width: 600px;">
                         <br>
-                        <div class="tt">
-                            <h3><i class='fa fa-credit-card'></i> CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
-                        </div>
-                        <div class="cartt">
-                            <div style="display: grid;
-                            grid-template-columns: 0.3fr 0.3fr ;">
-                                <div class="cartt_radio">
-                                    <label> <input type="radio" name="optradio" checked> Thẻ nội địa</label>
-                                </div>
-                                <div class="cartt_radio">
-                                    <label><input type="radio" name="optradio"> Quét mã</label>
-                                </div>
-                            </div>
-                        </div>
+
                         <input type="hidden" id="selectedSeats" name="selectedSeats">
                         <input type="hidden" id="priceTicket" name="priceTicket">
                         <input type="hidden" id="selectedFood" name="selectedFood">
@@ -397,8 +422,99 @@
                         <input type="hidden" id="selectedPromition" name="selectedPromition">
                         <button type="submit" id="cancel" class="buttonn cancel-button">Thanh toán</button>
                     </form>
+
                 </fieldset>
                 <button class="buttonnn cancel-button" id="comeBack2" onclick="showBackButtonComBack()">Quay lại
+                </button>
+            </div>
+        </div>
+        <!--        -->
+        <div style="display: none" id="div4">
+            <div class="containerr">
+                <fieldset class="card_info1">
+                    <legend>Thanh toán đơn hàng</legend>
+                    <form th:action="@{/filmbooking/thongtinthanhtoan}" method="post">
+                        <div class="card_info_movie">
+                            <b>Tên phim: </b>
+                            <p id="orderInfor"></p>
+                            <input type="hidden" name="orderInfor" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Rạp/Phòng chiếu: </b>
+                            <p id="phong3"></p>
+                            <input type="hidden" name="room" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Ngày chiếu: </b>
+                            <p id="ngaychieu1"></p>
+                            <input type="hidden" name="date" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Giờ chiếu: </b>
+                            <p id="giochieu1" ></p>
+                            <input type="hidden" name="time" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Đồ ăn: </b>
+                            <p id="doan1">không có</p>
+                            <input type="hidden" name="foodd" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Tên ghế: <p id="sove1"></p></b>
+                            <p id="tenghe1" ></p>
+                            <input type="hidden" id="nameSeat" name="seat">
+                            <input type="hidden" name="seatCount" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Tổng tiền vé: </b>
+                            <p id="tongtienve1"></p>
+                            <input type="hidden" name="priceSeat" value="">
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Tổng đồ ăn: </b>
+                            <p id="tongtiendoan1">0</p>
+                            <input type="hidden" name="priceFood" value="">
+
+                        </div>
+                        <div class="card_info_movie">
+                            <b>Tiền được giảm: </b>
+                            <p id="tiendcgiam1">0</p>
+                            <input type="hidden" name="discount" value="">
+
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="card_info_movie">
+                            <b for="amount1">Thành tiền: </b>
+                            <p id="amount1"></p>
+                            <input type="hidden" name="amount1" value="">
+
+                        </div>
+                        <hr style="opacity: 0.3; width: 600px;">
+                        <br>
+
+                        <input type="hidden" id="selectedSeats1" name="selectedSeats1">
+                        <input type="hidden" id="priceTicket1" name="priceTicket1">
+                        <input  type="hidden" id="selectedFood1" name="selectedFood1">
+                        <input type="hidden" id="selectedQuantity1" name="selectedQuantity1">
+                        <input type="hidden" id="selectedPrice1" name="selectedPrice1">
+                        <input type="hidden" id="selectedPromition1" name="selectedPromition1">
+                        <div style="  display: grid;grid-template-columns: auto auto auto auto;flex-wrap: nowrap; ">
+
+                            <img style="display: none" id="image" th:src="@{/users/img/maqr.png}" alt="sample66"/>
+                            <button type="submit" id="cancel1" class="buttonn1 cancel-button">Hoàn thành thanh toán
+                            </button>
+                        </div>
+                        <div id="thongtinthanhtoan">
+                        <i>Đơn hàng sẽ được xác nhận sau 15 phút khi bạn hoàn thành thanh toán.</i> <br>
+                        <i>Nếu thanh toán chưa thành công thì đơn hàng tự động hủy.</i>
+                        </div>
+                    </form>
+                    <button type="submit" id="cancel2" class="buttonn cancel-button" onclick="XuLyThanhToan()">Xử lý
+                        thanh toán
+                    </button>
+                </fieldset>
+                <button class="buttonnn cancel-button" id="comeBack3" onclick="showButtonComBack()">Quay lại
                 </button>
             </div>
         </div>
@@ -409,6 +525,21 @@
         <br>
     </div>
     <!---->
+    <div id="foo" class="modal">
+        <div class="modal__content">
+            <h1>CSS Only Modal</h1>
+
+            <p>
+                You can use the :target pseudo-class to create a modals with Zero JavaScript. Enjoy!
+            </p>
+
+            <div class="modal__footer">
+                Made with <i class="fa fa-heart"></i>, by <a href="https://twitter.com/denicmarko" target="_blank">@denicmarko</a>
+            </div>
+
+            <a href="#" class="modal__close">&times;</a>
+        </div>
+    </div>
     <br>
 </li>
 <li th:unless="${customer != null}">
@@ -421,6 +552,8 @@
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 <script th:src="@{/users/js/datve.js}"></script>
 <script th:inline="javascript">
 
@@ -446,11 +579,14 @@
     var priceticket = schedule.price;
     let priceInput = document.getElementById("priceTicket");
     priceInput.value = priceticket;
+    let priceInput1 = document.getElementById("priceTicket1");
+    priceInput1.value = priceticket;
     let formattedPriceticket = priceticket.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
 
 
     var price_ticket = formattedPriceticket;
     var selectedSeatIds = [];
+    var selectedSeatIds1 = [];
     var clickedSeats = [];
 
     function hienGiaMoi(seat) {
@@ -488,7 +624,7 @@
         var isSelected = seat.getAttribute('data-selected') === 'true';
         var seatIdd = seat.getAttribute('data-value');
         var selectedSeatsInput = document.getElementById('selectedSeats');
-
+        var selectedSeatsInputt = document.getElementById('selectedSeats1');
         if (isSelected) {
             // Deselect the seat
             seat.setAttribute('data-selected', 'false');
@@ -497,17 +633,25 @@
             if (index !== -1) {
                 selectedSeatIds.splice(index, 1);
             }
+            var index = selectedSeatIds1.indexOf(seatIdd);
+            if (index !== -1) {
+                selectedSeatIds1.splice(index, 1);
+            }
         } else {
             // Select the seat
             seat.setAttribute('data-selected', 'true');
             // seat.classList.add('selected');
             selectedSeatIds.push(seatIdd);
+            selectedSeatIds1.push(seatIdd);
         }
 
         if (selectedSeatsInput) { // Check if selectedSeatsInput exists
             selectedSeatsInput.value = selectedSeatIds.join(',');
         }
-        console.log(selectedSeatIds)
+        if (selectedSeatsInputt) { // Check if selectedSeatsInput exists
+            selectedSeatsInputt.value = selectedSeatIds1.join(',');
+        }
+
 
     }
 
@@ -544,10 +688,17 @@
         } else {
             count.textContent = "Tổng số ghế chọn: " + selectedSeatsCount;
             document.getElementById("sove").innerHTML = "(" + selectedSeatsCount + ")";
+            document.getElementById("sove1").innerHTML = "(" + selectedSeatsCount + ")";
+            document.getElementsByName("seatCount")[0].value =  "(" + selectedSeatsCount + ")";
+            document.getElementsByName("seatCountCount")[0].value =  "(" + selectedSeatsCount + ")";
+
             var summoney = selectedSeatsCount * priceticket;
             let formattedTotalPrice = summoney.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
             total.textContent = "Tổng tiền: " + formattedTotalPrice;
             document.getElementById("tongtienve").innerHTML = formattedTotalPrice;
+            document.getElementById("tongtienve1").innerHTML = formattedTotalPrice;
+            document.getElementsByName("priceSeat")[0].value = formattedTotalPrice;
+            document.getElementsByName("priceSeatSeat")[0].value = formattedTotalPrice;
 
             var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice;
 
@@ -563,7 +714,6 @@
         // Sử dụng dữ liệu trong JavaScript
     }
     var timeSetting = GeneralSetting.waitingTime;
-    console.log(timeSetting)
     const countdownElement = document.getElementById("countdown");
 
     // Đặt thời gian ban đầu là 9 phút (540 giây)

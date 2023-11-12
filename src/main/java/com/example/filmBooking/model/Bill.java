@@ -61,4 +61,7 @@ public class Bill {
 
     @Column(name = "trading_code")
     private String tradingCode;
+//
+//    @Column(name = "barcode")
+//    private byte[] barcode;
 }

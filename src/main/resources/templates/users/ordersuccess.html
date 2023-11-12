@@ -70,7 +70,7 @@
             </tr>
             <tr>
                 <td>Thời gian thanh toán:</td>
-                <td th:text="${paymentTime}">[payment time]</td>
+                <td id="datetime" th:text="${paymentTime}">[payment time]</td>
             </tr>
             <tr>
                 <td>Mã giao dịch:</td>
@@ -98,7 +98,20 @@
         crossorigin="anonymous"></script>
 </body>
 <script>
-
+    // var dateTimeString = document.getElementById("datetime").innerHTML;
+    // var dateTime = new Date(dateTimeString);
+    // var day = dateTime.getDate(); // Lấy ngày trong tháng (1-31)
+    // var formattedDay = String(day).padStart(2, '0')
+    // var month = dateTime.getMonth() + 1; // Lấy tháng (0-11), cộng thêm 1 vì tháng bắt đầu từ 0
+    // var formattedMonth = String(month).padStart(2, '0');
+    // var year = dateTime.getFullYear(); // Lấy năm (đầy đủ, ví dụ: 2023)
+    // var hour = dateTime.getHours(); // Lấy giờ (0-23)
+    // var formattedHour = String(hour).padStart(2, '0');
+    // var minute = dateTime.getMinutes();
+    // var formattedMinute = String(minute).padStart(2, '0');
+    // var formattedDate = year + "/" + formattedMonth + "/" + formattedDay + " " +formattedHour + ":" + formattedMinute;
+    // document.getElementById("datetime").innerHTML = formattedDate;
+    // console.log(formattedDate)
 </script>
 </html>
 

@@ -27,7 +27,6 @@ spanElement.addEventListener("click", function() {
 function updateDiv() {
     var selectedValue = document.getElementById("listDate").value;
     document.getElementById("myDivDate").textContent = selectedValue;
-    console.log(selectedValue);
 }
 
 window.addEventListener("DOMContentLoaded", function() {

@@ -5,6 +5,7 @@ import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.FootRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
+import com.example.filmBooking.service.impl.BillServiceImpl;
 import com.example.filmBooking.service.impl.CinemaServiceImpl;
 import com.example.filmBooking.service.impl.MovieServiceImpl;
 import com.example.filmBooking.service.impl.ScheduleServiceImpl;
@@ -53,7 +54,7 @@ public class FilmBookingController {
     private ScheduleRepository repository1;
 
     @Autowired
-    private FootRepository footRepository;
+    private BillServiceImpl billService;
 
     @GetMapping("/trangchu")
     public String getAllPosts(Model model, HttpServletRequest request) {
@@ -136,7 +137,12 @@ public class FilmBookingController {
         model.addAttribute("schedules", schedules);
         return "users/timkiem";
     }
-
+    @GetMapping("/bill")
+    public String Bill(HttpServletRequest request,Model model) {
+        List<Bill> listbill = (List<Bill>) billService.findAll();
+        model.addAttribute("listbill", listbill);
+        return "users/test";
+    }
 
 }
 

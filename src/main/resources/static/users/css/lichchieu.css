@@ -431,6 +431,7 @@ a:hover {
     .footer-2 .icons {
         padding: 5px 15px;
         float: none;
+
     }
 }
 
@@ -754,7 +755,8 @@ td {
 /*  */
 section{
     display: grid;
-    grid-template-columns: 0.2fr 0.2fr 0.2fr 0.2fr;
+    grid-template-columns: 0.2fr 0.2fr 0.2fr 0.2fr 0.2fr;
+    margin-left: -25px;
 }
 .card {
     /* display: flex;
