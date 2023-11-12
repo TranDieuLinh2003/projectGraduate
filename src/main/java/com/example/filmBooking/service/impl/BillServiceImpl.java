@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.Date;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -63,5 +66,26 @@ public class BillServiceImpl implements BillService {
     @Override
     public void delete(String id) {
         repository.delete(findById(id));
+    }
+    
+    @Override
+    public Page<Bill> findStatusZero(Integer pageNumber) {
+        return repository.billStatusZero(pageBill(pageNumber));
+    }
+
+    @Override
+    public Page<Bill> findStatusOne(Integer pageNumber) {
+        return repository.billStatusOne(pageBill(pageNumber));
+    }
+
+    @Override
+    public Pageable pageBill(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        return pageable;
+    }
+
+    @Override
+    public Page<Bill> searchDateAndDate(Date startDate, Date endDate, Integer pageNumber) {
+        return repository.findByDateCreateBetween(startDate, endDate, pageBill(pageNumber));
     }
 }
