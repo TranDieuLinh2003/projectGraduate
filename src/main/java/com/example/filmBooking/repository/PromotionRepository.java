@@ -1,6 +1,8 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Promotion;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,5 +20,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, String> {
 
     @Query(value = voucherCustomerValue, nativeQuery = true)
     List<Promotion> listVoucherCustomer(String customerId);
-
+    
+    Page<Promotion> findByCodeContains(String keyword, Pageable pageable);
 }
