@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 public interface TicketRepository extends JpaRepository<Ticket, String> {
     String str_findBySchedule =
             "select * from ticket where  (schedule_id = (:scheduleId) )";
@@ -85,4 +86,9 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     List<Ticket> ticketShow1(@Param("cinemaName") String cinemaName,
                              @Param("movieName") String movieName,
                              @Param("startAt") String startAt);
+    
+    Page<Ticket> findByScheduleId(String id, Pageable pageable);
+
+
+    Page<Ticket> findAllByStatus(String status, Pageable pageable);
 }
