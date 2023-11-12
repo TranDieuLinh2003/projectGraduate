@@ -34,9 +34,4 @@ public interface CinemaRepository extends JpaRepository<Cinema, String> {
     
     List<Cinema> findByNameContains(String keyword);
 
-    String findNumberOfRoom = "select COUNT(*) from room WHERE cinema_id =:id";
-
-    @Query(value = findNumberOfRoom, nativeQuery = true)
-    Integer findNumberOfRoom(String id);
-
 }
