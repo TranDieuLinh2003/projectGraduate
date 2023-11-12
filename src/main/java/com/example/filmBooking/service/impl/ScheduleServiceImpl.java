@@ -59,7 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findAll() {
-        generateSchedule();
+        // generateSchedule();
         return repository.findAll();
     }
 
@@ -408,10 +408,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         ticketRepository.saveAll(ticketList);
     }
      
-    @Override
-    public List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime) {
-        return repository.findByConditions(name, startAt, movieName, startTime, endTime);
-    }
 }
 
 
