@@ -21,5 +21,5 @@ public interface CinemaService {
 
     List<Cinema> getCinemaAndMovie( String movieId, String cinemaId);
 
-
+    List<Cinema> searchCinema(String keyword);
 }
