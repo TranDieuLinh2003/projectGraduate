@@ -1,6 +1,8 @@
 package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,5 +23,10 @@ public interface CustomerService {
     List<Customer> findByPromotion(String idPromotion);
 
     Customer findByEmail(String email);
+    
+    Page<Customer>getAll(Integer currentPage);
 
+    Pageable pageCustomer(Integer pageNumber);
+
+    Page<Customer>searchCustomer(String keyword, Integer pageNumber);
 }
