@@ -65,4 +65,9 @@ public class CinemaServiceImpl implements CinemaService {
     public List<Cinema> getCinemaAndMovie(String movieId, String cinemaId) {
         return repository.getCinema( movieId, cinemaId);
     }
+     
+    @Override
+    public List<Cinema> searchCinema(String keyword) {
+        return repository.findByNameContains(keyword);
+    }
 }
