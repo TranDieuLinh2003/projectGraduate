@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -189,6 +192,21 @@ public class SeatServiceImpl implements SeatService {
 
         return filteredSeats;
     }
+    
+    @Override
+    public Page<Seat> findAll(Integer currentPage) {
+        return seatRepository.findAll(pageSeat(currentPage));
+    }
+     
+    @Override
+    public Pageable pageSeat(Integer pagaNumber) {
+        Pageable pageable = PageRequest.of(pagaNumber -1, 8);
+        return pageable;
+    }
 
+    @Override
+    public Page<Seat> searchByRoom(String id, Integer currentPage) {
+        return seatRepository.searchByRoom(id, pageSeat(currentPage));
+    }
 
 }
