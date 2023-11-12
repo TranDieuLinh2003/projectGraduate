@@ -47,4 +47,9 @@ public class RankCustomerServiceImpl implements RankCustomerService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+     
+    @Override
+    public List<RankCustomer> searchNameRank(String keyword) {
+        return repository.findByNameContains(keyword);
+    }
 }
