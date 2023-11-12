@@ -13,7 +13,7 @@ public interface SeatService {
 
     List<Seat> findAllByRoom(String roomId);
 
-    Seat save(Integer lineNumber, Integer number, String idRoom);
+    Seat save(Integer lineNumber, Integer number, Room room);
 
     Seat update(String id, Seat seat);
 
