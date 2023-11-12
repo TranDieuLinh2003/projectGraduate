@@ -5,7 +5,8 @@ import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface SeatService {
     List<Seat> getAll();
@@ -27,5 +28,11 @@ public interface SeatService {
     List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime);
 
     List<DtoSeat> getSeats1(String cinemaName,String movieName,String startAt);
+    
+    Page<Seat> findAll(Integer currentPage);
+    
+    Pageable pageSeat(Integer pagaNumber);
+
+    Page<Seat> searchByRoom (String id, Integer currentPage);
 
 }
