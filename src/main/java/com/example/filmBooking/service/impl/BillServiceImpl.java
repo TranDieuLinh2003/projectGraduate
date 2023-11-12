@@ -88,4 +88,9 @@ public class BillServiceImpl implements BillService {
     public Page<Bill> searchDateAndDate(Date startDate, Date endDate, Integer pageNumber) {
         return repository.findByDateCreateBetween(startDate, endDate, pageBill(pageNumber));
     }
+     
+    @Override
+    public List<Cinema> searchCinema(String keyword) {
+        return repository.findByNameContains(keyword);
+    }
 }
