@@ -49,8 +49,8 @@ public class SeatServiceImpl implements SeatService {
         return seatRepository.findAllByRoom(roomId);
     }
 
-    @Override
-    public Seat save(Integer lineNumber, Integer number, String idRoom) {
+     @Override
+    public Seat save(Integer lineNumber, Integer number, Room room) {
         //Nhập số hàng ghế
         //Nhập số lượng ghế/hàng
         //Lấy ra thông tin loại ghế
@@ -65,14 +65,14 @@ public class SeatServiceImpl implements SeatService {
         for (char i = 'A'; i <= line - 1; i++) {
             for (int j = 1; j <= number; j++) {
                 seat.setId(UUID.randomUUID().toString());
-                seat.setRoom(roomRepository.findById(idRoom).get());
+                seat.setRoom(room);
                 seat.setCode(i + "" + j);
                 seat.setLine(i + "");
                 seat.setNumber(j);
                 seatRepository.save(seat);
             }
         }
-        Room room = roomRepository.findById(idRoom).get();
+//        Room room = roomRepository.findById(idRoom).get();
         room.setCapacity(roomRepository.findNumber(room.getId()));
         roomRepository.save(room);
         return null;
