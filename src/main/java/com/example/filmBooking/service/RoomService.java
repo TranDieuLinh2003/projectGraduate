@@ -2,14 +2,19 @@ package com.example.filmBooking.service;
 
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 
 public interface RoomService {
+
+    Page<Room> getAll(Integer currentPage);
+
     List<Room> fillAll();
 
-    void saveAll(Cinema idCinema, int quantity);
+    boolean saveAll(Cinema idCinema, int quantity);
 
     Room save(Room room);
 
@@ -18,4 +23,12 @@ public interface RoomService {
     void delete(String id);
 
     Room findById(String id);
+
+    Pageable pageRoom(Integer pageNumber);
+
+    List<Room> finByRoom();
+
+    List<Room> roomCapacity();
+
+    Page<Room> serachRoom(String keyword, Integer currentPage);
 }
