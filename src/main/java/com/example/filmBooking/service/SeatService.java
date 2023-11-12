@@ -1,5 +1,6 @@
 package com.example.filmBooking.service;
 
+import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
