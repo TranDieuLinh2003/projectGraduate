@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản lí hóa đơn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link
+            rel="shortcut icon"
+            type="image/png"
+            th:href="@{/admin/assets/imgLogo/logo.png}"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/index.css}">
+    <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/home.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/room.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+</head>
+<body>
+<div th:replace="~{/layout/header-admin :: header}"></div>
+<section class="bill-html">
+    <div class="add-movie-button">
+        <a th:href="@{/bill/xac-nhan}" onclick="overLoad()">
+            <button type="button" class="btn btn-outline-success">Hóa đơn chờ</button>
+        </a>
+    </div>
+    <div class="search_bill_food">
+        <form th:action="@{/bill/find-all/page/1}" method="get">
+            <div class="search_date">
+                <div class="date_start">
+                    <label>Ngày bắt đầu:</label>
+                    <input type="text" class="form-control" name="startDate" placeholder="tháng/ngày/năm"/>
+                </div>
+                <div class="date_stop">
+                    <label>Ngày kết thúc:</label>
+                    <input type="text" class="form-control" name="endDate" placeholder="tháng/ngày/năm"/>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">
+                    <span>Search</span><i class="bx bx-search-alt-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="table_bill_food">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Tên khách hàng</th>
+                <th scope="col">Mã hóa đơn</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Số tiền</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="billOne : ${billOne}">
+                <th scope="row">[[${billOne.customer.name}]]</th>
+                <td>[[${billOne.code}]]</td>
+                <td>[[${billOne.dateCreate}]]</td>
+                <td>[[${billOne.totalMoney}]]</td>
+                <td th:text="${billOne.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"></td>
+                <td>
+                    <button class="btn btn-outline-primary"><i class='bx bx-show-alt'></i></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="phanTrang_Room">
+            <nav aria-label="Page navigation example" style="text-align: center">
+                <ul class="pagination">
+                    <th:block th:if="${currentPageOne > 1}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/bill/find-all/page/' + ${currentPageOne - 1}}"
+                               aria-label="Previous">
+                                &laquo;
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPagesOne)}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/bill/find-all/page/' + ${pageNumber}}">
+                                [[${pageNumber}]]
+                            </a>
+                        </li>
+                    </th:block>
+                    <th:block th:if="${currentPageOne < totalPagesOne}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{'/bill/find-all/page/' + ${currentPageOne + 1}}"
+                               aria-label="Next">
+                                &raquo;
+                            </a>
+                        </li>
+                    </th:block>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--    <div class="page_bill_food">-->
+    <!--        <nav aria-label="Page navigation example">-->
+    <!--            <ul class="pagination">-->
+    <!--                <li class="page-item">-->
+    <!--                    <a class="page-link" href="#" aria-label="Previous">-->
+    <!--                        <span aria-hidden="true">&laquo;</span>-->
+    <!--                    </a>-->
+    <!--                </li>-->
+    <!--                <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+    <!--                <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+    <!--                <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+    <!--                <li class="page-item">-->
+    <!--                    <a class="page-link" href="#" aria-label="Next">-->
+    <!--                        <span aria-hidden="true">&raquo;</span>-->
+    <!--                    </a>-->
+    <!--                </li>-->
+    <!--            </ul>-->
+    <!--        </nav>-->
+    <!--    </div>-->
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script th:src="@{/admin/js/index.js}"></script>
+<script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+</html>

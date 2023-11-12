@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Phim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/index.css}">
+    <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="shortcut icon"
+            type="image/png"
+            th:href="@{/admin/assets/imgLogo/logo.png}"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/home.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/room.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+</head>
+<body>
+<div th:replace="~{/layout/header-admin :: header}"></div>
+<div id="loading-overlay">
+    <div class="spinner"></div>
+</div>
+<section class="movie-html">
+    <div class="add-movie-button">
+        <a th:href="@{/movie/view-add}" onclick="overLoad()">
+            <button type="button" class="btn btn-outline-success">Thêm phim</button>
+        </a>
+    </div>
+
+    <form th:action="@{/movie/find-all/page/1}" class="form_search_movie">
+        <div class="input-box-1">
+            <input type="text" name="keyword" placeholder="Tìm kiếm phim"/>
+            <button type="submit" onclick="overLoad()"><i class="bx bx-search-alt-2"></i></button>
+        </div>
+    </form>
+    <div class="movie-card">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            <div class="col-sm-4" th:each="movie : ${listMovie}">
+                <div class="card">
+                    <img
+                            th:src="${movie.image}"
+                            class="card-img-top"
+                            alt="..."
+                            height="400"
+                    />
+                    <div class="card-body">
+                        <h5 class="card-title">[[${movie.name}]]</h5>
+                        <h6 class="card-title">Mã phim: [[${movie.code}]]</h6>
+                        <span>Ngày bắt đầu:</span>
+                        <span class="card-text" th:text="${#dates.format(movie.premiereDate, 'dd/MM/yyyy')}"></span>
+                        <br>
+                        <span>Ngày kết thúc:</span>
+                        <span class="card-text" th:text="${#dates.format(movie.endDate, 'dd/MM/yyyy')}"></span>
+                        <p class="card-text">Trạng thái: [[${movie.status}]]</p>
+                        <div class="button-movie">
+                            <a th:href="@{'/movie/update/'+${currentPage} +'/' + ${movie.id}}" onclick="overLoad()">
+                                <button
+                                        type="button"
+                                        class="btn btn-outline-success"
+                                >
+                                    <i class="bx bx-revision"></i>
+                                </button>
+                            </a>
+                            <a th:href="@{'/movie/detail/' + ${movie.id}}" onclick="overLoad()">
+                                <button
+                                        type="button"
+                                        class="btn btn-outline-primary"
+                                >
+                                    <i class="bx bx-show-alt"></i></button
+                                >
+                            </a>
+                            <div class="notifications"></div>
+                            <a th:href="@{'/movie/delete/' + ${movie.id}}" onclick="overLoad()">
+                                <button
+                                        type="button"
+                                        class="btn btn-outline-danger"
+                                >
+                                    <i class="bx bxs-trash"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form th:action="@{/movie/find-all/page/1}" method="get">
+        <div class="search_by_ticket">
+            <div class="text-loc-ticket">
+                <h4>Lọc phim theo trạng thái</h4>
+            </div>
+            <select class="form-select" aria-label="Default select example" name="status">
+                <option value="">Tất cả</option>
+                <option value="Sắp chiếu">Sắp chiếu</option>
+                <option value="Đang chiếu">Đang chiếu</option>
+                <option value="Đã chiếu">Đã chiếu</option>
+            </select>
+            <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Tìm kiếm phim</button>
+        </div>
+    </form>
+    <div class="phanTrang_Movie">
+        <nav aria-label="Page navigation example" style="text-align: center">
+            <ul class="pagination">
+                <th:block th:if="${currentPage > 1}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/movie/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           aria-label="Previous" onclick="overLoad()">
+                            &laquo;
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/movie/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}" onclick="overLoad()">
+                            [[${pageNumber}]]
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:if="${currentPage < totalPages}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/movie/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           aria-label="Next" onclick="overLoad()">
+                            &raquo;
+                        </a>
+                    </li>
+                </th:block>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script th:src="@{/admin/js/index.js}"></script>
+<script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+</html>
