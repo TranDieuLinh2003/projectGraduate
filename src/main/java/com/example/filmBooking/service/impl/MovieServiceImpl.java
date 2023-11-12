@@ -183,11 +183,6 @@ public class MovieServiceImpl implements MovieService {
     public Page<Movie> getAll(Integer curentPage) {
         return repository.findAll(pageMovie(curentPage));
     }
-    
-    @Override
-    public List<Movie> getMovie(String cinemaId, String movieId) {
-        return repository.getMovie(cinemaId, movieId);
-    }
 
     @Override
     public Pageable pageMovie(Integer pageNumber) {
