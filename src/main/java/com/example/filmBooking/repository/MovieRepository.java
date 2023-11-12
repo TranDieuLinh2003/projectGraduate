@@ -1,6 +1,8 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Movie;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,4 +35,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
             " and c.id =:cinemaId");
     @Query(value = movie, nativeQuery = true)
     List<Movie> getMovie(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
+    
+    Page<Movie> findByNameContains(String keyword, Pageable pageable);
+
+    Movie findByNameLike(String name);
+
+    Page<Movie> findAllByStatus(String status, Pageable pageable);
 }
