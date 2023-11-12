@@ -21,7 +21,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class MovieServiceImpl implements MovieService {
@@ -175,5 +177,36 @@ public class MovieServiceImpl implements MovieService {
      @Override
     public List<Movie> getMovie(String cinemaId, String movieId) {
         return repository.getMovie(cinemaId,movieId);
+    }
+    
+    @Override
+    public Page<Movie> getAll(Integer curentPage) {
+        return repository.findAll(pageMovie(curentPage));
+    }
+    
+    @Override
+    public List<Movie> getMovie(String cinemaId, String movieId) {
+        return repository.getMovie(cinemaId, movieId);
+    }
+
+    @Override
+    public Pageable pageMovie(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        return pageable;
+    }
+
+    @Override
+    public Page<Movie> searchMovie(String keyword, Integer currentPage) {
+        return repository.findByNameContains(keyword, pageMovie(currentPage));
+    }
+
+    @Override
+    public Movie findByName(String name) {
+        return repository.findByNameLike(name);
+    }
+
+    @Override
+    public Page<Movie> findAllByStatus(String status, Integer pageable) {
+        return repository.findAllByStatus(status, pageMovie(pageable));
     }
 }
