@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản lí khuyến mãi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/index.css}">
+    <link
+            href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="shortcut icon"
+            type="image/png"
+            th:href="@{/admin/assets/imgLogo/logo.png}"
+    />
+    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/home.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/room.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
+          integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div th:replace="~{/layout/header-admin :: header}"></div>
+<div id="loading-overlay">
+    <div class="spinner"></div>
+</div>
+<section class="promotion-html">
+    <form th:action="@{/promotion/save}" th:object="${promotion}" method="post" class="form_add_promotion">
+        <div class="promotion_input">
+            <input type="hidden" th:field="*{id}">
+            <div class="row g-3">
+                <div class="col">
+                    <div class="input-box">
+                        <label>Mã phiếu giảm giá</label>
+                        <input type="text" id="codePromotion" th:field="*{code}"/>
+                    </div>
+                    <span id="codePromotionErr" style="color: red"></span>
+                </div>
+                <div class="col">
+                    <div class="input-box">
+                        <label>Tên phiếu giảm giá</label>
+                        <input type="text" id="namePromotion" th:field="*{name}"/>
+                    </div>
+                    <span id="namePromotionErr" style="color: red"></span>
+
+                </div>
+                <div class="col">
+                    <div class="input-box">
+                        <label>Loại phiếu</label>
+                        <input type="number" th:field="*{type}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col">
+                    <div class="select-rank-pomotion">
+                        <label>Hạng áp dụng</label>
+                        <select
+                                class="form-select"
+                                aria-label="Default select example"
+                                th:field="*{rankCustomer}"
+                        >
+                            <th:block th:each="rankCustomer : ${rankCustomer}">
+                                <option
+                                        th:value="${rankCustomer.id}"
+                                >([[${rankCustomer.name}]])
+                                </option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-box">
+                        <label>Phần trăm giảm</label>
+                        <input type="number" id="percentPromotion" th:field="*{percent}"/>
+                    </div>
+                    <span id="percentPromotionErr" style="color: red"></span>
+
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col">
+                    <div class="input-box">
+                        <label>Số lượng</label>
+                        <input type="number" id="quantityPromotion" th:field="*{quantity}"/>
+                    </div>
+                    <span id="quantityPromotionErr" style="color: red"></span>
+
+                </div>
+                <div class="col">
+                    <div class="date">
+                        <div class="datePromtion">
+                            <div class="col-5">
+                                <spanl>Ngày ra mắt</spanl>
+                                <input
+                                        type="datetime-local"
+                                        id="startDatePromotion"
+                                        placeholder="mm/dd/yyyy"
+                                        th:field="*{startDate}"
+                                />
+                                <span id="startDatePromotionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                            </div>
+                            <div class="col-5">
+                                <span>Ngày kết thúc</span>
+                                <input
+                                        type="datetime-local"
+                                        id="endDatePromotion"
+                                        placeholder="mm/dd/yyyy"
+                                        th:field="*{endDate}"
+                                />
+                                <span id="endDatePromotionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col">
+                    <div class="input-box">
+                        <label>Mô tả</label>
+                        <input type="text" th:field="*{description}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-success" onclick="validatePPromotion(event)">
+            Thêm phiếu giảm giá
+        </button>
+    </form>
+    <form th:action="@{'/promotion/search-by-name-promotion/' + ${currentPage}}" method="get" class="form_search_movie">
+        <div class="input-box-1">
+            <input type="text" name="keyword" placeholder="Tìm kiếm mã phiếu giảm giá"/>
+            <button type="submit"><i class="bx bx-search-alt-2"></i></button>
+        </div>
+    </form>
+    <div class="table_movie">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Mã giảm giá</th>
+                <th scope="col">Tên phiếu</th>
+                <th scope="col">Loại phiếu</th>
+                <th scope="col">Phần trăm giảm</th>
+                <th scope="col">Hạng áp dụng</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="promotion : ${listPromotion}">
+                <td>[[${promotion.code}]]</td>
+                <td>[[${promotion.name}]]</td>
+                <td>[[${promotion.type}]]</td>
+                <td>[[${promotion.percent}]]</td>
+                <td>[[${promotion.rankCustomer.name}]]</td>
+                <td>[[${promotion.startDate}]]</td>
+                <td>[[${promotion.endDate}]]</td>
+                <td>[[${promotion.quantity}]]</td>
+                <td>[[${promotion.description}]]</td>
+                <td>
+                    <a th:href="@{'/promotion/delete/' + ${promotion.id}}" onclick="overLoad()">
+                        <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                        >
+                            <i class="bx bxs-trash"></i>
+                        </button>
+                    </a>
+                    <a th:href="@{'/promotion/findById/1/' + ${promotion.id}}" onclick="overLoad()">
+                        <button
+                                class="btn btn-outline-primary"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        >
+                            <i class='bx bx-show'></i>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="phanTrang_Promotion">
+        <nav aria-label="Page navigation example" style="text-align: center">
+            <ul class="pagination">
+                <th:block th:if="${currentPage > 1}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${currentPage - 1}}"
+                           aria-label="Previous" onclick="overLoad()">
+                            <<
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${pageNumber}}" onclick="overLoad()">
+                            [[${pageNumber}]]
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:if="${currentPage < totalPages}">
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${currentPage + 1}}"
+                           aria-label="Next" onclick="overLoad()">
+                            >>
+                        </a>
+                    </li>
+                </th:block>
+            </ul>
+        </nav>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
+        integrity="sha512-GAaXlfJeIbLNG2LQu2v4pf8YEc7iPz+GE3LZyUmdR7d7Id5JsER9vmJVxMKw1MqmdlVh3NXxTxQVd9AS53G+4w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script th:src="@{/admin/js/index.js}"></script>
+<script th:src="@{/admin/js/promotion.js}"></script>
+<script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+</html>

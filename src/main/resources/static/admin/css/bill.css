@@ -1,0 +1,52 @@
+.search_date{
+    background-color: aqua;
+    width: 600px;
+    height: 120px;
+    border-radius: 20px;
+    margin: 0px 0px 30px 0px ;
+}
+.date_start{
+    margin: 30px 0px 20px 20px;
+}
+.date_start input{
+    width: 170px;
+    height: 30px;
+    border-radius: 7px;
+    margin: -40px 0px 0px 160px;
+    border: none;
+    /* background: transparent; */
+    font-size: 20px;
+}
+.date_start label{
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.date_stop input{
+    width: 170px;
+    height: 30px;
+    border-radius: 7px;
+    margin: -33px 0px 0px 180px;
+    border: none;
+    /* background: transparent; */
+    font-size: 20px;
+}
+.date_stop label{
+    margin: 10px 0px 0px 30px; 
+    font-size: 20px;
+    font-weight: bold;
+}
+.search_date button{
+    margin: -110px 0px 0px 400px;
+    padding: 5px 40px 5px 40px;
+    font-size: 20px;
+}
+.search_date button span{
+    padding-right: 10px;
+}
+.page_bill_food{
+    margin: 30px 0px 0px 550px;
+}
+.bill-html{
+    margin: 40px 40px 0px 340px;
+}
