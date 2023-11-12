@@ -2,6 +2,8 @@ package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -85,5 +87,19 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "ORDER BY s.startAt ASC"
     )
     List<Schedule> findByConditions(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
+    
+    @Query("FROM Schedule s WHERE " +
+            " s.status like 'Sắp chiếu'" +
+            "AND ((?1 is NULL) OR (s.room.cinema.name like ?1)) " +
+            "AND ((?2 is NULL) OR (date(s.startAt) = Date(?2))) " +
+            "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
+            "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
+            "AND ((?3 is NULL) OR (s.movie.name like ?3)) " +
+            "ORDER BY s.startAt ASC"
+    )
+    Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Pageable pageable);
+
+
+//    Page<Schedule> findByNameContains(String keyword, Pageable pageable);
 }
 
