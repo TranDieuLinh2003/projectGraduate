@@ -44,4 +44,9 @@ public class RatedServiceImpl implements RatedService {
     public void delete(String id) {
         repository.delete(findById(id));
     }
+     
+    @Override
+    public List<Rated> searchCodeRated(String keycode) {
+        return repository.findByCodeContains(keycode);
+    }
 }

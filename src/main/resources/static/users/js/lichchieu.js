@@ -1,58 +1,89 @@
-const $1 = document.querySelector.bind(document)
-const $$2 = document.querySelectorAll.bind(document)
-
-const tabActive = $1('.tab-item.active');
-const line = $1('.tabs .line')
-
-line.style.left = tabActive.offsetLeft  +'px';
-line.style.width = tabActive.offsetWidth  +'px';
 
 
-const tabs = $$2('.tab-item')
-const panes = $$2('.tab-pane')
 
-tabs.forEach((tab,index) => {
-  const pane = panes[index];
 
-  tab.onclick = function (){
-    $1('.tab-item.active').classList.remove('active');
-    $1('.tab-pane.active').classList.remove('active');
+var selects = document.querySelectorAll('select');
 
-    line.style.left = this.offsetLeft + 0 +'px';
-    line.style.width = this.offsetWidth  +'px';
+selects.forEach(function(select) {
+  select.addEventListener('focus', function() {
+    select.size = 5;
+    select.classList.add('fadeIn');
+    select.classList.remove('fadeOut');
+    select.style.backgroundColor = '#FFF';
+  });
 
-    this.classList.add('active');
-    pane.classList.add('active');
-  }
+  select.addEventListener('blur', function() {
+    select.size = 1;
+    select.classList.add('fadeOut');
+    select.classList.remove('fadeIn');
+    select.style.backgroundColor = '#FFF';
+  });
+
+  select.addEventListener('change', function() {
+    select.size = 1;
+    select.blur();
+    select.style.backgroundColor = '#FFF';
+  });
+
+  select.addEventListener('mouseover', function() {
+    if(select.size === 1) {
+      select.style.backgroundColor = 'rgb(247, 247, 247)';
+    }
+  });
+
+  select.addEventListener('mouseout', function() {
+    if(select.size === 1) {
+      select.style.backgroundColor = '#FFF';
+    }
+  });
 });
 
-// menu
-const menuSlide = () => {
-  const menuIcon = document.querySelector(".menu-icon");
-  const navLinks = document.querySelector(".nav-links");
-  const navLinksInner = document.querySelectorAll(".nav-links li");
+var currentDate = new Date();
+var currentDay = currentDate.getDate();
+var currentMonth = currentDate.getMonth() + 1;
+var currentYear = currentDate.getFullYear();
 
-  //menu-icon click event
-  menuIcon.addEventListener("click", () => {
-    //toggle active class
-    navLinks.classList.toggle("menu-active");
+var sevenDays = [];
 
-    //animate navLinks
-    navLinksInner.forEach((li, index) => {
-      if (li.style.animation) {
-        li.style.animation = "";
-      } else {
-        li.style.animation = `navLinkAnime 0.5s ease forwards ${
-          index / 7 + 0.3
-        }s`;
-      }
-    });
+for (var i = 0; i < 7; i++) {
+  var nextDay = new Date(currentYear, currentMonth - 1, currentDay + i);
 
-    //toggle for menu-icon animation
-    menuIcon.classList.toggle("span-anime");
+  var dateArray = [nextDay.getDate(), nextDay.getMonth() + 1,nextDay.getFullYear() ]; // Mảng chứa năm, tháng và ngày
+  dateArray = dateArray.map(function(item) { // Chuyển đổi các phần tử trong mảng thành chuỗi và kiểm tra xem có cần thêm số 0 ở phía trước không
+    return (item < 10 ? "0" : "") + item;
   });
-};
 
-menuSlide();
+  var dateString = dateArray.join('/'); // Xây dựng lại chuỗi ngày tháng
 
+  sevenDays.push(dateString);
+}
 
+var selectElement = document.getElementById('startAt');
+
+for (var j = 0; j < sevenDays.length; j++) {
+  var optionElement = document.createElement('option');
+  optionElement.value = sevenDays[j];
+  optionElement.textContent = sevenDays[j];
+  selectElement.appendChild(optionElement);
+}
+
+// const myData = document.getElementById("gio").textContent;
+// var dateTime = new Date(myData);
+// var hour = dateTime.getHours(); // Lấy giờ (0-23)
+// var formattedHour = String(hour).padStart(2, '0');
+// var minute = dateTime.getMinutes();
+// var formattedMinute = String(minute).padStart(2, '0');
+// var formattedTime = formattedHour + ":" + formattedMinute;
+// document.getElementById("gio").innerHTML = formattedTime;
+var gioElements = document.querySelectorAll("#gio");
+
+gioElements.forEach(function(element) {
+  var myData = element.textContent;
+  var dateTime = new Date(myData);
+  var hour = dateTime.getHours(); // Lấy giờ (0-23)
+  var formattedHour = String(hour).padStart(2, '0');
+  var minute = dateTime.getMinutes();
+  var formattedMinute = String(minute).padStart(2, '0');
+  var formattedTime = formattedHour + ":" + formattedMinute;
+  element.innerHTML = formattedTime;
+})

@@ -1,7 +1,9 @@
 package com.example.filmBooking.apis;
 
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Food;
 import com.example.filmBooking.model.Movie;
+import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.model.dto.ScheduleDto;
 import com.example.filmBooking.repository.CinemaRepository;
@@ -11,7 +13,9 @@ import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.impl.CinemaServiceImpl;
 import com.example.filmBooking.service.impl.MovieServiceImpl;
 import com.example.filmBooking.service.impl.ScheduleServiceImpl;
+import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,4 +59,6 @@ public class ScheduleApi {
     private List<String> getTime(@RequestParam String movieId, @RequestParam String cinemaId, @RequestParam String start_at){
         return scheduleService.getStart_At_Time(movieId, cinemaId,start_at);
     }
+
+
 }

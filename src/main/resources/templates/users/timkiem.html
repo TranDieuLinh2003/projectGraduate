@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/users/css/lichchieu.css}">
+</head>
+<body>
+<section id="div2">
+    <th:block th:each="schedule : ${schedules}">
+        <div class="tab-pane active">
+
+            <div class="card">
+                <div class="content">
+                    <h2>[[${schedule.movie.name}]]</h2><br>
+                    <p><i class='fa fa-film'></i> Thể loại: <b>[[${schedule.movie.movieType}]]</b></p> <br>
+                    <p><i class='fa fa-history'></i> Thời lượng: <b>[[${schedule.movie.movieDuration}]] phút</b></p><br>
+                    <b>2D PHỤ ĐỀ</b>
+
+                    <div class="bottom">
+                        <button class="end"><a
+                                th:href="@{'/show/booking/schedule1?cinemaName=' + ${schedule.room.cinema.name} + '&movieName=' + ${schedule.movie.name} + '&startAt=' + ${schedule.startAt}}"
+                                id="gio">[[${schedule.startAt}]]</a></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </th:block>
+</section>
+</body>
+<script th:src="@{/users/js/lichchieu.js}"></script>
+</html>

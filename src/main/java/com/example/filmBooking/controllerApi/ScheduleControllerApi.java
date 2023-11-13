@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.*;
@@ -28,11 +29,12 @@ public class ScheduleControllerApi {
     public static String apiGetTime = Api.baseURL + "/api/schedule/time";
 
     @GetMapping
-    public String displaySchedulePage(@RequestParam String movieId, @RequestParam String cinemaId, Model model, HttpServletRequest request) {
+    public String displaySchedulePage(RedirectAttributes ra,@RequestParam String movieId, @RequestParam String cinemaId, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.setAttribute("cinemaId", cinemaId);
         model.addAttribute("cinemaId", cinemaId);
-
+        session.setAttribute("movieId", movieId);
+        model.addAttribute("movieId", movieId);
         session.setAttribute("movieId", movieId);
         model.addAttribute("movieId", movieId);
         // Gắn access token jwt vào header để gửi kèm request
@@ -57,9 +59,13 @@ public class ScheduleControllerApi {
                 String[].class,
                 listRequestParam);
         List<String> listStartAt = Arrays.asList(listStartAtEntity.getBody());
-        Collections.sort(listStartAt);
-        model.addAttribute("listStartAt", listStartAt);
-
+//        System.out.println(listStartAt);
+        if (listStartAt.isEmpty()){
+            ra.addFlashAttribute("Message", "Rạp đang không có ngày chiếu nào");
+            return "redirect:/show/cinema?movieId=" +movieId+ "&cinemaId=" +cinemaId;
+        } else {
+            model.addAttribute("listStartAt", listStartAt);
+        }
 
 //       lấy ra  giờ phim
         String urlTemplateTime = UriComponentsBuilder.fromHttpUrl(apiGetTime)

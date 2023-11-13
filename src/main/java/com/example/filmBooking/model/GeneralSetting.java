@@ -57,4 +57,7 @@ public class GeneralSetting {
     @Column(name = "break_time")
     private Integer breakTime;
 
+    @Column(name = "waiting_time")
+    private Integer waitingTime;
+
 }

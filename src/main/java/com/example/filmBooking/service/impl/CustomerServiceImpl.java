@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -108,6 +111,20 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 //
+  @Override
+    public Pageable pageCustomer(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        return pageable;
+    }
 
+    @Override
+    public Page<Customer> searchCustomer(String keyword, Integer pageNumber) {
+        return repository.findByNameContains(keyword, pageCustomer(pageNumber));
+    }
+    
+    @Override
+    public Page<Customer> getAll(Integer currentPage) {
+        return repository.findAll(pageCustomer(currentPage));
+    }
 
 }

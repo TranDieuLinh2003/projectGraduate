@@ -17,25 +17,25 @@
         <input type="radio" name="tabs" id="tabone" checked="checked">
         <label for="tabone">Thông tin tài khoản</label>
         <div class="tab">
-            <form action="/filmbooking/update-thongtin/${customer.id}" method="post">
+            <form th:action="@{/filmbooking/update-thongtin/${customer.id}}" method="post">
                 <div class="container" id="app">
 
                     <div>
                         <fieldset>
                             <legend>* Họ Tên</legend>
-                            <input type="text" th:value="${customer.name}" @focus="show" data-layout="normal"/>
+                            <input type="text" th:value="${customer.name}" name="name" @focus="show" data-layout="normal"/>
                         </fieldset>
 
                         <fieldset>
                             <legend>* Email</legend>
-                            <input type="text" th:value="${customer.email}" @focus="show" data-layout="compact"/>
+                            <input type="text" th:value="${customer.email}"name="email" @focus="show" data-layout="compact"/>
                         </fieldset>
                     </div>
 
                     <div>
                         <fieldset>
                             <legend>* Phone_Number</legend>
-                            <input type="text" th:value="${customer.phoneNumber}" @focus="show" data-layout="numeric"/>
+                            <input type="text" th:value="${customer.phoneNumber}" name="phoneNumber" @focus="show" data-layout="numeric"/>
 
                         </fieldset>
 

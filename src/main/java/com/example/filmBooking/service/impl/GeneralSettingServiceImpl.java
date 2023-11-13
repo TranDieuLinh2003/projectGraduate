@@ -1,5 +1,4 @@
 package com.example.filmBooking.service.impl;
-
 import com.example.filmBooking.model.GeneralSetting;
 import com.example.filmBooking.repository.GeneralSettingRepository;
 import com.example.filmBooking.service.GeneralSettingService;
@@ -31,21 +30,24 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
     }
 
     @Override
-    public GeneralSetting update(Integer gio1, Integer phut1,
-                                 Integer gio2, Integer phut2,
-                                 Integer gio3, Integer phut3,
+    public GeneralSetting update(LocalTime timeBeginsToChange,
+                                 LocalTime businessHours,
+                                 LocalTime closeTime,
                                  BigDecimal fixedTicketPrice,
                                  Integer percentDay,
                                  Integer percentWeekend,
-                                 Integer breakTime) {
-        GeneralSetting generalSettingNew = findById("613d6a30-167e-4b7c-985e-b510dc9bae25");
-        generalSettingNew.setTimeBeginsToChange(LocalTime.of(gio1, phut1));
-        generalSettingNew.setBusinessHours(LocalTime.of(gio2, phut2));
-        generalSettingNew.setCloseTime(LocalTime.of(gio3, phut3));
+                                 Integer breakTime,
+                                 Integer waitingTime
+    ) {
+        GeneralSetting generalSettingNew = findById("hihi");
+        generalSettingNew.setTimeBeginsToChange(timeBeginsToChange);
+        generalSettingNew.setBusinessHours(businessHours);
+        generalSettingNew.setCloseTime(closeTime);
         generalSettingNew.setFixedTicketPrice(fixedTicketPrice);
         generalSettingNew.setBreakTime(breakTime);
         generalSettingNew.setPercentDay(percentDay);
         generalSettingNew.setPercentWeekend(percentWeekend);
+        generalSettingNew.setWaitingTime(waitingTime);
         return repository.save(generalSettingNew);
     }
 

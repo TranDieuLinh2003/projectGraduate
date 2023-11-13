@@ -1,8 +1,12 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 
 public interface RoomRepository extends JpaRepository<Room, String> {
@@ -10,4 +14,13 @@ public interface RoomRepository extends JpaRepository<Room, String> {
 
     @Query(value = findNumberOfSeat, nativeQuery = true)
     Integer findNumber(String id);
+    
+    String findByRoomCapacity = "select * from room where capacity is null";
+    @Query(value = findByRoomCapacity, nativeQuery = true)
+    List<Room> findByRoomCapacity();
+
+    @Query(value = "select * from room where capacity = 40", nativeQuery = true)
+    List<Room> roomCapcity();
+
+    Page<Room> findByNameContains(String name, Pageable pageable);
 }

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class FoodServiceImpl implements FoodService {
@@ -45,5 +48,21 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public Food findById(String id) {
         return footRepository.findById(id).get();
+    }
+    
+    @Override
+    public Page<Food> findAll(Integer currentPage) {
+        return footRepository.findAll(pageFood(currentPage));
+    }
+    
+    @Override
+    public Pageable pageFood(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        return pageable;
+    }
+
+    @Override
+    public Page<Food> findByNameContains(String keyword, Integer currentPage) {
+        return footRepository.findByNameContains(keyword, pageFood(currentPage));
     }
 }

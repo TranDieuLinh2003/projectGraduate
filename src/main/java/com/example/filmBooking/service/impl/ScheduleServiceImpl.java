@@ -22,6 +22,13 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.Ticket;
+import com.example.filmBooking.repository.SeatRepository;
+import com.example.filmBooking.repository.TicketRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -37,6 +44,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private GeneralSettingRepository settingRepository;
+        
+    @Autowired
+    private SeatRepository seatRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
 
     @Override
@@ -46,7 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findAll() {
-        generateSchedule();
+        // generateSchedule();
         return repository.findAll();
     }
 
@@ -68,6 +81,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+        System.out.println(room);
         //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
         // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
@@ -76,7 +90,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         //lấy thời lượng phim( đơn vị phút)
         Integer movieDuration = movie.getMovieDuration();
         Timestamp timestamp = Timestamp.valueOf(startAt);
-        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime());
+        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime()*60000);
         LocalDateTime finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
@@ -150,7 +164,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         Integer movieDuration = movie.getMovieDuration();
         Timestamp timestamp = Timestamp.valueOf(startAt);
 //        Set thời gian kết thúc= thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
-        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + 900000);
+        timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime()*60000);
         finishAt = timestamp.toLocalDateTime();
         scheduleNew.setFinishAt(finishAt);
         return repository.save(scheduleNew);
@@ -276,38 +290,63 @@ public class ScheduleServiceImpl implements ScheduleService {
         return newPrice;
     }
 
-    public List<Schedule> generateSchedule() {
+    @Override
+    public List<Schedule> generateSchedule(List<String> listMovieId, LocalDateTime startTime, LocalDateTime endTime, Room room) {
         List<Schedule> newList = new ArrayList<>();
-        LocalDateTime startTime = LocalDateTime.of(2023, 8, 20, 8, 0); // Thời gian bắt đầu đầu tiên
-        LocalDateTime endTime = LocalDateTime.of(2023, 8, 21, 2, 0); // Thời gian kết thúc
         LocalDateTime currentStartTime = startTime;
+        Integer breakTime= findByIdSetting().getBreakTime();
+        LocalDateTime currentEndTime = null;
+        boolean shouldContinue = true;
 
-        List<Movie> movieList = movieRepository.findAll(); // Danh sách phim
-        List<Room> roomList = roomRepository.findAll(); // Danh sách phòng chiếu
-        for (Room room : roomList) {
-            for (Movie movie : movieList) {
+        while (shouldContinue) {
+            for (String movieId : listMovieId) {
+                Movie movie = movieRepository.findById(movieId).get();
                 Schedule schedule = new Schedule();
+                schedule.setId(UUID.randomUUID().toString());
                 schedule.setMovie(movie);
                 schedule.setRoom(room);
                 schedule.setStartAt(currentStartTime);
-                int movieDuration = movie.getMovieDuration(); // Thời lượng phim (tính bằng phút)
-                LocalDateTime currentEndTime = currentStartTime.plusMinutes(movieDuration + 15); // Thời gian kết thúc = thời lượng phim + 15 phút
+                long movieDuration = movie.getMovieDuration(); // Thời lượng (tính bằng phút)
+//                currentEndTime = currentStartTime.plusMinutes(movieDuration + breakTime);
+//        Set thời gian kết thúc= thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
+                Timestamp timestamp = Timestamp.valueOf(currentStartTime);
+                System.out.println(currentStartTime);
+                timestamp.setTime(timestamp.getTime() + movieDuration * 60000 + findByIdSetting().getBreakTime()*60000);
+                System.out.println(movieDuration*60000);
+                currentEndTime= timestamp.toLocalDateTime();
+                System.out.println(currentEndTime);
 
+                // Chuyển đổi LocalDateTime thành giá trị millisecond
+//                Instant instant = currentStartTime.atZone(ZoneId.systemDefault()).toInstant();
+//                Instant instant1 = currentEndTime.atZone(ZoneId.systemDefault()).toInstant();
+//                long millis = instant.toEpochMilli();
+//                instant1 = millis+movieDuration * 60000 + findByIdSetting().getBreakTime()*60000;
                 if (currentEndTime.isAfter(endTime)) {
+                    shouldContinue = false;
                     break; // Nếu thời gian kết thúc của suất chiếu sau vượt quá thời gian kết thúc của ngày, thoát khỏi vòng lặp
-                }
-                schedule.setFinishAt(currentEndTime);
+                } else {
+                    System.out.println(currentEndTime);
+                    schedule.setFinishAt(currentEndTime);
+                    // Lưu vào cơ sở dữ liệu hoặc thực hiện các xử lý khác tại đây
+                    currentStartTime = currentEndTime; // Lấy thời gian kết thúc của suất chiếu này làm thời gian bắt đầu cho suất chiếu tiếp theo
+//                    System.out.println("schedule"+ schedule);
+                    save(schedule);
+                    System.out.println("schedule"+ schedule.getId());
+//                    autoSave(schedule.getId());
+//                    newList.add(schedule);
 
-                // Lưu vào cơ sở dữ liệu hoặc thực hiện các xử lý khác tại đây
-                System.out.println(schedule);
-                save(schedule);
-//                newList.add(schedule);
-                currentStartTime = currentEndTime; // Lấy thời gian kết thúc của suất chiếu này làm thời gian bắt đầu cho suất chiếu tiếp theo
-                newList.add(schedule);
+                    if (currentEndTime.isBefore(endTime)) {
+                        continue; // Nếu thời gian kết thúc của suất chiếu sau vẫn nhỏ hơn thời gian kết thúc của ngày, tiếp tục vòng lặp
+                    } else {
+                        shouldContinue = false;
+                        break; // Nếu không, thoát khỏi vòng lặp
+                    }
+                }
             }
         }
-        System.out.println(newList);
-        return newList;
+//        }
+//        System.out.println(newList);
+        return findAll();
     }
     @Override
     public List<String> getStart_At(String movieId, String cinemaId) {
@@ -325,7 +364,50 @@ public class ScheduleServiceImpl implements ScheduleService {
         return repository.getSchedule(movieId,cinemaId,startAt,startTime);
     }
 
+    @Override
+    public List<Schedule> getSchedule1(String cinemaName,String movieName,  String startAt ) {
+        return repository.getSchedule1(cinemaName,movieName,startAt);
+    }
 
+    @Override
+    public Pageable pageSchedule(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        return pageable;
+    }
+     
+    @Override
+    public Page<Schedule> getAll(Integer currentPage) {
+        return repository.findAll(pageSchedule(currentPage));
+    }
+  
+    @Override
+    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage) {
+        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, pageSchedule(currentPage));
+    }
+
+    public void autoSave(String idSchedule) {
+        Schedule schedule = repository.findById(idSchedule).get();
+//        System.out.println(idSchedule+ " hihi");
+        List<Ticket> ticketList = new ArrayList<>();
+        Room room = roomRepository.findById(schedule.getRoom().getId()).get();
+
+//        List<Seat> numberSeat1 = new ArrayList<>();
+        List<Seat> seats = seatRepository.findAllByRoom(room.getId());
+        for (Seat seat : seats) {
+            Ticket ticket = new Ticket();
+            ticket.setId(UUID.randomUUID().toString());
+            Random generator = new Random();
+            int value = generator.nextInt((1000 - 1) + 1) + 1;
+            ticket.setCode("TK" + value);
+            ticket.setSchedule(schedule);
+            ticket.setSeat(seat);
+            ticket.setStatus("Chưa bán");
+//
+            ticketList.add(ticket);
+        }
+        ticketRepository.saveAll(ticketList);
+    }
+     
 }
 
 

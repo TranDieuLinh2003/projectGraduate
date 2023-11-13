@@ -1,10 +1,7 @@
 package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.apis.Api;
-import com.example.filmBooking.model.Customer;
-import com.example.filmBooking.model.Food;
-import com.example.filmBooking.model.Room;
-import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -29,16 +26,20 @@ public class BookingControllerApi {
     private RestTemplate restTemplate;
 
     public static String apiGetSchedule = Api.baseURL + "/api/ticket/show/schedule";
+    public static String apiGetSchedule1 = Api.baseURL + "/api/ticket/show/schedule1";
     public static String apiGetSeat = Api.baseURL + "/api/ticket/show/seat";
+    public static String apiGetSeat1 = Api.baseURL + "/api/ticket/show/seat1";
     public static String apiGetFoot = Api.baseURL + "/api/ticket/show/food";
+    public static String apiVoucher = Api.baseURL + "/api/ticket/show/voucher";
+    public static String apiGeneralSetting= Api.baseURL + "/api/ticket/show/generalSetting";
 
-    @GetMapping
-    public String displaySchedulePage(@RequestParam String cinemaId,
-                                      @RequestParam String movieId,
-                                      @RequestParam String startTime,
-                                      @RequestParam String startAt,
-                                      Model model,
-                                      HttpServletRequest request) {
+    @GetMapping("/schedule")
+    public String booking(@RequestParam String cinemaId,
+                          @RequestParam String movieId,
+                          @RequestParam String startTime,
+                          @RequestParam String startAt,
+                          Model model,
+                          HttpServletRequest request) {
         HttpSession session = request.getSession();
 //        session.setAttribute("cinemaId", cinemaId);
 //        model.addAttribute("cinemaId", cinemaId);
@@ -56,6 +57,17 @@ public class BookingControllerApi {
 
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
+
+        if (customer == null) {
+            // Initialize the customer object if it doesn't exist in the session
+            customer = new Customer();
+            // Set the necessary attributes of the customer
+            customer.setId("yourCustomerId");
+            // ... Set other attributes of the customer
+            // Store the customer object in the session
+            session.setAttribute("customer", customer);
+        }
+        String customerId = customer.getId();
         HttpEntity<?> entity = new HttpEntity<>(customer);
 
         //lấy ra lịch chiếu
@@ -114,17 +126,159 @@ public class BookingControllerApi {
         model.addAttribute("listE", listE);
 
 
-        //lấy ra room
-        String urlTemplateFood= UriComponentsBuilder.fromHttpUrl(apiGetFoot)
+        //lấy ra foood
+        String urlTemplateFood = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
                 .encode()
                 .toUriString();
         HttpEntity<Food[]> listFood = restTemplate.exchange(urlTemplateFood,
                 HttpMethod.GET,
                 entity,
                 Food[].class);
-        model.addAttribute("listFood", listFood.getBody())    ;
-        session.setAttribute("listFood",  listFood.getBody());
+        model.addAttribute("listFood", listFood.getBody());
+        session.setAttribute("listFood", listFood.getBody());
 
+
+        //lấy ra voucher
+        String urlTemplateVoucher = UriComponentsBuilder.fromHttpUrl(apiVoucher)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<Promotion[]> listVoucher = restTemplate.exchange(urlTemplateVoucher,
+                HttpMethod.GET,
+                entity,
+                Promotion[].class,
+                listRequestParam);
+        model.addAttribute("listVoucher", listVoucher.getBody());
+
+        //lấy ra thời gian đặt vé
+        String urlTemplateGeneralSetting = UriComponentsBuilder.fromHttpUrl(apiGeneralSetting)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<GeneralSetting[]> listGeneralSetting = restTemplate.exchange(urlTemplateGeneralSetting,
+                HttpMethod.GET,
+                entity,
+                GeneralSetting[].class,
+                listRequestParam);
+        model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
+        return "users/DatVe";
+    }
+
+    @GetMapping("/schedule1")
+    public String booking1(@RequestParam String cinemaName,
+                           @RequestParam String movieName,
+                           @RequestParam String startAt,
+                           Model model,
+                           HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        session.setAttribute("startAt", request.getParameter("startAt"));
+        model.addAttribute("startAt", startAt);
+
+//        System.out.println(start_time);
+
+        Customer customer = (Customer) session.getAttribute("customer");
+        model.addAttribute("customer", customer);
+
+        if (customer == null) {
+            // Initialize the customer object if it doesn't exist in the session
+            customer = new Customer();
+            // Set the necessary attributes of the customer
+            customer.setId("yourCustomerId");
+            // ... Set other attributes of the customer
+            // Store the customer object in the session
+            session.setAttribute("customer", customer);
+        }
+        String customerId = customer.getId();
+        HttpEntity<?> entity = new HttpEntity<>(customer);
+
+        //lấy ra lịch chiếu
+        String urlTemplateSchdeule = UriComponentsBuilder.fromHttpUrl(apiGetSchedule1)
+                .queryParam("cinemaName", "{cinemaName}")
+                .queryParam("movieName", "{movieName}")
+                .queryParam("startAt", "{startAt}")
+                .encode()
+                .toUriString();
+        Map<String, String> listRequestParam1 = new HashMap<>();
+        listRequestParam1.put("cinemaName", cinemaName + "");
+        listRequestParam1.put("movieName", movieName + "");
+        listRequestParam1.put("startAt", startAt + "");
+        ResponseEntity<Schedule[]> listSchedule = restTemplate.exchange(urlTemplateSchdeule,
+                HttpMethod.GET,
+                entity,
+                Schedule[].class,
+                listRequestParam1);
+        model.addAttribute("listSchedule", listSchedule.getBody());
+        session.setAttribute("schedule", listSchedule.getBody());
+
+        //lấy ra seat
+        String urlTemplateSeat = UriComponentsBuilder.fromHttpUrl(apiGetSeat1)
+                .queryParam("movieName", "{movieName}")
+                .queryParam("cinemaName", "{cinemaName}")
+                .queryParam("startAt", "{startAt}")
+                .encode()
+                .toUriString();
+        ResponseEntity<DtoSeat[]> listSeat = restTemplate.exchange(urlTemplateSeat,
+                HttpMethod.GET,
+                entity,
+                DtoSeat[].class,
+                listRequestParam1);
+
+        DtoSeat[] listSeatDTOS = (DtoSeat[]) listSeat.getBody();
+        DtoSeat[] listA = new DtoSeat[8];
+        DtoSeat[] listB = new DtoSeat[8];
+        DtoSeat[] listC = new DtoSeat[8];
+        DtoSeat[] listD = new DtoSeat[8];
+        DtoSeat[] listE = new DtoSeat[8];
+        for (int i = 0; i <= 7; i++) {
+            listA[i] = listSeatDTOS[i];
+            listB[i] = listSeatDTOS[i + 8];
+            listC[i] = listSeatDTOS[i + 16];
+            listD[i] = listSeatDTOS[i + 24];
+            listE[i] = listSeatDTOS[i + 32];
+        }
+
+        model.addAttribute("listA", listA);
+        model.addAttribute("listB", listB);
+        model.addAttribute("listC", listC);
+        model.addAttribute("listD", listD);
+        model.addAttribute("listE", listE);
+//
+
+        //lấy ra foood
+        String urlTemplateFood = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
+                .encode()
+                .toUriString();
+        HttpEntity<Food[]> listFood = restTemplate.exchange(urlTemplateFood,
+                HttpMethod.GET,
+                entity,
+                Food[].class);
+        model.addAttribute("listFood", listFood.getBody());
+        session.setAttribute("listFood", listFood.getBody());
+
+
+        //lấy ra voucher
+        String urlTemplateVoucher = UriComponentsBuilder.fromHttpUrl(apiVoucher)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<Promotion[]> listVoucher = restTemplate.exchange(urlTemplateVoucher,
+                HttpMethod.GET,
+                entity,
+                Promotion[].class,
+                listRequestParam1);
+        model.addAttribute("listVoucher", listVoucher.getBody());
+
+        String urlTemplateGeneralSetting = UriComponentsBuilder.fromHttpUrl(apiGeneralSetting)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<GeneralSetting[]> listGeneralSetting = restTemplate.exchange(urlTemplateGeneralSetting,
+                HttpMethod.GET,
+                entity,
+                GeneralSetting[].class,
+                listRequestParam1);
+        model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
         return "users/DatVe";
     }
 }

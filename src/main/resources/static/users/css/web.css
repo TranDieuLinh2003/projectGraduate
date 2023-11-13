@@ -399,7 +399,7 @@ figure.snip1208 {
     overflow: hidden;
     margin: 10px;
     min-width: 220px;
-    max-width: 310px;
+    max-width: 290px;
     width: 100%;
     background-color: #ffffff;
     color: #000000;
@@ -628,7 +628,7 @@ footer{
     flex-wrap: wrap;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     font-family: Arial;
-
+margin-bottom: -20px;
 }
 
 footer p {

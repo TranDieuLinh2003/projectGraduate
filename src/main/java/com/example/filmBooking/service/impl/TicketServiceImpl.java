@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -94,6 +97,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime) {
+        return repository.findTicketsBySchedule_Id(cinemaId,movieId,startAt,startTime);
+    }
+
+    @Override
     public void delete(String id) {
         repository.delete(findById(id));
     }
@@ -124,6 +132,27 @@ public class TicketServiceImpl implements TicketService {
         }
 
         return null;
+    }
+     
+    @Override
+    public Page<Ticket> getAll(Integer pageNumber) {
+        return repository.findAll(pageTicket(pageNumber));
+    }
+     
+    @Override
+    public Pageable pageTicket(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 10);
+        return pageable;
+    }
+
+    @Override
+    public Page<Ticket> findByScheduleId(String scheduleId, Integer pageable) {
+        return repository.findByScheduleId(scheduleId, pageTicket(pageable));
+    }
+
+    @Override
+    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
+        return repository.findAllByStatus(status, pageTicket(pageNumber));
     }
 
 }
