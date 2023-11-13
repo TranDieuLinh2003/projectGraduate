@@ -1,18 +1,20 @@
 package com.example.filmBooking.service;
 
+import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface SeatService {
     List<Seat> getAll();
 
     List<Seat> findAllByRoom(String roomId);
 
-    Seat save(Integer lineNumber, Integer number, String idRoom);
+    Seat save(Integer lineNumber, Integer number, Room room);
 
     Seat update(String id, Seat seat);
 
@@ -25,4 +27,13 @@ public interface SeatService {
     List<Object[]> getSeatsByCustomerId(String customerId);
 
     List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime);
+
+    List<DtoSeat> getSeats1(String cinemaName,String movieName,String startAt);
+    
+    Page<Seat> findAll(Integer currentPage);
+    
+    Pageable pageSeat(Integer pagaNumber);
+
+    Page<Seat> searchByRoom (String id, Integer currentPage);
+
 }

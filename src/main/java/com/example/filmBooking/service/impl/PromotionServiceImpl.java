@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 @Service
@@ -56,5 +59,21 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public List<Promotion> listVoucherCustomer(String customerId) {
         return promotionRepository.listVoucherCustomer(customerId);
+    }
+     
+    @Override
+    public Page<Promotion> getAll(Integer currentPage) {
+        return promotionRepository.findAll(pagePromotion(currentPage));
+    }
+     
+    @Override
+    public Pageable pagePromotion(Integer pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        return pageable;
+    }
+
+    @Override
+    public Page<Promotion> searchByNamePromotion(String keyword, Integer currentPage) {
+        return promotionRepository.findByCodeContains(keyword, pagePromotion(currentPage));
     }
 }

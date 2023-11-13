@@ -4,100 +4,27 @@
 <head>
     <title>Chọn rạp</title>
     <link rel="stylesheet" th:href="@{/users/css/web.css}">
+    <link rel="stylesheet" th:href="@{/users/css/cinema.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="icon" th:href="@{/users/img//logo.png}" type="image/x-icon"/>
-    <style>
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
 
-
-        section {
-            margin-top: 50px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            position: relative;
-            display: inline-block;
-            border-radius: 10px;
-            padding: 2rem;
-            max-width: 3000px;
-            background: #ff7200;
-            margin: 1rem;
-            color: white;
-            transition: all 0.4s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-
-        }
-
-        .card:hover {
-            /*transform: scale(103%);*/
-            /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0);*/
-        }
-
-        .card i {
-            font-size: 200%;
-        }
-
-        .card .card-title {
-            font-size: 180%;
-        }
-
-        .card .card-text {
-            font-size: 120%;
-        }
-
-        .card a {
-            text-decoration: none;
-            position: absolute;
-            margin-bottom: 1.5rem;
-        }
-
-        .card .btn-holder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 4rem;
-        }
-
-
-        .btn {
-            border: 1px solid transparent;
-            background-image: none;
-            display: inline-block;
-            cursor: pointer;
-            margin-bottom: 0;
-            font-weight: 600;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            line-height: 1.42857143;
-            touch-action: manipulation;
-            user-select: none;
-            -ms-user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-touch-action: manipulation;
-        }
-
-        .btn.btn-outline-primary {
-            transition: .5s all ease;
-            border: solid 1px black;
-            padding: .8rem;
-            color: black !important;
-            background-color: white;
-            border-radius: 9999px;
-        }
-
-        .btn.btn-outline-primary:hover {
-            background-color: #ff7200;
-            color: white !important;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{/layout/Header :: header}"></div>
 <li th:if="${customer != null}">
+<!--    <div th:if="${Message}" class="alert alert-success text-center">-->
+<!--        [[${Message}]]-->
+<!--    </div>-->
+    <div th:if="${Message}" class="alert error">
+        <input type="checkbox" id="alert1"/>
+        <label class="close" title="close" for="alert1">
+            <i class="fa-solid fa-circle-xmark"></i>
+        </label>
+        <p class="inner">
+            <strong> [[${Message}]]!</strong>
+        </p>
+    </div>
     <section>
         <th:block th:each="cinema : ${cinema}">
             <div class="card">
@@ -108,12 +35,9 @@
                        th:attrappend="data-target=${cinema.id}" href="#" title="">Xem địa chỉ</a>
                 </div>
                 <div class="btn-holder">
-                    <!--            <th:block th:each="movieId : ${movieId}">-->
                     <a class="btn btn-outline-primary"
                        th:href="@{'/show/schedule?movieId='+${movieId}+'&cinemaId='+${cinema.id}}">Chọn rạp</a>
-                    <!--            </th:block>-->
                 </div>
-                <!--        <div th:text="${#session.getAttribute('movieId')}">John Doe</div>-->
             </div>
         </th:block>
     </section>
@@ -146,8 +70,15 @@
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
-<!--<script >-->
-<!--    console.log("{sessionScope.movieId}")-->
-<!--</script>-->
+<script >
+    document.addEventListener('DOMContentLoaded', function() {
+        var alertDiv = document.querySelector('.alert.error');
+        if (alertDiv) {
+            setTimeout(function() {
+                alertDiv.style.display = 'none';
+            }, 5000);
+        }
+    });
+</script>
 
 </html>

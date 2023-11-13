@@ -3,6 +3,9 @@ package com.example.filmBooking.model.dto;
 import com.example.filmBooking.model.Room;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
+
 @Data
 public class DtoSeat {
     private String id;
@@ -12,5 +15,8 @@ public class DtoSeat {
     private String description;
     private Integer status;
     private Integer number;
-    private int isOccupied;
+    private String isOccupied;
+    private String ticketId;
+
+
 }

@@ -1,6 +1,8 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,5 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
             "WHERE p.id = ?1 ",nativeQuery = true)
     List<Customer> findByPromotion (String idPromotion);
 
+    Page<Customer> findByNameContains(String keyword, Pageable pageable);
 }

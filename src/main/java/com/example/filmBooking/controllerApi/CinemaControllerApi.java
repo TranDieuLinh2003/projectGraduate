@@ -31,13 +31,6 @@ public class CinemaControllerApi {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private CinemaRepository repository;
-
-
-    @Autowired
-    private ModelMapper modelMapper;
-
     public static String apiGetBranches = Api.baseURL+"/api/cinema";
     @GetMapping
     public String displayBranchesPage(@RequestParam String movieId, Model model, HttpServletRequest request){

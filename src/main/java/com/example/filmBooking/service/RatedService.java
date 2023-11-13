@@ -15,5 +15,6 @@ public interface RatedService {
     void delete(String id);
 
     Rated findById(String id);
-
+    
+    List<Rated> searchCodeRated(String keycode);
 }

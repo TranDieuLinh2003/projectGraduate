@@ -1,9 +1,11 @@
 package com.example.filmBooking.service;
 
+import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TicketService {
     List<Ticket> fillAll();
@@ -16,4 +18,13 @@ public interface TicketService {
 
     Ticket findById(String id);
 
+    List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime);
+            
+    Page<Ticket> getAll(Integer pageNumber);
+    
+    Pageable pageTicket(Integer pageNumber);
+
+    Page<Ticket> findByScheduleId(String scheduleId, Integer pageable);
+
+    Page<Ticket>findAllByStatus(String status, Integer pageNumber);
 }

@@ -40,4 +40,7 @@ public class Cinema {
 
     @Column(name = "description", length = 560)
     private String description;
+
+    @Column(name = "capacity")
+    private Integer capacity;
 }

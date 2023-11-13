@@ -15,5 +15,6 @@ public interface RankCustomerService {
     void delete(String id);
 
     RankCustomer findById(String id);
-
+    
+    List<RankCustomer> searchNameRank(String keyword);
 }

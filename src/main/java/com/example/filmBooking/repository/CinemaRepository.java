@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface CinemaRepository extends JpaRepository<Cinema, String> {
 
-    String cinema = ("SELECT DISTINCT c.name, c.id, c.address, c.description, c.code\n" +
+    String findNumberOfRoom = "select COUNT(*) from room WHERE cinema_id =:id";
+
+    @Query(value = findNumberOfRoom, nativeQuery = true)
+    Integer findNumberOfRoom(String id);
+
+    String cinema = ("SELECT DISTINCT c.name, c.id, c.address, c.description, c.code, c.capacity\n" +
             "FROM projectLinh.cinema c\n" +
             "JOIN projectLinh.room r ON c.id = r.cinema_id\n" +
             "JOIN projectLinh.schedule s ON r.id = s.room_id\n" +
@@ -26,4 +31,7 @@ public interface CinemaRepository extends JpaRepository<Cinema, String> {
 
 //    @Query(value = "SELECT c.name, m.id FROM cinema c JOIN room r on c.id = r.cinema_id JOIN schedule s on r.id = s.room_id JOIN movie m on m.id = s.movie_id", nativeQuery = true)
 //    List<CinemaDto> fillCinema();
+    
+    List<Cinema> findByNameContains(String keyword);
+
 }

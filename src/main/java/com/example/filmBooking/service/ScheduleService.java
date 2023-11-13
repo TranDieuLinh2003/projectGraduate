@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import com.example.filmBooking.model.Room;
 
 public interface ScheduleService {
     List<Schedule> findAll();
@@ -30,4 +32,15 @@ public interface ScheduleService {
     List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
 
     List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime);
+
+    List<Schedule> getSchedule1( String cinemaName,String movieName, String startAt);
+
+    Page<Schedule> getAll(Integer currentPage);
+
+    Pageable pageSchedule(Integer pageNumber);
+    
+    Page<Schedule> searchSchedule (String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage);
+
+    List<Schedule> generateSchedule(List<String> listMovie, LocalDateTime startTime, LocalDateTime endTime, Room room);
+
 }

@@ -62,7 +62,7 @@
                             </h3>
                             <p>
                                 - Thể loại: [[${movie.movieType}]]<br>
-                                - Thời lượng: [[${movie.movieDuration}]] <br>
+                                - Thời lượng: [[${movie.movieDuration}]] phút <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
 
@@ -74,8 +74,6 @@
                                 <button><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>
                             </th:block>
                             <!--                            <button ><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>-->
-
-
                         </figcaption>
                     </figure>
                 </th:block>
@@ -97,7 +95,7 @@
                             </h3>
                             <p>
                                 - Thể loại: [[${movie1.movieType}]]<br>
-                                - Thời lượng: [[${movie1.movieDuration}]] <br>
+                                - Thời lượng: [[${movie1.movieDuration}]] phút<br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
                             <!--                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>  -->
@@ -191,11 +189,12 @@
 </section>
 <!--hiển thị thông báo khi chưa đăng nhập-->
 <div class="modal" id="myModalll">
-    <div class="Mes " >
+    <div class="Mes ">
         <h2 class="Modal-InText">
             Khách hàng cần đăng nhập khi đặt vé !!
         </h2>
-        <button class="Modal-InBtn Btn-Right"> <a style="text-decoration: none; color: #000000" href="/filmbooking/login">OK</a> </button>
+        <button class="Modal-InBtn Btn-Right"><a style="text-decoration: none; color: #000000"
+                                                 href="/filmbooking/login">OK</a></button>
         <button class="Modal-InBtn Btn-Left" data-dismiss="modal">HỦY</button>
     </div>
 </div>
