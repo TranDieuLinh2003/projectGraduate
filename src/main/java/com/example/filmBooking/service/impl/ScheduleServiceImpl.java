@@ -70,7 +70,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return setting;
     }
 
-    @Override
+   @Override
     public String save(Schedule schedule) {
         //tạo mã suất chiếu
         Random generator = new Random();
@@ -81,7 +81,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
-        System.out.println(room);
         //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
         // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
@@ -94,18 +93,22 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
+        System.out.println(finishAt+"hihihaha");
         String id = null;
+        System.out.println(schedule + " chưa save");
         if (checkScheduleConflict(schedule, schedule.getRoom().getId())
                 && timeSchedule(schedule, findByIdSetting().getBusinessHours(), findByIdSetting().getCloseTime())
                 && dateSchedule(schedule.getMovie().getId(), schedule)) {
             // Lưu suất chiếu mới vào cơ sở dữ liệu
             id = repository.save(schedule).getId();
+            autoSave(id);
             System.out.println("Lưu suất chiếu mới thành công.");
         } else {
             System.out.println("Xung đột suất chiếu hoặc suất chiếu nằm ngoài khoảng ngày chiếu của phim. Không thể lưu.");
             return schedule.getId();
         }
 //        suất chiếu phải nằm trong khoảng ngày bắt đầu và kết thúc của phim
+        System.out.println(schedule + " sau save");
 
 //            System.out.println(finishAt);
         return id;
