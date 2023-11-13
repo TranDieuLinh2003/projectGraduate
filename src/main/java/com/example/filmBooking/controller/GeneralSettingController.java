@@ -1,0 +1,76 @@
+package com.example.filmBooking.controller;
+
+import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.model.GeneralSetting;
+import com.example.filmBooking.service.GeneralSettingService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.List;
+
+@Controller
+@CrossOrigin("*")
+@RequestMapping("/general-setting")
+@Tag(name = "general-setting")
+public class GeneralSettingController {
+    @Autowired
+    private GeneralSettingService service;
+
+    @GetMapping("/find-view")
+    @Operation(summary = "[Hiển thị tất cả]")
+    public String findAll(Model model) {
+        List<GeneralSetting> generalSettingList = service.fillAll();
+        model.addAttribute("general", generalSettingList.get(0));
+        model.addAttribute("listSetting", generalSettingList);
+//        model.addAttribute("general", new GeneralSetting());
+        return "admin/general-setting";
+    }
+
+    @PostMapping("/save")
+    @Operation(summary = "[Thêm mới]")
+    public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setCode(HttpStatus.OK.toString());
+        responseBean.setMessage("SUCCESS");
+        responseBean.setData(service.save(GeneralSetting));
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    }
+
+    @PostMapping("/update")
+    @Operation(summary = "[Chỉnh sửa]")
+    public String update(Model model,
+                         @RequestParam("timeBeginsToChange") LocalTime timeBeginsToChange,
+                         @RequestParam("businessHours") LocalTime businessHours,
+                         @RequestParam("closeTime") LocalTime closeTime,
+                         @RequestParam("fixedTicketPrice") BigDecimal fixedTicketPrice,
+                         @RequestParam("percentDay") Integer percentDay,
+                         @RequestParam("percentWeekend") Integer percentWeekend,
+                         @RequestParam("breakTime") Integer breakTime,
+                         @RequestParam("waitingTime") Integer waitingTime) {
+        model.addAttribute("setting");
+//        responseBean.setMessage("SUCCESS");
+        try {
+            service.update(timeBeginsToChange, businessHours, closeTime, fixedTicketPrice, percentDay, percentWeekend, breakTime, waitingTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/general-setting/find-view";
+    }
+
+}
