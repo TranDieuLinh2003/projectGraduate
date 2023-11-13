@@ -32,6 +32,7 @@ public class GeneralSettingAdminController {
         model.addAttribute("general", generalSettingList.get(0));
         model.addAttribute("listSetting", generalSettingList);
 //        model.addAttribute("general", new GeneralSetting());
+//        a
         return "admin/general-setting";
     }
 
