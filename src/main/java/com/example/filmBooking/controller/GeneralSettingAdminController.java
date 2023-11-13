@@ -10,52 +10,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 @CrossOrigin("*")
 @RequestMapping("/general-setting")
 @Tag(name = "general-setting")
-public class GeneralSettingController {
+public class GeneralSettingAdminController {
     @Autowired
     private GeneralSettingService service;
 
-    @GetMapping("/find-all")
+    @GetMapping("/find-view")
     @Operation(summary = "[Hiển thị tất cả]")
-    public ResponseEntity<?> findAll() {
+    public String findAll(Model model) {
+        List<GeneralSetting> generalSettingList = service.fillAll();
+        model.addAttribute("general", generalSettingList.get(0));
+        model.addAttribute("listSetting", generalSettingList);
+//        model.addAttribute("general", new GeneralSetting());
+        return "admin/general-setting";
+    }
+
+    @PostMapping("/save")
+    @Operation(summary = "[Thêm mới]")
+    public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
         ResponseBean responseBean = new ResponseBean();
         responseBean.setCode(HttpStatus.OK.toString());
         responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.fillAll());
+        responseBean.setData(service.save(GeneralSetting));
         return new ResponseEntity<>(responseBean, HttpStatus.OK);
     }
 
-     @PostMapping("/save")
-     @Operation(summary = "[Thêm mới]")
-     public ResponseEntity<Object> save(@RequestBody @Valid GeneralSetting GeneralSetting) {
-         ResponseBean responseBean = new ResponseBean();
-         responseBean.setCode(HttpStatus.OK.toString());
-         responseBean.setMessage("SUCCESS");
-         responseBean.setData(service.save(GeneralSetting));
-         return new ResponseEntity<>(responseBean, HttpStatus.OK);
-     }
-
-    @PutMapping("/update")
+    @PostMapping("/update")
     @Operation(summary = "[Chỉnh sửa]")
-    public ResponseEntity<Object> update(@RequestParam("gio1") Integer gio1, @RequestParam("phut1") Integer phut1,
-                                         @RequestParam("gio2") Integer gio2, @RequestParam("phut2") Integer phut2,
-                                         @RequestParam("gio3") Integer gio3, @RequestParam("phut3") Integer phut3,
-                                         @RequestParam("fixedTicketPrice") BigDecimal fixedTicketPrice,
-                                         @RequestParam("percentDay") Integer percentDay,
-                                         @RequestParam("percentWeekend") Integer percentWeekend,
-                                         @RequestParam("breakTime") Integer breakTime) {
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setCode(HttpStatus.OK.toString());
-        responseBean.setMessage("SUCCESS");
-        responseBean.setData(service.update(gio1, phut1, gio2, phut2, gio3, phut3, fixedTicketPrice, percentDay, percentWeekend, breakTime));
-        return new ResponseEntity<>(responseBean, HttpStatus.OK);
+    public String update(Model model,
+                         @RequestParam("timeBeginsToChange") LocalTime timeBeginsToChange,
+                         @RequestParam("businessHours") LocalTime businessHours,
+                         @RequestParam("closeTime") LocalTime closeTime,
+                         @RequestParam("fixedTicketPrice") BigDecimal fixedTicketPrice,
+                         @RequestParam("percentDay") Integer percentDay,
+                         @RequestParam("percentWeekend") Integer percentWeekend,
+                         @RequestParam("breakTime") Integer breakTime,
+                         @RequestParam("waitingTime") Integer waitingTime) {
+        model.addAttribute("setting");
+//        responseBean.setMessage("SUCCESS");
+        try {
+            service.update(timeBeginsToChange, businessHours, closeTime, fixedTicketPrice, percentDay, percentWeekend, breakTime, waitingTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/general-setting/find-view";
     }
 
     @DeleteMapping("/delete/{id}")
