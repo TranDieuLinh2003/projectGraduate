@@ -59,5 +59,8 @@ public class GeneralSetting {
 
     @Column(name = "waiting_time")
     private Integer waitingTime;
-
+    
+    //thời gian chờ xác nhận
+    @Column(name = "confirmation_waiting_time")
+    private Integer confirmationWaitingTime;
 }
