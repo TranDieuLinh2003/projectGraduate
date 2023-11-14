@@ -61,7 +61,7 @@ public class Bill {
 
     @Column(name = "trading_code")
     private String tradingCode;
-//
-//    @Column(name = "barcode")
-//    private byte[] barcode;
+
+    @Column(name = "waiting_time")
+    private LocalDateTime waitingTime;
 }
