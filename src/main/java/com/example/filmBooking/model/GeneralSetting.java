@@ -45,10 +45,6 @@ public class GeneralSetting {
     @Column(name = "percent_day")
     private Integer percentDay;
 
-    //ngày thay đổi
-//    @Column(name = "weekend")
-//    private Integer weekend;
-
     //phần trăm thay đổi ngày
     @Column(name = "percent_weekend")
     private Integer percentWeekend;
@@ -59,5 +55,8 @@ public class GeneralSetting {
 
     @Column(name = "waiting_time")
     private Integer waitingTime;
-
+    
+    //thời gian chờ xác nhận
+    @Column(name = "confirmation_waiting_time")
+    private Integer confirmationWaitingTime;
 }

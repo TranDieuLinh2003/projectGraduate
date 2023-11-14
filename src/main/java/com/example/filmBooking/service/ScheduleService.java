@@ -41,6 +41,7 @@ public interface ScheduleService {
     
     Page<Schedule> searchSchedule (String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage);
 
-    List<Schedule> generateSchedule(List<String> listMovie, LocalDateTime startTime, LocalDateTime endTime, Room room);
+    List<Schedule> generateSchedule(List<String> listRoom, List<String> listMovie, LocalDateTime startTime, LocalDateTime endTime);
+
 
 }
