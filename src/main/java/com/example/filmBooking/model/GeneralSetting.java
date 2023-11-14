@@ -45,10 +45,6 @@ public class GeneralSetting {
     @Column(name = "percent_day")
     private Integer percentDay;
 
-    //ngày thay đổi
-//    @Column(name = "weekend")
-//    private Integer weekend;
-
     //phần trăm thay đổi ngày
     @Column(name = "percent_weekend")
     private Integer percentWeekend;
