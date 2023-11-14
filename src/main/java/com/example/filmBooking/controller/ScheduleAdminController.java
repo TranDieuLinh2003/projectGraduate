@@ -145,9 +145,11 @@ public class ScheduleAdminController {
 
     }
 
-    @PostMapping("/batch-save/{pageNumber}")
+   @PostMapping("/batch-save/{pageNumber}")
     @Operation(summary = "[Thêm mới]")
-    public String generateSchedule(Model model, @RequestParam("listMovieChecked") List<String> listMovieChecked,
+    public String generateSchedule(Model model,
+                                   @RequestParam("listRoomChecked") List<String> listRoomChecked,
+                                   @RequestParam("listMovieChecked") List<String> listMovieChecked,
                                    @RequestParam(value = "startTime", required = false) LocalDateTime startTime,
                                    @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
                                    @RequestParam("room") Room room,
@@ -155,11 +157,12 @@ public class ScheduleAdminController {
     ) {
         System.out.println("vào rồi");
         try {
-            if (service.generateSchedule(listMovieChecked, startTime, endTime, room) instanceof Schedule) {
+            if (service.generateSchedule(listRoomChecked,listMovieChecked, startTime, endTime) instanceof Schedule) {
                 model.addAttribute("thanhCong", "Thêm lịch chiếu thành công");
             } else {
                 model.addAttribute("thatBai", "Thêm lịch chiếu thất bại");
             }
+            model.addAttribute("listRoomChecked", listRoomChecked);
             model.addAttribute("listMovieChecked", listMovieChecked);
             model.addAttribute("currentPage", currentPage);
             return "redirect:/schedule/find-all";
