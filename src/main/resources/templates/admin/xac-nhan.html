@@ -40,7 +40,7 @@
 </head>
 <body>
 <div th:replace="~{/layout/header-admin :: header}"></div>
-<section class="bill-html">
+<section class="bill-html" >
     <div class="add-movie-button">
         <a th:href="@{/bill/find-all}" onclick="overLoad()">
             <button type="button" class="btn btn-outline-success">Hóa đơn</button>
@@ -52,6 +52,7 @@
             <tr>
                 <th scope="col">Tên khách hàng</th>
                 <th scope="col">Mã hóa đơn</th>
+                <th scope="col">Mã giao dịch</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Số tiền cần thanh toán</th>
                 <th scope="col">Trang thái</th>
@@ -63,8 +64,9 @@
             <tr th:each="billZero : ${billZero}">
                 <th scope="row">[[${billZero.customer.name}]]</th>
                 <td>[[${billZero.code}]]</td>
-                <td>[[${billZero.dateCreate}]]</td>
-                <td>[[${billZero.totalMoney}]]</td>
+                <td>[[${billZero.tradingCode}]]</td>
+                <td id="ngaytao">[[${billZero.dateCreate}]]</td>
+                <td id="price">[[${billZero.totalMoney}]]</td>
                 <td th:text="${billZero.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"
                 ></td>
                 <td>
@@ -135,5 +137,36 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+<script >
+    // Select all elements with the id "ngaytao"
+    var elements = document.querySelectorAll("#ngaytao");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function(element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var hour = dateTime.getHours(); // Lấy giờ (0-23)
+        var formattedHour = String(hour).padStart(2, '0');
+        var minute = dateTime.getMinutes();
+        var formattedMinute = String(minute).padStart(2, '0');
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year+ " " + formattedHour +":"+ formattedMinute;
+        element.innerHTML = formattedDate;
+    });
+
+    var priceElements = document.querySelectorAll("#price");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function(element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+</script>
 </body>
 </html>

@@ -40,7 +40,7 @@
 <section class="bill-html">
     <div class="add-movie-button">
         <a th:href="@{/bill/xac-nhan}" onclick="overLoad()">
-            <button type="button" class="btn btn-outline-success">Hóa đơn chờ</button>
+            <button type="button" class="btn btn-outline-success">Hóa đơn chờ <span class="badge text-bg-secondary">[[${soldTicketsCount}]]</span></button>
         </a>
     </div>
     <div class="search_bill_food">
@@ -65,7 +65,8 @@
             <thead>
             <tr>
                 <th scope="col">Tên khách hàng</th>
-                <th scope="col">Mã hóa đơn</th>
+<!--                <th scope="col">Mã hóa đơn</th>-->
+                <th scope="col">Mã giao dịch</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Số tiền</th>
                 <th scope="col">Trạng thái</th>
@@ -75,9 +76,10 @@
             <tbody>
             <tr th:each="billOne : ${billOne}">
                 <th scope="row">[[${billOne.customer.name}]]</th>
-                <td>[[${billOne.code}]]</td>
-                <td>[[${billOne.dateCreate}]]</td>
-                <td>[[${billOne.totalMoney}]]</td>
+<!--                <td>[[${billOne.code}]]</td>-->
+                <td>[[${billOne.tradingCode}]]</td>
+                <td id="ngaytao">[[${billOne.dateCreate}]]</td>
+                <td id="price">[[${billOne.totalMoney}]]</td>
                 <td th:text="${billOne.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"></td>
                 <td>
                     <button class="btn btn-outline-primary"><i class='bx bx-show-alt'></i></button>
@@ -155,5 +157,37 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+<script>
+    // Select all elements with the id "ngaytao"
+    var elements = document.querySelectorAll("#ngaytao");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function (element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var hour = dateTime.getHours(); // Lấy giờ (0-23)
+        var formattedHour = String(hour).padStart(2, '0');
+        var minute = dateTime.getMinutes();
+        var formattedMinute = String(minute).padStart(2, '0');
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year + " " + formattedHour + ":" + formattedMinute;
+        element.innerHTML = formattedDate;
+    });
+
+    var priceElements = document.querySelectorAll("#price");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function(element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+
+</script>
 </body>
 </html>

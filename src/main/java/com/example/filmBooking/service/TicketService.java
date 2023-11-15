@@ -27,4 +27,6 @@ public interface TicketService {
     Page<Ticket> findByScheduleId(String scheduleId, Integer pageable);
 
     Page<Ticket>findAllByStatus(String status, Integer pageNumber);
+
+    Integer countSoldTicketsForCinemaAndMovieAtDateTime(String cinemaId, String movieId, String startAt, String startTime);
 }

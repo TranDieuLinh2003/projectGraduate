@@ -87,4 +87,12 @@ public class TicketApi {
     private ResponseEntity<List<GeneralSetting>> getAllGeneralSetting() {
         return new ResponseEntity<>(generalSettingService.fillAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/show/countTicket")
+    private ResponseEntity<Integer> countTicket(@RequestParam String cinemaId,
+                                                @RequestParam String movieId,
+                                                @RequestParam String startAt,
+                                                @RequestParam String startTime) {
+        return new ResponseEntity<>(ticketService.countSoldTicketsForCinemaAndMovieAtDateTime(cinemaId, movieId, startAt, startTime), HttpStatus.OK);
+    }
 }

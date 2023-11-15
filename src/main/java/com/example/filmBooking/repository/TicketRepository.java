@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 public interface TicketRepository extends JpaRepository<Ticket, String> {
     String str_findBySchedule =
             "select * from ticket where  (schedule_id = (:scheduleId) )";
@@ -86,9 +88,27 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     List<Ticket> ticketShow1(@Param("cinemaName") String cinemaName,
                              @Param("movieName") String movieName,
                              @Param("startAt") String startAt);
-    
+
     Page<Ticket> findByScheduleId(String id, Pageable pageable);
 
 
     Page<Ticket> findAllByStatus(String status, Pageable pageable);
+
+
+    @Query("SELECT COUNT(t) FROM Ticket t " +
+            "JOIN t.schedule s " +
+            "JOIN s.room r " +
+            "JOIN r.cinema c " +
+            "JOIN s.movie m " +
+            "JOIN t.seat se " +
+            "WHERE c.id = :cinemaId " +
+            "AND m.id = :movieId " +
+            "AND DATE(s.startAt ) = :startAt " +
+            "AND DATE_FORMAT(s.startAt, '%H:%i') = :startTime " +
+            "AND t.status = 'đã bán'")
+    Integer countSoldTicketsForCinemaAndMovieAtDateTime(@Param("cinemaId") String cinemaId,
+                                                        @Param("movieId") String movieId,
+                                                        @Param("startAt") String startAt,
+                                                        @Param("startTime") String startTime);
+
 }

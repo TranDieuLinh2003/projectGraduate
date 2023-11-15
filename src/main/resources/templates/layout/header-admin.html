@@ -111,13 +111,14 @@
             <li>
                 <a th:href="@{/bill/find-all}" onclick="overLoad()">
                     <i class="bx bx-task"></i>
-                    <span>Quản lý hóa đơn</span>
+                    <span>Quản lý hóa đơn <span class="badge text-bg-secondary">[[${soldTicketsCount}]]</span></span>
+
                 </a>
             </li>
             <li>
                 <a th:href="@{/ticket/find-all}" onclick="overLoad()">
                     <i class='bx bxs-coupon'></i>
-                    <span>Quản lý vé</span>
+                    <span>Quản lý vé </span>
                 </a>
             </li>
             <li>
@@ -160,6 +161,7 @@
         </ul>
     </nav>
 </header>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <script

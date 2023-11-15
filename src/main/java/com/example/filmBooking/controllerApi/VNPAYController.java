@@ -154,27 +154,36 @@ public class VNPAYController {
         }
 
         //        gửi về mail
-        final String username = "toanhd290803@gmail.com";
-        final String password = "qgup pdli eiwq emhv";
         String thongbao = "không có";
         String thongbaos = "0";
+
+        String email = customer.getEmail();
+        final String username = "toanhd290803@gmail.com";
+        final String password = "tjfv pjmw qsca jkkr"; // Replace <your-password> with your actual password
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        // Tạo một phiên session
-        Session session2 = Session.getDefaultInstance(props, new Authenticator() {
+        Session session2 = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
+
         try {
-            // Tạo message và thực hiện gửi email
             Message message = new MimeMessage(session2);
             message.setFrom(new InternetAddress("toanhd290803@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("toanhd290803@gmail.com"));
+
+            // Populate multiple recipients
+            String[] recipients = {email}; // Replace with actual recipient emails
+            InternetAddress[] recipientAddresses = new InternetAddress[recipients.length];
+            for (int i = 0; i < recipients.length; i++) {
+                recipientAddresses[i] = new InternetAddress(recipients[i]);
+            }
+            message.setRecipients(Message.RecipientType.TO, recipientAddresses);
             StringBuilder emailContent = new StringBuilder();
             message.setSubject("Thông tin đơn hàng của bạn(Đơn hàng thanh toán thành công)");
             emailContent.append("Tên phim : ").append(nameFiml).append("\n");
@@ -307,27 +316,36 @@ public class VNPAYController {
             }
         }
 //        gửi về mail
-        final String username = "toanhd290803@gmail.com";
-        final String password = "qgup pdli eiwq emhv";
         String thongbao = "không có";
         String thongbaos = "0";
+
+        String email = customer.getEmail();
+        final String username = "toanhd290803@gmail.com";
+        final String password = "tjfv pjmw qsca jkkr"; // Replace <your-password> with your actual password
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        // Tạo một phiên session
-        Session session1 = Session.getDefaultInstance(props, new Authenticator() {
+        Session session1 = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
         });
+
         try {
-            // Tạo message và thực hiện gửi email
             Message message = new MimeMessage(session1);
             message.setFrom(new InternetAddress("toanhd290803@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("toanhd290803@gmail.com"));
+
+            // Populate multiple recipients
+            String[] recipients = {email}; // Replace with actual recipient emails
+            InternetAddress[] recipientAddresses = new InternetAddress[recipients.length];
+            for (int i = 0; i < recipients.length; i++) {
+                recipientAddresses[i] = new InternetAddress(recipients[i]);
+            }
+            message.setRecipients(Message.RecipientType.TO, recipientAddresses);
             StringBuilder emailContent = new StringBuilder();
             message.setSubject("Thông tin đơn hàng của bạn(Đơn hàng đang chờ thanh toán)");
             emailContent.append("Tên phim : ").append(orderInfor).append("\n");
@@ -356,9 +374,20 @@ public class VNPAYController {
             emailContent.append("Đơn hàng của bạn đang chờ xác nhận! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.");
             message.setText(emailContent.toString());
             Transport.send(message);
-
+// Create and send the second email
+            Message message2 = new MimeMessage(session1);
+            message2.setFrom(new InternetAddress("toanhdph21327@fpt.edu.vn"));
+            message2.setRecipients(Message.RecipientType.TO, InternetAddress.parse("toanhdph21327@fpt.edu.vn")); // Replace with the second recipient's email
+            message2.setSubject("Có đơn hànng mới chờ xác nhận!");
+            StringBuilder emailContent1 = new StringBuilder();
+            emailContent1.append("Khách hàng : ").append(customer.getName()).append("\n");
+            emailContent1.append("Số điện thoại : ").append(customer.getPhoneNumber()).append("\n");
+            emailContent1.append("Email : ").append(customer.getEmail()).append("\n");
+            emailContent1.append("Mã giao dịch : ").append(transactionCode).append("\n");
+            emailContent1.append("Đơn hàng thanh toán lúc: ").append(LocalDateTime.now()).append("\n");
+            message2.setText(emailContent1.toString());
+            Transport.send(message2);
             System.out.println("Email sent successfully");
-
         } catch (
                 MessagingException e) {
             throw new RuntimeException(e);
@@ -425,21 +454,7 @@ public class VNPAYController {
                     billFoodService.save(billFood);
                 }
             }
-            final String username = "toanhd290803@gmail.com";
-            final String password = "qgup pdli eiwq emhv";
-
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            // Tạo một phiên session
-            Session session2 = Session.getDefaultInstance(props, new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username, password);
-                }
-            });
+//
             try {
                 Message message = (Message) session.getAttribute("message");
                 Transport.send(message);
