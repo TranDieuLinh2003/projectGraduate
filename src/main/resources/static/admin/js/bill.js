@@ -29,3 +29,4 @@ function xacNhanHoaDon(event){
         document.getElementById('loading-overlay').style.display = 'flex';
     }
 }
+
