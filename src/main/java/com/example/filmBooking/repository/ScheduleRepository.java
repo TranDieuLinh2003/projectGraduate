@@ -70,8 +70,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     List<Schedule> getSchedule1(@Param("cinemaName") String cinemaName, @Param("movieName") String movieName, @Param("startAt") String startAt);
 
 
-    @Query(value = "select*from schedule ORDER BY start_at ASC", nativeQuery = true)
-    List<Schedule> findAll();
+    List<Schedule> findAllByOrderByStartAtAsc();
 
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
@@ -87,7 +86,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "ORDER BY s.startAt ASC"
     )
     List<Schedule> findByConditions(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
-    
+
     @Query("FROM Schedule s WHERE " +
             " s.status like 'Sắp chiếu'" +
             "AND ((?1 is NULL) OR (s.room.cinema.name like ?1)) " +
