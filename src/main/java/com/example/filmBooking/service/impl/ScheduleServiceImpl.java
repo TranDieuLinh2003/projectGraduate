@@ -61,7 +61,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> findAll() {
         // generateSchedule();
-        return repository.findAll();
+        return repository.findAllByOrderByStartAtAsc();
     }
 
     // lấy thông tin cài đặt
@@ -101,6 +101,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 && dateSchedule(schedule.getMovie().getId(), schedule)) {
             // Lưu suất chiếu mới vào cơ sở dữ liệu
             id = repository.save(schedule).getId();
+            autoSave(id);
             System.out.println("Lưu suất chiếu mới thành công.");
         } else {
             System.out.println("Xung đột suất chiếu hoặc suất chiếu nằm ngoài khoảng ngày chiếu của phim. Không thể lưu.");
@@ -261,7 +262,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             }
         } else {
             // Kiểm tra xem giờ bắt đầu của lịch có lớn hơn hoặc bằng thời gian bắt đầu thay đổi và nhỏ hơn hoặc bằng 2 không
-            if (currentDate.getHour() >= timeBeginsToChange.getHour() && currentDate.getHour() <= endDay.getHour()) {
+            if (currentDate.getHour() >= timeBeginsToChange.getHour() || currentDate.getHour() <= endDay.getHour()) {
                 // Thay đổi giá theo tỷ lệ phần trăm tăng giá sau 17 giờ
                 newPrice = fixedPrice.add(priceDay);
                 System.out.println("Giá vé sau 17:00: " + newPrice);
