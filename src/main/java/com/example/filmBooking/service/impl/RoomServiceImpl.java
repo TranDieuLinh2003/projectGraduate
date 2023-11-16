@@ -2,15 +2,19 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
+import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.RoomRepository;
+import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.service.RoomService;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -23,6 +27,8 @@ public class RoomServiceImpl implements RoomService {
     private RoomRepository repository;
     @Autowired
     private CinemaRepository repositoryCinema;
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public Page<Room> getAll(Integer currentPage) {
@@ -46,15 +52,41 @@ public class RoomServiceImpl implements RoomService {
                 room.setCinema(cinema);
                 room.setType(0);
                 room.setName("Room" + value + "_" + room.getCinema().getName());
+                String id = save(room).getId();
                 cinema.setCapacity(repositoryCinema.findNumberOfRoom(room.getCinema().getId()));
-                repository.save(room);
+                saveSeat(id);
+
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
 
+    }
+
+    public void saveSeat(String roomId) {
+        List<Character> listLine = new ArrayList<>();
+        Room room= repository.findById(roomId).get();
+        //Thêm dữ liệu vào line
+        for (char i = 'A'; i <= 'Z'; i++) {
+            listLine.add(i);
+        }
+        char line = listLine.get(5);
+        Seat seat = new Seat();
+        for (char ch = 'A'; ch <line; ch++) {
+            for (int i = 1; i <9; i++) {
+                seat.setId(UUID.randomUUID().toString());
+                seat.setRoom(room);
+                seat.setCode(ch + "" + i);
+                seat.setLine(ch + "");
+                seat.setNumber(i);
+                seat.setStatus(1);
+                seatRepository.save(seat);
+            }
+        }
+        room.setCapacity(repository.findNumber(room.getId()));
+        save(room);
     }
 
     @Override
@@ -73,17 +105,6 @@ public class RoomServiceImpl implements RoomService {
         return repository.save(customerNew);
     }
 
-//    @Scheduled(fixedRate = 6000)
-//    public void scheduleFixedRate() {
-//        // check danh sách movie
-//        List<Room> roomList = repository.findAll();
-//        for (Room room : roomList) {
-//            room.setName(room.getName()+ "_"+room.getCinema().getName());
-//            repository.save(room);
-//        }
-//
-//    }
-
     @Override
     public Room findById(String id) {
         return repository.findById(id).get();
@@ -91,13 +112,13 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Pageable pageRoom(Integer pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
         return pageable;
     }
 
     @Override
     public List<Room> finByRoom() {
-        return repository.findByRoomCapacity();
+        return repository.findByCapacityIsNull();
     }
 
     @Override
