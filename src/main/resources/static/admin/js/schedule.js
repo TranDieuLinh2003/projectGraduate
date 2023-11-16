@@ -100,7 +100,7 @@ function showSelectedRoom(checkbox) {
         selectedRoomList.appendChild(listItem);
     }
 
-    var checkboxes = document.getElementsByName("checkboxItem");
+    var checkboxes = document.getElementsByName("checkboxItemRoom");
     var selectedRoomInput = [];
 
     for (var i = 0; i < checkboxes.length; i++) {

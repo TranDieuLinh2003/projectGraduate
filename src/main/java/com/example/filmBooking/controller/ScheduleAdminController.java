@@ -152,7 +152,7 @@ public class ScheduleAdminController {
                                    @RequestParam("listMovieChecked") List<String> listMovieChecked,
                                    @RequestParam(value = "startTime", required = false) LocalDateTime startTime,
                                    @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
-                                   @RequestParam("room") Room room,
+//                                   @RequestParam("room") Room room,
                                    @PathVariable("pageNumber") Integer currentPage
     ) {
         System.out.println("vào rồi");
