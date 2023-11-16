@@ -129,6 +129,7 @@
                 <!-- <th scope="col">Hạng KH</th> -->
                 <th scope="col">Email</th>
                 <th scope="col">Điểm tích lũy</th>
+                <th scope="col">Hạng khách hàng</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -139,6 +140,7 @@
                 <td>[[${c.phoneNumber}]]</td>
                 <td>[[${c.email}]]</td>
                 <td>[[${c.point}]]</td>
+                <td>[[${c.rankCustomer.name}]]</td>
                 <td>
                     <a th:href="@{'/customer/update/' + ${currentPage} + '/' + ${c.id}}">
                         <button type="button" class="btn btn-outline-success">

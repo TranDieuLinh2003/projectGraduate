@@ -155,4 +155,9 @@ public class TicketServiceImpl implements TicketService {
         return repository.findAllByStatus(status, pageTicket(pageNumber));
     }
 
+    @Override
+    public Integer countSoldTicketsForCinemaAndMovieAtDateTime(String cinemaId, String movieId, String startAt, String startTime) {
+        return repository.countSoldTicketsForCinemaAndMovieAtDateTime(cinemaId,movieId,startAt,startTime);
+    }
+
 }

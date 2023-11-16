@@ -137,12 +137,6 @@ public class FilmBookingController {
         model.addAttribute("schedules", schedules);
         return "users/timkiem";
     }
-    @GetMapping("/bill")
-    public String Bill(HttpServletRequest request,Model model) {
-        List<Bill> listbill = (List<Bill>) billService.findAll();
-        model.addAttribute("listbill", listbill);
-        return "users/test";
-    }
 
 }
 
