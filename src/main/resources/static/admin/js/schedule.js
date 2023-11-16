@@ -1,6 +1,8 @@
 ///
 const selectBtn = document.querySelector(".select-btn"),
     items = document.querySelectorAll(".item");
+const selectBtnRoom = document.querySelector(".select-btn-room"),
+    itemsRoom = document.querySelectorAll(".itemRoom");
 
 // items.forEach(item => {
 //     item.addEventListener("click", () => {
@@ -20,7 +22,9 @@ const selectBtn = document.querySelector(".select-btn"),
 selectBtn.addEventListener("click", () => {
     selectBtn.classList.toggle("open");
 });
-
+selectBtnRoom.addEventListener("click", () => {
+    selectBtnRoom.classList.toggle("open");
+});
 let selectedItems = []; // Mảng lưu trữ các phần tử đã chọn
 
 items.forEach(item => {
@@ -28,6 +32,13 @@ items.forEach(item => {
         item.classList.toggle("checked");
     });
 });
+
+itemsRoom.forEach(item => {
+    item.addEventListener("click", () => {
+        item.classList.toggle("checked");
+    });
+});
+
 var selectedMovies = [];
 
 function showSelectedMovies(checkbox) {
@@ -65,6 +76,45 @@ function showSelectedMovies(checkbox) {
 
     console.log(selectedMoviesInput);
 }
+
+var selectedRoom = [];
+
+function showSelectedRoom(checkbox) {
+    var roomName = checkbox.parentNode.querySelector("span").textContent;
+
+    if (checkbox.checked) {
+        selectedRoom.push(roomName);
+    } else {
+        var index = selectedRoom.indexOf(roomName);
+        if (index !== -1) {
+            selectedRoom.splice(index, 1);
+        }
+    }
+
+    var selectedRoomList = document.getElementById("selectedRoomList");
+    selectedRoomList.innerHTML = "";
+
+    for (var i = 0; i < selectedRoom.length; i++) {
+        var listItem = document.createElement("li");
+        listItem.textContent = (i + 1) + ". " + selectedRoom[i];
+        selectedRoomList.appendChild(listItem);
+    }
+
+    var checkboxes = document.getElementsByName("checkboxItemRoom");
+    var selectedRoomInput = [];
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            selectedRoomInput.push(checkboxes[i].value);
+        }
+    }
+
+    var inputElement = document.querySelector('input[name="listRoomChecked"]');
+    inputElement.value = selectedRoomInput.join(',');
+
+    console.log(selectedRoomInput);
+}
+
 
 function validateSchedule(event) {
     var startTime = document.getElementById('startTime').value;
