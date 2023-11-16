@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 </head>
 <body>
 <div th:replace="~{/layout/header-admin :: header}"></div>
@@ -50,20 +51,6 @@
                 <div class="col-8">
                     <div class="row">
                         <div class="col-6">
-                            <div class="select_room">
-                                <label>Phòng chiếu</label>
-                                <select
-                                        class="form-select"
-                                        aria-label="Default select example"
-                                        name="room"
-                                >
-                                    <th:block th:each="r : ${roomCapacity}">
-                                        <option th:value="${r.id}">
-                                            [[${r.name}]]
-                                        </option>
-                                    </th:block>
-                                </select>
-                            </div>
                             <div class="input-box">
                                 <label>Thời gian bắt đầu:</label>
                                 <input
@@ -88,13 +75,6 @@
                                     <input type="hidden" name="listMovieChecked" id="selectedMovieList1"/>
 
                                 </div>
-                                <button
-                                        type="submit"
-                                        class="btn btn-outline-success"
-                                        onclick="validateSchedule(event)"
-                                >
-                                    Thêm lịch chiếu hàng loạt
-                                </button>
                             </div>
                         </div>
                         <div class="col-6">
@@ -103,10 +83,16 @@
                                 <span class="arrow-dwn"><i class='bx bx-chevron-down'></i></span>
                             </div>
                             <div class="checkbox-list">
+                                <nav class="navbar bg-body-tertiary" style="margin-bottom: 10px; border-radius: 10px">
+                                    <div class="container-fluid">
+                                        <input class="form-control me-2" type="text" placeholder="Search"
+                                               id="searchInput" name="keyword">
+                                    </div>
+                                </nav>
                                 <ul class="checkbox-ul">
                                     <th:block th:each="m : ${movieId}">
                                         <div class="form-check">
-                                            <li class="item">
+                                            <li class="item" id="liMovie">
                                                 <img th:src="${m.image}" alt="..."/>
                                                 <label>
                                                     <label class="form-check-label"></label>
@@ -136,6 +122,70 @@
                         </ul>
                         <br>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-6">
+                            <!--                            <span id="endTimeErr" style="color: red; margin: 10px 0px 0px 0px"></span>-->
+                            <div class="button_add_schedule">
+                                <div style="">
+                                    <input type="hidden" name="listRoomChecked" id="selectedRoomList1"/>
+                                </div>
+                                <button
+                                        type="submit"
+                                        class="btn btn-outline-success"
+                                        onclick="validateSchedule(event)"
+                                >
+                                    Thêm lịch chiếu hàng loạt
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="select-btn-room">
+                                <span class="btn-text">Danh sách phòng</span>
+                                <span class="arrow-dwn"><i class='bx bx-chevron-down'></i></span>
+                            </div>
+                            <div class="checkbox-list">
+                                <nav class="navbar bg-body-tertiary" style="margin-bottom: 10px; border-radius: 10px">
+                                    <div class="container-fluid">
+                                        <input class="form-control me-2" type="text" placeholder="Search"
+                                               id="searchRoomInput" name="keyword">
+                                    </div>
+                                </nav>
+                                <ul class="checkbox-ul">
+                                    <th:block th:each="r : ${roomCapacity}">
+                                        <div class="form-check">
+                                            <li class="itemRoom">
+                                                <label>
+                                                    <label class="form-check-label"></label>
+                                                    <input class="form-check-input"
+                                                           type="checkbox"
+                                                           id="danhSachPhong"
+                                                           name="checkboxItemRoom" th:value="${r.id}"
+                                                           onchange="showSelectedRoom(this)"/>
+                                                    <span style="padding: 20px 200px 20px 0px">[[${r.name}]]</span>
+                                                </label>
+                                                <span id="danhSachPhongErr"
+                                                      style="color: red; margin: 10px 0px 0px 0px"></span>
+                                            </li>
+                                        </div>
+                                    </th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="text_phim_vua_them">
+                        <h4>Danh sách phòng đã chọn</h4>
+                    </div>
+                    <div class="table_phim_vua_them">
+                        <ul id="selectedRoomList">
+                        </ul>
+                        <br>
+                    </div>
 
                 </div>
             </div>
@@ -145,7 +195,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-update-schedule">
-                    <form th:action="@{/schedule/update/1}" th:object="${schedule}" method="post" class="form_add_schedule">
+                    <form th:action="@{/schedule/update/1}" th:object="${schedule}" method="post"
+                          class="form_add_schedule">
                         <div class="seat_input">
                             <input type="hidden" th:field="*{id}">
                             <input type="hidden" th:field="*{movie}">
@@ -215,7 +266,8 @@
                                 aria-label="Default select example">
                             <option value="">-- Chọn ngày --</option>
                         </select>
-                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch chiếu</button>
+                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch chiếu
+                        </button>
                     </form>
                 </div>
             </div>
@@ -271,7 +323,7 @@
                     </li>
                 </th:block>
                 <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                    <li class="page-item" >
+                    <li class="page-item">
                         <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${pageNumber} + ${nameCinema
                          == null ? '' : '?nameCinema='+nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}
                          + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}
@@ -300,6 +352,34 @@
 <script th:src="@{/admin/js/index.js}"></script>
 <script th:src="@{/admin/js/drop-down.js}"></script>
 <script th:src="@{/admin/js/schedule.js}"></script>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function () {
+        let input = this.value.toLowerCase();
+        let names = document.getElementsByClassName('item');
+
+        for (let i = 0; i < names.length; i++) {
+            let name = names[i].textContent.toLowerCase();
+            if (name.includes(input)) {
+                names[i].style.display = '';
+            } else {
+                names[i].style.display = 'none';
+            }
+        }
+    });
+    document.getElementById('searchRoomInput').addEventListener('input', function () {
+        let input = this.value.toLowerCase();
+        let names = document.getElementsByClassName('itemRoom');
+
+        for (let i = 0; i < names.length; i++) {
+            let name = names[i].textContent.toLowerCase();
+            if (name.includes(input)) {
+                names[i].style.display = '';
+            } else {
+                names[i].style.display = 'none';
+            }
+        }
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
         integrity="sha512-GAaXlfJeIbLNG2LQu2v4pf8YEc7iPz+GE3LZyUmdR7d7Id5JsER9vmJVxMKw1MqmdlVh3NXxTxQVd9AS53G+4w=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
