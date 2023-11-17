@@ -142,5 +142,95 @@
 }
 
 #selectedItems li {
-    background-color: lightblue;
+    background-color: #add8e6;
+}
+
+.itemRoom .item-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+.itemRoom .checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid #c0c0c0;
+    transition: all 0.3s ease-in-out;
+}
+.itemRoom.checked .checkbox{
+    background-color: rgb(91, 73, 255);
+    border-color: rgb(91, 73, 255);
+}
+.itemRoom.checked .check-icon{
+    transform: scale(1);
+}
+.checkbox-ul .itemRoom{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    cursor: pointer;
+    transition: 0.3s;
+    /*padding: 0 15px;*/
+    border-radius: 10px;
+
+}
+.checkbox-ul .itemRoom span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.checkbox-ul .itemRoom:hover{
+    background-color: #e7edfe;
+}
+.select-btn-room{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.select-btn-room .btn-text{
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+}
+.select-btn-room .arrow-dwn{
+    display: flex;
+    height: 21px;
+    width: 21px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 50%;
+    background: rgb(91, 73, 255);
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.select-btn-room.open .arrow-dwn{
+    transform: rotate(-180deg);
+}
+.select-btn-room.open ~ .checkbox-list{
+    display: block;
+}
+
+/* Always show the scrollbar of the dropdown */
+.select-btn-room.open ~ .checkbox-list::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+}
+.select-btn-room.open ~ .checkbox-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.2);
+    border-radius: 8px;
+}
+.select-btn-room.open ~ .checkbox-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0,0,0,.3);
 }
