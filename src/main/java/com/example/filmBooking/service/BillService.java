@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
 
 
 public interface BillService {
