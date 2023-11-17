@@ -37,18 +37,22 @@
 <div th:replace="~{/layout/header-admin :: header}"></div>
 <section class="trang-chu-html">
     <div class="chartOne">
-        <select class="form-select" aria-label="Default select example" style="width: 400px; margin: 20px 0px 20px 0px">
-            <option selected>Mời chọn rạp</option>
-            <th:block th:each="c : ${listCinema}">
-                <option th:value="${c.id}">[[${c.name}]]</option>
-            </th:block>
-        </select>
+        <form th:action="@{/home/tong-quan}" method="get">
+            <select class="form-select" name="id" aria-label="Default select example" style="width: 400px; margin: 20px 0px 20px 0px">
+                <option selected>Mời chọn rạp</option>
+                <th:block th:each="c : ${listCinema}">
+                    <option th:value="${c.id}">[[${c.name}]]</option>
+                </th:block>
+            </select>
+            <button type="submit" class="btn btn-outline-primary">thống kê</button>
+        </form>
         <div id="myChart" style="width: 100%; height: 400px"></div>
     </div>
     <div class="row">
         <div class="col-6">
             <div class="bieu-do-tron">
                 <div id="myChartOne" style="width: 100%; height: 400px"></div>
+
             </div>
         </div>
         <div class="col-6">
@@ -61,7 +65,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-<script th:src="@{/admin/js/tong-quan.js}">
+<script th:src="@{/admin/js/tong-quan.js}" th:inline="javascript">
 
 </script>
 <script
