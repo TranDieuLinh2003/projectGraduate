@@ -15,9 +15,7 @@ public interface RoomRepository extends JpaRepository<Room, String> {
     @Query(value = findNumberOfSeat, nativeQuery = true)
     Integer findNumber(String id);
     
-    String findByRoomCapacity = "select * from room where capacity is null";
-    @Query(value = findByRoomCapacity, nativeQuery = true)
-    List<Room> findByRoomCapacity();
+    List<Room> findByCapacityIsNull();
 
     @Query(value = "select * from room where capacity = 40", nativeQuery = true)
     List<Room> roomCapcity();
