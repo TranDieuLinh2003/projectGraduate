@@ -51,10 +51,10 @@
             <thead>
             <tr>
                 <th scope="col">Tên khách hàng</th>
-                <th scope="col">Mã hóa đơn</th>
                 <th scope="col">Mã giao dịch</th>
                 <th scope="col">Ngày tạo</th>
                 <th scope="col">Số tiền cần thanh toán</th>
+                <th scope="col">Thông tin khách hàng</th>
                 <th scope="col">Trang thái</th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -63,10 +63,11 @@
             <!--            <input type="hidden" th:field="*{id}"/>-->
             <tr th:each="billZero : ${billZero}">
                 <th scope="row">[[${billZero.customer.name}]]</th>
-                <td>[[${billZero.code}]]</td>
                 <td>[[${billZero.tradingCode}]]</td>
                 <td id="ngaytao">[[${billZero.dateCreate}]]</td>
                 <td id="price">[[${billZero.totalMoney}]]</td>
+                <td >[[${billZero.customer.name}]]([[${billZero.customer.phoneNumber}]])</td>
+
                 <td th:text="${billZero.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"
                 ></td>
                 <td>

@@ -1,10 +1,13 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Bill;
-import com.example.filmBooking.model.Food;
+import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.BillRepository;
+import com.example.filmBooking.repository.BillTicketRepository;
 import com.example.filmBooking.service.BillService;
+import com.example.filmBooking.service.BillTicketService;
+import com.example.filmBooking.service.CustomerService;
+import com.example.filmBooking.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +34,16 @@ import java.util.Properties;
 public class BillAdminController {
     @Autowired
     private BillService service;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private BillTicketService billTicketService;
+
+    @Autowired
+    private TicketService ticketService;
+
 
     @Autowired
     private BillRepository repository;
@@ -85,6 +99,12 @@ public class BillAdminController {
     public String updateStatus(Model model, @PathVariable(name = "id") String id) {
         Bill bill = service.findById(id);
         bill.setStatus(1);
+        Customer customer = customerService.findById(bill.getCustomer().getId());
+        BigDecimal phantram = BigDecimal.valueOf(0.05);
+        BigDecimal orderTotalDecimal = bill.getTotalMoney();
+        BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
+        customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
+//        customer.setPoint();
         try {
             if (service.update(id, bill) instanceof Bill) {
                 String email = bill.getCustomer().getEmail();
