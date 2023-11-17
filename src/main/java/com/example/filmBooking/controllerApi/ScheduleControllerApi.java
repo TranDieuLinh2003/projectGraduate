@@ -82,14 +82,13 @@ public class ScheduleControllerApi {
             break;
 //                continue;
         }
-        ResponseEntity<String[]> listStartTimesEntity = restTemplate.exchange(
+        ResponseEntity<Object[]> listStartTimesEntity = restTemplate.exchange(
                 urlTemplateTime,
                 HttpMethod.GET,
                 entity,
-                String[].class,
+                Object[].class,
                 listRequestParam);
-        List<String> listTime = Arrays.asList(listStartTimesEntity.getBody());
-        Collections.sort(listTime);
+        List<Object> listTime = Arrays.asList(listStartTimesEntity.getBody());
         model.addAttribute("listTime", listTime);
 
 //

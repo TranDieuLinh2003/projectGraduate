@@ -25,15 +25,14 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
-    List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
 
     List<String> getStart_At(String movieId, String cinemaId);
 
-    List<String> getStart_At_Time(String movieId, String cinemaId, String start_at);
+    List<Object[]> getStart_At_Time(String movieId, String cinemaId, String start_at);
 
-    List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime);
+    List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime, String nameRoom);
 
-    List<Schedule> getSchedule1( String cinemaName,String movieName, String startAt);
+    List<Schedule> getSchedule1( String cinemaName,String movieName, String startAt, String nameRoom);
 
     Page<Schedule> getAll(Integer currentPage);
 

@@ -24,6 +24,8 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 @CrossOrigin("*")
 @RestController
@@ -32,6 +34,9 @@ public class ScheduleApi {
 
     @Autowired
     private ScheduleServiceImpl scheduleService;
+
+    @Autowired
+    private ScheduleRepository repository;
 
     @Autowired
     private CinemaServiceImpl cinemaService;
@@ -56,9 +61,8 @@ public class ScheduleApi {
     }
 
     @GetMapping("/time")
-    private List<String> getTime(@RequestParam String movieId, @RequestParam String cinemaId, @RequestParam String start_at){
+    private List<Object[]> getTime(@RequestParam String movieId, @RequestParam String cinemaId, @RequestParam String start_at){
         return scheduleService.getStart_At_Time(movieId, cinemaId,start_at);
     }
-
 
 }

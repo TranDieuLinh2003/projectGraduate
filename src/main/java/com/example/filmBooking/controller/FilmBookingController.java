@@ -12,6 +12,7 @@ import com.example.filmBooking.service.impl.ScheduleServiceImpl;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -121,19 +122,23 @@ public class FilmBookingController {
 
 
     @GetMapping("/search/schedule")
-    public String getSchedule(Model model,@RequestParam(value = "nameCinema", required = false) String nameCinema,
+    public String getSchedule(Model model,
+                              @RequestParam(value = "name", required = false) String name,
                               @DateTimeFormat(pattern = "dd/MM/yyyy") @RequestParam(value = "nameMovie", required = false) String nameMovie,
                               @RequestParam(value = "startAt", required = false) LocalDate startAt,
                               @RequestParam(value = "startTime", required = false) Integer startTime,
                               @RequestParam(value = "endTime", required = false) Integer endTime) {
-
+        name = Strings.isEmpty(name) ? null : name;
+        nameMovie = Strings.isEmpty(nameMovie) ? null : nameMovie;
+//        if (name != null || nameMovie != null || startAt != null || startTime != null || endTime != null) {
+//            scheduleService.searchSchedule(name, startAt, nameMovie, startTime, endTime);
+//        }
         List<Cinema> listcinema = (List<Cinema>) cinemaService.fillAll();
         model.addAttribute("listcinema", listcinema);
         List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhishowPhimSapChieuAndDangChieumSapChieu().stream().map(movie
                 -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie", listmovie);
-        List<Schedule> schedules;
-        schedules = scheduleService.findByNameContains(nameCinema, startAt, nameMovie, startTime, endTime);
+        List<Schedule> schedules = repository1.findByConditions(name, startAt, nameMovie, startTime, endTime);
         model.addAttribute("schedules", schedules);
         return "users/timkiem";
     }

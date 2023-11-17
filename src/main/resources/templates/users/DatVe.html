@@ -31,7 +31,16 @@
             </div>
         </div>
     </div>
-
+    <br>
+    <div th:if="${Message}" class="alert error">
+        <input type="checkbox" id="alert1"/>
+        <label class="close" title="close" for="alert1">
+            x
+        </label>
+        <p class="inner">
+            <strong> [[${Message}]]!</strong>
+        </p>
+    </div>
     <div id="frame">
         <section class="split_frame">
             <!--        đặt vé-->
@@ -553,7 +562,7 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
 <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-
+<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script th:src="@{/users/js/datve.js}"></script>
 <script th:inline="javascript">
 
@@ -652,7 +661,7 @@
             selectedSeatsInputt.value = selectedSeatIds1.join(',');
         }
 
-
+    //
     }
 
 

@@ -27,7 +27,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     List<String> getstartAtAndFinishAt(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
 
     //   lấy ra thời gian
-    String time = ("\n" + "\tselect distinct   DATE_FORMAT(s.start_at , '%H:%i')\n"
+    String time = ("\n" + "\tselect distinct   DATE_FORMAT(s.start_at , '%H:%i'), r.name, s.price\n"
             + "\tfrom projectLinh.cinema c\n"
             + "\tjoin projectLinh.room r on r.cinema_id = c.id\n"
             + "\tjoin projectLinh.schedule s on s.room_id = r.id\n"
@@ -36,10 +36,10 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + " and c.id =:cinemaId and  s.status like 'Sắp chiếu' and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
 
     @Query(value = time, nativeQuery = true)
-    List<String> getTime(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId, @Param("start_at") String start_at);
+    List<Object[]> getTime(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId, @Param("start_at") String start_at);
 
     //   lấy ra schedule
-    String schedule = ("SELECT DISTINCT   s.id, s.code, s.name, s.price, s.start_at, s.finish_at, s.status, s.room_id, s.movie_id\n"
+    String schedule = ("SELECT DISTINCT   s.*\n"
             + "   FROM projectLinh.cinema c\n"
             + "" +
             " JOIN projectLinh.room r ON c.id = r.cinema_id\n"
@@ -49,13 +49,17 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + "   join projectLinh.seat se on se.id= t.seat_id\n"
             + "    WHERE c.id = :cinemaId AND m.id = :movieId\n"
             + "     AND DATE(s.start_at ) = :startAt \n"
-            + "            AND DATE_FORMAT(s.start_at, '%H:%i') = :startTime");
+            + "            AND DATE_FORMAT(s.start_at, '%H:%i') = :startTime AND r.name = :nameRoom");
 
     @Query(value = schedule, nativeQuery = true)
-    List<Schedule> getSchedule(@Param("cinemaId") String cinemaId, @Param("movieId") String movieId, @Param("startAt") String startAt, @Param("startTime") String startTime);
+    List<Schedule> getSchedule(@Param("cinemaId") String cinemaId,
+                               @Param("movieId") String movieId,
+                               @Param("startAt") String startAt,
+                               @Param("startTime") String startTime,
+                               @Param("nameRoom") String nameRoom);
 
 
-    String schedule1 = ("SELECT DISTINCT   s.id, s.code, s.name, s.price, s.start_at, s.finish_at, s.status, s.room_id, s.movie_id\n"
+    String schedule1 = ("SELECT DISTINCT   s.*\n"
             + "   FROM projectLinh.cinema c\n"
             + "" +
             " JOIN projectLinh.room r ON c.id = r.cinema_id\n"
@@ -64,10 +68,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + " join projectLinh.ticket t on t.schedule_id = s.id\n"
             + "   join projectLinh.seat se on se.id= t.seat_id\n"
             + "    WHERE c.name = :cinemaName AND m.name = :movieName\n"
-            + "     AND s.start_at  = :startAt");
+            + "     AND s.start_at  = :startAt AND r.name = :nameRoom");
 
     @Query(value = schedule1, nativeQuery = true)
-    List<Schedule> getSchedule1(@Param("cinemaName") String cinemaName, @Param("movieName") String movieName, @Param("startAt") String startAt);
+    List<Schedule> getSchedule1(@Param("cinemaName") String cinemaName,
+                                @Param("movieName") String movieName,
+                                @Param("startAt") String startAt,
+                                @Param("nameRoom") String nameRoom);
 
 
     List<Schedule> findAllByOrderByStartAtAsc();

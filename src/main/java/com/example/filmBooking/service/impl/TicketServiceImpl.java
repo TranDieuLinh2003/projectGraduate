@@ -97,8 +97,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime) {
-        return repository.findTicketsBySchedule_Id(cinemaId,movieId,startAt,startTime);
+    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime,String nameRoom) {
+        return repository.findTicketsBySchedule_Id(cinemaId,movieId,startAt,startTime,nameRoom);
     }
 
     @Override
@@ -155,9 +155,6 @@ public class TicketServiceImpl implements TicketService {
         return repository.findAllByStatus(status, pageTicket(pageNumber));
     }
 
-    @Override
-    public Integer countSoldTicketsForCinemaAndMovieAtDateTime(String cinemaId, String movieId, String startAt, String startTime) {
-        return repository.countSoldTicketsForCinemaAndMovieAtDateTime(cinemaId,movieId,startAt,startTime);
-    }
+
 
 }

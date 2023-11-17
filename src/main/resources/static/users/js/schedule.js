@@ -43,14 +43,20 @@ window.addEventListener("DOMContentLoaded", function() {
 function displayData(button) {
     // Lấy dữ liệu từ button
     var buttonData = button.textContent;
+    var startTime = buttonData.trim().split('\n')[0].trim();
+    console.log(startTime);
+    var roomInfo = button.querySelector("p").textContent.trim();
+    console.log(roomInfo);
 
     // Chọn phần tử div bằng id
     var myDiv = document.getElementById("myDiv");
+    var room = document.getElementById("phong");
     var link = document.getElementById("myLink");
     // Cập nhật nội dung của div với dữ liệu đã chọn
-    myDiv.textContent = buttonData;
+    myDiv.textContent = startTime;
+    room.textContent = roomInfo;
 
-    var url = "&startTime=" + buttonData.trim()
+    var url = "&startTime=" + startTime.trim() + "&nameRoom=" + roomInfo.trim()
 
     link.href += url;
 

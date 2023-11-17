@@ -29,7 +29,8 @@
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
                         <img th:src="${movie.image}" style="width: 100%; height: 459px">
-                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <div class="date"><span class="day">[[${movie.rated.code}]]</span><span
+                                class="month">Trailer</span></div>
                         <i class="myBtn" data-toggle="modal" data-target="#myModal"
                            th:attrappend="data-target=${movie.id}"> Xem trailer</i>
                         <figcaption>
@@ -38,10 +39,18 @@
                             </h3>
                             <p>
                                 - Thể loại: [[${movie.movieType}]]<br>
-                                - Thời lượng: [[${movie.movieDuration}]] <br>
+                                - Thời lượng: [[${movie.movieDuration}]] phút <br>
                                 - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
                             </p>
-                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+
+                            <th:block th:if="${customer == null}">
+                                <button data-toggle="modal" data-target="#myModalll">Đặt vé</button>
+                            </th:block>
+
+                            <th:block th:unless="${customer == null}">
+                                <button><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>
+                            </th:block>
+                            <!--                            <button ><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>-->
                         </figcaption>
                     </figure>
                 </th:block>
@@ -53,7 +62,8 @@
                 <th:block th:each="movie1 : ${listmovie1}">
                     <figure class="snip1208">
                         <img th:src="${movie1.image}" style="width: 100%; height: 459px">
-                        <div class="date"><span class="day">T18</span><span class="month">Trailer</span></div>
+                        <div class="date"><span class="day">[[${movie1.rated.code}]]</span><span
+                                class="month">Trailer</span></div>
                         <i class="myBtnn" data-toggle="modal" data-target="#myModall"
                            th:attrappend="data-target=${movie1.id}"> Xem trailer</i>
                         <figcaption>
@@ -62,10 +72,10 @@
                             </h3>
                             <p>
                                 - Thể loại: [[${movie1.movieType}]]<br>
-                                - Thời lượng: [[${movie1.movieDuration}]] <br>
+                                - Thời lượng: [[${movie1.movieDuration}]] phút<br>
                                 - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
                             </p>
-                            <button th:onclick="document.getElementById('id01').style.display='block'">Đặt vé</button>
+                            <!--                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>  -->
                         </figcaption>
                     </figure>
                 </th:block>
@@ -106,7 +116,17 @@
         </div>
     </div>
 </th:block>
-
+<!--hiển thị thông báo khi chưa đăng nhập-->
+<div class="modal" id="myModalll">
+    <div class="Mes ">
+        <h2 class="Modal-InText">
+            Khách hàng cần đăng nhập khi đặt vé !!
+        </h2>
+        <button class="Modal-InBtn Btn-Right"><a style="text-decoration: none; color: #000000"
+                                                 href="/filmbooking/login">OK</a></button>
+        <button class="Modal-InBtn Btn-Left" data-dismiss="modal">HỦY</button>
+    </div>
+</div>
 <div th:replace="~{/layout/Footer :: footer}"></div>
 
 </body>

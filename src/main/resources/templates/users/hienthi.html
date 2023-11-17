@@ -44,7 +44,51 @@
     </form>
 </div>
 <!---->
-<div id="searchResult"></div>
+<!--<table>-->
+<!--    <tr th:each="entry : ${suatChieuMap}">-->
+<!--        <td th:text="${entry.key}"></td> &lt;!&ndash; Tên phim &ndash;&gt;-->
+<!--        <td>-->
+<!--            <table>-->
+<!--                <tr th:each="subEntry : ${entry.value}">-->
+<!--                    <td th:text="${subEntry.key}"></td> &lt;!&ndash; Tên phòng chiếu &ndash;&gt;-->
+<!--                    <td>-->
+<!--                        <ul>-->
+<!--                            <li th:each="gioChieu : ${subEntry.value}" th:text="${#temporals.format(gioChieu, 'HH:mm')}"></li> &lt;!&ndash; Thời gian bắt đầu &ndash;&gt;-->
+<!--                        </ul>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<section><th:block th:each="entry : ${suatChieuMap}">
+    <div class="tab-content">
+        <div class="tab-pane active">
+            <div class="card">
+                <div class="card-image "><img src="img/anh.jpg" width="250px" height="350px" alt=""></div>
+                <div class="content">
+
+                        <h2>[[${entry.key}]]</h2><br>
+
+                    <p><i class='fa fa-film'></i> Thể loại: <b > </b></p> <br>
+                    <p><i class='fa fa-history'></i> Thời lượng: <b>100 phút</b></p><br>
+                    <b>2D PHỤ ĐỀ</b>
+                    <hr style="margin-top: 10px;margin-bottom: 10px">
+                    <th:block th:each="subEntry : ${entry.value}">
+                        <h2>[[${subEntry.key}]]</h2>
+                    <div class="bottom">
+                        <th:block th:each="gioChieu : ${subEntry.value}">
+                            <button class="end"><b th:text="${#temporals.format(gioChieu, 'HH:mm')}"></b></button>
+                        </th:block>
+                    </div>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </div></th:block>
+</section>
 <!--  -->
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
@@ -55,8 +99,8 @@
 <script th:src="@{/users/js/lichchieu.js}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#searchForm').on('submit', function(event) {
+    $(document).ready(function () {
+        $('#searchForm').on('submit', function (event) {
             event.preventDefault(); // Ngăn chặn việc gửi yêu cầu đồng bộ
 
             var formData = $(this).serialize(); // Lấy dữ liệu từ form
@@ -65,7 +109,7 @@
                 type: 'GET',
                 url: '/filmbooking/search/schedule',
                 data: formData,
-                success: function(result) {
+                success: function (result) {
                     $('#searchResult').html(result); // Cập nhật kết quả tìm kiếm
                 }
             });
