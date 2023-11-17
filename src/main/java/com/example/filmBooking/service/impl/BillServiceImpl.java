@@ -88,4 +88,14 @@ public class BillServiceImpl implements BillService {
     public Page<Bill> searchDateAndDate(Date startDate, Date endDate, Integer pageNumber) {
         return repository.findByDateCreateBetween(startDate, endDate, pageBill(pageNumber));
     }
+    
+    @Override
+    public List<BigDecimal> revenueInTheLast7Days(String cinemaId) {
+        return repository.revenueInTheLast7Days(cinemaId);
+    }
+
+    @Override
+    public List<Object[]> listTop5Movie() {
+        return repository.listTop5Movie();
+    }
 }
