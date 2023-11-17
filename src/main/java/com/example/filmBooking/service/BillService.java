@@ -26,4 +26,8 @@ public interface BillService {
     Pageable pageBill(Integer pageNumber);
 
     Page<Bill>searchDateAndDate(Date startDate, Date endDate, Integer pageNumber);
+    
+    List<BigDecimal> revenueInTheLast7Days(String cinemaId);
+
+    List<Object[]> listTop5Movie();
 }
