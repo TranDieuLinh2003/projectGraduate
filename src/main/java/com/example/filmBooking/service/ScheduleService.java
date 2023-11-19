@@ -32,7 +32,7 @@ public interface ScheduleService {
 
     List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime, String nameRoom);
 
-    List<Schedule> getSchedule1( String cinemaName,String movieName, String startAt, String nameRoom);
+    List<Schedule> getSchedule1( String movieName, String startAt, String nameRoom);
 
     Page<Schedule> getAll(Integer currentPage);
 

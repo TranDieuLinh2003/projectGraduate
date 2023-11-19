@@ -333,8 +333,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getSchedule1(String cinemaName, String movieName, String startAt, String nameRoom) {
-        return repository.getSchedule1(cinemaName, movieName, startAt, nameRoom);
+    public List<Schedule> getSchedule1( String movieName, String startAt, String nameRoom) {
+        return repository.getSchedule1(movieName, startAt, nameRoom);
     }
 
     @Override

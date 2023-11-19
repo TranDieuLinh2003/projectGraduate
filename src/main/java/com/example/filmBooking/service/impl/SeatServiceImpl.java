@@ -164,15 +164,15 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public List<DtoSeat> getSeats1(String cinemaName, String movieName, String startAt, String nameRoom) {
+    public List<DtoSeat> getSeats1( String movieName, String startAt, String nameRoom) {
 
-        List<Seat> listSeat = seatRepository.getSeat1(cinemaName, movieName, startAt, nameRoom);
+        List<Seat> listSeat = seatRepository.getSeat1( movieName, startAt, nameRoom);
 // Lấy ra các vé đã được đặt trong lịch đó rồi map sang các chỗ ngồi
-        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id1(cinemaName, movieName, startAt,nameRoom)
+        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id1( movieName, startAt,nameRoom)
                 .stream().map(ticket -> ticket.getSeat())
                 .collect(Collectors.toList());
 
-        List<Ticket> tickets = ticketRepository.ticketShow1(cinemaName, movieName, startAt,nameRoom);
+        List<Ticket> tickets = ticketRepository.ticketShow1(movieName, startAt,nameRoom);
 
         // Map list chỗ ngồi của phòng ở bước 1 sang list dto
         List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {

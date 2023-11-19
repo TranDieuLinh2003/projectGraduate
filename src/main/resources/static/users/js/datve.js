@@ -684,6 +684,38 @@ document.getElementById("orderInfor").innerHTML = tenphim;
 //
 // // Call the function to select the checkbox with the highest percentage by default
 // selectHighestPercentage();
+const voucherRows = document.querySelectorAll('.tablee tbody tr');
+
+let maxDiscount = 0;
+let selectedVoucher = null;
+
+// Loop through each voucher row to find the one with the highest discount percentage
+voucherRows.forEach(row => {
+    const discountPercentage = parseInt(row.querySelector('.phantramgiam').textContent);
+    if (discountPercentage > maxDiscount) {
+        maxDiscount = discountPercentage;
+        selectedVoucher = row.querySelector('input[type="checkbox"]');
+    }
+});
+// Add event listener to each checkbox
+voucherRows.forEach(row => {
+    const checkbox = row.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            // Uncheck other checkboxes
+            voucherRows.forEach(otherRow => {
+                const otherCheckbox = otherRow.querySelector('input[type="checkbox"]');
+                if (otherCheckbox !== this) {
+                    otherCheckbox.checked = false;
+                }
+            });
+        }
+    });
+});
+// If a voucher with the highest discount percentage is found, select it
+if (selectedVoucher) {
+    selectedVoucher.checked = true;
+}
 
 function getPhanTramGiam(checkbox) {
     var row = checkbox.parentNode.parentNode; // Lấy thẻ cha của checkbox (thẻ <tr>)
@@ -753,40 +785,7 @@ function getPhanTramGiam(checkbox) {
 
     }
 }
-function selectHighestPercentage() {
-    let checkboxes = document.querySelectorAll('.tablee tbody tr input[type="checkbox"]');
 
-    let highestPercentage = -1; // Initialize with -1 to ensure proper comparison
-
-    checkboxes.forEach(function (checkbox) {
-        let phantramgiam = getPhanTramGiam(checkbox);
-
-        if (phantramgiam > highestPercentage) {
-            highestPercentage = phantramgiam;
-        }
-
-        // Attach event listener to each checkbox
-        checkbox.addEventListener('change', handleCheckboxSelection);
-    });
-
-    checkboxes.forEach(function (checkbox) {
-        let phantramgiam = getPhanTramGiam(checkbox);
-        checkbox.checked = (phantramgiam === highestPercentage);
-    });
-
-    function handleCheckboxSelection(event) {
-        if (event.target.checked) {
-            checkboxes.forEach(function (cb) {
-                if (cb !== event.target) {
-                    cb.checked = false;
-                }
-            });
-        }
-    }
-}
-
-// Call the function to select the checkbox with the highest percentage by default
-selectHighestPercentage();
 
 //tìm kiếm
 function searchList() {

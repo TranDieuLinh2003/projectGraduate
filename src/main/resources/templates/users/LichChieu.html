@@ -16,7 +16,6 @@
 <div class="searchSchdule" id="div1">
     <form id="searchForm">
         <select size="1" id="name" name="name">
-            <option value="">-- Chọn rạp --</option>
             <option th:each="cinema : ${listcinema}" th:value="${cinema.name}" th:text="${cinema.name}"></option>
         </select>
         <!---->
@@ -26,7 +25,6 @@
         </select>
         <!--  -->
         <select size="1" id="startAt" name="startAt">
-            <option value="">-- Chọn ngày --</option>
         </select>
 
         <div class="searchtime">
@@ -39,12 +37,12 @@
                 <label for="endTime" class="label"></label>
                 <input type="number" class="input" id="endTime" name="endTime" placeholder="Giờ kết thúc">
             </div>
-            <button type="submit" class="buttonnn cancel-button">Search</button>
+<!--            <button type="submit" class="buttonnn cancel-button">Search</button>-->
         </div>
     </form>
 </div>
 <!---->
-<div id="searchResult"></div>
+<div id="searchResult" style="margin-bottom: 100px"></div>
 <!--  -->
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
@@ -54,22 +52,28 @@
         crossorigin="anonymous"></script>
 <script th:src="@{/users/js/lichchieu.js}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
     $(document).ready(function() {
-        $('#searchForm').on('submit', function(event) {
-            event.preventDefault(); // Ngăn chặn việc gửi yêu cầu đồng bộ
-
-            var formData = $(this).serialize(); // Lấy dữ liệu từ form
+        function performSearch() {
+            var formData = $('#searchForm').serialize();
 
             $.ajax({
                 type: 'GET',
                 url: '/filmbooking/search/schedule',
                 data: formData,
                 success: function(result) {
-                    $('#searchResult').html(result); // Cập nhật kết quả tìm kiếm
+                    $('#searchResult').html(result);
                 }
             });
+        }
+
+        $('#searchForm input, #searchForm select').on('input change', function(event) {
+            performSearch();
         });
+
+        // Perform initial search when the page loads
+        performSearch();
     });
 </script>
 </html>

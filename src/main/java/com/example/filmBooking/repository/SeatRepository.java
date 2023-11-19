@@ -63,13 +63,12 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
             "            JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
             "            join projectLinh.ticket t on t.schedule_id = s.id\n" +
             "            join projectLinh.seat se on se.id= t.seat_id\n" +
-            "            WHERE c.name = :cinemaName AND m.name = :movieName\n" +
+            "            WHERE  m.name = :movieName\n" +
             "            AND s.start_at  = :startAt AND r.name = :nameRoom\n" +
             "            ORDER BY se.code ASC");
 
     @Query(value = seat1, nativeQuery = true)
-    List<Seat> getSeat1(@Param("cinemaName") String cinemaName,
-                        @Param("movieName") String movieName,
+    List<Seat> getSeat1(@Param("movieName") String movieName,
                         @Param("startAt") String startAt,
                         @Param("nameRoom") String nameRoom);
 }

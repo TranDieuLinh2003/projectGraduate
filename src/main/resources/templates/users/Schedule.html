@@ -40,11 +40,11 @@
                         <div class="time">
                             <button data-modal-target="modal3" data-toggle="modal" data-target="#myModal" id="myButton"
                                     onclick="displayData(this)">
-                                [[${start_at[0]}]]
+                                <p id="time">[[${start_at[0]}]]</p>
                                 <hr>
-                               <p> [[${start_at[1]}]]</p>
+                                <p id="room">[[${start_at[1]}]]</p>
                                 <hr>
-                                <p id="price"> [[${start_at[2]}]]</p>
+                                <p id="price">[[${start_at[2]}]]</p>
                             </button>
                         </div>
                     </th:block>
@@ -80,7 +80,8 @@
                 </table>
 
                 <div style="text-align: center;">
-                    <button class="mybtn bronze"><a id="myLink" th:href="@{'/show/booking/schedule?movieId='+${movieId}+'&cinemaId='+${cinemaId}}">
+                    <button class="mybtn bronze"><a id="myLink"
+                                                    th:href="@{'/show/booking/schedule?movieId='+${movieId}+'&cinemaId='+${cinemaId}}">
                         Đồng Ý</a></button>
                 </div>
             </div>
@@ -104,9 +105,9 @@
     var priceElements = document.querySelectorAll("#price");
 
     // Loop through each element and format its content to VND
-    priceElements.forEach(function(element) {
+    priceElements.forEach(function (element) {
         var price = parseFloat(element.innerHTML);
-        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
         // Set the formatted price as the inner HTML of the element
         element.innerHTML = formattedPrice;
     });
@@ -120,8 +121,17 @@
             success: function (data) {
                 console.log("data: " + data)
                 $("#listTime").html("");
+
                 data.forEach(start_at => {
-                    $("#listTime").append("<div class='time' data-toggle='modal' data-target='#myModal'  id='myButton' onclick='displayData(this)'>" + "<button>" + start_at + "</button>" + "</div>")
+                    var priceVnd = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(start_at[2]);
+                    $("#listTime").append("<div class='time' >" + "<button data-modal-target='modal3' data-toggle='modal' data-target='#myModal' id='myButton' onclick='displayData(this)'>"
+                        + "<p id='time'>" + start_at[0] + "</p>"
+                        + "<hr>"
+                        + "<p id='room'>" + start_at[1] + "</p>"
+                        + "<hr>"
+                        + "<p id='price'>" + priceVnd + "</p>"
+                        + "</button>"
+                        + "</div>")
                 });
             },
             error: function (error) {

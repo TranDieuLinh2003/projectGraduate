@@ -67,12 +67,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + " JOIN projectLinh.movie m ON s.movie_id = m.id\n"
             + " join projectLinh.ticket t on t.schedule_id = s.id\n"
             + "   join projectLinh.seat se on se.id= t.seat_id\n"
-            + "    WHERE c.name = :cinemaName AND m.name = :movieName\n"
+            + "    WHERE m.name = :movieName\n"
             + "     AND s.start_at  = :startAt AND r.name = :nameRoom");
 
     @Query(value = schedule1, nativeQuery = true)
-    List<Schedule> getSchedule1(@Param("cinemaName") String cinemaName,
-                                @Param("movieName") String movieName,
+    List<Schedule> getSchedule1(@Param("movieName") String movieName,
                                 @Param("startAt") String startAt,
                                 @Param("nameRoom") String nameRoom);
 
@@ -105,6 +104,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     )
     Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Pageable pageable);
 
+    List<Schedule> findAllByStatus(String status);
 
 //    Page<Schedule> findByNameContains(String keyword, Pageable pageable);
 }

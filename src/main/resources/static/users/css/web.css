@@ -1044,7 +1044,7 @@ a:hover {
 .time button{
     line-height: 19px;
     height: 84px;
-    width: 117px;
+    width: 135px;
     cursor: pointer;
 }
 .time a {
@@ -1276,9 +1276,9 @@ a:hover {
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
-.modal-content-view  td {
+.modal-content-view td {
     padding: 8px;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700 !important;
     text-align: left;
 }

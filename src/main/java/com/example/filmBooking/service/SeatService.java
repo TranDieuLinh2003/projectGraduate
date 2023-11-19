@@ -28,7 +28,7 @@ public interface SeatService {
 
     List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime, String roomName);
 
-    List<DtoSeat> getSeats1(String cinemaName,String movieName,String startAt, String roomName);
+    List<DtoSeat> getSeats1(String movieName,String startAt, String roomName);
     
     Page<Seat> findAll(Integer currentPage);
     

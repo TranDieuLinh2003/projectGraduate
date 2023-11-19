@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -138,8 +139,38 @@ public class FilmBookingController {
         List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhishowPhimSapChieuAndDangChieumSapChieu().stream().map(movie
                 -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie", listmovie);
-        List<Schedule> schedules = repository1.findByConditions(name, startAt, nameMovie, startTime, endTime);
-        model.addAttribute("schedules", schedules);
+        List<Schedule> allSuatChieu = repository1.findByConditions(name, startAt, nameMovie, startTime, endTime);
+        Map<String, Map<String, List<LocalDateTime>>> suatChieuMap = new HashMap<>();
+        for (Schedule suatChieu : allSuatChieu) {
+            String tenPhim = suatChieu.getMovie().getName();
+            String theloai = suatChieu.getMovie().getMovieType();
+            Integer thoiluong = suatChieu.getMovie().getMovieDuration();
+            String img = suatChieu.getMovie().getImage();
+            String combinedKey = tenPhim + "_" + theloai + "_" + thoiluong+ "_" + img; // Create a combined key by concatenating the two keys
+            String phongChieu = suatChieu.getRoom().getName();
+            String rapchieu = suatChieu.getRoom().getCinema().getName();
+            LocalDateTime gioChieu = suatChieu.getStartAt();
+
+            if (!suatChieuMap.containsKey(combinedKey)) {
+                suatChieuMap.put(combinedKey, new HashMap<>());
+            }
+
+            Map<String, List<LocalDateTime>> phongChieuMap = suatChieuMap.get(combinedKey);
+
+            if (!phongChieuMap.containsKey(phongChieu)) {
+                phongChieuMap.put(phongChieu, new ArrayList<>());
+            }
+
+            List<LocalDateTime> gioChieuList = phongChieuMap.get(phongChieu);
+            gioChieuList.add(gioChieu);
+
+        }
+        for (Map<String, List<LocalDateTime>> phongChieuMap : suatChieuMap.values()) {
+            for (List<LocalDateTime> gioChieuList : phongChieuMap.values()) {
+                Collections.sort(gioChieuList);
+            }
+        }
+        model.addAttribute("suatChieuMap", suatChieuMap);
         return "users/timkiem";
     }
 

@@ -46,11 +46,10 @@ public class TicketApi {
         return new ResponseEntity<>(scheduleService.getSchedule(cinemaId, movieId, startAt, startTime,nameRoom), HttpStatus.OK);
     }
     @GetMapping("/show/schedule1")
-    private ResponseEntity<List<Schedule>> getSchedule1(@RequestParam String cinemaName,
-                                                       @RequestParam String movieName,
+    private ResponseEntity<List<Schedule>> getSchedule1(@RequestParam String movieName,
                                                        @RequestParam String startAt,
                                                         @RequestParam String nameRoom) {
-        return new ResponseEntity<>(scheduleService.getSchedule1(cinemaName, movieName, startAt,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.getSchedule1(movieName, startAt,nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/seat")
@@ -72,11 +71,10 @@ public class TicketApi {
     }
 
     @GetMapping("/show/seat1")
-    private ResponseEntity<List<DtoSeat>> getSeat1(@RequestParam String cinemaName,
-                                                  @RequestParam String movieName,
+    private ResponseEntity<List<DtoSeat>> getSeat1(@RequestParam String movieName,
                                                   @RequestParam String startAt,
                                                    @RequestParam String nameRoom) {
-        return new ResponseEntity<>(seatService.getSeats1(cinemaName, movieName, startAt,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(seatService.getSeats1(movieName, startAt,nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/food")

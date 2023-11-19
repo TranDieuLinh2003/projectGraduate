@@ -529,7 +529,7 @@ td {
 
 .modal-content-view td {
     padding: 8px;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 700 !important;
     text-align: left;
 }
@@ -753,8 +753,9 @@ td {
 /*  */
 
 .card {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto auto;
+    flex-wrap: nowrap;
     background: #fff;
     border-radius: 0.75em;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
@@ -791,6 +792,7 @@ td {
     /* min-height: 200px; */
     transition: filter 0.75s ease 0.2s;
     margin-top: 30px;
+    margin-left: 40px;
 }
 
 /* .one {
@@ -821,7 +823,7 @@ background-image: url(https://picsum.photos/id/190/400/600);
     padding: 0.25em 0.5em;
     background: #e6e6e6;
     border-radius: 10px;
-    font-size: 0.85rem;
+    font-size: 0.90rem;
     color: #333;
     transition: background 0.3s ease, color 0.3s ease 0.1s;
     cursor: pointer;
@@ -830,7 +832,11 @@ background-image: url(https://picsum.photos/id/190/400/600);
     outline: 0 !important;
     border: #FFF;
 }
+.end a{
 
+    color: #333;
+
+}
 .end:hover {
     background: #ff7200;
     color: #fff;

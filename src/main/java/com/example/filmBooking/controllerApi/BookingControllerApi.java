@@ -173,8 +173,7 @@ public class BookingControllerApi {
     }
 
     @GetMapping("/schedule1")
-    public String booking1(@RequestParam String cinemaName,
-                           @RequestParam String movieName,
+    public String booking1(@RequestParam String movieName,
                            @RequestParam String startAt,
                            @RequestParam String nameRoom,
                            Model model,
@@ -203,7 +202,6 @@ public class BookingControllerApi {
 
         //lấy ra lịch chiếu
         String urlTemplateSchdeule = UriComponentsBuilder.fromHttpUrl(apiGetSchedule1)
-                .queryParam("cinemaName", "{cinemaName}")
                 .queryParam("movieName", "{movieName}")
                 .queryParam("startAt", "{startAt}")
                 .queryParam("nameRoom", "{nameRoom}")
@@ -211,7 +209,6 @@ public class BookingControllerApi {
                 .encode()
                 .toUriString();
         Map<String, String> listRequestParam1 = new HashMap<>();
-        listRequestParam1.put("cinemaName", cinemaName + "");
         listRequestParam1.put("movieName", movieName + "");
         listRequestParam1.put("startAt", startAt + "");
         listRequestParam1.put("nameRoom", nameRoom + "");
@@ -220,15 +217,15 @@ public class BookingControllerApi {
                 entity,
                 Schedule[].class,
                 listRequestParam1);
-        Schedule[] schedule = listSchedule.getBody();
+        Schedule scheduleDTO =  listSchedule.getBody()[0];
         model.addAttribute("listSchedule", listSchedule.getBody());
-        session.setAttribute("schedule", schedule);
+        session.setAttribute("schedule", scheduleDTO);
 
         //lấy ra seat
         String urlTemplateSeat = UriComponentsBuilder.fromHttpUrl(apiGetSeat1)
                 .queryParam("movieName", "{movieName}")
-                .queryParam("cinemaName", "{cinemaName}")
                 .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
                 .encode()
                 .toUriString();
         ResponseEntity<DtoSeat[]> listSeat = restTemplate.exchange(urlTemplateSeat,

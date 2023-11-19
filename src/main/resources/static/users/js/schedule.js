@@ -43,9 +43,9 @@ window.addEventListener("DOMContentLoaded", function() {
 function displayData(button) {
     // Lấy dữ liệu từ button
     var buttonData = button.textContent;
-    var startTime = buttonData.trim().split('\n')[0].trim();
-    console.log(startTime);
-    var roomInfo = button.querySelector("p").textContent.trim();
+    var startTime = button.querySelector("#time").innerText;
+        console.log(startTime)
+    var roomInfo = button.querySelector("#room").innerText;
     console.log(roomInfo);
 
     // Chọn phần tử div bằng id
@@ -59,7 +59,6 @@ function displayData(button) {
     var url = "&startTime=" + startTime.trim() + "&nameRoom=" + roomInfo.trim()
 
     link.href += url;
-
 }
 
 

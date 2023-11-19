@@ -50,13 +50,12 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
             "            JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
             "            join projectLinh.ticket t on t.schedule_id = s.id\n" +
             "            join projectLinh.seat se on se.id= t.seat_id\n" +
-            "             WHERE c.name = :cinemaName AND m.name = :movieName\n" +
+            "             WHERE m.name = :movieName\n" +
             "            AND s.start_at  = :startAt   AND r.name = :nameRoom\n" +
             "            AND t.status like 'đã bán'");
 
     @Query(value = ticket1, nativeQuery = true)
-    List<Ticket> findTicketsBySchedule_Id1(@Param("cinemaName") String cinemaName,
-                                           @Param("movieName") String movieName,
+    List<Ticket> findTicketsBySchedule_Id1(@Param("movieName") String movieName,
                                            @Param("startAt") String startAt,
                                            @Param("nameRoom") String nameRoom);
 
@@ -86,12 +85,11 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
             "            JOIN projectLinh.movie m ON s.movie_id = m.id\n" +
             "            join projectLinh.ticket t on t.schedule_id = s.id\n" +
             "            join projectLinh.seat se on se.id= t.seat_id\n" +
-            "             WHERE c.name = :cinemaName AND m.name = :movieName\n" +
+            "             WHERE m.name = :movieName\n" +
             "            AND s.start_at  = :startAt  AND r.name = :nameRoom");
 
     @Query(value = ticketShow1, nativeQuery = true)
-    List<Ticket> ticketShow1(@Param("cinemaName") String cinemaName,
-                             @Param("movieName") String movieName,
+    List<Ticket> ticketShow1(@Param("movieName") String movieName,
                              @Param("startAt") String startAt,
                              @Param("nameRoom") String nameRoom);
 
