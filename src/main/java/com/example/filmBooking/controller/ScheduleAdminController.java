@@ -111,9 +111,7 @@ public class ScheduleAdminController {
                        @RequestParam(name = "id") String id,
                        @RequestParam(name = "room") Room room,
                        @RequestParam(name = "movie") Movie movie,
-                       @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
                        @RequestParam(name = "startAt") LocalDateTime startAt,
-                       @DateTimeFormat(pattern = "dd/MM/yyyy hh:mm")
                        @RequestParam(name = "finishAt") LocalDateTime finishAt,
 //                       @RequestParam(name = "time") LocalTime time,
                        @RequestParam(name = "price") BigDecimal price,
