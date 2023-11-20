@@ -27,7 +27,7 @@
                 <div class="khoi"><b>THỂ LOẠI:</b> <p th:utext="*{movieType}"></p></div>
                 <div class="khoi"><b>THỜI LƯỢNG (phút): </b> <p th:utext="*{movieDuration}"></p> </div>
                 <div class="khoi"><b>NGÔN NGỮ:</b> <p th:utext="*{languages}"></p> </div>
-                <div class="khoi"><b>NGÀY KHỞI CHIẾU:</b> <p th:utext="*{premiereDate}" value="dd/MM/yyyy"></p> </div>
+                <div class="khoi"><b>NGÀY KHỞI CHIẾU:</b> <p id="ngaytao" th:utext="*{premiereDate}" value="dd/MM/yyyy"></p> </div>
                 </div>
 
         </section>
@@ -49,4 +49,20 @@
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+<script>
+    var elements = document.querySelectorAll("#ngaytao");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function (element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year ;
+        element.innerHTML = formattedDate;
+    });
+</script>
 </html>

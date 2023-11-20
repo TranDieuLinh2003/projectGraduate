@@ -80,7 +80,7 @@
                 <td>[[${billOne.tradingCode}]]</td>
                 <td id="ngaytao">[[${billOne.dateCreate}]]</td>
                 <td id="price">[[${billOne.totalMoney}]]</td>
-                <td th:text="${billOne.status == 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}"></td>
+                <td th:text="${billOne.status == 0 ? 'Chờ thanh toán' : 'Đã thanh toán'}"></td>
                 <td>
                     <button class="btn btn-outline-primary"><i class='bx bx-show-alt'></i></button>
                 </td>

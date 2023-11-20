@@ -19,6 +19,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/promotion")
+@SessionAttributes("soldTicketsCount")
+
 public class PromotionAdminController {
     @Autowired
     private PromotionService promotionService;

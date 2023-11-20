@@ -684,40 +684,53 @@ document.getElementById("orderInfor").innerHTML = tenphim;
 //
 // // Call the function to select the checkbox with the highest percentage by default
 // selectHighestPercentage();
-const voucherRows = document.querySelectorAll('.tablee tbody tr');
+// const voucherRows = document.querySelectorAll('.tablee tbody tr');
+//
+// let maxDiscount = 0;
+// let selectedVoucher = null;
+//
+// // Loop through each voucher row to find the one with the highest discount percentage
+// voucherRows.forEach(row => {
+//     const discountPercentage = parseInt(row.querySelector('.phantramgiam').textContent);
+//     if (discountPercentage > maxDiscount) {
+//         maxDiscount = discountPercentage;
+//         selectedVoucher = row.querySelector('input[type="checkbox"]');
+//     }
+// });
+// // Add event listener to each checkbox
+// voucherRows.forEach(row => {
+//     const checkbox = row.querySelector('input[type="checkbox"]');
+//     checkbox.addEventListener('change', function() {
+//         if (this.checked) {
+//             // Uncheck other checkboxes
+//             voucherRows.forEach(otherRow => {
+//                 const otherCheckbox = otherRow.querySelector('input[type="checkbox"]');
+//                 if (otherCheckbox !== this) {
+//                     otherCheckbox.checked = false;
+//                 }
+//             });
+//         }
+//     });
+// });
+// If a voucher with the highest discount percentage is found, select it
+// if (selectedVoucher) {
+//     selectedVoucher.checked = true;
+// }
+let checkboxes = document.querySelectorAll('.tablee input[type="checkbox"]');
 
-let maxDiscount = 0;
-let selectedVoucher = null;
-
-// Loop through each voucher row to find the one with the highest discount percentage
-voucherRows.forEach(row => {
-    const discountPercentage = parseInt(row.querySelector('.phantramgiam').textContent);
-    if (discountPercentage > maxDiscount) {
-        maxDiscount = discountPercentage;
-        selectedVoucher = row.querySelector('input[type="checkbox"]');
-    }
-});
-// Add event listener to each checkbox
-voucherRows.forEach(row => {
-    const checkbox = row.querySelector('input[type="checkbox"]');
-    checkbox.addEventListener('change', function() {
-        if (this.checked) {
-            // Uncheck other checkboxes
-            voucherRows.forEach(otherRow => {
-                const otherCheckbox = otherRow.querySelector('input[type="checkbox"]');
-                if (otherCheckbox !== this) {
-                    otherCheckbox.checked = false;
-                }
-            });
-        }
+// Add a click event listener to each checkbox
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('click', function() {
+        // Uncheck all checkboxes
+        checkboxes.forEach(cb => {
+            if (cb !== this) {
+                cb.checked = false;
+            }
+        });
     });
 });
-// If a voucher with the highest discount percentage is found, select it
-if (selectedVoucher) {
-    selectedVoucher.checked = true;
-}
-
 function getPhanTramGiam(checkbox) {
+
     var row = checkbox.parentNode.parentNode; // Lấy thẻ cha của checkbox (thẻ <tr>)
     var phantramgiamElement = row.querySelector(".phantramgiam"); // Tìm phần tử có lớp "phantramgiam" trong thẻ cha
     let tongtienElement = document.getElementById("tongtien");
