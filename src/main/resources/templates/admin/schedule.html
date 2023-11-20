@@ -238,9 +238,9 @@
                 <td>[[${schedule.code}]]</td>
                 <td>[[${schedule.movie.name}]]</td>
                 <td>[[${schedule.room.name}]]</td>
-                <td>[[${schedule.price}]]</td>
-                <td>[[${schedule.startAt}]]</td>
-                <td>[[${schedule.finishAt}]]</td>
+                <td id="price">[[${schedule.price}]]</td>
+                <td id="ngaybatdau">[[${schedule.startAt}]]</td>
+                <td id="ngayketthuc">[[${schedule.finishAt}]]</td>
                 <td>[[${schedule.status}]]</td>
                 <td>
                     <a th:href="@{'/schedule/findById/1/' + ${schedule.id}}">
@@ -324,6 +324,51 @@
                 names[i].style.display = 'none';
             }
         }
+    });
+    var priceElements = document.querySelectorAll("#price");
+    priceElements.forEach(function(element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+
+    var elements = document.querySelectorAll("#ngaybatdau");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function (element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var hour = dateTime.getHours(); // Lấy giờ (0-23)
+        var formattedHour = String(hour).padStart(2, '0');
+        var minute = dateTime.getMinutes();
+        var formattedMinute = String(minute).padStart(2, '0');
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year + " " + formattedHour + ":" + formattedMinute;
+        element.innerHTML = formattedDate;
+    });
+
+    var elements = document.querySelectorAll("#ngayketthuc");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function (element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var hour = dateTime.getHours(); // Lấy giờ (0-23)
+        var formattedHour = String(hour).padStart(2, '0');
+        var minute = dateTime.getMinutes();
+        var formattedMinute = String(minute).padStart(2, '0');
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year + " " + formattedHour + ":" + formattedMinute;
+        element.innerHTML = formattedDate;
     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
