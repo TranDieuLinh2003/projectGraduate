@@ -178,6 +178,6 @@ public class ScheduleAdminController {
         List<Schedule> scheduleList = scheduleService.findAll();
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("listSchedule", scheduleList);
-        return "admin/schedule";
+        return "admin/update-schedule";
     }
 }
