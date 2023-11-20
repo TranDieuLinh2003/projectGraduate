@@ -146,7 +146,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setMovie(schedule.getMovie());
         scheduleNew.setName(schedule.getName());
         scheduleNew.setStartAt(schedule.getStartAt());
-        scheduleNew.setPrice(checkTheDayOfTheWeek(schedule));
+        scheduleNew.setPrice(schedule.getPrice());
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         //lấy thời gian bắt đầu
         LocalDateTime startAt = schedule.getStartAt();
