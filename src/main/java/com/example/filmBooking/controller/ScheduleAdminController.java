@@ -128,7 +128,7 @@ public class ScheduleAdminController {
                     .finishAt(finishAt)
                     .price(price)
                     .build();
-            if (service.save(schedule) instanceof String) {
+            if (service.update(id,schedule) instanceof Schedule) {
                 model.addAttribute("thanhCong", "Sửa lịch chiếu thành công");
             } else {
                 model.addAttribute("thatBai", "Sửa lịch chiếu thất bại");

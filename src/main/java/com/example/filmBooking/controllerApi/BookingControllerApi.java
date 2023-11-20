@@ -38,6 +38,7 @@ public class BookingControllerApi {
                           @RequestParam String movieId,
                           @RequestParam String startTime,
                           @RequestParam String startAt,
+                          @RequestParam String nameRoom,
                           Model model,
                           HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -53,6 +54,8 @@ public class BookingControllerApi {
         session.setAttribute("startAt", request.getParameter("startAt"));
         model.addAttribute("startAt", startAt);
 
+        session.setAttribute("nameRoom", request.getParameter("nameRoom"));
+        model.addAttribute("nameRoom", nameRoom);
 //        System.out.println(start_time);
 
         Customer customer = (Customer) session.getAttribute("customer");
@@ -76,6 +79,7 @@ public class BookingControllerApi {
                 .queryParam("cinemaId", "{cinemaId}")
                 .queryParam("startTime", "{startTime}")
                 .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
                 .encode()
                 .toUriString();
         Map<String, String> listRequestParam = new HashMap<>();
@@ -83,13 +87,16 @@ public class BookingControllerApi {
         listRequestParam.put("cinemaId", cinemaId + "");
         listRequestParam.put("startTime", startTime + "");
         listRequestParam.put("startAt", startAt + "");
+        listRequestParam.put("nameRoom", nameRoom + "");
         ResponseEntity<Schedule[]> listSchedule = restTemplate.exchange(urlTemplateSchdeule,
                 HttpMethod.GET,
                 entity,
                 Schedule[].class,
                 listRequestParam);
+        Schedule scheduleDTO =  listSchedule.getBody()[0];
         model.addAttribute("listSchedule", listSchedule.getBody());
-        session.setAttribute("schedule", listSchedule.getBody());
+        session.setAttribute("schedule", scheduleDTO);
+//        System.out.println("tôi là :"+ scheduleDTO.getId());
 
         //lấy ra seat
         String urlTemplateSeat = UriComponentsBuilder.fromHttpUrl(apiGetSeat)
@@ -97,6 +104,7 @@ public class BookingControllerApi {
                 .queryParam("cinemaId", "{cinemaId}")
                 .queryParam("startTime", "{startTime}")
                 .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
                 .encode()
                 .toUriString();
         ResponseEntity<DtoSeat[]> listSeat = restTemplate.exchange(urlTemplateSeat,
@@ -165,9 +173,9 @@ public class BookingControllerApi {
     }
 
     @GetMapping("/schedule1")
-    public String booking1(@RequestParam String cinemaName,
-                           @RequestParam String movieName,
+    public String booking1(@RequestParam String movieName,
                            @RequestParam String startAt,
+                           @RequestParam String nameRoom,
                            Model model,
                            HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -194,28 +202,30 @@ public class BookingControllerApi {
 
         //lấy ra lịch chiếu
         String urlTemplateSchdeule = UriComponentsBuilder.fromHttpUrl(apiGetSchedule1)
-                .queryParam("cinemaName", "{cinemaName}")
                 .queryParam("movieName", "{movieName}")
                 .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
+
                 .encode()
                 .toUriString();
         Map<String, String> listRequestParam1 = new HashMap<>();
-        listRequestParam1.put("cinemaName", cinemaName + "");
         listRequestParam1.put("movieName", movieName + "");
         listRequestParam1.put("startAt", startAt + "");
+        listRequestParam1.put("nameRoom", nameRoom + "");
         ResponseEntity<Schedule[]> listSchedule = restTemplate.exchange(urlTemplateSchdeule,
                 HttpMethod.GET,
                 entity,
                 Schedule[].class,
                 listRequestParam1);
+        Schedule scheduleDTO =  listSchedule.getBody()[0];
         model.addAttribute("listSchedule", listSchedule.getBody());
-        session.setAttribute("schedule", listSchedule.getBody());
+        session.setAttribute("schedule", scheduleDTO);
 
         //lấy ra seat
         String urlTemplateSeat = UriComponentsBuilder.fromHttpUrl(apiGetSeat1)
                 .queryParam("movieName", "{movieName}")
-                .queryParam("cinemaName", "{cinemaName}")
                 .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
                 .encode()
                 .toUriString();
         ResponseEntity<DtoSeat[]> listSeat = restTemplate.exchange(urlTemplateSeat,

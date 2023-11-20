@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,72 +45,38 @@
 <section class="seat-html">
     <section>
         <div class="row">
-            <div class="col-7">
+            <div class="col-6">
                 <div class="sestion-add-seat">
-                    <form th:action="@{/seat/save}" method="post" th:object="${seat}" class="form_add_seat">
+                    <form th:action="@{/seat/update/1}" method="post" class="form_add_seat">
+                        <input type="hidden" th:field="*{seat.id}"/>
+                        <h4 style="padding: 20px 0px 0px 30px" th:text="${seat.code}"></h4>
+<!--                        <h4 style="padding: 20px 0px 0px 30px" th:text="${seat.room.name}"></h4>-->
                         <div class="seat_input">
                             <div class="row g-3">
                                 <div class="col">
-                                    <div class="input-box">
-                                        <label>Số lượng ghế trên một hàng</label>
-                                        <input type="number" name="number" id="numberSeat"/>
-                                    </div>
-                                    <span id="numberSeatErr" style="color: red; margin: 10px 0px 0px 0px" ></span>
-                                </div>
-                                <div class="col">
-                                    <div class="input-box">
-                                        <label>Hàng ghế</label>
-                                        <input type="number" id="lineSeat" name="lineNumber"/>
-                                    </div>
-                                    <span id="lineSeatErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                                    <label>Trạng thái ghế</label>
+                                    <input th:field="*{seat.line}" type="hidden"/>
+                                    <input th:field="*{seat.number}" type="hidden"/>
+                                    <select th:field="*{seat.status}" class="form-select" aria-label="Default select example"
+                                            style="width: 400px; margin: 20px 0px 20px 0px">
+                                        <!--                                        <option selected>Mời chọn trạng thái</option>-->
+                                        <option th:value="0">0 (Ghế đang hoạt động)</option>
+                                        <option th:value="1">1 (Ghế đang bảo trì)</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="row g-3">
-                                <div class="col">
-                                    <div class="select_room">
-                                        <label>Phòng chiếu</label>
-                                        <select
-                                                class="form-select"
-                                                aria-label="Default select example"
-                                                th:field="*{room}"
-                                        >
-                                            <th:block th:each="r : ${roomId}">
-                                                <option
-                                                        th:value="${r.id}"
-                                                >
-                                                    [[${r.name}]]
-                                                </option>
-                                            </th:block>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- <div class="col">
-                                    <div class="input-box">
-                                      <label for="">Trạng thái ghế</label>
-                                      <input type="text" required />
-                                    </div>
-                                  </div> -->
-                            </div>
-                            <!-- <div class="row g-3">
-                                <div class="col">
-                                  <div class="input-box">
-                                    <label for="">Mô tả</label>
-                                    <input type="text" required />
-                                  </div>
-                                </div>
-                              </div> -->
+                            <button
+                                    type="submit"
+                                    class="btn btn-outline-success"
+                                    onclick="validateSeat(event)"
+                            >
+                                Sửa ghế
+                            </button>
                         </div>
-                        <button
-                                type="submit"
-                                class="btn btn-outline-success"
-                                onclick="validateSeat(event)"
-                        >
-                            Thêm ghế
-                        </button>
                     </form>
                 </div>
             </div>
-            <div class="col-5">
+            <div class="col-6">
                 <div class="search_loc_seat">
                     <form th:action="@{/seat/find-all/page/1}" method="get">
                         <div class="row g-3">
@@ -145,24 +111,27 @@
                 </div>
             </div>
         </div>
-
     </section>
     <div class="table_seat">
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Mã ghế</th>
-                <th scope="col">Mô tả</th>
                 <th scope="col">Phòng chiếu</th>
                 <th scope="col">Trạng thái</th>
+                <th scope="col">Hành động</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="s : ${listSeat}">
                 <th scope="row">[[${s.code}]]</th>
-                <td>[[${s.description}]]</td>
                 <td>[[${s.room.name}]]</td>
-                <td>[[${s.status}]]</td>
+                <td th:text="${s.status == 0 ? 'Ghế đang hoạt động' : 'Ghế đang bảo trì'}"></td>
+                <td>
+                    <a th:href="@{'/seat/update/1/' + ${s.id}}">
+                        <button type="button" class="btn btn-outline-success"><i class='bx bxs-edit-alt'></i></button>
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -172,7 +141,8 @@
             <ul class="pagination">
                 <th:block th:if="${currentPage > 1}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/seat/find-all/page/' + ${currentPage - 1} + ${idByRoom == null ? '' : '?id=' + idByRoom}}"
+                        <a class="page-link"
+                           th:href="@{'/seat/find-all/page/' + ${currentPage - 1} + ${idByRoom == null ? '' : '?id=' + idByRoom}}"
                            aria-label="Previous" onclick="overLoad()">
                             &laquo;
                         </a>
@@ -180,14 +150,17 @@
                 </th:block>
                 <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/seat/find-all/page/' + ${pageNumber} + ${idByRoom == null ? '' : '?id=' + idByRoom}}" onclick="overLoad()">
+                        <a class="page-link"
+                           th:href="@{'/seat/find-all/page/' + ${pageNumber} + ${idByRoom == null ? '' : '?id=' + idByRoom}}"
+                           onclick="overLoad()">
                             [[${pageNumber}]]
                         </a>
                     </li>
                 </th:block>
                 <th:block th:if="${currentPage < totalPages}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/seat/find-all/page/' + ${currentPage + 1} + ${idByRoom == null ? '' : '?id=' + idByRoom}}"
+                        <a class="page-link"
+                           th:href="@{'/seat/find-all/page/' + ${currentPage + 1} + ${idByRoom == null ? '' : '?id=' + idByRoom}}"
                            aria-label="Next" onclick="overLoad()">
                             &raquo;
                         </a>

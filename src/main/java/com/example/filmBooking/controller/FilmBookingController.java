@@ -12,6 +12,7 @@ import com.example.filmBooking.service.impl.ScheduleServiceImpl;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -121,20 +123,54 @@ public class FilmBookingController {
 
 
     @GetMapping("/search/schedule")
-    public String getSchedule(Model model,@RequestParam(value = "nameCinema", required = false) String nameCinema,
+    public String getSchedule(Model model,
+                              @RequestParam(value = "name", required = false) String name,
                               @DateTimeFormat(pattern = "dd/MM/yyyy") @RequestParam(value = "nameMovie", required = false) String nameMovie,
                               @RequestParam(value = "startAt", required = false) LocalDate startAt,
                               @RequestParam(value = "startTime", required = false) Integer startTime,
                               @RequestParam(value = "endTime", required = false) Integer endTime) {
-
+        name = Strings.isEmpty(name) ? null : name;
+        nameMovie = Strings.isEmpty(nameMovie) ? null : nameMovie;
+//        if (name != null || nameMovie != null || startAt != null || startTime != null || endTime != null) {
+//            scheduleService.searchSchedule(name, startAt, nameMovie, startTime, endTime);
+//        }
         List<Cinema> listcinema = (List<Cinema>) cinemaService.fillAll();
         model.addAttribute("listcinema", listcinema);
         List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhishowPhimSapChieuAndDangChieumSapChieu().stream().map(movie
                 -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie", listmovie);
-        List<Schedule> schedules;
-        schedules = scheduleService.findByNameContains(nameCinema, startAt, nameMovie, startTime, endTime);
-        model.addAttribute("schedules", schedules);
+        List<Schedule> allSuatChieu = repository1.findByConditions(name, startAt, nameMovie, startTime, endTime);
+        Map<String, Map<String, List<LocalDateTime>>> suatChieuMap = new HashMap<>();
+        for (Schedule suatChieu : allSuatChieu) {
+            String tenPhim = suatChieu.getMovie().getName();
+            String theloai = suatChieu.getMovie().getMovieType();
+            Integer thoiluong = suatChieu.getMovie().getMovieDuration();
+            String img = suatChieu.getMovie().getImage();
+            String combinedKey = tenPhim + "_" + theloai + "_" + thoiluong+ "_" + img; // Create a combined key by concatenating the two keys
+            String phongChieu = suatChieu.getRoom().getName();
+            String rapchieu = suatChieu.getRoom().getCinema().getName();
+            LocalDateTime gioChieu = suatChieu.getStartAt();
+
+            if (!suatChieuMap.containsKey(combinedKey)) {
+                suatChieuMap.put(combinedKey, new HashMap<>());
+            }
+
+            Map<String, List<LocalDateTime>> phongChieuMap = suatChieuMap.get(combinedKey);
+
+            if (!phongChieuMap.containsKey(phongChieu)) {
+                phongChieuMap.put(phongChieu, new ArrayList<>());
+            }
+
+            List<LocalDateTime> gioChieuList = phongChieuMap.get(phongChieu);
+            gioChieuList.add(gioChieu);
+
+        }
+        for (Map<String, List<LocalDateTime>> phongChieuMap : suatChieuMap.values()) {
+            for (List<LocalDateTime> gioChieuList : phongChieuMap.values()) {
+                Collections.sort(gioChieuList);
+            }
+        }
+        model.addAttribute("suatChieuMap", suatChieuMap);
         return "users/timkiem";
     }
 

@@ -193,61 +193,7 @@
     </div>
     <div class="update-and-loc">
         <div class="row">
-            <div class="col-6">
-                <div class="form-update-schedule">
-                    <form th:action="@{/schedule/update/1}" th:object="${schedule}" method="post"
-                          class="form_add_schedule">
-                        <div class="seat_input">
-                            <input type="hidden" th:field="*{id}">
-                            <input type="hidden" th:field="*{movie}">
-                            <input type="hidden" th:field="*{room}">
-                            <div class="row g-3">
-                                <div class="col">
-                                    <div class="input-box">
-                                        <label>Thời gian bắt đầu:</label>
-                                        <input
-                                                type="text"
-                                                name="startAt"
-                                                th:field="*{startAt}"
-
-                                        />
-                                    </div>
-                                    <span id="startTimeUpdateErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-                                </div>
-                                <div class="col">
-                                    <div class="input-box">
-                                        <label>Thời gian kết thúc:</label>
-                                        <input
-                                                type="text"
-                                                name="finishAt"
-                                                id="endTimeUpdate"
-                                                th:field="*{finishAt}"
-                                        />
-                                    </div>
-                                    <span id="endTimeUpdateErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-                                </div>
-                            </div>
-                            <div class="row g-3">
-                                <div class="col">
-                                    <div class="input-box">
-                                        <label>Giá vé</label>
-                                        <input type="text" th:field="*{price}" id="priceLichChieu"/>
-                                    </div>
-                                    <span id="priceLichChieuErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <button
-                                type="submit"
-                                class="btn btn-outline-success"
-                                onclick="updateSchedule(event)"
-                        >
-                            Sửa lịch chiếu
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-6">
+            <div class="col-12">
                 <div class="form-loc-schedule">
                     <form th:action="@{/schedule/find-all/page/1}" method="get">
                         <select size="1" id="nameCinema" name="nameCinema" class="form-select"

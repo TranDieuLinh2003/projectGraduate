@@ -7,7 +7,6 @@ import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.service.RoomService;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

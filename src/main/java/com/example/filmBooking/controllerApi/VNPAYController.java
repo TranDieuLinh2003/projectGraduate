@@ -18,14 +18,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -71,6 +76,7 @@ public class VNPAYController {
                               @RequestParam("priceFoodFood") String priceFoodFood,
                               @RequestParam("discountcount") String discountcount,
                               HttpServletRequest request,
+                              RedirectAttributes ra,
                               @RequestParam("selectedSeats") List<Ticket> selectedSeats,
                               @RequestParam("priceTicket") BigDecimal priceTicket,
                               @RequestParam(value = "selectedFood", required = false) List<Food> selectedFood,
@@ -80,20 +86,44 @@ public class VNPAYController {
 
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(orderTotal, orderInfo, baseUrl);
-
+        HttpSession session = request.getSession();
+        Schedule schedule = (Schedule) session.getAttribute("schedule");
         BigDecimal orderTotalDecimal = new BigDecimal(orderTotal);
         Locale localeVN = new Locale("vi", "VN");
         NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
         String formattedPriceVN = currencyVN.format(orderTotal);
 //        System.out.println(selectedPromition.);
         HttpSession session1 = request.getSession();
+        String roomName = schedule.getRoom().getName();
+        String formattedRoomName = null;
+        try {
+            formattedRoomName = URLEncoder.encode(roomName, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //        check xem vé được bán chưa
+        for (Ticket ticket : selectedSeats) {
+            String status = ticket.getStatus();
+            if (status.equalsIgnoreCase("đã bán")) {
+                // Display message if the ticket status is "sold"
+                String message = "Có người nhanh tay hơn đã chọn vào ghế mà bạn đã chọn, vui lòng chọn lại chỗ ngồi!";
+                ra.addFlashAttribute("Message", message);
+                return "redirect:/show/booking/schedule?movieId=" + schedule.getMovie().getId() +
+                        "&cinemaId=" + schedule.getRoom().getCinema().getId() + "&startTime=" +
+                        schedule.getStartAt().format(DateTimeFormatter.ofPattern("HH:mm")) + "&nameRoom=" +
+                        formattedRoomName + "&startAt=" +
+                        schedule.getStartAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            }
+        }
+
 //thêm bill
         Bill bill = new Bill();
 //        Customer customer1 = new Customer();
         bill.setStatus(1);
 //        bill.setTradingCode(vnp_TransactionNo);
         bill.setDateCreate(LocalDateTime.now());
-        HttpSession session = request.getSession();
+
         Customer customer = (Customer) session.getAttribute("customer");
         bill.setCustomer(customer);
         bill.setTotalMoney(orderTotalDecimal);
@@ -102,7 +132,6 @@ public class VNPAYController {
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
         if (selectedPromition == null) {
             // Xử lý khi selectedFood là null hoặc rỗng
-            System.out.println("Dữ liệu  không tồn tại hoặc rỗng");
         } else {
             bill.setPromotion(selectedPromition);
             selectedPromition.setQuantity(selectedPromition.getQuantity() - 1);
@@ -134,7 +163,6 @@ public class VNPAYController {
         List<BillFood> billFoods = new ArrayList<>();
         if (selectedFood == null || selectedFood.isEmpty()) {
             // Xử lý khi selectedFood là null hoặc rỗng
-            System.out.println("Dữ liệu không tồn tại hoặc rỗng");
         } else {
             for (int i = 0; i < selectedFood.size() && i < selectedQuantity.size() && i < selectedPrice.size(); i++) {
                 Food food = selectedFood.get(i);
@@ -212,7 +240,6 @@ public class VNPAYController {
             message.setText(emailContent.toString());
 //            Transport.send(message);
             session1.setAttribute("message", message);
-            System.out.println("Email sent successfully");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
@@ -235,6 +262,7 @@ public class VNPAYController {
                                @RequestParam("discount") String discount,
                                Model model,
                                HttpServletRequest request,
+                               RedirectAttributes ra,
                                @RequestParam("selectedSeats1") List<Ticket> selectedSeats1,
                                @RequestParam("priceTicket1") BigDecimal priceTicket1,
                                @RequestParam(value = "selectedFood1", required = false) List<Food> selectedFood1,
@@ -244,6 +272,7 @@ public class VNPAYController {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
+        Schedule schedule = (Schedule) session.getAttribute("schedule");
         model.addAttribute("customer", customer);
         String transactionCode = generateTransactionCode();
         BigDecimal orderTotalDecimal = new BigDecimal(orderTotal);
@@ -255,6 +284,28 @@ public class VNPAYController {
         model.addAttribute("totalPrice", formattedPriceVN);
         model.addAttribute("paymentTime", LocalDateTime.now());
         model.addAttribute("transactionId", transactionCode);
+        String roomName = schedule.getRoom().getName();
+        String formattedRoomName = null;
+        try {
+            formattedRoomName = URLEncoder.encode(roomName, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        check xem vé được bán chưa
+        for (Ticket ticket : selectedSeats1) {
+            String status = ticket.getStatus();
+            if (status.equalsIgnoreCase("đã bán")) {
+                // Display message if the ticket status is "sold"
+                String message = "Có người nhanh tay hơn đã chọn vào ghế mà bạn đã chọn, vui lòng chọn lại chỗ ngồi!";
+                ra.addFlashAttribute("Message", message);
+                return "redirect:/show/booking/schedule?movieId=" + schedule.getMovie().getId() +
+                        "&cinemaId=" + schedule.getRoom().getCinema().getId() + "&startTime=" +
+                        schedule.getStartAt().format(DateTimeFormatter.ofPattern("HH:mm")) + "&nameRoom=" +
+                        formattedRoomName + "&startAt=" +
+                        schedule.getStartAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            }
+        }
 //thêm bill
         Bill bill = new Bill();
 
@@ -264,13 +315,12 @@ public class VNPAYController {
         bill.setCustomer(customer);
         bill.setTotalMoney(orderTotalDecimal);
         bill.setTradingCode(transactionCode);
-        BigDecimal phantram = BigDecimal.valueOf(0.05);
-        BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
-        customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
+//        BigDecimal phantram = BigDecimal.valueOf(0.05);
+//        BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
+//        customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
 
         if (selectedPromition1 == null) {
             // Xử lý khi selectedFood là null hoặc rỗng
-            System.out.println("Dữ liệu  không tồn tại hoặc rỗng");
         } else {
             Promotion promotion = promotionService.findById(selectedPromition1.getId());
             bill.setPromotion(selectedPromition1);
@@ -298,7 +348,6 @@ public class VNPAYController {
 ////thêm bill_food
         if (selectedFood1 == null || selectedFood1.isEmpty()) {
             // Xử lý khi selectedFood là null hoặc rỗng
-            System.out.println("Dữ liệu không tồn tại hoặc rỗng");
         } else {
             for (int i = 0; i < selectedFood1.size() && i < selectedQuantity1.size() && i < selectedPrice1.size(); i++) {
                 Food food = selectedFood1.get(i);
@@ -387,7 +436,6 @@ public class VNPAYController {
             emailContent1.append("Đơn hàng thanh toán lúc: ").append(LocalDateTime.now()).append("\n");
             message2.setText(emailContent1.toString());
             Transport.send(message2);
-            System.out.println("Email sent successfully");
         } catch (
                 MessagingException e) {
             throw new RuntimeException(e);
@@ -435,7 +483,6 @@ public class VNPAYController {
             customerRepository.save(customer1);
             if (promotion == null) {
                 // Xử lý khi selectedFood là null hoặc rỗng
-                System.out.println("Dữ liệu  không tồn tại hoặc rỗng");
             } else {
                 promotionService.save(promotion);
             }
@@ -448,7 +495,6 @@ public class VNPAYController {
             }
             if (billFoods == null || billFoods.isEmpty()) {
                 // Xử lý khi selectedFood là null hoặc rỗng
-                System.out.println("Dữ liệu không tồn tại hoặc rỗng");
             } else {
                 for (BillFood billFood : billFoods) {
                     billFoodService.save(billFood);
@@ -458,7 +504,6 @@ public class VNPAYController {
             try {
                 Message message = (Message) session.getAttribute("message");
                 Transport.send(message);
-                System.out.println("Email sent successfully");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }

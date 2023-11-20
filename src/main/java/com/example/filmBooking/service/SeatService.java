@@ -26,9 +26,9 @@ public interface SeatService {
 
     List<Object[]> getSeatsByCustomerId(String customerId);
 
-    List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime);
+    List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime, String roomName);
 
-    List<DtoSeat> getSeats1(String cinemaName,String movieName,String startAt);
+    List<DtoSeat> getSeats1(String movieName,String startAt, String roomName);
     
     Page<Seat> findAll(Integer currentPage);
     

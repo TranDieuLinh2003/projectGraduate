@@ -103,9 +103,10 @@ function setSeatsColor(color) {
 // window.addEventListener("load", function () {
 //     seats.forEach((seat, index) => {
 //         if (selectedSeats.includes(index)) {
-//             seat.classList.add("black");
+//             seat.classList.add("black1");
+//             seat.classList.remove("selected");
 //         } else {
-//             seat.classList.remove("black");
+//             seat.classList.remove("black1");
 //         }
 //     });
 // });
@@ -114,7 +115,7 @@ function setSeatsColor(color) {
 // setTimeout(function () {
 //     setSeatsToDefault();
 // }, 60000);
-// Initial count and total rendering
+// // Initial count and total rendering
 // updateSelectedCount();
 
 // menu
@@ -170,7 +171,6 @@ var formattedMinute = String(minute).padStart(2, '0');
 var formattedTime = formattedHour + ":" + formattedMinute;
 document.getElementById("gio").innerHTML = formattedTime;
 myData.innerHTML = "<b>" + formattedTime + "</b>";
-
 
 
 //chọn ghế
@@ -266,7 +266,7 @@ function toggleSelection() {
         // Clear the input value if no seat is selected
         var seatInput = document.querySelector('input[name="seat"]');
         seatInput.value = "";
-    }else {
+    } else {
         var seatInput = document.querySelector('input[name="seat"]');
         seatInput.value = seatNumber2;
         selectedSeats2.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
@@ -291,7 +291,7 @@ function toggleSelection() {
         // Clear the input value if no seat is selected
         var seatInput = document.querySelector('input[name="seatseat"]');
         seatInput.value = "";
-    }else {
+    } else {
         var seatInput = document.querySelector('input[name="seatseat"]');
         seatInput.value = seatNumber2;
         selectedSeats1.appendChild(seatInput); // Thêm ghế vào thẻ <p> nếu nó chưa tồn tại
@@ -468,10 +468,10 @@ document.getElementById('cancel2').addEventListener('click', function () {
 var radioInputs = document.querySelectorAll('input[name="optradio"]');
 
 // Add change event listener to each radio input
-radioInputs.forEach(function(radioInput) {
-    radioInput.addEventListener('change', function() {
+radioInputs.forEach(function (radioInput) {
+    radioInput.addEventListener('change', function () {
         // Clear the 'checked' attribute from all radio inputs
-        radioInputs.forEach(function(input) {
+        radioInputs.forEach(function (input) {
             input.removeAttribute('checked');
         });
 
@@ -518,6 +518,7 @@ document.getElementById('comeBack3').addEventListener('click', function () {
     document.getElementById("thongtinthanhtoan").style.display = "none";
 
 });
+
 // // tính tổng tiền
 function sumFood() {
     const comboElements = document.getElementsByClassName("combo_tt");
@@ -582,7 +583,6 @@ function sumFood() {
     document.getElementsByName("foodfood")[0].value = selectedFoods;
 
 
-
     const selectedNameInput = document.getElementById('selectedQuantity'); // Lấy thẻ input theo ID
     selectedNameInput.value = selectedQuantity.join(', ')
 
@@ -638,6 +638,84 @@ var tenphim = document.getElementById("movie").textContent;
 document.getElementById("orderInfo").innerHTML = tenphim;
 document.getElementById("orderInfor").innerHTML = tenphim;
 
+// function selectHighestPercentage() {
+//     let checkboxes = document.querySelectorAll('.tablee tbody tr input[type="checkbox"]');
+//
+//     let highestPercentage = -1; // Initialize with -1 to ensure proper comparison
+//
+//     // Loop through checkboxes to find the highest percentage
+//     checkboxes.forEach(function (checkbox) {
+//         let row = checkbox.parentNode.parentNode;
+//         let phantramgiamElement = row.querySelector(".phantramgiam");
+//
+//         if (phantramgiamElement) {
+//             let phantramgiam = parseInt(phantramgiamElement.textContent);
+//             if (phantramgiam > highestPercentage) {
+//                 highestPercentage = phantramgiam;
+//             }
+//         }
+//
+//         // Attach event listener to each checkbox
+//         checkbox.addEventListener('change', handleCheckboxSelection);
+//     });
+//
+//     // Select the checkbox(s) with the highest percentage
+//     checkboxes.forEach(function (checkbox) {
+//         let row = checkbox.parentNode.parentNode;
+//         let phantramgiamElement = row.querySelector(".phantramgiam");
+//
+//         if (phantramgiamElement) {
+//             let phantramgiam = parseInt(phantramgiamElement.textContent);
+//             checkbox.checked = (phantramgiam === highestPercentage);
+//         }
+//     });
+//
+//     // Event listener function to handle checkbox selection
+//     function handleCheckboxSelection(event) {
+//         if (event.target.checked) {
+//             checkboxes.forEach(function (cb) {
+//                 if (cb !== event.target) {
+//                     cb.checked = false;
+//                 }
+//             });
+//         }
+//     }
+// }
+//
+// // Call the function to select the checkbox with the highest percentage by default
+// selectHighestPercentage();
+const voucherRows = document.querySelectorAll('.tablee tbody tr');
+
+let maxDiscount = 0;
+let selectedVoucher = null;
+
+// Loop through each voucher row to find the one with the highest discount percentage
+voucherRows.forEach(row => {
+    const discountPercentage = parseInt(row.querySelector('.phantramgiam').textContent);
+    if (discountPercentage > maxDiscount) {
+        maxDiscount = discountPercentage;
+        selectedVoucher = row.querySelector('input[type="checkbox"]');
+    }
+});
+// Add event listener to each checkbox
+voucherRows.forEach(row => {
+    const checkbox = row.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            // Uncheck other checkboxes
+            voucherRows.forEach(otherRow => {
+                const otherCheckbox = otherRow.querySelector('input[type="checkbox"]');
+                if (otherCheckbox !== this) {
+                    otherCheckbox.checked = false;
+                }
+            });
+        }
+    });
+});
+// If a voucher with the highest discount percentage is found, select it
+if (selectedVoucher) {
+    selectedVoucher.checked = true;
+}
 
 function getPhanTramGiam(checkbox) {
     var row = checkbox.parentNode.parentNode; // Lấy thẻ cha của checkbox (thẻ <tr>)
@@ -667,11 +745,11 @@ function getPhanTramGiam(checkbox) {
             style: "currency",
             currency: "VND"
         });
-        document.getElementsByName("discount")[0].value ="-" + phantram.toLocaleString("vi-VN", {
+        document.getElementsByName("discount")[0].value = "-" + phantram.toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND"
         });
-        document.getElementsByName("discountcount")[0].value ="-" + phantram.toLocaleString("vi-VN", {
+        document.getElementsByName("discountcount")[0].value = "-" + phantram.toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND"
         });
@@ -696,22 +774,18 @@ function getPhanTramGiam(checkbox) {
         let giatriThanhTien = sum.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
         document.getElementById("thanhtien").innerHTML = giatriThanhTien;
         document.getElementById("tiendcgiam").innerHTML = 0
+        document.getElementById("tiendcgiam1").innerHTML = 0
         document.getElementById("voucher").innerHTML = 0;
         const selectedPromitionInput = document.getElementById('selectedPromition'); // Lấy thẻ input theo ID
-        selectedPromitionInput.value = ""
+        selectedPromitionInput.value = "";
+        const selectedPromitionInput1 = document.getElementById('selectedPromition1'); // Lấy thẻ input theo ID
+        selectedPromitionInput1.value = "";
+        document.getElementsByName("discount")[0].value = 0;
+        document.getElementsByName("discountcount")[0].value = 0
+
     }
-
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-    // Disable all checkboxes except the clicked one
-    checkboxes.forEach(function (checkboxItem) {
-        if (checkboxItem !== checkbox) {
-            checkboxItem.disabled = checkbox.checked;
-        }
-    });
-
-
 }
+
 
 //tìm kiếm
 function searchList() {

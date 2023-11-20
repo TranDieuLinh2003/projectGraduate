@@ -52,12 +52,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private TicketRepository ticketRepository;
 
-
-    @Override
-    public List<Schedule> findByNameContains(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime) {
-        return repository.findByConditions(name, startAt, movieName, startTime, endTime);
-    }
-
     @Override
     public List<Schedule> findAll() {
         // generateSchedule();
@@ -152,7 +146,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setMovie(schedule.getMovie());
         scheduleNew.setName(schedule.getName());
         scheduleNew.setStartAt(schedule.getStartAt());
-        scheduleNew.setPrice(checkTheDayOfTheWeek(schedule));
+        scheduleNew.setPrice(schedule.getPrice());
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         //lấy thời gian bắt đầu
         LocalDateTime startAt = schedule.getStartAt();
@@ -328,19 +322,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<String> getStart_At_Time(String movieId, String cinemaId, String start_at) {
+    public List<Object[]> getStart_At_Time(String movieId, String cinemaId, String start_at) {
 
         return repository.getTime(movieId, cinemaId, start_at);
     }
 
     @Override
-    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime) {
-        return repository.getSchedule(movieId, cinemaId, startAt, startTime);
+    public List<Schedule> getSchedule(String movieId, String cinemaId, String startAt, String startTime, String nameRoom) {
+        return repository.getSchedule(movieId, cinemaId, startAt, startTime, nameRoom);
     }
 
     @Override
-    public List<Schedule> getSchedule1(String cinemaName, String movieName, String startAt) {
-        return repository.getSchedule1(cinemaName, movieName, startAt);
+    public List<Schedule> getSchedule1( String movieName, String startAt, String nameRoom) {
+        return repository.getSchedule1(movieName, startAt, nameRoom);
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface TicketService {
 
     Ticket findById(String id);
 
-    List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime);
+    List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime, String nameRoom);
             
     Page<Ticket> getAll(Integer pageNumber);
     
@@ -28,5 +28,4 @@ public interface TicketService {
 
     Page<Ticket>findAllByStatus(String status, Integer pageNumber);
 
-    Integer countSoldTicketsForCinemaAndMovieAtDateTime(String cinemaId, String movieId, String startAt, String startTime);
 }
