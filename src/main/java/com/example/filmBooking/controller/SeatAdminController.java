@@ -37,13 +37,9 @@ public class SeatAdminController {
         return findAll(model, 1, null);
     }
 
-    @GetMapping("/find-all/page/{pageNumber}")
+   @GetMapping("/find-all/page/{pageNumber}")
     public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage, @Param("id") String id) {
-        Page<Seat> page = seatService.findAll(currentPage);
-
-        if (id != null) {
-            page = seatService.searchByRoom(id, currentPage);
-        }
+        Page<Seat> page = seatService.searchByRoom(id, currentPage);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -81,6 +77,36 @@ public class SeatAdminController {
             return "admin/seat";
         }
     }
+
+    @GetMapping("/update/{pageNumber}/{id}")
+    public String updateSeat(Model model, @PathVariable("id") String id, @PathVariable("pageNumber") Integer currentPage) {
+        model.addAttribute("seat", seatService.findById(id));
+        List<Room> getAll = roomService.fillAll();
+        model.addAttribute("listRoomId", getAll);
+        model.addAttribute("currentPage", currentPage);
+        return "admin/seat";
+    }
+
+    @PostMapping("/update/{pageNumber}")
+    public String update(Model model, @RequestParam("id") String id,
+                         @RequestParam(name = "status") Integer status) {
+        try {
+            Seat seat = Seat.builder()
+                    .id(id)
+                    .status(status)
+                    .build();
+            if (seatService.update(id, seat) instanceof Seat) {
+                model.addAttribute("thanhCong", "Sửa thành công");
+            } else {
+                model.addAttribute("thatBai", "Sửa thất bại");
+            }
+            return "redirect:/seat/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/seat";
+        }
+    }
+
 
     @GetMapping("/seat-manager")
     public String viewSeatCustomer() {
