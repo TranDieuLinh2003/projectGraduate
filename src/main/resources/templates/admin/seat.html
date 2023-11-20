@@ -55,11 +55,13 @@
                             <div class="row g-3">
                                 <div class="col">
                                     <label>Trạng thái ghế</label>
+                                    <input th:field="*{seat.line}" type="hidden"/>
+                                    <input th:field="*{seat.number}" type="hidden"/>
                                     <select th:field="*{seat.status}" class="form-select" aria-label="Default select example"
                                             style="width: 400px; margin: 20px 0px 20px 0px">
                                         <!--                                        <option selected>Mời chọn trạng thái</option>-->
-                                        <option th:value="0">0 (Ghế đang bảo trì)</option>
-                                        <option th:value="1">1 (Ghế đang hoạt động)</option>
+                                        <option th:value="0">0 (Ghế đang hoạt động)</option>
+                                        <option th:value="1">1 (Ghế đang bảo trì)</option>
                                     </select>
                                 </div>
                             </div>
@@ -124,7 +126,7 @@
             <tr th:each="s : ${listSeat}">
                 <th scope="row">[[${s.code}]]</th>
                 <td>[[${s.room.name}]]</td>
-                <td th:text="${s.status == 0 ? 'Ghế đang bảo trì' : 'Ghế đang hoạt động'}"></td>
+                <td th:text="${s.status == 0 ? 'Ghế đang hoạt động' : 'Ghế đang bảo trì'}"></td>
                 <td>
                     <a th:href="@{'/seat/update/1/' + ${s.id}}">
                         <button type="button" class="btn btn-outline-success"><i class='bx bxs-edit-alt'></i></button>
