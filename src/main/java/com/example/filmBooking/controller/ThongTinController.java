@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/filmbooking")
+@SessionAttributes("soldTicketsCount")
+
 public class ThongTinController {
 
     @Autowired
@@ -34,46 +36,57 @@ public class ThongTinController {
         if (customer == null){
             return "redirect:/filmbooking/login";
         }
+
+        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();
         List<Object[]> listBill = billRepository.findBillDetailsByCustomer(customer.getId());
         Map<String, List<Object[]>> groupedBillDetails = listBill.stream()
                 .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
 
-// Identify and collect duplicate and unique records
+// Separate unique and duplicate records
         Map<String, List<Object[]>> uniqueRecords = new HashMap<>();
         Map<String, List<Object[]>> duplicateRecords = new HashMap<>();
         groupedBillDetails.forEach((transactionId, details) -> {
-            Set<String> existingSeats = new HashSet<>();
-            List<Object[]> uniqueDetails = new ArrayList<>();
-            List<Object[]> duplicateDetails = new ArrayList<>();
-            for (Object[] detail : details) {
-                String seatId = (String) detail[1]; // Assuming the seat ID is at index 1 in the Object array
-                if (!existingSeats.contains(seatId)) {
-                    existingSeats.add(seatId);
-                    uniqueDetails.add(detail);
-                } else {
-                    duplicateDetails.add(detail);
-                }
-            }
-            if (!uniqueDetails.isEmpty()) {
-                uniqueRecords.put(transactionId, uniqueDetails);
-            }
-            if (!duplicateDetails.isEmpty()) {
-                duplicateRecords.put(transactionId, duplicateDetails);
+            if (details.size() > 1) {
+                duplicateRecords.put(transactionId, details);
+            } else {
+                uniqueRecords.put(transactionId, details);
             }
         });
-
-// Display unique records and all duplicate records
         uniqueRecords.forEach((transactionId, details) -> {
-            System.out.println("Transaction ID: " + transactionId);
-            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
-        });
-        duplicateRecords.forEach((transactionId, details) -> {
-            System.out.println("Duplicate Transaction ID: " + transactionId);
             details.forEach(detail -> System.out.println(Arrays.toString(detail)));
         });
 
+        duplicateRecords.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+
+// bill chờ
+        List<Object[]> listBillCho = billRepository.findBillDetailsByCustomerCho(customer.getId());
+        Map<String, List<Object[]>> groupedBillDetailsCho = listBillCho.stream()
+                .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
+
+
+        Map<String, List<Object[]>> uniqueRecordsCho = new HashMap<>();
+        Map<String, List<Object[]>> duplicateRecordsCho = new HashMap<>();
+        groupedBillDetailsCho.forEach((transactionId, details) -> {
+            if (details.size() > 1) {
+                uniqueRecordsCho.put(transactionId, details);
+            } else {
+                duplicateRecordsCho.put(transactionId, details);
+            }
+        });
+        uniqueRecordsCho.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        duplicateRecordsCho.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
         model.addAttribute("customer", customer);
         model.addAttribute("groupedBillDetails", groupedBillDetails);
+        model.addAttribute("groupedBillDetailsCho", groupedBillDetailsCho);
+        model.addAttribute("soldTicketsCount", soldTicketsCount);
         return "users/ThongTinCaNhan";
     }
 

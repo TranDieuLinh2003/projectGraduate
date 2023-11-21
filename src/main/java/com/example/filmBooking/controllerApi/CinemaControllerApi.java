@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 ////
@@ -27,6 +28,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/show/cinema")
+@SessionAttributes("soldTicketsCount")
 public class CinemaControllerApi {
     @Autowired
     private RestTemplate restTemplate;

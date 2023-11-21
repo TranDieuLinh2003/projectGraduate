@@ -2,6 +2,7 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoMovie;
+import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.CinemaRepository;
 import com.example.filmBooking.repository.FootRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
@@ -18,10 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,9 +29,8 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/filmbooking")
-
+@SessionAttributes("soldTicketsCount")
 public class FilmBookingController {
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -54,12 +51,14 @@ public class FilmBookingController {
 
     @Autowired
     private ScheduleRepository repository1;
-
+    @Autowired
+    private BillRepository billRepository;
     @Autowired
     private BillServiceImpl billService;
 
     @GetMapping("/trangchu")
     public String getAllPosts(Model model, HttpServletRequest request) {
+        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
@@ -69,7 +68,7 @@ public class FilmBookingController {
         // Phim sắp chiếu
         List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
         model.addAttribute("listmovie1", listmovie1);
-        //
+        model.addAttribute("soldTicketsCount", soldTicketsCount);
         return "users/FilmBooking";
     }
 
@@ -100,7 +99,7 @@ public class FilmBookingController {
     }
 
     @GetMapping("/lichchieu")
-    public String showLichChieu(HttpServletRequest request,Model model) {
+    public String showLichChieu(HttpServletRequest request, Model model) {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
@@ -146,7 +145,7 @@ public class FilmBookingController {
             String theloai = suatChieu.getMovie().getMovieType();
             Integer thoiluong = suatChieu.getMovie().getMovieDuration();
             String img = suatChieu.getMovie().getImage();
-            String combinedKey = tenPhim + "_" + theloai + "_" + thoiluong+ "_" + img; // Create a combined key by concatenating the two keys
+            String combinedKey = tenPhim + "_" + theloai + "_" + thoiluong + "_" + img; // Create a combined key by concatenating the two keys
             String phongChieu = suatChieu.getRoom().getName();
             String rapchieu = suatChieu.getRoom().getCinema().getName();
             LocalDateTime gioChieu = suatChieu.getStartAt();

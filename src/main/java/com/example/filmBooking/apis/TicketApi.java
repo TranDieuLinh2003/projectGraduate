@@ -3,8 +3,8 @@ package com.example.filmBooking.apis;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
 
+import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.FootRepository;
-import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +36,8 @@ public class TicketApi {
     @Autowired
     private GeneralSettingServiceImpl generalSettingService;
 
+    @Autowired
+    private BillRepository repository;
 
     @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
@@ -90,5 +92,8 @@ public class TicketApi {
     private ResponseEntity<List<GeneralSetting>> getAllGeneralSetting() {
         return new ResponseEntity<>(generalSettingService.fillAll(), HttpStatus.OK);
     }
-
+    @GetMapping("/show/bill")
+    private ResponseEntity<List<Object[]>> getAllGeneralSetting(@RequestParam String customerId) {
+        return new ResponseEntity<>(repository.findBillDetailsByCustomer(customerId), HttpStatus.OK);
+    }
 }

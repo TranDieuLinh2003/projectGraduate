@@ -333,26 +333,7 @@
         element.innerHTML = formattedPrice;
     });
 
-    var elements = document.querySelectorAll("#ngaybatdau");
-
-    // Loop through each element and update its inner HTML with the formatted date
-    elements.forEach(function (element) {
-        var myData = element.innerHTML;
-        var dateTime = new Date(myData);
-        var day = dateTime.getDate();
-        var formattedDay = String(day).padStart(2, '0');
-        var month = dateTime.getMonth() + 1;
-        var formattedMonth = String(month).padStart(2, '0');
-        var year = dateTime.getFullYear();
-        var hour = dateTime.getHours(); // Lấy giờ (0-23)
-        var formattedHour = String(hour).padStart(2, '0');
-        var minute = dateTime.getMinutes();
-        var formattedMinute = String(minute).padStart(2, '0');
-        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year + " " + formattedHour + ":" + formattedMinute;
-        element.innerHTML = formattedDate;
-    });
-
-    var elements = document.querySelectorAll("#ngayketthuc");
+    var elements = document.querySelectorAll("#ngaybatdau,#ngayketthuc");
 
     // Loop through each element and update its inner HTML with the formatted date
     elements.forEach(function (element) {

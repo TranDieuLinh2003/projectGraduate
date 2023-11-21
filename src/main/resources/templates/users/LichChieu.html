@@ -13,7 +13,7 @@
 
 <div th:replace="~{/layout/Header :: header}"></div>
 <!--  -->
-<div class="searchSchdule" id="div1">
+<div>
     <form id="searchForm">
         <select size="1" id="name" name="name">
             <option th:each="cinema : ${listcinema}" th:value="${cinema.name}" th:text="${cinema.name}"></option>
