@@ -10,126 +10,251 @@
 <body>
 <div th:replace="~{/layout/Header :: header}"></div>
 <li th:if="${customer != null}">
-<br>
-<!---->
-<div class="header_tab">
-    <div class="tabs">
-        <input type="radio" name="tabs" id="tabone" checked="checked">
-        <label for="tabone">Thông tin tài khoản</label>
-        <div class="tab">
-            <form th:action="@{/filmbooking/update-thongtin/${customer.id}}" method="post">
-                <div class="container" id="app">
+    <br>
+    <!---->
+    <div class="header_tab">
+        <div class="tabs">
+            <input type="radio" name="tabs" id="tabone" checked="checked">
+            <label for="tabone">Thông tin tài khoản</label>
+            <div class="tab">
+                <form th:action="@{/filmbooking/update-thongtin/${customer.id}}" method="post">
+                    <div class="container" id="app">
 
-                    <div>
-                        <fieldset>
-                            <legend>* Họ Tên</legend>
-                            <input type="text" th:value="${customer.name}" name="name" @focus="show" data-layout="normal"/>
-                        </fieldset>
+                        <div>
+                            <fieldset>
+                                <legend>* Họ Tên</legend>
+                                <input type="text" th:value="${customer.name}" name="name" @focus="show"
+                                       data-layout="normal"/>
+                            </fieldset>
 
-                        <fieldset>
-                            <legend>* Email</legend>
-                            <input type="text" th:value="${customer.email}"name="email" @focus="show" data-layout="compact"/>
-                        </fieldset>
+                            <fieldset>
+                                <legend>* Email</legend>
+                                <input type="text" th:value="${customer.email}" name="email" @focus="show"
+                                       data-layout="compact"/>
+                            </fieldset>
+                        </div>
+
+                        <div>
+                            <fieldset>
+                                <legend>* Phone_Number</legend>
+                                <input type="text" th:value="${customer.phoneNumber}" name="phoneNumber" @focus="show"
+                                       data-layout="numeric"/>
+
+                            </fieldset>
+
+                            <fieldset>
+                                <legend>* Password</legend>
+                                <input type="password" th:value="${customer.password}" class="password" @focus="show"
+                                       data-layout="numeric"/>
+                                <button class="unmask" type="button"
+                                        title="Mask/Unmask password to check content">Unmask
+                                </button>
+                            </fieldset>
+                        </div>
+                        <button id="cancel" class="button cancel-button">Cập nhập</button>
+
                     </div>
+                </form>
+            </div>
+            <input type="radio" name="tabs" id="tabtwo">
+            <label for="tabtwo">Hóa đơn chờ xác nhận <span style="color: red;font-size: 15px;width: 25px; height: 25px" class="badge1 text-bg-secondary">[[${soldTicketsCount}]]</span></label>
+            <div class="tab" id="hanhchinhdienanh1">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã giao dịch</th>
+                        <th>Phim</th>
+                        <th>Rạp chiếu</th>
+                        <th>Suất chiếu</th>
+                        <th>Ghế đã đặt</th>
+                        <th>Đồ ăn</th>
+                        <th>Ngày đặt</th>
+                        <th>Trạng thái </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${groupedBillDetailsCho}">
+                        <!--                    <td th:text="${entry}">Transaction ID</td>-->
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[0]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td >
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[1]}">Detail 1</span><br>
+                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[3]}">Detail 1</span>,
+                                    <span th:text="${detail[13]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[5]}">Detail 1</span>
+                                    (<span th:text="${detail[6]}">Detail 1</span>)<hr>
+                                    <b>Tổng tiền:</b>
+                                    <span id="priceCho1" th:text="${detail[6]*detail[10]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[7]}">Detail 1</span>
+                                    (<span th:text="${detail[8]}">Detail 1</span>)<hr>
+                                    <b>Tổng tiền:</b>
+                                    <span id="priceCho" th:text="${detail[11] != null ? detail[11] * detail[8] : ' 0'}">Detail 1</span>                              </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[9], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[12]== 0 } ?'Chờ thanh toán':'Chờ thanh toán'">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
 
-                    <div>
-                        <fieldset>
-                            <legend>* Phone_Number</legend>
-                            <input type="text" th:value="${customer.phoneNumber}" name="phoneNumber" @focus="show" data-layout="numeric"/>
+                    </tbody>
+                </table>
+            </div>
+            <input type="radio" name="tabs" id="tabthree">
+            <label for="tabthree">Hành trình điện ảnh</label>
+            <div class="tab" id="hanhchinhdienanh">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã giao dịch</th>
+                        <th>Phim</th>
+                        <th>Rạp chiếu</th>
+                        <th>Suất chiếu</th>
+                        <th>Ghế đã đặt</th>
+                        <th>Đồ ăn</th>
+                        <th>Ngày đặt</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${groupedBillDetails}">
+                        <!--                    <td th:text="${entry}">Transaction ID</td>-->
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[0]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td id="namefilm">
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[1]}">Detail 1</span><br>
+                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[3]}">Detail 1</span>,
+                                    <span th:text="${detail[12]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[5]}">Detail 1</span>
+                                    (<span th:text="${detail[6]}">Detail 1</span>)<hr>
+                                    <b>Tổng tiền:</b>
+                                    <span id="price" th:text="${detail[6]*detail[10]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[7]}">Detail 1</span>
+                                    (<span th:text="${detail[8]}">Detail 1</span>)<hr>
+                                    <b>Tổng tiền:</b>
+                                    <span id="price1" th:text="${detail[11] != null ? detail[11] * detail[8] : ' 0'}"></span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[9], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
 
-                        </fieldset>
+                    </tr>
 
-                        <fieldset>
-                            <legend>* Password</legend>
-                            <input type="password" th:value="${customer.password}" class="password" @focus="show"
-                                   data-layout="numeric"/>
-                            <button class="unmask" type="button"
-                                    title="Mask/Unmask password to check content">Unmask
-                            </button>
-                        </fieldset>
-                    </div>
-                    <button id="cancel" class="button cancel-button">Cập nhập</button>
-
-                </div>
-            </form>
-        </div>
-        <input type="radio" name="tabs" id="tabtwo">
-        <label for="tabtwo">Thẻ thành viên</label>
-        <div class="tab" >
-            <h1>Tab Two Content</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-        <input type="radio" name="tabs" id="tabthree">
-        <label for="tabthree">Hành trình điện ảnh</label>
-        <div class="tab" id="hanhchinhdienanh">
-            <table>
-                <thead>
-                <tr>
-                    <th>Mã hóa đơn</th>
-                    <th>Phim</th>
-                    <th>Rạp chiếu</th>
-                    <th>Suất chiếu</th>
-                    <th>Ghế đã đặt</th>
-                    <th>Đồ ăn</th>
-                    <th>Ngày đặt</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>showSpeed</td>
-                    <td><strong>The speed of the show/reveal</strong></td>
-                    <td>15</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                </tr>
-                <tr>
-                    <td>showSpeed</td>
-                    <td><strong>The speed of the show/reveal</strong></td>
-                    <td>15</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                </tr>
-                <tr>
-                    <td>showSpeed</td>
-                    <td><strong>The speed of the show/reveal</strong></td>
-                    <td>15</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                </tr>
-                <tr>
-                    <td>showSpeed</td>
-                    <td><strong>The speed of the show/reveal</strong></td>
-                    <td>15</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                </tr>
-                <tr>
-                    <td>showSpeed</td>
-                    <td><strong>The speed of the show/reveal</strong></td>
-                    <td>15</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                    <td>The speed of the show/reveal</td>
-                </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<br>
+    <br>
 </li>
 <li th:unless="${customer != null}">
     <script th:inline="javascript">
@@ -155,6 +280,26 @@
 
         return false;
     });
+
+    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function(element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+
+    // var priceElements1 = document.querySelectorAll("#price1,#priceCho");
+    //
+    // // Loop through each element and format its content to VND
+    // priceElements1.forEach(function(element) {
+    //     var price = parseFloat(element.innerHTML);
+    //     var formattedPrice1 = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    //     // Set the formatted price as the inner HTML of the element
+    //     element.innerHTML = formattedPrice1;
+    // });
 
 </script>
 </html>

@@ -21,6 +21,8 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/general-setting")
 @Tag(name = "general-setting")
+@SessionAttributes("soldTicketsCount")
+
 public class GeneralSettingAdminController {
     @Autowired
     private GeneralSettingService service;

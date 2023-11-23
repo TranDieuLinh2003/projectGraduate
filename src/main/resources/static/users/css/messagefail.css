@@ -180,3 +180,55 @@ td:last-child,
 .td:last-child{
     box-shadow:6px 1px 2px -2px;/* finish the drawing on entire height of row */
 }
+.badge {
+    position: absolute;
+    top: -20px;
+    right: -26px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 4px;
+    height: 26px;
+    padding: 1px 10px 0 10px;
+    border: 3px solid #f4fdff;
+    border-radius: 500px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    z-index: 1;
+    transition: transform 0.15s, background-color 0.5s;
+
+}
+.red {
+    background: #ff3c35;
+}.position:hover .badge {
+     background-color: #000;
+     transform: scale(1.08);
+ }
+.position:active .badge {
+    background-color: #555;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.75);
+}
+@media (max-width: 600px) {
+    .position:active .badge {
+        transition: none;
+    }
+    .icon {
+        width: 44px;
+    }
+    .badge {
+        position: absolute;
+        top: -16px;
+        right: -18px;
+        min-width: 35px;
+        height: 35px;
+        padding: 0 7px;
+        font-size: 11px;
+        transition: transform 0.1s, background-color 0.2s;
+    }
+    .position:hover .badge {
+        transform: scale(1);
+    }
+}

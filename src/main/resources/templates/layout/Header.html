@@ -29,7 +29,13 @@
         <li th:if="${customer == null}">
             <a class="dropdown-item" href="/dangky">ĐĂNG KÝ</a>
         </li>
-        <li class="dropdown" style="cursor: pointer;color:#FFFFFF " th:if="${customer != null}"><i class="fas fa-stream"></i> Xin chào, [[${customer.name}]]
+        <li class="dropdown" style="cursor: pointer;color:#FFFFFF;margin-top: 20px; " th:if="${customer != null}">
+            <div class="position">
+                <div class="badge red">[[${soldTicketsCount}]]</div>
+                <i class="fas fa-stream"></i>
+                Xin chào, [[${customer.name}]]
+            </div>
+
             <div class="dropdown-content">
                 <a  href="/filmbooking/thongtincanhan">👨‍ Thông tin</a>
 <!--                <a href="#hanhchinhdienanh">💹 Lịch sử</a>-->
