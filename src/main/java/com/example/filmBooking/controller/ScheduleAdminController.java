@@ -140,7 +140,7 @@ public class ScheduleAdminController {
 
     }
 
-   @PostMapping("/batch-save/{pageNumber}")
+    @PostMapping("/batch-save/{pageNumber}")
     @Operation(summary = "[Thêm mới]")
     public String generateSchedule(Model model,
                                    @RequestParam("listRoomChecked") List<String> listRoomChecked,
