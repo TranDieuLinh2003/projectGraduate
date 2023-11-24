@@ -1,8 +1,10 @@
 package com.example.filmBooking.controller;
 
+import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.repository.BillRepository;
+import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.CustomerService;
 import com.example.filmBooking.service.impl.CustomerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +29,10 @@ public class ThongTinController {
 
     @Autowired
     private BillRepository billRepository;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+    public static String apiGetCinema = Api.baseURL + "/api/ticket/show/test";
 
     @GetMapping("/thongtincanhan")
     public String showThongTinCaNhan(Model model, HttpServletRequest request) {
@@ -110,4 +117,6 @@ public class ThongTinController {
 
         return "redirect:/thongtincanhan";
     }
+
+
 }

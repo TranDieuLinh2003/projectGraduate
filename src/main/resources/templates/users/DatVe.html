@@ -461,7 +461,7 @@
                         </div>
                         <div class="card_info_movie">
                             <b>Giờ chiếu: </b>
-                            <p id="giochieu1" ></p>
+                            <p id="giochieu1"></p>
                             <input type="hidden" name="time" value="">
                         </div>
                         <div class="card_info_movie">
@@ -471,7 +471,7 @@
                         </div>
                         <div class="card_info_movie">
                             <b>Tên ghế: <p id="sove1"></p></b>
-                            <p id="tenghe1" ></p>
+                            <p id="tenghe1"></p>
                             <input type="hidden" id="nameSeat" name="seat">
                             <input type="hidden" name="seatCount" value="">
                         </div>
@@ -505,7 +505,7 @@
 
                         <input type="hidden" id="selectedSeats1" name="selectedSeats1">
                         <input type="hidden" id="priceTicket1" name="priceTicket1">
-                        <input  type="hidden" id="selectedFood1" name="selectedFood1">
+                        <input type="hidden" id="selectedFood1" name="selectedFood1">
                         <input type="hidden" id="selectedQuantity1" name="selectedQuantity1">
                         <input type="hidden" id="selectedPrice1" name="selectedPrice1">
                         <input type="hidden" id="selectedPromition1" name="selectedPromition1">
@@ -516,8 +516,8 @@
                             </button>
                         </div>
                         <div id="thongtinthanhtoan">
-                        <i>Đơn hàng sẽ được xác nhận sau 15 phút khi bạn hoàn thành thanh toán.</i> <br>
-                        <i>Nếu thanh toán chưa thành công thì đơn hàng tự động hủy.</i>
+                            <i>Đơn hàng sẽ được xác nhận sau 15 phút khi bạn hoàn thành thanh toán.</i> <br>
+                            <i>Nếu thanh toán chưa thành công thì đơn hàng tự động hủy.</i>
                         </div>
                     </form>
                     <button type="submit" id="cancel2" class="buttonn cancel-button" onclick="XuLyThanhToan()">Xử lý
@@ -662,7 +662,7 @@
             selectedSeatsInputt.value = selectedSeatIds1.join(',');
         }
 
-    //
+        //
     }
 
 
@@ -680,9 +680,15 @@
         const price_quantity = document.getElementById("price_quantity");
         const tongtien = document.getElementById("tongtien");
         const thanhtien = document.getElementById("thanhtien");
-        const price_Food = document.getElementById("priceFood");
-        const selectedSeats = document.querySelectorAll(".container .selected");
 
+        const selectedSeats = document.querySelectorAll(".container .selected");
+        let price_Food = document.getElementById("totalPrice").textContent;
+        let total_priceFood = price_Food.replace("₫", "").replace(".", "");
+        console.log(total_priceFood)
+        let price_Count = document.getElementById("voucher").textContent;
+        let total_priceCount = price_Count.replace("₫", "").replace(".", "").replace("-", "");
+
+        console.log(total_priceCount)
         seatsIndex = [...selectedSeats].map(function (seat) {
             return [...seats].indexOf(seat);
         });
@@ -699,8 +705,8 @@
             count.textContent = "Tổng số ghế chọn: " + selectedSeatsCount;
             document.getElementById("sove").innerHTML = "(" + selectedSeatsCount + ")";
             document.getElementById("sove1").innerHTML = "(" + selectedSeatsCount + ")";
-            document.getElementsByName("seatCount")[0].value =  "(" + selectedSeatsCount + ")";
-            document.getElementsByName("seatCountCount")[0].value =  "(" + selectedSeatsCount + ")";
+            document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + ")";
+            document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + ")";
 
             var summoney = selectedSeatsCount * priceticket;
             let formattedTotalPrice = summoney.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
@@ -712,9 +718,19 @@
 
             var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice;
 
+            let Number = parseFloat(summoney);
+            let Number1 = parseFloat(total_priceFood);
+            let Number2 = parseFloat(total_priceCount);
+
+
             price_quantity.textContent = number;
             tongtien.textContent = formattedTotalPrice;
-            thanhtien.textContent = formattedTotalPrice;
+
+            thanhtien.textContent = (Number + Number1 - Number2).toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND"
+            });
+            ;
         }
     }
 

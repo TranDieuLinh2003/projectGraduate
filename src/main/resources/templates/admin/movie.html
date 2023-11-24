@@ -57,7 +57,7 @@
             <div class="col-sm-4" th:each="movie : ${listMovie}">
                 <div class="card">
                     <img
-                            th:src="${movie.image}"
+                            th:src=" @{'http://localhost:8080/admin/assets/img/' + ${movie.image}}"
                             class="card-img-top"
                             alt="..."
                             height="400"

@@ -312,6 +312,7 @@ document.getElementById('showDivButton').addEventListener('click', function () {
     var div3 = document.getElementById('div3');
     var chair = document.getElementById("chair");
     var message = document.getElementById('modalView');
+
     if (chair.innerHTML === '') {
         message.style.display = "block";
         div1.style.display = 'block';
