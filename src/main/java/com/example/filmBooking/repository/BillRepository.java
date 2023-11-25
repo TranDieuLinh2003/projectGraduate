@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
 import java.util.Date;
 import java.util.List;
@@ -140,4 +142,38 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    s.start_at DESC");
     @Query(value = billCho, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomerCho(@Param("customerId") String customerId);
+
+    String billDetail = ("SELECT \n" +
+            "b.code as billCode,\n" +
+            "    c.name AS customerName,\n" +
+            "    m.image AS movieImage,\n" +
+            "    m.name AS movieName,\n" +
+            "    f.name AS foodName,\n" +
+            "    b.date_create AS dateCreate,\n" +
+            "    t.code AS ticketCode,\n" +
+            "    t.status AS ticketStatus,\n" +
+            "    s.code AS seatCode,\n" +
+            "    b.total_money AS totalMoney\n" +
+            "FROM \n" +
+            "    projectLinh.seat s\n" +
+            " JOIN \n" +
+            "    projectLinh.ticket t ON s.id = t.seat_id\n" +
+            "JOIN \n" +
+            "    projectLinh.bill_ticket bt ON t.id = bt.ticket_id\n" +
+            "JOIN \n" +
+            "    projectLinh.bill b ON bt.bill_id = b.id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.customer c ON b.customer_id = c.id\n" +
+            "JOIN \n" +
+            "    projectLinh.schedule sch ON t.schedule_id = sch.id\n" +
+            "JOIN \n" +
+            "    projectLinh.movie m ON sch.movie_id = m.id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "WHERE \n" +
+            "    b.id = :idBill");
+    @Query(value = billDetail, nativeQuery = true)
+    List<DtoBill> findBillDetailId(@Param("idBill") String idBill);
 }
