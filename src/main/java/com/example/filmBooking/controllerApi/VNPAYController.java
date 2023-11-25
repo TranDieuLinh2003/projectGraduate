@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.*;
@@ -34,6 +35,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
+@SessionAttributes("soldTicketsCount")
+
 public class VNPAYController {
     @Autowired
     private VNPayService vnPayService;
@@ -434,6 +437,7 @@ public class VNPAYController {
             emailContent1.append("Email : ").append(customer.getEmail()).append("\n");
             emailContent1.append("Mã giao dịch : ").append(transactionCode).append("\n");
             emailContent1.append("Đơn hàng thanh toán lúc: ").append(LocalDateTime.now()).append("\n");
+            emailContent1.append("Xác nhận đơn hàng:  ").append("http://localhost:8080/bill/xac-nhan").append("\n");
             message2.setText(emailContent1.toString());
             Transport.send(message2);
         } catch (

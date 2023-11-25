@@ -93,5 +93,5 @@ select.fadeOut {
 
 .date {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
 }

@@ -28,6 +28,7 @@
             <select size="1" id="listDate" onchange="updateDiv()">
                 <option th:each="date : ${listStartAt}" th:value="${date}" th:text="${date}"></option>
             </select>
+            <div style="margin-top: 6px; font-size: 20px" id="resultDiv"></div>
         </div>
 
         <br>

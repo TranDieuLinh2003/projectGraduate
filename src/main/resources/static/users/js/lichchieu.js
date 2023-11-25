@@ -1,3 +1,7 @@
+
+
+
+
 var selects = document.querySelectorAll('select');
 
 selects.forEach(function(select) {
@@ -61,22 +65,16 @@ for (var j = 0; j < sevenDays.length; j++) {
   optionElement.value = sevenDays[j];
   optionElement.textContent = sevenDays[j];
   selectElement.appendChild(optionElement);
-};
-// var options = document.getElementById("startAt").getElementsByTagName("option"); // Lấy ra tất cả các tùy chọn
-// var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; // Mảng các ngày trong tuần
-//
-// for (var i = 0; i < options.length; i++) {
-//   var dateValue = options[i].value;
-//   var parts = dateValue.split('/'); // Tách chuỗi ngày tháng năm thành mảng
-//   var formattedDate = new Date(parts[2] + '-' + parts[1] + '-' + parts[0]); // Chuyển đổi thành đối tượng ngày
-//
-//   var dayOfWeek = daysOfWeek[formattedDate.getDay()]; // Lấy ra ngày trong tuần
-//   var newDateString = dayOfWeek + ", " + formattedDate.getDate() + '/' +  (formattedDate.getMonth() + 1) + '/' + formattedDate.getFullYear(); // Format lại chuỗi ngày thành "Day, mm/dd/yyyy"
-//
-//   options[i].text = newDateString; // Gán giá trị mới vào tùy chọn
-//   options[i].value = newDateString;
-// }
+}
 
+// const myData = document.getElementById("gio").textContent;
+// var dateTime = new Date(myData);
+// var hour = dateTime.getHours(); // Lấy giờ (0-23)
+// var formattedHour = String(hour).padStart(2, '0');
+// var minute = dateTime.getMinutes();
+// var formattedMinute = String(minute).padStart(2, '0');
+// var formattedTime = formattedHour + ":" + formattedMinute;
+// document.getElementById("gio").innerHTML = formattedTime;
 var gioElements = document.querySelectorAll("#gio");
 
 gioElements.forEach(function(element) {

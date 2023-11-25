@@ -5,6 +5,8 @@ import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
 import java.util.List;
 import java.util.Random;
@@ -98,5 +100,10 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<Object[]> listTop5Movie() {
         return repository.listTop5Movie();
+    }
+
+    @Override
+    public List<DtoBill> findBillId(String idBill) {
+        return repository.findBillDetailId(idBill);
     }
 }

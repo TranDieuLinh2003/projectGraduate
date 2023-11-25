@@ -24,22 +24,21 @@ spanElement.addEventListener("click", function() {
 // window.addEventListener("DOMContentLoaded", function() {
 //     updateDiv();
 // });
-var options = document.getElementById("listDate").getElementsByTagName("option");
+document.addEventListener('DOMContentLoaded', function() {
+    var selectedDate = document.getElementById("listDate").value;
+    var dateObject = new Date(selectedDate);
+    var options = { weekday: 'long' };
+    var dayOfWeek = new Intl.DateTimeFormat('vi-VN', options).format(dateObject);
+    document.getElementById("resultDiv").innerText = dayOfWeek;
+});
 
-// Mảng các ngày trong tuần
-var daysOfWeek = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
-
-// Duyệt qua từng option và thực hiện chuyển đổi
-for (var i = 0; i < options.length; i++) {
-    var dateValue = options[i].value;
-    var date = new Date(dateValue);
-    var dayOfWeek = daysOfWeek[date.getDay()];
-    var formattedDate = "Thứ " + (daysOfWeek.indexOf(dayOfWeek) + 1) + " , " + dateValue;
-
-    // Gán giá trị mới vào option
-    options[i].text = formattedDate;
-    options[i].value = dateValue;
-}
+document.getElementById("listDate").addEventListener('change', function() {
+    var selectedDate = this.value;
+    var dateObject = new Date(selectedDate);
+    var options = { weekday: 'long' };
+    var dayOfWeek = new Intl.DateTimeFormat('vi-VN', options).format(dateObject);
+    document.getElementById("resultDiv").innerText = dayOfWeek;
+});
 function updateDiv() {
     var selectedValue = document.getElementById("listDate").value;
     document.getElementById("myDivDate").textContent = selectedValue;

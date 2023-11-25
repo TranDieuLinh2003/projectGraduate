@@ -140,7 +140,7 @@ public class ScheduleAdminController {
 
     }
 
-   @PostMapping("/batch-save/{pageNumber}")
+    @PostMapping("/batch-save/{pageNumber}")
     @Operation(summary = "[Thêm mới]")
     public String generateSchedule(Model model,
                                    @RequestParam("listRoomChecked") List<String> listRoomChecked,
@@ -150,7 +150,7 @@ public class ScheduleAdminController {
 //                                   @RequestParam("room") Room room,
                                    @PathVariable("pageNumber") Integer currentPage
     ) {
-        System.out.println("vào rồi");
+//        System.out.println("vào rồi");
         try {
             if (service.generateSchedule(listRoomChecked,listMovieChecked, startTime, endTime) instanceof Schedule) {
                 model.addAttribute("thanhCong", "Thêm lịch chiếu thành công");

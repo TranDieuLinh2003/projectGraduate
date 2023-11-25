@@ -39,64 +39,58 @@
 <body>
 
 <div th:replace="~{/layout/header-admin :: header}"></div>
-<form th:action="@{/room/update}" method="post" th:object="${room}" class="form_add_movie">
-    <input type="hidden" th:field="*{id}">
-    <div class="seat_input">
-        <div class="row g-3">
-            <div class="col">
-                <div class="input-cinema">
-                    <label>Rạp chiếu</label>
-                    <select
-                            class="form-select"
-                            aria-label="Default select example"
-                            th:field="*{cinema}"
-                    >
-                        <th:block th:each="c : ${cinemaId}">
-                            <option
-                                    th:value="${c.id}"
-                            >[[${c.name}]]
-                            </option>
-                        </th:block>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-box">
-                    <label>Tên phòng</label>
-                    <input
-                            type="number"
-                            required
-                            th:field="*{name}"
-                    />
-                </div>
-            </div>
-        </div>
-        <div class="row g-3">
-            <div class="col">
-                <div class="input-box">
-                    <label>Thể loại phòng</label>
-                    <input type="text" required th:field="*{type}"/>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-box">
-                    <label>Mô tả</label>
-                    <input type="text" th:field="*{description}" required/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="notifications"></div>
-    <button
-            type="submit"
-            class="btn btn-outline-success"
-            id="success"
-    >
-        Sửa phòng
-    </button>
-</form>
+<div class="table_customer" style="margin: 10px 0px 0px 340px">
+    <h1 style="text-align: center; margin: 20px 0px 30px 0px">
+        Chi tiết hóa đơn
+    </h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">
+                Hình ảnh
+            </th>
+            <th scope="row">Mã hóa đơn</th>
+            <th scope="col">Tên khách hàng</th>
+            <th scope="col">Phim</th>
+            <th scope="col">Đồ ăn</th>
+            <th scope="col">Ngày đặt</th>
+            <th scope="col">Vé</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Ghế đã đặt</th>
+            <th scope="col">Thành tiền</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b, stat : ${bs}">
+            <td><img th:src="${b.movieImage}" width="50" height="70"></td>
+            <td th:text="${b.billCode}"></td>
+            <td th:text="${b.customerName}"></td>
+            <td th:text="${b.movieName}"></td>
+            <td th:text="${b.foodName}"></td>
+            <td th:text="${#dates.format(b.dateCreate, 'dd/MM/yyyy, HH:mm')}"></td>
+            <td th:text="${b.ticketCode}"></td>
+            <td th:text="${b.ticketStatus}"></td>
+            <td th:text="${b.seatCode}"></td>
+            <th scope="col" style="color: red; font-size: 22px" id="price" th:if="${stat.index<1}" rowspan="${size}"
+                th:text="${thanhTien}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
+<script>
+
+    var priceElements = document.querySelectorAll("#price");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function (element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+</script>
 <script
         type="module"
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
