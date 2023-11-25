@@ -3,6 +3,8 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Bill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
 import java.util.Date;
 import java.util.List;
@@ -31,4 +33,6 @@ public interface BillService {
     List<BigDecimal> revenueInTheLast7Days(String cinemaId);
 
     List<Object[]> listTop5Movie();
+    
+    List<DtoBill> findBillId(String idBill);
 }
