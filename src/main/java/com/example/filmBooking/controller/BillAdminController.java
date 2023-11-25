@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
 
 import javax.mail.*;
@@ -164,5 +166,13 @@ public class BillAdminController {
         return "redirect:/bill/xac-nhan";
     }
 
+    @GetMapping("/detail/{id}")
+    public String detailBill(Model model, @PathVariable("id") String id){
+        List<DtoBill> detailBill = service.findBillId(id);
+        model.addAttribute("bs", detailBill);
+        model.addAttribute("size", detailBill.size());
+        model.addAttribute("thanhTien", detailBill.get(0).getTotalMoney());
+        return "admin/chi-tiet-hoa-don";
+    }
 
 }
