@@ -116,7 +116,7 @@
                                         type="datetime-local"
                                         id="startDatePromotion"
                                         placeholder="mm/dd/yyyy"
-                                        th:field="*{startDate}"
+                                        th:text="${#dates.format(promotion.startDate, 'dd/MM/yyyy')}"
                                 />
                                 <span id="startDatePromotionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                             </div>

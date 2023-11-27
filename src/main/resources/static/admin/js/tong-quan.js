@@ -10,6 +10,10 @@ for (var i = 0; i < 7; i++) {
     dateList.push(tempDate);
 }
 // Đổi định dạng ngày thành chuỗi và đưa vào mảng kết quả
+// console.log(myDinh)
+// console.log(mipec)
+// console.log(thanhXuan)
+
 var resultList = dateList.map(function (date) {
     return date.toISOString().slice(0, 10);
 });
@@ -93,6 +97,11 @@ var option = {
 };
 myChart.setOption(option);
 
+
+// for (var i = 0; i < revenueTicket.length; i++) {
+//     var cinemaName= i.cinemaName;
+//     var totalMoney= i.totalMoney;
+// }
 var dataChartOne=[];
 for (var i = 0; i < revenueTicket.length; i++) {
     var totalMoney = revenueTicket[i][0]; // Access the total money

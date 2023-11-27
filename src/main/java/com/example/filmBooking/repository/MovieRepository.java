@@ -40,5 +40,6 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
 
     Movie findByNameLike(String name);
 
-    Page<Movie> findAllByStatus(String status, Pageable pageable);
+//    @Query(value = " select m from Movie m where ( m.status is null or m.status = ?2) and (m.name is null or m.name like ?1) ")
+    Page<Movie> findAllByStatusContainsOrStatusIsNullAndNameContainsOrNameIsNull(String name,String status, Pageable pageable);
 }

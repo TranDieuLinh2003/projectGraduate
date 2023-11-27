@@ -50,4 +50,17 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<Object> revenueMovie(Date fromDate, Date toDate) {
         return repository.revenueMovie(fromDate, toDate);
     }
+
+//    @Override
+//    public List<MovieTicketSale> listTop5Movie() {
+//        List<Object[]> data= repository.listTop5Movie();
+//        List<MovieTicketSale> topMovie= new ArrayList<>();
+//        for(Object[] row: data){
+//            Movie movie= (Movie) row[0];
+//            BigInteger ticketCount= (BigInteger) row[1];
+//            MovieTicketSale movieTicketSale= new MovieTicketSale(movie.getName(), ticketCount.intValue());
+//            topMovie.add(movieTicketSale);
+//        }
+//        return topMovie;
+//    }
 }
