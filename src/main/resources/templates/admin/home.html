@@ -37,17 +37,25 @@
 <div th:replace="~{/layout/header-admin :: header}"></div>
 <section class="trang-chu-html">
     <div class="chartOne">
-        <form th:action="@{/home/tong-quan}" method="get">
-            <select class="form-select" name="id" aria-label="Default select example" style="width: 400px; margin: 20px 0px 20px 0px">
-                <option selected>Mời chọn rạp</option>
-                <th:block th:each="c : ${listCinema}">
-                    <option th:value="${c.id}">[[${c.name}]]</option>
-                </th:block>
-            </select>
-            <button type="submit" class="btn btn-outline-primary">thống kê</button>
-        </form>
         <div id="myChart" style="width: 100%; height: 400px"></div>
     </div>
+    <form action="/home/tong-quan">
+        <label>Ngày bắt đầu:</label>
+        <input
+                type="date"
+                class="form-control"
+                name="startDate"
+                id="startDate"
+        />
+        <label>Ngày kết thúc:</label>
+        <input
+                type="date"
+                class="form-control"
+                name="endDate"
+                id="endDate"
+        />
+        <button type="submit" class="btn btn-success">Thống kê</button>
+    </form>
     <div class="row">
         <div class="col-6">
             <div class="bieu-do-tron">
@@ -62,10 +70,23 @@
         </div>
     </div>
 </section>
+<script>
+    var thanhXuan = [[${thanhXuan}]];
+    var myDinh = [[${myDinh}]];
+    var mipec = [[${mipec}]];
+</script>
+<script th:inline="javascript">
+    var revenueTicket = [[${revenueTicket}]];
+    var revenueFood= [[${revenueFood}]];
+
+    // Iterate over the cinemaData array in JavaScript
+
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-<script th:src="@{/admin/js/tong-quan.js}" th:inline="javascript">
+<script th:src="@{/admin/js/tong-quan.js}">
 
 </script>
 <script
