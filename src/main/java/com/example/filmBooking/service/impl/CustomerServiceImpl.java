@@ -66,10 +66,12 @@ public class CustomerServiceImpl implements CustomerService {
             if (customer.getPoint() > listRank.get(listRank.size() - 1).getPoint()) {
                 //chuyển thành  goi cao nhat
                 customer.setRankCustomer(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
+                repository.save(customer);
             } else {
                 for (int i = 0; i < listRank.size(); i++) {
                     if (customer.getPoint() >= listRank.get(i).getPoint() && customer.getPoint() < listRank.get(i + 1).getPoint()) {
                         customer.setRankCustomer(rankRepository.findById(listRank.get(i).getId()).get());
+                        repository.save(customer);
                         break;
                     }
                 }
@@ -92,7 +94,6 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer update(String id, Customer customer) {
         Customer customerNew = findById(id);
         customerNew.setName(customer.getName());
-//        customerNew.setPoint(customer.getPoint());
         customerNew.setPhoneNumber(customer.getPhoneNumber());
         customerNew.setEmail(customer.getEmail());
         customerNew.setPassword(customer.getPassword());
@@ -109,8 +110,6 @@ public class CustomerServiceImpl implements CustomerService {
         repository.delete(findById(id));
     }
 
-
-//
   @Override
     public Pageable pageCustomer(Integer pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber -1, 5);
