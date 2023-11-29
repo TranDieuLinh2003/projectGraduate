@@ -186,9 +186,11 @@ public class BillAdminController {
 //        dateCreate = (dateCreate == null) ? null : dateCreate;
         tradingCode = Strings.isEmpty(tradingCode) ? null : tradingCode;
         List<BillDto> billList = repository.findBillsByTradingCodeAndDate(tradingCode, dateCreate,status).stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
-
+System.out.println(dateCreate);
         model.addAttribute("billList", billList);
-        return "admin/viewbill";
+            System.out.println(billList);
+
+            return "admin/viewbill";
     }
     @GetMapping("/find-all")
     public String viewBill() {

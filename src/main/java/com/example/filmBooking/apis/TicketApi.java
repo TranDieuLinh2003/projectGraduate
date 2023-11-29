@@ -107,9 +107,9 @@ public class TicketApi {
     private ResponseEntity<List<Object[]>> getAllGeneralSetting(@RequestParam String customerId) {
         return new ResponseEntity<>(repository.findBillDetailsByCustomer(customerId), HttpStatus.OK);
     }
-//    @GetMapping("/find/bill")
-//    private List<BillDto> FindBill(@RequestParam String tradingCode, @RequestParam LocalDate dateCreate ) {
-//        return repository.findBillsByTradingCodeAndDateCho(tradingCode,dateCreate)
-//                .stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
-//    }
+    @GetMapping("/find/bill")
+    private List<BillDto> FindBill(@RequestParam String tradingCode, @RequestParam LocalDate dateCreate ) {
+        return repository.findBillsByTradingCodeAndDateCho(tradingCode,dateCreate)
+                .stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
+    }
 }
