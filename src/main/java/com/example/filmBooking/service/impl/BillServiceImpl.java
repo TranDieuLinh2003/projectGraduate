@@ -4,15 +4,19 @@ import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import com.example.filmBooking.model.dto.DtoBill;
-import com.example.filmBooking.model.dto.DtoBillList;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
 import java.util.Date;
 import java.math.BigDecimal;
 
@@ -21,18 +25,6 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     private BillRepository repository;
-
-    @Autowired
-    private ScheduleServiceImpl scheduleRepository;
-
-    @Autowired
-    private CustomerServiceImpl customerService;
-
-    @Autowired
-    private BillTicketRepository billTicketRepository;
-
-    @Autowired
-    private TicketRepository ticketRepository;
 
     @Override
     public List<Bill> findAll() {
@@ -45,18 +37,25 @@ public class BillServiceImpl implements BillService {
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         bill.setCode("Bill" + value);
         bill.setName("Bill" + bill.getDateCreate());
-//        bill.setTotalMoney();
-//        bill.setCinema();
         return repository.save(bill);
     }
 
     @Override
     public Bill update(String id, Bill bill) {
         Bill BillNew = findById(id);
-//        BillNew.setName(Bill.getName());
-//        BillNew.setPoint(Bill.getPoint());
-//        BillNew.setDescription(Bill.getDescription());
         return repository.save(BillNew);
+    }
+
+    @Async
+    @Scheduled(fixedRate = 60000)
+    public void updateBill(){
+        for (Bill bill: findStatusZero2()
+             ) {
+            if (bill.getWaitingTime().isBefore(LocalDateTime.now())){
+                bill.setStatus(2);
+                repository.save(bill);
+            }
+        }
     }
 
     @Override
@@ -64,16 +63,20 @@ public class BillServiceImpl implements BillService {
         return repository.findById(id).get();
     }
 
-//
 
     @Override
     public void delete(String id) {
         repository.delete(findById(id));
     }
-    
+
     @Override
     public Page<Bill> findStatusZero(Integer pageNumber) {
         return repository.billStatusZero(pageBill(pageNumber));
+    }
+
+    @Override
+    public List<Bill> findStatusZero2() {
+        return repository.billStatusZero2();
     }
 
     @Override
@@ -83,7 +86,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public Pageable pageBill(Integer pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
         return pageable;
     }
 
@@ -91,19 +94,10 @@ public class BillServiceImpl implements BillService {
     public Page<Bill> searchDateAndDate(Date startDate, Date endDate, Integer pageNumber) {
         return repository.findByDateCreateBetween(startDate, endDate, pageBill(pageNumber));
     }
-    
+
     @Override
     public List<BigDecimal> revenueInTheLast7Days(String cinemaId) {
         return repository.revenueInTheLast7Days(cinemaId);
     }
 
-    @Override
-    public List<Object[]> listTop5Movie() {
-        return repository.listTop5Movie();
-    }
-
-    @Override
-    public List<DtoBill> findBillId(String idBill) {
-        return repository.findBillDetailId(idBill);
-    }
 }
