@@ -43,10 +43,10 @@
             <button type="button" class="btn btn-outline-success">Hóa đơn chờ <span class="badge text-bg-secondary">[[${soldTicketsCount}]]</span>
             </button>
         </a>
-        <a th:href="@{/bill/hoadonhuy}" onclick="overLoad()">
-        <button type="button" class="btn btn-outline-success">Hóa đơn hủy
-        </button>
-    </a>
+        <a th:href="@{/bill/find-all}" onclick="overLoad()">
+            <button type="button" class="btn btn-outline-success">Hóa đơn
+            </button>
+        </a>
     </div>
 
     <form id="searchForm">
@@ -72,7 +72,7 @@
                                 <div class="flex" style="display: none">
                                     <div class="input-container">
                                         <label>Nhập mã gia dịch</label>
-                                        <input type="text" name="status" value="1">
+                                        <input type="text" name="status" value="2">
                                     </div>
 
                                 </div>
@@ -86,13 +86,10 @@
     </form>
     <!--    -->
 </section>
-<div id="searchResult" style="margin-bottom: 100px">
-
-</div>
+<div id="searchResult" style="margin-bottom: 100px"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/bill.js}"></script>
 <script th:src="@{/admin/js/index.js}"></script>
-<!--<script th:src="@{/admin/js/pagination.js}"></script>-->
 
 <script
         type="module"

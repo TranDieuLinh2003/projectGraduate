@@ -22,7 +22,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/show/booking")
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
 
 public class BookingControllerApi {
     @Autowired

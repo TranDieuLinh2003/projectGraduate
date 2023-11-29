@@ -34,5 +34,4 @@ public interface BillService {
 
     List<Object[]> listTop5Movie();
     
-    List<DtoBill> findBillId(String idBill);
 }

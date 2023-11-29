@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -60,7 +61,7 @@ public class ScheduleAdminController {
 
     @Autowired
     private ModelMapper modelMapper;
-    ;
+
 
     @GetMapping("/find-all")
     public String viewSchedule(Model model) {
@@ -113,7 +114,7 @@ public class ScheduleAdminController {
 //                       @RequestParam(name = "time") LocalTime time,
                        @RequestParam(name = "price") BigDecimal price,
                        @PathVariable("pageNumber") Integer currentPage
-    )  {
+    ) {
         try {
             Schedule schedule = Schedule.builder()
                     .id(id)
@@ -123,7 +124,7 @@ public class ScheduleAdminController {
                     .finishAt(finishAt)
                     .price(price)
                     .build();
-            if (service.update(id,schedule) instanceof Schedule) {
+            if (service.update(id, schedule) instanceof Schedule) {
                 model.addAttribute("thanhCong", "Sửa lịch chiếu thành công");
             } else {
                 model.addAttribute("thatBai", "Sửa lịch chiếu thất bại");
@@ -147,15 +148,23 @@ public class ScheduleAdminController {
                                    @RequestParam("listMovieChecked") List<String> listMovieChecked,
                                    @RequestParam(value = "startTime", required = false) LocalDateTime startTime,
                                    @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
-                                   @PathVariable("pageNumber") Integer currentPage
+                                   @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra, Schedule schedule
     ) {
 //        System.out.println("vào rồi");
         try {
-            if (service.generateSchedule(listRoomChecked,listMovieChecked, startTime, endTime) instanceof Schedule) {
-                model.addAttribute("thanhCong", "Thêm lịch chiếu thành công");
+//            if (service.generateSchedule(listRoomChecked,listMovieChecked, startTime, endTime) instanceof Schedule) {
+//
+////                if (scheduleService.checkScheduleConflict(schedule, listRoomChecked))
+//                ra.addFlashAttribute("Message1", "Tạo suất chiếu thành công");
+//
+//            }
+            if (scheduleService.checkScheduleConflict(schedule, String.valueOf(listRoomChecked)) == false) {
+                ra.addFlashAttribute("Message", "Tạo suất chiếu thất bại ");
             } else {
-                model.addAttribute("thatBai", "Thêm lịch chiếu thất bại");
+                service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
+                ra.addFlashAttribute("Message", "Tạo suất chiếu thành công");
             }
+
             model.addAttribute("listRoomChecked", listRoomChecked);
             model.addAttribute("listMovieChecked", listMovieChecked);
             model.addAttribute("currentPage", currentPage);

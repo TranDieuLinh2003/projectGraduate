@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/filmbooking")
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
 public class FilmBookingController {
     @Autowired
     private ModelMapper modelMapper;
@@ -58,17 +58,27 @@ public class FilmBookingController {
 
     @GetMapping("/trangchu")
     public String getAllPosts(Model model, HttpServletRequest request) {
-        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();
+//        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();?
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
-        // Phim đang chiếu
-        List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
-        model.addAttribute("listmovie", listmovie);
-        // Phim sắp chiếu
-        List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
-        model.addAttribute("listmovie1", listmovie1);
-        model.addAttribute("soldTicketsCount", soldTicketsCount);
+        if(customer == null) {
+            // Phim đang chiếu
+            List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            model.addAttribute("listmovie", listmovie);
+            // Phim sắp chiếu
+            List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            model.addAttribute("listmovie1", listmovie1);
+        }else {
+            List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            model.addAttribute("listmovie", listmovie);
+            // Phim sắp chiếu
+            List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            model.addAttribute("listmovie1", listmovie1);
+            String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+            model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+        }
+
         return "users/FilmBooking";
     }
 

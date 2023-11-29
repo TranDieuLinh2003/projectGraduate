@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/filmbooking")
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
 
 public class ThongTinController {
 
@@ -44,7 +44,8 @@ public class ThongTinController {
             return "redirect:/filmbooking/login";
         }
 
-        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();
+        String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+//        System.out.println(soldTicketsCountBill);
         List<Object[]> listBill = billRepository.findBillDetailsByCustomer(customer.getId());
         Map<String, List<Object[]>> groupedBillDetails = listBill.stream()
                 .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
@@ -93,7 +94,7 @@ public class ThongTinController {
         model.addAttribute("customer", customer);
         model.addAttribute("groupedBillDetails", groupedBillDetails);
         model.addAttribute("groupedBillDetailsCho", groupedBillDetailsCho);
-        model.addAttribute("soldTicketsCount", soldTicketsCount);
+        model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
         return "users/ThongTinCaNhan";
     }
 

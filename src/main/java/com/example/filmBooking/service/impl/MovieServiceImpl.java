@@ -186,7 +186,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Pageable pageMovie(Integer pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 6);
         return pageable;
     }
 

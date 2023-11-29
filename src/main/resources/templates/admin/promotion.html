@@ -33,6 +33,8 @@
     <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
     <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
     <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -120,7 +122,8 @@
                                 />
                                 <span id="startDatePromotionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                             </div>
-                            <div class="col-5">
+                            <br>
+                            <div class="col-5" style="margin-left: 20px">
                                 <span>Ngày kết thúc</span>
                                 <input
                                         type="datetime-local"
@@ -144,7 +147,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-outline-success" onclick="validatePPromotion(event)">
-            Xác nhận
+            Thêm
         </button>
     </form>
     <form th:action="@{'/promotion/search-by-name-promotion/' + ${currentPage}}" method="get" class="form_search_movie">
@@ -159,13 +162,10 @@
             <tr>
                 <th scope="col">Mã giảm giá</th>
                 <th scope="col">Tên phiếu</th>
-                <th scope="col">Loại phiếu</th>
                 <th scope="col">Phần trăm giảm</th>
                 <th scope="col">Hạng áp dụng</th>
-                <th scope="col">Ngày bắt đầu</th>
-                <th scope="col">Ngày kết thúc</th>
                 <th scope="col">Số lượng</th>
-                <th scope="col">Mô tả</th>
+                <th scope="col">Trạng thái</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -173,13 +173,21 @@
             <tr th:each="promotion : ${listPromotion}">
                 <td>[[${promotion.code}]]</td>
                 <td>[[${promotion.name}]]</td>
-                <td>[[${promotion.type}]]</td>
                 <td>[[${promotion.percent}]]</td>
                 <td>[[${promotion.rankCustomer.name}]]</td>
-                <td>[[${promotion.startDate}]]</td>
-                <td>[[${promotion.endDate}]]</td>
+                <!--                <td id="ngaytao">[[${promotion.startDate}]]</td>-->
+
                 <td>[[${promotion.quantity}]]</td>
-                <td>[[${promotion.description}]]</td>
+                <td>
+                    <div th:if="${promotion.startDate.isAfter(T(java.time.LocalDateTime).now())}"> Chưa bắt đầu</div>
+
+                    <div th:if="${promotion.startDate.isBefore(T(java.time.LocalDateTime).now()) and promotion.endDate.isAfter(T(java.time.LocalDateTime).now())}">
+                        Đang diễn ra
+                    </div>
+                    <div th:if="${promotion.endDate.isBefore(T(java.time.LocalDateTime).now())}"> Đã kết
+                        thúc
+                    </div>
+                </td>
                 <td>
                     <a th:href="@{'/promotion/delete/' + ${promotion.id}}" onclick="overLoad()">
                         <button
@@ -197,46 +205,23 @@
                             <i class='bx bx-show'></i>
                         </button>
                     </a>
+
                 </td>
             </tr>
             </tbody>
         </table>
-    </div>
-    <div class="phanTrang_Promotion">
-        <nav aria-label="Page navigation example" style="text-align: center">
-            <ul class="pagination">
-                <th:block th:if="${currentPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${currentPage - 1}}"
-                           aria-label="Previous" onclick="overLoad()">
-                            <<
-                        </a>
-                    </li>
-                </th:block>
-                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${pageNumber}}" onclick="overLoad()">
-                            [[${pageNumber}]]
-                        </a>
-                    </li>
-                </th:block>
-                <th:block th:if="${currentPage < totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{'/promotion/find-all/page/' + ${currentPage + 1}}"
-                           aria-label="Next" onclick="overLoad()">
-                            >>
-                        </a>
-                    </li>
-                </th:block>
-            </ul>
-        </nav>
+        <div class="pagination" >
+            <!-- Pagination buttons will be added here dynamically using JavaScript -->
+        </div>
     </div>
 </section>
+<br>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
         integrity="sha512-GAaXlfJeIbLNG2LQu2v4pf8YEc7iPz+GE3LZyUmdR7d7Id5JsER9vmJVxMKw1MqmdlVh3NXxTxQVd9AS53G+4w=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
+<script th:src="@{/admin/js/pagination.js}"></script>
 <script th:src="@{/admin/js/promotion.js}"></script>
 <script
         type="module"
@@ -256,4 +241,24 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    var elements = document.querySelectorAll("#ngaytao, #ngaykt");
+
+    // Loop through each element and update its inner HTML with the formatted date
+    elements.forEach(function (element) {
+        var myData = element.innerHTML;
+        var dateTime = new Date(myData);
+        var day = dateTime.getDate();
+        var formattedDay = String(day).padStart(2, '0');
+        var month = dateTime.getMonth() + 1;
+        var formattedMonth = String(month).padStart(2, '0');
+        var year = dateTime.getFullYear();
+        var hour = dateTime.getHours(); // Lấy giờ (0-23)
+        var formattedHour = String(hour).padStart(2, '0');
+        var minute = dateTime.getMinutes();
+        var formattedMinute = String(minute).padStart(2, '0');
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year + " " + formattedHour + ":" + formattedMinute;
+        element.innerHTML = formattedDate;
+    });
+</script>
 </html>

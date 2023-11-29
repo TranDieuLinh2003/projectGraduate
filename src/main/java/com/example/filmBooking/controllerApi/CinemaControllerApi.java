@@ -28,7 +28,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/show/cinema")
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
+
 public class CinemaControllerApi {
     @Autowired
     private RestTemplate restTemplate;
