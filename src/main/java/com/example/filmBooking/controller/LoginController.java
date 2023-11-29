@@ -1,6 +1,7 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.service.impl.CustomerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +24,8 @@ public class LoginController {
     @Autowired
     private CustomerServiceImpl customerService;
 
+    @Autowired
+    private BillRepository billRepository;
 //    @Autowired
 //    private HttpServletRequest request;
 
@@ -52,7 +55,7 @@ public class LoginController {
     public String login(
             @RequestParam(name = "email") String email,
             @RequestParam(name = "password") String password,
-            HttpServletRequest request
+            HttpServletRequest request, Model model
     ) {
 //        Customer customer = customerService.findByEmail(email);?
         Customer customer = customerService.findByEmail(email);
@@ -63,6 +66,9 @@ public class LoginController {
             return "redirect:/filmbooking/login";
         } else {
             sessionLogin.setAttribute("customer", customer);
+            String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+            model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+
             return "redirect:/filmbooking/trangchu";
         }
     }

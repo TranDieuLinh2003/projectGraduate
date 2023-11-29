@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
 
 public class VNPAYController {
     @Autowired

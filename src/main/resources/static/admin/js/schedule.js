@@ -143,20 +143,20 @@ function validateSchedule(event) {
     } else {
         danhSachPhimErr.innerText = "";
     }
-    if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thêm lịch chiếu thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
-        event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title: "Thêm lịch chiếu thành công"
-        });
-        document.getElementById('loading-overlay').style.display = 'flex';
-    }
+    // if (!isValid) {
+    //     Toast.fire({
+    //         icon: "error",
+    //         title: "Thêm lịch chiếu thất bại"
+    //     });
+    //     document.getElementById('loading-overlay').style.display = 'none';
+    //     event.preventDefault();
+    // }else {
+    //     Toast.fire({
+    //         icon: "success",
+    //         title: "Thêm lịch chiếu thành công"
+    //     });
+    //     document.getElementById('loading-overlay').style.display = 'flex';
+    // }
 }
 
 function updateSchedule(event){
