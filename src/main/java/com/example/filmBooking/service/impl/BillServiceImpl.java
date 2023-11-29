@@ -102,5 +102,8 @@ public class BillServiceImpl implements BillService {
         return repository.listTop5Movie();
     }
 
-
+    @Override
+    public List<DtoBill> findBillId(String idBill) {
+        return repository.findBillDetailId(idBill);
+    }
 }
