@@ -9,22 +9,23 @@ import com.example.filmBooking.service.BillTicketService;
 import com.example.filmBooking.service.CustomerService;
 import com.example.filmBooking.service.TicketService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.example.filmBooking.model.dto.DtoBill;
-import com.example.filmBooking.model.dto.DtoBillList;
 
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +34,7 @@ import java.util.Properties;
 @Controller
 @RequestMapping("/bill")
 @SessionAttributes("soldTicketsCount")
+@Tag(name = "Bill")
 public class BillAdminController {
     @Autowired
     private BillService service;
@@ -77,11 +79,11 @@ public class BillAdminController {
     }
 
     @GetMapping("/xac-nhan")
-    public String viewCho(Model model)
-    {
+    public String viewCho(Model model) {
         return viewXacNhan(model, 1);
     }
-//    @ModelAttribute("soldTicketsCount")
+
+    //    @ModelAttribute("soldTicketsCount")
 //    public Long getSoldTicketsCount() {
 //        return Long.valueOf(repository.countSoldTicketsWithStatusZero());
 //    }
@@ -165,14 +167,4 @@ public class BillAdminController {
         service.delete(id);
         return "redirect:/bill/xac-nhan";
     }
-
-    @GetMapping("/detail/{id}")
-    public String detailBill(Model model, @PathVariable("id") String id){
-        List<DtoBill> detailBill = service.findBillId(id);
-        model.addAttribute("bs", detailBill);
-        model.addAttribute("size", detailBill.size());
-        model.addAttribute("thanhTien", detailBill.get(0).getTotalMoney());
-        return "admin/chi-tiet-hoa-don";
-    }
-
 }
