@@ -21,7 +21,6 @@ public interface BillRepository extends JpaRepository<Bill, String> {
     @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 1;", nativeQuery = true)
     Page<Bill> billStatusOne(Pageable pageable);
 
-    //    Page<Bill> findByDateCreateBetweenAndDateCreate
     Page<Bill> findByDateCreateBetween(Date startDate, Date endDate, Pageable pageable);
 
     @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0")
@@ -176,4 +175,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.id = :idBill");
     @Query(value = billDetail, nativeQuery = true)
     List<DtoBill> findBillDetailId(@Param("idBill") String idBill);
+
+        @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 0", nativeQuery = true)
+    List<Bill> billStatusZero2();
 }
