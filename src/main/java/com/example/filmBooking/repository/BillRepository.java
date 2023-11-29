@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
@@ -21,22 +21,21 @@ public interface BillRepository extends JpaRepository<Bill, String> {
     @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 1;", nativeQuery = true)
     Page<Bill> billStatusOne(Pageable pageable);
 
-    //    Page<Bill> findByDateCreateBetweenAndDateCreate
     Page<Bill> findByDateCreateBetween(Date startDate, Date endDate, Pageable pageable);
 
     @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0")
     String countSoldTicketsWithStatusZero();
 
-    @Query(value = " select sum(total_money) from bill b join" +
-            " (SELECT DISTINCT bill_id, c.id, c.name FROM bill_ticket bt " +
-            " JOIN ticket t ON t.id = bt.ticket_id" +
+    @Query(value = "select sum(total_money) from bill b join" +
+            "(SELECT DISTINCT bill_id, c.id, c.name FROM bill_ticket bt " +
+            "JOIN ticket t ON t.id = bt.ticket_id" +
             " JOIN schedule s ON t.schedule_id = s.id" +
             " JOIN room r ON s.room_id = r.id" +
             " JOIN cinema c ON c.id = r.cinema_id) d on d.bill_id = b.id" +
             " WHERE " +
-            " d.id=?1 and" +
-            "    b.date_create >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
-            " GROUP BY DATE(b.date_create), d.id = ?1" +
+            " d.id=?1 and"+
+            "    b.date_create >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) "+
+            "GROUP BY DATE(b.date_create), d.id = ?1"+
             " ORDER BY DATE(b.date_create) DESC "
             , nativeQuery = true)
     List<BigDecimal> revenueInTheLast7Days(String cinemaId);
@@ -95,7 +94,6 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.trading_code, m.name, m.image, c.name, s.start_at, b.date_create, bt.total_money, bf.total_money, r.name\n" +
             "ORDER BY \n" +
             "    s.start_at DESC");
-
     @Query(value = bill, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomer(@Param("customerId") String customerId);
 
@@ -141,10 +139,43 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.trading_code, m.name, m.image, c.name, s.start_at, b.date_create, bt.total_money, bf.total_money, b.status, r.name \n" +
             "ORDER BY \n" +
             "    s.start_at DESC");
-
     @Query(value = billCho, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomerCho(@Param("customerId") String customerId);
 
-    @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 0", nativeQuery = true)
+    String billDetail = ("SELECT \n" +
+            "b.code as billCode,\n" +
+            "    c.name AS customerName,\n" +
+            "    m.image AS movieImage,\n" +
+            "    m.name AS movieName,\n" +
+            "    f.name AS foodName,\n" +
+            "    b.date_create AS dateCreate,\n" +
+            "    t.code AS ticketCode,\n" +
+            "    t.status AS ticketStatus,\n" +
+            "    s.code AS seatCode,\n" +
+            "    b.total_money AS totalMoney\n" +
+            "FROM \n" +
+            "    projectLinh.seat s\n" +
+            " JOIN \n" +
+            "    projectLinh.ticket t ON s.id = t.seat_id\n" +
+            "JOIN \n" +
+            "    projectLinh.bill_ticket bt ON t.id = bt.ticket_id\n" +
+            "JOIN \n" +
+            "    projectLinh.bill b ON bt.bill_id = b.id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.customer c ON b.customer_id = c.id\n" +
+            "JOIN \n" +
+            "    projectLinh.schedule sch ON t.schedule_id = sch.id\n" +
+            "JOIN \n" +
+            "    projectLinh.movie m ON sch.movie_id = m.id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "LEFT JOIN \n" +
+            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "WHERE \n" +
+            "    b.id = :idBill");
+    @Query(value = billDetail, nativeQuery = true)
+    List<DtoBill> findBillDetailId(@Param("idBill") String idBill);
+
+        @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 0", nativeQuery = true)
     List<Bill> billStatusZero2();
 }

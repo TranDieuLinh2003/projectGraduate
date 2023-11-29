@@ -37,8 +37,6 @@ public class BillServiceImpl implements BillService {
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         bill.setCode("Bill" + value);
         bill.setName("Bill" + bill.getDateCreate());
-//        bill.setTotalMoney();
-//        bill.setCinema();
         return repository.save(bill);
     }
 
@@ -65,7 +63,6 @@ public class BillServiceImpl implements BillService {
         return repository.findById(id).get();
     }
 
-//
 
     @Override
     public void delete(String id) {
