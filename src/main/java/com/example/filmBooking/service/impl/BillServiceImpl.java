@@ -81,6 +81,11 @@ public class BillServiceImpl implements BillService {
         return repository.billStatusZero(pageBill(pageNumber));
     }
 
+     @Override
+    public List<Bill> findStatusZero2() {
+        return repository.billStatusZero2();
+    }
+
     @Override
     public Page<Bill> findStatusOne(Integer pageNumber) {
         return repository.billStatusOne(pageBill(pageNumber));
