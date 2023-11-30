@@ -213,4 +213,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "AND b.status = 0")
     List<Bill> findBillsByTradingCodeAndDateCho(@Param("tradingCode") String tradingCode,
                                                 @Param("dateCreate") LocalDate dateCreate);
+
+    @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 0", nativeQuery = true)
+    List<Bill> billStatusZero2();
 }
