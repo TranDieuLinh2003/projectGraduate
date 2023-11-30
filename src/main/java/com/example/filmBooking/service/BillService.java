@@ -24,6 +24,8 @@ public interface BillService {
 
     Page<Bill>findStatusZero(Integer pageNumber);
 
+    List<Bill> findStatusZero2();
+
     Page<Bill>findStatusOne(Integer pageNumber);
 
     Pageable pageBill(Integer pageNumber);
