@@ -4,10 +4,13 @@ import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import com.example.filmBooking.model.dto.DtoBill;
 import com.example.filmBooking.model.dto.DtoBillList;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import org.springframework.data.domain.Page;
@@ -21,18 +24,6 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     private BillRepository repository;
-
-    @Autowired
-    private ScheduleServiceImpl scheduleRepository;
-
-    @Autowired
-    private CustomerServiceImpl customerService;
-
-    @Autowired
-    private BillTicketRepository billTicketRepository;
-
-    @Autowired
-    private TicketRepository ticketRepository;
 
     @Override
     public List<Bill> findAll() {
