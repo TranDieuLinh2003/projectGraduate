@@ -25,7 +25,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
     //    Page<Bill> findByDateCreateBetweenAndDateCreate
     Page<Bill> findByDateCreateBetween(Date startDate, Date endDate, Pageable pageable);
 
-    @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0")
+    @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0 and DATE(b.dateCreate)= :dateCreate")
     String countSoldTicketsWithStatusZero();
 
     @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0 and b.customer.id = :customerId")
@@ -59,138 +59,140 @@ public interface BillRepository extends JpaRepository<Bill, String> {
     List<Object[]> listTop5Movie();
 
     String bill = ("SELECT \n" +
-            "    b.trading_code, \n" +
-            "    m.name,  m.image,\n" +
-            "    c.name , \n" +
-            "    s.start_at , \n" +
-            "    GROUP_CONCAT(DISTINCT se.code) , \n" +
-            "    COUNT(DISTINCT se.code) ,\n" +
-            "    GROUP_CONCAT(DISTINCT f.name) , \n" +
-            "     count(f.name) AS food_name, \n" +
+            "    b.trading_code,\n" +
+            "    m.name,\n" +
+            "    m.image,\n" +
+            "    c.name,\n" +
+            "    s.start_at,\n" +
+            "    GROUP_CONCAT(DISTINCT se.code) AS seat_codes,\n" +
+            "    COUNT(DISTINCT se.code) AS seat_code_count,\n" +
+            "    GROUP_CONCAT(DISTINCT CONCAT_WS('  ',\n" +
+            "                f.name,\n" +
+            "                CONCAT('(', bf.quantity, ')'),\n" +
+            "                FORMAT(bf.total_money, 0, 'vi_VN'))) AS formatted_values,\n" +
             "    b.date_create,\n" +
-            "    bt.total_money," +
-            "    bf.total_money, r.name\n" +
-            "FROM \n" +
-            "    projectLinh.bill b \n" +
-            "JOIN\n" +
-            "    projectLinh.customer cu on cu.id = b.customer_id\n" +
-            "JOIN \n" +
-            "    projectLinh.bill_ticket bt ON b.id = bt.bill_id \n" +
-            "JOIN \n" +
-            "    projectLinh.ticket t ON bt.ticket_id = t.id \n" +
-            "JOIN \n" +
-            "    projectLinh.seat se ON se.id = t.seat_id \n" +
-            "JOIN \n" +
-            "    projectLinh.schedule s ON t.schedule_id = s.id \n" +
-            "JOIN \n" +
-            "    projectLinh.movie m ON s.movie_id = m.id \n" +
-            "JOIN \n" +
-            "    projectLinh.room r ON s.room_id = r.id \n" +
-            "JOIN \n" +
-            "    projectLinh.cinema c ON r.cinema_id = c.id \n" +
-            "LEFT JOIN \n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id \n" +
-            "LEFT JOIN \n" +
-            "    projectLinh.food f ON bf.food_id = f.id \n" +
-            "WHERE \n" +
-            "    cu.id = :customerId \n" +
-            "    AND b.status = 1\n" +
-            "GROUP BY \n" +
-            "    b.trading_code, m.name, m.image, c.name, s.start_at, b.date_create, bt.total_money, bf.total_money, r.name\n" +
-            "ORDER BY \n" +
-            "    s.start_at DESC");
+            "    bt.total_money,\n" +
+            "    r.name,\n" +
+            "    b.status\n" +
+            "FROM\n" +
+            "    projectLinh.bill b\n" +
+            "        JOIN\n" +
+            "    projectLinh.customer cu ON cu.id = b.customer_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.bill_ticket bt ON b.id = bt.bill_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.ticket t ON bt.ticket_id = t.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.seat se ON se.id = t.seat_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.schedule s ON t.schedule_id = s.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.movie m ON s.movie_id = m.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.room r ON s.room_id = r.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "WHERE\n" +
+            "    cu.id = :customerId\n" +
+            "        AND b.status = 1\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "ORDER BY b.date_create DESC;");
 
     @Query(value = bill, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomer(@Param("customerId") String customerId);
 
     String billCho = ("SELECT \n" +
-            "    b.trading_code, \n" +
-            "    m.name,  m.image,\n" +
-            "    c.name , \n" +
-            "    s.start_at , \n" +
-            "    GROUP_CONCAT(DISTINCT se.code) , \n" +
-            "    COUNT(DISTINCT se.code) ,\n" +
-            "    GROUP_CONCAT(DISTINCT f.name) , \n" +
-            "     count(f.name) AS food_name, \n" +
+            "    b.trading_code,\n" +
+            "    m.name,\n" +
+            "    m.image,\n" +
+            "    c.name,\n" +
+            "    s.start_at,\n" +
+            "    GROUP_CONCAT(DISTINCT se.code) AS seat_codes,\n" +
+            "    COUNT(DISTINCT se.code) AS seat_code_count,\n" +
+            "    GROUP_CONCAT(DISTINCT CONCAT_WS('  ',\n" +
+            "                f.name,\n" +
+            "                CONCAT('(', bf.quantity, ')'),\n" +
+            "                FORMAT(bf.total_money, 0, 'vi_VN'))) AS formatted_values,\n" +
             "    b.date_create,\n" +
-            "    bt.total_money," +
-            "    bf.total_money," +
-            "    b.status, r.name \n" +
-            "FROM \n" +
-            "    projectLinh.bill b \n" +
-            "JOIN\n" +
-            "    projectLinh.customer cu on cu.id = b.customer_id\n" +
-            "JOIN \n" +
-            "    projectLinh.bill_ticket bt ON b.id = bt.bill_id \n" +
-            "JOIN \n" +
-            "    projectLinh.ticket t ON bt.ticket_id = t.id \n" +
-            "JOIN \n" +
-            "    projectLinh.seat se ON se.id = t.seat_id \n" +
-            "JOIN \n" +
-            "    projectLinh.schedule s ON t.schedule_id = s.id \n" +
-            "JOIN \n" +
-            "    projectLinh.movie m ON s.movie_id = m.id \n" +
-            "JOIN \n" +
-            "    projectLinh.room r ON s.room_id = r.id \n" +
-            "JOIN \n" +
-            "    projectLinh.cinema c ON r.cinema_id = c.id \n" +
-            "LEFT JOIN \n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id \n" +
-            "LEFT JOIN \n" +
-            "    projectLinh.food f ON bf.food_id = f.id \n" +
-            "WHERE \n" +
-            "    cu.id = :customerId \n" +
-            "    AND b.status = 0\n" +
-            "GROUP BY \n" +
-            "    b.trading_code, m.name, m.image, c.name, s.start_at, b.date_create, bt.total_money, bf.total_money, b.status, r.name \n" +
-            "ORDER BY \n" +
-            "    s.start_at DESC");
-
+            "    bt.total_money,\n" +
+            "    r.name,\n" +
+            "    b.status\n" +
+            "FROM\n" +
+            "    projectLinh.bill b\n" +
+            "        JOIN\n" +
+            "    projectLinh.customer cu ON cu.id = b.customer_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.bill_ticket bt ON b.id = bt.bill_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.ticket t ON bt.ticket_id = t.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.seat se ON se.id = t.seat_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.schedule s ON t.schedule_id = s.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.movie m ON s.movie_id = m.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.room r ON s.room_id = r.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "WHERE\n" +
+            "    cu.id = :customerId\n" +
+            "        AND b.status = 0\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "ORDER BY b.date_create DESC;");
     @Query(value = billCho, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomerCho(@Param("customerId") String customerId);
 
-    String billDetail = ("SELECT \\n\" +\n" +
-            "            \"    b.trading_code, \\n\" +\n" +
-            "            \"    m.name,  m.image,\\n\" +\n" +
-            "            \"    c.name , \\n\" +\n" +
-            "            \"    s.start_at , \\n\" +\n" +
-            "            \"    GROUP_CONCAT(DISTINCT se.code) , \\n\" +\n" +
-            "            \"    COUNT(DISTINCT se.code) ,\\n\" +\n" +
-            "            \"    GROUP_CONCAT(DISTINCT f.name) , \\n\" +\n" +
-            "            \"     count(f.name) AS food_name, \\n\" +\n" +
-            "            \"    b.date_create,\\n\" +\n" +
-            "            \"    bt.total_money,\" +\n" +
-            "            \"    bf.total_money,\" +\n" +
-            "            \"    b.status, r.name \\n\" +\n" +
-            "            \"FROM \\n\" +\n" +
-            "            \"    projectLinh.bill b \\n\" +\n" +
-            "            \"JOIN\\n\" +\n" +
-            "            \"    projectLinh.customer cu on cu.id = b.customer_id\\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.bill_ticket bt ON b.id = bt.bill_id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.ticket t ON bt.ticket_id = t.id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.seat se ON se.id = t.seat_id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.schedule s ON t.schedule_id = s.id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.movie m ON s.movie_id = m.id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.room r ON s.room_id = r.id \\n\" +\n" +
-            "            \"JOIN \\n\" +\n" +
-            "            \"    projectLinh.cinema c ON r.cinema_id = c.id \\n\" +\n" +
-            "            \"LEFT JOIN \\n\" +\n" +
-            "            \"    projectLinh.bill_food bf ON b.id = bf.bill_id \\n\" +\n" +
-            "            \"LEFT JOIN \\n\" +\n" +
-            "            \"    projectLinh.food f ON bf.food_id = f.id \\n\" +\n" +
-            "            \"WHERE \\n\" +\n" +
-            "            \"    b.id=:idBill\\n\" +\n" +
-            "            \"    AND b.status = 0\\n\" +\n" +
-            "            \"GROUP BY \\n\" +\n" +
-            "            \"    b.trading_code, m.name, m.image, c.name, s.start_at, b.date_create, bt.total_money, bf.total_money, b.status, r.name \\n\" +\n" +
-            "            \"ORDER BY \\n\" +\n" +
-            "            \"    s.start_at DESC");
+    String billDetail = ("SELECT \n" +
+            "    b.trading_code,\n" +
+            "    m.name,\n" +
+            "    m.image,\n" +
+            "    c.name,\n" +
+            "    s.start_at,\n" +
+            "    GROUP_CONCAT(DISTINCT se.code) AS seat_codes,\n" +
+            "    COUNT(DISTINCT se.code) AS seat_code_count,\n" +
+            "    GROUP_CONCAT(DISTINCT CONCAT_WS('  ',\n" +
+            "                f.name,\n" +
+            "                CONCAT('(', bf.quantity, ')'),\n" +
+            "                FORMAT(bf.total_money, 0, 'vi_VN'))) AS formatted_values,\n" +
+            "    b.date_create,\n" +
+            "    bt.total_money,\n" +
+            "    r.name,\n" +
+            "    b.status, b.total_money, cu.name, cu.phone_number\n" +
+            "FROM\n" +
+            "    projectLinh.bill b\n" +
+            "        JOIN\n" +
+            "    projectLinh.customer cu ON cu.id = b.customer_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.bill_ticket bt ON b.id = bt.bill_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.ticket t ON bt.ticket_id = t.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.seat se ON se.id = t.seat_id\n" +
+            "        JOIN\n" +
+            "    projectLinh.schedule s ON t.schedule_id = s.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.movie m ON s.movie_id = m.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.room r ON s.room_id = r.id\n" +
+            "        JOIN\n" +
+            "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "        LEFT JOIN\n" +
+            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "WHERE\n" +
+            "    b.id = :idBill\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, cu.name, cu.phone_number\n" +
+            "ORDER BY b.date_create DESC;");
 
     @Query(value = billDetail, nativeQuery = true)
     List<Object[]> findBillDetailId(@Param("idBill") String idBill);
@@ -211,4 +213,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "AND b.status = 0")
     List<Bill> findBillsByTradingCodeAndDateCho(@Param("tradingCode") String tradingCode,
                                                 @Param("dateCreate") LocalDate dateCreate);
+
+    @Query(value = "SELECT * FROM projectLinh.bill b where b.status = 0", nativeQuery = true)
+    List<Bill> billStatusZero2();
 }

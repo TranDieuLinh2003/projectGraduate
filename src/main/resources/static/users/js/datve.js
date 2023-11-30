@@ -6,8 +6,9 @@ const seatContainer = document.querySelector(".row-container");
 seatContainer.addEventListener("click", function (e) {
     if (
         e.target.classList.contains("seat") &&
-        !e.target.classList.contains("occupied")
-    ) {
+        !e.target.classList.contains("occupied")&&
+        !e.target.classList.contains("black")
+) {
         e.target.classList.toggle("selected");
         updateSelectedCount();
     }
