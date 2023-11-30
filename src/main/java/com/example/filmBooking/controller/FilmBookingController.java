@@ -183,5 +183,10 @@ public class FilmBookingController {
         return "users/timkiem";
     }
 
+    @GetMapping("/rank-and-membership")
+    public String rankAndMembership(){
+        return "users/rankAndMembership";
+    }
+
 }
 
