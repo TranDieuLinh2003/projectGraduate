@@ -3,9 +3,9 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Bill;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
@@ -22,16 +22,16 @@ public interface BillService {
 
     Bill findById(String id);
 
-    Page<Bill> findStatusZero(Integer pageNumber);
+    Page<Bill>findStatusZero(Integer pageNumber);
 
-    List<Bill> findStatusZero2();
-
-    Page<Bill> findStatusOne(Integer pageNumber);
+    Page<Bill>findStatusOne(Integer pageNumber);
 
     Pageable pageBill(Integer pageNumber);
 
-    Page<Bill> searchDateAndDate(Date startDate, Date endDate, Integer pageNumber);
-
+    Page<Bill>searchDateAndDate(Date startDate, Date endDate, Integer pageNumber);
+    
     List<BigDecimal> revenueInTheLast7Days(String cinemaId);
 
+    List<Object[]> listTop5Movie();
+    
 }

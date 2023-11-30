@@ -45,6 +45,15 @@
     <div class="spinner"></div>
 </div>
 <section class="schedule-html">
+
+    <div th:if="${Message}"  class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong> [[${Message}]]</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<!--    <div th:if="${Message1}"  class="alert alert-success alert-dismissible fade show" role="alert">-->
+<!--        <strong> [[${Message1}]]</strong>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--    </div>-->
     <div class="row">
         <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat">
             <div class="row">

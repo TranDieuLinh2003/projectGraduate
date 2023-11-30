@@ -2,23 +2,29 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
 import com.example.filmBooking.model.*;
+import com.example.filmBooking.model.dto.BillDto;
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.BillTicketRepository;
 import com.example.filmBooking.service.BillService;
 import com.example.filmBooking.service.BillTicketService;
 import com.example.filmBooking.service.CustomerService;
 import com.example.filmBooking.service.TicketService;
+import com.oracle.wls.shaded.org.apache.xpath.operations.Mod;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.logging.log4j.util.Strings;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.example.filmBooking.model.dto.DtoBill;
+import com.example.filmBooking.model.dto.DtoBillList;
 
 
 import javax.mail.*;
@@ -27,14 +33,12 @@ import javax.mail.internet.MimeMessage;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/bill")
 @SessionAttributes("soldTicketsCount")
-@Tag(name = "Bill")
 public class BillAdminController {
     @Autowired
     private BillService service;
@@ -52,51 +56,28 @@ public class BillAdminController {
     @Autowired
     private BillRepository repository;
 
-    @GetMapping("/find-all")
-    public String viewBill(Model model) {
-        return findAll(model, 1, null, null);
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
 
-    @GetMapping("/find-all/page/{pageNumber}")
-    @Operation(summary = "[Hiển thị tất cả]")
-    public String findAll(Model model, @PathVariable(name = "pageNumber") Integer currentPage, @Param("startDate") Date startDate, @Param("endDate") Date endDate) {
-
-        Page<Bill> billStatusOne = service.findStatusOne(currentPage);
-        if (startDate != null && endDate != null) {
-            billStatusOne = service.searchDateAndDate(startDate, endDate, currentPage);
-        }
-        String soldTicketsCount = repository.countSoldTicketsWithStatusZero();
-        model.addAttribute("soldTicketsCount", soldTicketsCount);
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
-        model.addAttribute("currentPageOne", currentPage);
-        model.addAttribute("totalPagesOne", billStatusOne.getTotalPages());
-        model.addAttribute("totalItemsOne", billStatusOne.getTotalElements());
-        model.addAttribute("billOne", billStatusOne.getContent());
-        model.addAttribute("bill", new Bill());
-        return "admin/bill";
-    }
+//    @GetMapping("/find-all/page/{pageNumber}")
+//    @Operation(summary = "[Hiển thị tất cả]")
+//    public String findAll(te") Date endDate) {
+//
+//        return "admin/bill";
+//    }
 
     @GetMapping("/xac-nhan")
     public String viewCho(Model model) {
-        return viewXacNhan(model, 1);
+        return "admin/xac-nhan";
+
     }
 
-    //    @ModelAttribute("soldTicketsCount")
-//    public Long getSoldTicketsCount() {
-//        return Long.valueOf(repository.countSoldTicketsWithStatusZero());
-//    }
-    @GetMapping("/xac-nhan/page/{pageNumber}")
-    public String viewXacNhan(Model model, @PathVariable("pageNumber") Integer currentPage) {
-        Page<Bill> biilStatusZero = service.findStatusZero(currentPage);
-        model.addAttribute("currentPageZero", currentPage);
-        model.addAttribute("totalPagesZero", biilStatusZero.getTotalPages());
-        model.addAttribute("totalItemsZero", biilStatusZero.getTotalElements());
-        model.addAttribute("billZero", biilStatusZero.getContent());
-        model.addAttribute("bill", new Bill());
-        return "admin/xac-nhan";
+    @ModelAttribute("soldTicketsCount")
+    public Long getSoldTicketsCount() {
+        return Long.valueOf(repository.countSoldTicketsWithStatusZero());
     }
+
 
     //
     @GetMapping("/update/{id}")
@@ -162,9 +143,75 @@ public class BillAdminController {
 
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") String id) {
-        service.delete(id);
-        return "redirect:/bill/xac-nhan";
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") String id) {
+//        service.delete(id);
+//        return "redirect:/bill/xac-nhan";
+//    }
+
+    @GetMapping("/detail/{id}")
+    public String detailBill(Model model, @PathVariable("id") String id) {
+        List<Object[]> detailBill = repository.findBillDetailId(id);
+        Map<String, List<Object[]>> groupedBillDetails = detailBill.stream()
+                .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
+
+// Separate unique and duplicate records
+        Map<String, List<Object[]>> uniqueRecords = new HashMap<>();
+        Map<String, List<Object[]>> duplicateRecords = new HashMap<>();
+        groupedBillDetails.forEach((transactionId, details) -> {
+            if (details.size() > 1) {
+                duplicateRecords.put(transactionId, details);
+            } else {
+                uniqueRecords.put(transactionId, details);
+            }
+        });
+        uniqueRecords.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        duplicateRecords.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        model.addAttribute("groupedBillDetails", groupedBillDetails);
+
+        return "admin/chi-tiet-hoa-don";
+    }
+
+        @GetMapping("/search/bill")
+    public String FindByBill(Model model,
+                             @RequestParam(value = "dateCreate", required = false) LocalDate dateCreate,
+                             @RequestParam(value = "tradingCode", required = false) String tradingCode,
+                             @RequestParam(value = "status", required = false) Integer status) {
+//        dateCreate = (dateCreate == null) ? null : dateCreate;
+        tradingCode = Strings.isEmpty(tradingCode) ? null : tradingCode;
+        List<BillDto> billList = repository.findBillsByTradingCodeAndDate(tradingCode, dateCreate,status).stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
+System.out.println(dateCreate);
+        model.addAttribute("billList", billList);
+            System.out.println(billList);
+
+            return "admin/viewbill";
+    }
+    @GetMapping("/find-all")
+    public String viewBill() {
+        return "admin/bill";
+    }
+
+
+    @GetMapping("/search/bill/xacnhan")
+    public String FindByBillCho(Model model,
+                                @RequestParam(value = "dateCreate1", required = false) LocalDate dateCreate1,
+                                @RequestParam(value = "tradingCode1", required = false) String tradingCode1) {
+        tradingCode1 = Strings.isEmpty(tradingCode1) ? null : tradingCode1;
+
+        List<BillDto> billList = repository.findBillsByTradingCodeAndDateCho(tradingCode1, dateCreate1).stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
+
+        model.addAttribute("billList", billList);
+        return "admin/viewbillcho";
+    }
+
+    @GetMapping("/hoadonhuy")
+    public String viewBillHuy(Model model) {
+        return "admin/hoadonhuy";
     }
 }

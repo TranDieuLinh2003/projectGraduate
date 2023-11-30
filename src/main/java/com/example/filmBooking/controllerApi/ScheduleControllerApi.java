@@ -19,7 +19,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/show/schedule")
-@SessionAttributes("soldTicketsCount")
+@SessionAttributes("soldTicketsCountBill")
 public class ScheduleControllerApi {
     @Autowired
     private RestTemplate restTemplate;

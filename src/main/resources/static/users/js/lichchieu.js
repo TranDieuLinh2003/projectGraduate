@@ -67,6 +67,24 @@ for (var j = 0; j < sevenDays.length; j++) {
   selectElement.appendChild(optionElement);
 }
 
+// Lấy tất cả các option trong dropdown
+var options = document.getElementById('startAt').getElementsByTagName('option');
+
+// Lặp qua từng option
+for (var i = 0; i < options.length; i++) {
+  var currentValue = options[i].value;
+
+  // Kiểm tra xem giá trị đã được chọn trước đó chưa
+  for (var j = 0; j < i; j++) {
+    if (options[j].value === currentValue) {
+      // Nếu đã được chọn trước đó, loại bỏ option này
+      options[i].remove();
+      i--; // Giảm chỉ số i để xử lý lại option mới sau khi loại bỏ
+      break;
+    }
+  }
+}
+
 // const myData = document.getElementById("gio").textContent;
 // var dateTime = new Date(myData);
 // var hour = dateTime.getHours(); // Lấy giờ (0-23)

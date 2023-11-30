@@ -1,5 +1,6 @@
 package com.example.filmBooking.repository;
 
+import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.model.Seat;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -71,4 +73,10 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
     List<Seat> getSeat1(@Param("movieName") String movieName,
                         @Param("startAt") String startAt,
                         @Param("nameRoom") String nameRoom);
+
+
+
+    @Query(value = "select s.* from projectLinh.seat s\n" +
+            "Join projectLinh.room r where r.name =:roomname;", nativeQuery = true)
+    List<Seat> SeatRoom(@Param("roomname") String roomname);
 }

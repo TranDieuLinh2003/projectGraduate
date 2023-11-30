@@ -1,17 +1,24 @@
 package com.example.filmBooking.apis;
 
 import com.example.filmBooking.model.*;
+import com.example.filmBooking.model.dto.BillDto;
+import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.model.dto.DtoSeat;
 
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.FootRepository;
+import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.service.impl.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
@@ -39,6 +46,10 @@ public class TicketApi {
     @Autowired
     private BillRepository repository;
 
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private ModelMapper modelMapper;
     @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
                                                        @RequestParam String movieId,
@@ -95,5 +106,10 @@ public class TicketApi {
     @GetMapping("/show/bill")
     private ResponseEntity<List<Object[]>> getAllGeneralSetting(@RequestParam String customerId) {
         return new ResponseEntity<>(repository.findBillDetailsByCustomer(customerId), HttpStatus.OK);
+    }
+    @GetMapping("/find/bill")
+    private List<BillDto> FindBill(@RequestParam String tradingCode, @RequestParam LocalDate dateCreate ) {
+        return repository.findBillsByTradingCodeAndDateCho(tradingCode,dateCreate)
+                .stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
     }
 }
