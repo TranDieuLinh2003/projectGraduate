@@ -11,7 +11,7 @@ const pagination = document.querySelector('.pagination');
 updatePagination(currentPage1);
 
 function updatePagination(currentPage1) {
-    pagination.innerHTML = ''; // Xóa hết các button cũ
+    // pagination.innerHTML = ''; // Xóa hết các button cũ
     const maxButtons = 5; // Số lượng button tối đa được hiển thị
     const startPage = Math.max(1, currentPage1 - Math.floor(maxButtons / 2));
     const endPage = Math.min(totalPages1, startPage + maxButtons - 1);

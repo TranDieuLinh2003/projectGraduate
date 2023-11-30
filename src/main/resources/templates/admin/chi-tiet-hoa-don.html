@@ -93,15 +93,6 @@
                     </li>
                 </ul>
             </td>
-            <!--            <td>-->
-            <!--                <ul>-->
-            <!--                    <li style="list-style: none;" th:each="detail : ${entry.value}">-->
-            <!--                        &lt;!&ndash; Display other details as per your requirement &ndash;&gt;-->
-            <!--                        <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>-->
-            <!--                        &lt;!&ndash; Add more spans for other details &ndash;&gt;-->
-            <!--                    </li>-->
-            <!--                </ul>-->
-            <!--            </td>-->
             <td>
                 <ul>
                     <li style="list-style: none;" th:each="detail : ${entry.value}">
@@ -137,8 +128,8 @@
                 <ul>
                     <li style="list-style: none;" th:each="detail : ${entry.value}">
                         <!-- Display other details as per your requirement -->
-                        <span th:text="${detail[12]}">Detail 1</span>
-                        ( <span th:text="${detail[13]}">Detail 1</span>)
+                        <span th:text="${detail[13]}">Detail 1</span>
+                        ( <span th:text="${detail[14]}">Detail 1</span>)
                     </li>
                 </ul>
             </td>
@@ -146,9 +137,9 @@
                 <ul>
                     <li style="list-style: none;" th:each="detail : ${entry.value}">
                         <!-- Display other details as per your requirement -->
-                        <span id="price1" th:text="${detail[11]}">Detail 1</span>
+                        <span id="price1" th:text="${detail[12]}">Detail 1</span>
                         <hr>
-                        (<span th:text="${detail[14]==0 ? 'Chờ thanh toán' : (detail[14]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
+                        (<span th:text="${detail[11]==0 ? 'Chờ thanh toán' : (detail[11]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
                         )
                     </li>
                 </ul>
