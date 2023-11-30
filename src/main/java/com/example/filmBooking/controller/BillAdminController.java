@@ -75,6 +75,7 @@ public class BillAdminController {
 
     @ModelAttribute("soldTicketsCount")
     public Long getSoldTicketsCount() {
+
         return Long.valueOf(repository.countSoldTicketsWithStatusZero());
     }
 

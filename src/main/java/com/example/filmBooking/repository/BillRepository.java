@@ -25,7 +25,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
     //    Page<Bill> findByDateCreateBetweenAndDateCreate
     Page<Bill> findByDateCreateBetween(Date startDate, Date endDate, Pageable pageable);
 
-    @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0")
+    @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0 and DATE(b.dateCreate)= :dateCreate")
     String countSoldTicketsWithStatusZero();
 
     @Query("SELECT COUNT(b) FROM Bill b WHERE b.status = 0 and b.customer.id = :customerId")
