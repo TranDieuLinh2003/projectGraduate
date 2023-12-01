@@ -37,5 +37,5 @@ public interface MovieService {
 
     Movie findByName(String name);
 
-    Page<Movie> findAllByStatus(String status, Integer pageable);
+    Page<Movie> findAllByStatus(String name,String status, Integer pageable);
 }

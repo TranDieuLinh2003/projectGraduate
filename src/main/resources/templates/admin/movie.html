@@ -40,6 +40,7 @@
     <div class="spinner"></div>
 </div>
 <section class="movie-html">
+
     <div class="add-movie-button">
         <a th:href="@{/movie/view-add}" onclick="overLoad()">
             <button type="button" class="btn btn-outline-success">Thêm phim</button>
@@ -47,28 +48,23 @@
     </div>
 
     <form th:action="@{/movie/find-all/page/1}" class="form_search_movie">
+        <div class="text-loc-ticket">
+            <h4>Lọc phim theo trạng thái</h4>
+        </div>
+        <select class="form-select" aria-label="Default select example" name="status">
+            <option value="">Tất cả</option>
+            <option value="Sắp chiếu">Sắp chiếu</option>
+            <option value="Đang chiếu">Đang chiếu</option>
+            <option value="Đã chiếu">Đã chiếu</option>
+        </select>
         <div class="input-box-1">
             <input type="text" name="keyword" placeholder="Tìm kiếm phim"/>
-            <button type="submit" onclick="overLoad()"><i class="bx bx-search-alt-2"></i></button>
         </div>
-    </form>
-    <form th:action="@{/movie/find-all/page/1}" method="get">
-        <div class="search_by_ticket">
-            <div class="text-loc-ticket">
-                <h4>Lọc phim theo trạng thái</h4>
-            </div>
-            <select class="form-select" aria-label="Default select example" name="status">
-                <option value="">Tất cả</option>
-                <option value="Sắp chiếu">Sắp chiếu</option>
-                <option value="Đang chiếu">Đang chiếu</option>
-                <option value="Đã chiếu">Đã chiếu</option>
-            </select>
-            <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Tìm kiếm phim</button>
-        </div>
+        <button type="submit" class="btn btn-success" onclick="overLoad()">Tìm kiếm</button>
     </form>
     <div class="movie-card">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col-sm-3" th:each="movie : ${listMovie}">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            <div class="col-sm-4" th:each="movie : ${listMovie}">
                 <div class="card">
                     <img
                             th:src=" @{'http://localhost:8080/admin/assets/img/' + ${movie.image}}"
@@ -78,7 +74,7 @@
                     />
                     <div class="card-body">
                         <h5 class="card-title">[[${movie.name}]]</h5>
-<!--                        <h6 class="card-title">Mã phim: [[${movie.code}]]</h6>-->
+                        <h6 class="card-title">Mã phim: [[${movie.code}]]</h6>
                         <span>Ngày bắt đầu:</span>
                         <span class="card-text" th:text="${#dates.format(movie.premiereDate, 'dd/MM/yyyy')}"></span>
                         <br>
@@ -117,7 +113,6 @@
             </div>
         </div>
     </div>
-
     <div class="phanTrang_Movie">
         <nav aria-label="Page navigation example" style="text-align: center">
             <ul class="pagination">

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -74,10 +75,11 @@ public class BillAdminController {
     }
 
     @ModelAttribute("soldTicketsCount")
-    public Long getSoldTicketsCount() {
-        return Long.valueOf(repository.countSoldTicketsWithStatusZero());
+    public String getSoldTicketsCount(@RequestParam(value = "dateCreate", required = false) LocalDate dateCreate) {
+        LocalDate currentDate = LocalDate.now();
+        System.out.println(currentDate);
+        return repository.countSoldTicketsWithStatusZero(currentDate);
     }
-
 
     //
     @GetMapping("/update/{id}")
@@ -127,10 +129,8 @@ public class BillAdminController {
                     message.setText(emailContent.toString());
 
                     Transport.send(message);
-                    System.out.println("Email sent successfully");
                 } catch (MessagingException e) {
                     // Handle the exception, for example:
-                    System.out.println("An error occurred while sending the email: " + e.getMessage());
                 }
             } else {
                 model.addAttribute("thatBai", "Xác nhận hóa đơn thất bại");
@@ -178,20 +178,18 @@ public class BillAdminController {
         return "admin/chi-tiet-hoa-don";
     }
 
-        @GetMapping("/search/bill")
+    @GetMapping("/search/bill")
     public String FindByBill(Model model,
                              @RequestParam(value = "dateCreate", required = false) LocalDate dateCreate,
                              @RequestParam(value = "tradingCode", required = false) String tradingCode,
                              @RequestParam(value = "status", required = false) Integer status) {
 //        dateCreate = (dateCreate == null) ? null : dateCreate;
         tradingCode = Strings.isEmpty(tradingCode) ? null : tradingCode;
-        List<BillDto> billList = repository.findBillsByTradingCodeAndDate(tradingCode, dateCreate,status).stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
-System.out.println(dateCreate);
+        List<BillDto> billList = repository.findBillsByTradingCodeAndDate(tradingCode, dateCreate, status).stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
         model.addAttribute("billList", billList);
-            System.out.println(billList);
-
-            return "admin/viewbill";
+        return "admin/viewbill";
     }
+
     @GetMapping("/find-all")
     public String viewBill() {
         return "admin/bill";

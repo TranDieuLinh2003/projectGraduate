@@ -136,9 +136,6 @@ public class ScheduleAdminController {
             e.printStackTrace();
             return "admin/schedule";
         }
-//        em test xem
-//        model.addAttribute("currentPage", currentPage);
-
     }
 
     @PostMapping("/batch-save/{pageNumber}")

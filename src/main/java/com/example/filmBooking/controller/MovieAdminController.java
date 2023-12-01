@@ -54,9 +54,7 @@ public class MovieAdminController {
                           @RequestParam(name = "status", required = false) String status) {
         Page<Movie> page = service.getAll(pageNumber);
         if (status != null && !status.isEmpty()) {
-            page = service.findAllByStatus(status, pageNumber);
-        } else if (keyword != null) {
-            page = service.searchMovie(keyword, pageNumber);
+            page = service.findAllByStatus("%" + keyword + "%", "%" + status + "%", pageNumber);
         } else {
             page = service.getAll(pageNumber);
         }
@@ -108,33 +106,33 @@ public class MovieAdminController {
                        @RequestParam(name = "rated") Rated rated
     ) {
         uploadImage.handerUpLoadFile(multipartFile);
-       try{
-           Movie movie = Movie.builder()
-                   .id(id)
-                   .performers(performers)
-                   .director(director)
-                   .movieType(movieType)
-                   .movieDuration(movieDuration)
-                   .name(name)
-                   .description(description)
-                   .languages(languages)
-                   .trailer(trailer)
-                   .endDate(endDate)
-                   .premiereDate(permiereDate)
-                   .image(multipartFile.getOriginalFilename())
-                   .rated(rated)
-                   .build();
-           if(service.save(movie) instanceof  Movie){
-               model.addAttribute("thanhCong", "Thêm thành công!");
-           }else {
-               model.addAttribute("thatBai", "Thêm thất bại");
-           }
-           model.addAttribute("movie", new Movie());
-           return "redirect:/movie/find-all";
-       }catch (Exception e){
-           e.printStackTrace();
-           return "admin/movie";
-       }
+        try {
+            Movie movie = Movie.builder()
+                    .id(id)
+                    .performers(performers)
+                    .director(director)
+                    .movieType(movieType)
+                    .movieDuration(movieDuration)
+                    .name(name)
+                    .description(description)
+                    .languages(languages)
+                    .trailer(trailer)
+                    .endDate(endDate)
+                    .premiereDate(permiereDate)
+                    .image(multipartFile.getOriginalFilename())
+                    .rated(rated)
+                    .build();
+            if (service.save(movie) instanceof Movie) {
+                model.addAttribute("thanhCong", "Thêm thành công!");
+            } else {
+                model.addAttribute("thatBai", "Thêm thất bại");
+            }
+            model.addAttribute("movie", new Movie());
+            return "redirect:/movie/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/movie";
+        }
     }
 
     @GetMapping("/delete/{id}")
