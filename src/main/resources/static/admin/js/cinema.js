@@ -29,17 +29,6 @@ function validateCinema(event){
         addressCinemaErr.innerText = "";
     }
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
-        event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title: "Thành công"
-        })
-        document.getElementById('loading-overlay').style.display = 'flex';
+        event.preventDefault(); // This line prevents the default behavior without any visible indication
     }
 }

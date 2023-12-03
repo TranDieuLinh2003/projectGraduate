@@ -1,9 +1,11 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Promotion;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.RoomService;
+import com.example.filmBooking.service.impl.RoomServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,17 +26,22 @@ public class RoomAdminController {
     private RoomService roomService;
 
     @Autowired
+    private RoomServiceImpl roomServiceI;
+
+
+    @Autowired
     private CinemaService cinemaService;
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm dữ liệu room]")
-    public String addRoom(Model model, @RequestParam(name = "cinema") Cinema idCinema, @RequestParam(name = "quantity") int quantity) {
+    public String addRoom(Model model, @RequestParam(name = "cinema") Cinema idCinema, @RequestParam(name = "quantity") int quantity,
+                          @RequestParam(name = "description1") String description, RedirectAttributes ra) {
         try {
-            boolean saveRoom = roomService.saveAll(idCinema, quantity);
+            boolean saveRoom = roomService.saveAll(idCinema, quantity,description);
             if (saveRoom == true) {
-                model.addAttribute("thanhCong", "Thêm phòng thành công");
+                ra.addFlashAttribute("successMessage", "Thêm thành công");
             } else {
-                model.addAttribute("thatBai", "Thêm phòng thất bại");
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại");
             }
             model.addAttribute("room", new Room());
             return "redirect:/room/find-all";
@@ -67,8 +75,13 @@ public class RoomAdminController {
 
     @GetMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu room]")
-    public String delete(@PathVariable(name = "id") String id) {
-        roomService.delete(id);
+    public String delete(@PathVariable(name = "id") String id, RedirectAttributes ra) {
+        try {
+            roomService.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/room/find-all";
     }
 
@@ -86,34 +99,41 @@ public class RoomAdminController {
         return "admin/room";
     }
 
-    @PostMapping("/update")
-    @Operation(summary = "[Thêm dữ liệu room]")
-    public String updateRoom(Model model,
-                             @RequestParam(name = "id") String id,
-                             @RequestParam(name = "code") String code,
-                             @RequestParam(name = "name") String name,
-                             @RequestParam(name = "cinema") Cinema idCinema,
-                             @RequestParam(name = "description") String description) {
-        try {
-            Room room = Room.builder()
-                    .id(id)
-                    .code(code)
-                    .name(name)
-                    .type(0)
-                    .cinema(idCinema)
-                    .description(description)
-                    .build();
-            if (roomService.update(id,room) instanceof Room) {
-                model.addAttribute("thanhCong", "Sửa phòng thành công");
-            }else {
-                model.addAttribute("thatBai", "Sửa phòng thất bại");
-            }
-            model.addAttribute("room", new Room());
-            return "redirect:/room/find-all";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "admin/room";
-        }
+    //    @PostMapping("/update")
+//    @Operation(summary = "[Thêm dữ liệu room]")
+//    public String updateRoom(Model model,
+//                             @RequestParam(name = "id") String id,
+//                             @RequestParam(name = "code") String code,
+//                             @RequestParam(name = "name") String name,
+//                             @RequestParam(name = "cinema") Cinema idCinema,
+//                             @RequestParam(name = "description") String description) {
+//        try {
+//            Room room = Room.builder()
+//                    .id(id)
+//                    .code(code)
+//                    .name(name)
+//                    .type(0)
+//                    .cinema(idCinema)
+//                    .description(description)
+//                    .build();
+//            if (roomService.update(id,room) instanceof Room) {
+//                model.addAttribute("thanhCong", "Sửa phòng thành công");
+//            }else {
+//                model.addAttribute("thatBai", "Sửa phòng thất bại");
+//            }
+//            model.addAttribute("room", new Room());
+//            return "redirect:/room/find-all";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "admin/room";
+//        }
+//    }
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Room updatedRoom, RedirectAttributes ra) {
+        roomServiceI.update(id, updatedRoom);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+
+        return "redirect:/room/find-all";   // Redirect to the promotion list page after update
     }
 
     @GetMapping("/search-room/{pageNumber}")

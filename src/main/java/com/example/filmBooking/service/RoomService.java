@@ -14,7 +14,7 @@ public interface RoomService {
 
     List<Room> fillAll();
 
-    boolean saveAll(Cinema idCinema, int quantity);
+    boolean saveAll(Cinema idCinema, int quantity, String description);
 
     Room save(Room room);
 

@@ -113,20 +113,6 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        const rowsPerPage = 5;
-        let currentPage = 1;
-
-        // Function to update pagination
-        function updatePagination(totalPages, currentPage) {
-            // Your pagination update logic here
-        }
-
-        // Function to show the selected page of results
-        function showPage(pageNumber) {
-            // Your logic to display rows for the selected page here
-        }
-
-        // Function to perform search and update the results
         function performSearch() {
             var formData = $('#searchForm').serialize();
 
@@ -136,30 +122,16 @@
                 data: formData,
                 success: function (result) {
                     $('#searchResult').html(result);
-
-                    // Update total pages and then update the pagination and show the first page of results
-                    const tableRows = document.querySelectorAll('tbody tr');
-                    const totalPages = Math.ceil(tableRows.length / rowsPerPage);
-                    updatePagination(totalPages, currentPage);
-                    showPage(1);
                 }
             });
         }
 
-        // Event listener for search form input changes
         $('#searchForm input').on('input change', function (event) {
             performSearch();
         });
 
-        // Initial search when the page loads
+        // Perform initial search when the page loads
         performSearch();
-
-        // Event listener for pagination button clicks
-        $('.pagination').on('click', 'button', function() {
-            currentPage = parseInt($(this).text()); // Set the current page based on the button text
-            showPage(currentPage); // Display the selected page
-            updatePagination(totalPages, currentPage); // Update pagination based on the selected page
-        });
     });
 
 </script>

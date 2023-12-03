@@ -1,5 +1,6 @@
 package com.example.filmBooking.controller;
 
+import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -68,8 +70,14 @@ public class CustomerAdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") String id){
-        customerService.delete(id);
+    public String delete(@PathVariable(name = "id") String id, RedirectAttributes ra){
+
+        try {
+            customerService.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/customer/find-all";
     }
 
@@ -84,5 +92,13 @@ public class CustomerAdminController {
         model.addAttribute("listCustomer", page.getContent());
         model.addAttribute("customer", new Customer());
         return "admin/customer";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Customer updatedRoom, RedirectAttributes ra) {
+        customerService.update(id, updatedRoom);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+
+        return "redirect:/cinema/find-all";   // Redirect to the promotion list page after update
     }
 }
