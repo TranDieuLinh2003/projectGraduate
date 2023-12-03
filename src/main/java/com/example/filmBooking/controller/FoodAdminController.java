@@ -2,6 +2,7 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.Food;
 import com.example.filmBooking.model.Movie;
+import com.example.filmBooking.model.Room;
 import com.example.filmBooking.service.FoodService;
 import com.example.filmBooking.util.UploadImage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 
@@ -30,7 +32,7 @@ public class FoodAdminController {
     public String addFood(Model model, @RequestParam(name = "id") String id, @RequestParam(name = "name") String name, @RequestParam(name = "price") BigDecimal priceFood,
                           @RequestParam(name = "description") String description, @RequestParam(name = "image")
                                   MultipartFile multipartFile,
-                          @PathVariable("pageNumber") Integer currentPage) {
+                          @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra) {
         try {
             Food food = Food.builder()
                     .id(id)
@@ -40,10 +42,10 @@ public class FoodAdminController {
                     .image(multipartFile.getOriginalFilename())
                     .build();
             uploadImage.handerUpLoadFile(multipartFile);
-            if (foodService.save(food) instanceof Food){
-                model.addAttribute("tnanhCong", "Thêm đồ ăn thành công !");
-            }else {
-                model.addAttribute("thatBai", "Thêm đồ ăn thất bại !");
+            if (foodService.save(food) instanceof Food) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công");
+            } else {
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại");
             }
             model.addAttribute("food", new Food());
             model.addAttribute("currentPage", currentPage);
@@ -73,6 +75,7 @@ public class FoodAdminController {
         model.addAttribute("food", new Food());
         return "admin/food";
     }
+
     @GetMapping("/test")
     public String test() {
         return "admin/movie";
@@ -80,23 +83,36 @@ public class FoodAdminController {
 
     @GetMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu Food]")
-    public String delete(@PathVariable(name = "id") String id) {
-        foodService.delete(id);
+    public String delete(@PathVariable(name = "id") String id,RedirectAttributes ra) {
+
+        try {
+            foodService.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/food/find-all";
     }
 
-    @GetMapping("/update/{pageNumber}/{id}")
-    public String detailUpdateFood(Model model,
-                                   @PathVariable(name = "id") String id,
-                                   @PathVariable("pageNumber") Integer currentPage) {
+    //    @GetMapping("/update/{pageNumber}/{id}")
+//    public String detailUpdateFood(Model model,
+//                                   @PathVariable(name = "id") String id,
+//                                   @PathVariable("pageNumber") Integer currentPage) {
+//
+//        Page<Food> listFood = foodService.findAll(currentPage);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("totalPages", listFood.getTotalPages());
+//        model.addAttribute("totalItems", listFood.getTotalElements());
+//        model.addAttribute("food", foodService.findById(id));
+//        model.addAttribute("listFood", listFood.getContent());
+//        return "admin/food";
+//    }
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Food updatedRoom, RedirectAttributes ra) {
+        foodService.update(id, updatedRoom);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
 
-        Page<Food> listFood = foodService.findAll(currentPage);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", listFood.getTotalPages());
-        model.addAttribute("totalItems", listFood.getTotalElements());
-        model.addAttribute("food", foodService.findById(id));
-        model.addAttribute("listFood", listFood.getContent());
-        return "admin/food";
+        return "redirect:/food/find-all";   // Redirect to the promotion list page after update
     }
 
 }

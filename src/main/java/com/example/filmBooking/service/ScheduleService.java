@@ -20,6 +20,7 @@ public interface ScheduleService {
     String save(Schedule schedule);
 
     Schedule update(String id, Schedule schedule);
+    Schedule update1(String id, Schedule schedule);
 
     void delete(String id);
 

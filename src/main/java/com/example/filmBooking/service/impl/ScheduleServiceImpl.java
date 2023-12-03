@@ -163,6 +163,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public Schedule update1(String id, Schedule schedule) {
+        Schedule scheduleNew = findById(id);
+        scheduleNew.setPrice(schedule.getPrice());
+        return repository.save(scheduleNew);
+    }
+
+    @Override
     public Schedule findById(String id) {
         return repository.findById(id).get();
     }

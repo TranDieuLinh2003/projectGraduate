@@ -53,6 +53,39 @@
 <!--    <h3>Thêm đồ ăn thất bại</h3>-->
 <!--</div>-->
 <section class="food-html">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
+    <div th:if="${successMessage}" class="alert alert-success d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+            <use xlink:href="#check-circle-fill"/>
+        </svg>
+        <div>
+            <strong>[[${successMessage}]]</strong>
+            <button style="margin-left: 920px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center"
+         role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+
+        <div>
+            <strong>[[${errorMessage}]]</strong>
+            <button style="margin-left: 900px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    </div>
     <form th:action="@{/food/save/1}" th:object="${food}" class="form_add_promotion" method="post"
           enctype="multipart/form-data" id="yourForm">
         <input type="hidden" th:field="*{id}">
@@ -69,7 +102,7 @@
                 <div class="col">
                     <div class="input-box">
                         <label th:for="price">Giá đồ ăn</label>
-                        <input type="number" th:field="*{price}" id="price"/>
+                        <input type="number" th:field="*{price}" name="price" id="price"/>
                     </div>
                     <span id="priceFvl" style="color: red ; margin: 10px 0px 0px 0px"></span>
 
@@ -79,9 +112,9 @@
                 <div class="col">
                     <div class="input-box">
                         <label th:for="description">Mô tả</label>
-                        <input type="text" th:field="*{description}" id="description"/>
+                        <input type="text" th:field="*{description}" name="description" id="description"/>
                     </div>
-                    <!--                    <span id="descriptionFvl" style="color: red ; margin: 40px 0px 0px 0px" ></span>-->
+                    <span id="descriptionFvl" style="color: red ; margin: 40px 0px 0px 0px"></span>
                 </div>
                 <div class="col">
                     <div class="date">
@@ -110,7 +143,6 @@
             <thead>
             <tr>
                 <th scope="col">Hình ảnh</th>
-                <th scope="col">Mã đồ ăn</th>
                 <th scope="col">Tên đồ ăn</th>
                 <th scope="col">Giá đồ ăn</th>
                 <th scope="col">Mô tả</th>
@@ -127,9 +159,8 @@
                             height="60"
                     />
                 </th>
-                <th scope="col">[[${food.code}]]</th>
                 <td>[[${food.name}]]</td>
-                <td>[[${food.price}]]</td>
+                <td id="priceFood">[[${food.price}]]</td>
                 <td class="description">[[${food.description}]]</td>
                 <!--                <th scope="row">[[${{food.image}}]]</th>-->
                 <td>
@@ -138,9 +169,11 @@
                             <i class="bx bxs-trash"></i>
                         </button>
                     </a>
-                    <a th:href="@{'/food/update/' +${currentPage}+'/' + ${food.id}}">
-                        <button class="btn btn-outline-success" onclick="overLoad()">
-                           <i class='bx bxs-edit-alt'></i>
+                    <a>
+                        <button class="btn btn-outline-success"
+                                data-bs-toggle="modal"
+                                th:attr="data-bs-target='#exampleModal_' + ${food.id}">
+                            <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
                 </td>
@@ -181,6 +214,69 @@
         </nav>
     </div>
 </section>
+<th:block th:each="food : ${listFood}">
+    <div class="modal" th:attrappend="id='exampleModal_' + ${food.id}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết đồ ăn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3" th:object="${promotion}" th:action="@{/food/update/{id}(id=${food.id})}"
+                      method="post">
+                    <div class="col-md-6">
+                        <label class="form-label">Id</label>
+                        <input type="text" class="form-control" name="id" th:value="${food.id}"
+                               disabled
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mã đồ ăn</label>
+                        <input type="text" class="form-control" name="code" th:value="${food.code}"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tên đồ ăn</label>
+                        <input type="text" class="form-control" name="name" th:value="${food.name}"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Giá đồ ăn</label>
+                        <input type="number" class="form-control" name="price" th:value="${food.price}"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mô tả</label>
+                        <textarea class="form-control" name="description" th:text="${food.description}"
+                                  rows="3"></textarea>
+                    </div>
+                    <!--                    <div class="col-md-6">-->
+                    <!--                        <label  class="form-label">Ảnh</label>-->
+                    <!--                        <br>-->
+                    <!--                        <img th:if="${food.image}" th:src=" @{'http://localhost:8080/admin/assets/img/' + ${food.image}}" style="width:50px; height: 50px">-->
+
+                    <!--                        <input type="file" class="form-control-file"  name="image">-->
+                    <!--                    </div>-->
+                    <div class="col-md-6">
+                        <label class="form-label">Ảnh</label>
+                        <br>
+                        <img th:if="${food.image}"
+                             th:src=" @{'http://localhost:8080/admin/assets/img/' + ${food.image}}"
+                             style="width:50px; height: 50px">
+                        <input type="file" class="form-control-file" name="image">
+                        <input type="hidden" name="oldImage" th:if="${food.image}" th:value="${food.image}"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</th:block>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
@@ -207,4 +303,15 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    var priceElements = document.querySelectorAll("#priceFood");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function (element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+</script>
 </html>

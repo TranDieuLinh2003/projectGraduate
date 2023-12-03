@@ -100,7 +100,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    cu.id = :customerId\n" +
             "        AND b.status = 1\n" +
             "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
-            "ORDER BY b.date_create DESC;");
+            "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = bill, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomer(@Param("customerId") String customerId);
@@ -147,7 +147,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    cu.id = :customerId\n" +
             "        AND b.status = 0\n" +
             "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
-            "ORDER BY b.date_create DESC;");
+            "ORDER BY DATE(b.date_create)  DESC");
     @Query(value = billCho, nativeQuery = true)
     List<Object[]> findBillDetailsByCustomerCho(@Param("customerId") String customerId);
 
@@ -192,7 +192,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    b.id = :idBill\n" +
             "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, cu.name, cu.phone_number\n" +
-            "ORDER BY b.date_create DESC;");
+            "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billDetail, nativeQuery = true)
     List<Object[]> findBillDetailId(@Param("idBill") String idBill);

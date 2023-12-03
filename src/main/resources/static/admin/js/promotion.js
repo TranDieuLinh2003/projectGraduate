@@ -71,17 +71,6 @@ function validatePPromotion(event) {
         endDatePromotionErr.innerText = "";
     }
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thêm phiếu giảm giá thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
-        event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title: "Thêm phiếu giảm giá thành công"
-        })
-        document.getElementById('loading-overlay').style.display = 'flex';
+        event.preventDefault(); // This line prevents the default behavior without any visible indication
     }
 }

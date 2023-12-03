@@ -40,17 +40,7 @@ function validateRank(event){
         descriptionRankErr.innerText = "";
     }
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
+
         event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title:  "Thành công"
-        })
-        document.getElementById('loading-overlay').style.display = 'flex';
     }
 }

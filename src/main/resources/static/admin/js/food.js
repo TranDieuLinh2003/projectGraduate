@@ -29,6 +29,7 @@ function validateForm(event) {
     } else {
         nameError.innerText = "";
     }
+
     if (price.trim() === '') {
         priceErr.textContent = "Giá đồ ăn không được để trống !"
         isValid = false;
@@ -38,33 +39,20 @@ function validateForm(event) {
     } else {
         priceErr.innerText = "";
     }
-    // if (description.trim() === '') {
-    //     descriptionErr.textContent = "Mô tả không được để trống !"
-    //     isValid = false;
-    // } else {
-    //     descriptionErr.innerText = "";
-    // }
-    if (image.trim() === '') {
-        imageErr.textContent = "Hình ảnh không được để trống !"
+    if (description.trim() === '') {
+        descriptionErr.textContent = "Mô tả không được để trống !"
         isValid = false;
     } else {
-        imageErr.innerText = "";
+        descriptionErr.innerText = "";
     }
+    // if (image.trim() === '') {
+    //     imageErr.textContent = "Hình ảnh không được để trống !"
+    //     isValid = false;
+    // } else {
+    //     imageErr.innerText = "";
+    // }
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thêm đồ ăn thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
+
         event.preventDefault();
-    } else {
-        Toast.fire({
-            icon: "success",
-            title: "Thêm đồ ăn thành công"
-        }).then(function () {
-                window.location.reload();
-            }
-        );
-        document.getElementById('loading-overlay').style.display = 'flex';
     }
 }

@@ -20,11 +20,11 @@
 .text_cimena{
     margin: 0px 0px 40px 0px;
 }
-.search_cinema{
-    background-color: aqua;
+.search_customer{
+    background-color: #ebeeee;
     height: 50px;
     width: 600px;
-    margin: 0px 0px 30px 850px;
+    margin: 0px 0px 30px 537px;
     border-radius: 30px;
 }
 .search_cinema input{

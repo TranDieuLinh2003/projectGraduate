@@ -1,10 +1,7 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Movie;
-import com.example.filmBooking.model.Room;
-import com.example.filmBooking.model.Schedule;
+import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.MovieService;
@@ -103,40 +100,40 @@ public class ScheduleAdminController {
         return "admin/schedule";
     }
 
-    @PostMapping("/update/{pageNumber}")
-    @Operation(summary = "[Thêm mới]")
-    public String save(Model model,
-                       @RequestParam(name = "id") String id,
-                       @RequestParam(name = "room") Room room,
-                       @RequestParam(name = "movie") Movie movie,
-                       @RequestParam(name = "startAt") LocalDateTime startAt,
-                       @RequestParam(name = "finishAt") LocalDateTime finishAt,
-//                       @RequestParam(name = "time") LocalTime time,
-                       @RequestParam(name = "price") BigDecimal price,
-                       @PathVariable("pageNumber") Integer currentPage
-    )  {
-        try {
-            Schedule schedule = Schedule.builder()
-                    .id(id)
-                    .room(room)
-                    .movie(movie)
-                    .startAt(startAt)
-                    .finishAt(finishAt)
-                    .price(price)
-                    .build();
-            if (service.update(id, schedule) instanceof Schedule) {
-                model.addAttribute("thanhCong", "Sửa lịch chiếu thành công");
-            } else {
-                model.addAttribute("thatBai", "Sửa lịch chiếu thất bại");
-            }
-            model.addAttribute("currentPage", currentPage);
-            model.addAttribute("schedule", new Schedule());
-            return "redirect:/schedule/find-all";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "admin/schedule";
-        }
-    }
+//    @PostMapping("/update/{id}")
+//    @Operation(summary = "[Thêm mới]")
+//    public String save(Model model,
+//                       @RequestParam(name = "id") String id,
+//                       @RequestParam(name = "room") Room room,
+//                       @RequestParam(name = "movie") Movie movie,
+//                       @RequestParam(name = "startAt") LocalDateTime startAt,
+//                       @RequestParam(name = "finishAt") LocalDateTime finishAt,
+////                       @RequestParam(name = "time") LocalTime time,
+//                       @RequestParam(name = "price") BigDecimal price,
+//                       @PathVariable("pageNumber") Integer currentPage,
+//                       RedirectAttributes ra
+//    ) {
+//        try {
+//            Schedule schedule = Schedule.builder()
+//                    .id(id)
+//                    .room(room)
+//                    .movie(movie)
+//                    .startAt(startAt)
+//                    .finishAt(finishAt)
+//                    .price(price)
+//                    .build();
+//            if (service.update(id, schedule) instanceof Schedule) {
+//                ra.addFlashAttribute("successMessage", "Sửa lịch chiếu thành công");
+//            } else {
+//                ra.addFlashAttribute("errorMessage", "Sửa lịch chiếu thất bại");
+//            }
+////            model.addAttribute("schedule", new Schedule());
+//            return "redirect:/schedule/find-all";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "admin/schedule";
+//        }
+//    }
 
     @PostMapping("/batch-save/{pageNumber}")
     @Operation(summary = "[Thêm mới]")
@@ -174,5 +171,13 @@ public class ScheduleAdminController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("listSchedule", scheduleList);
         return "admin/update-schedule";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Schedule updatedRoom, RedirectAttributes ra) {
+        scheduleService.update1(id, updatedRoom);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+
+        return "redirect:/schedule/find-all";   // Redirect to the promotion list page after update
     }
 }
