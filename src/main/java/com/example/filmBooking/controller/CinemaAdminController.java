@@ -2,6 +2,7 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
 import com.example.filmBooking.model.Cinema;
+import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.service.CinemaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class CinemaAdminController {
     public String save(@RequestParam(name = "address") String address,
                        @RequestParam(name = "description") String description,
                        @RequestParam(name = "name") String name,
-                       @RequestParam(name = "id") String id,
+                       @RequestParam(name = "id") String id,RedirectAttributes ra,
                        Model model) {
         try {
             Cinema cinema = Cinema.builder()
@@ -47,38 +49,44 @@ public class CinemaAdminController {
                     .address(address)
                     .description(description)
                     .build();
-            if (service.save(cinema) instanceof Cinema){
-                model.addAttribute("thanhCong", "Thêm rạp thành công");
-            }else {
-                model.addAttribute("thatBai", "Thêm rạp thất bại");
+            if (service.save(cinema) instanceof Cinema) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
+            } else {
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại");
             }
             model.addAttribute("cinema", new Cinema());
             return "redirect:/cinema/find-all";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "admin/cinema";
         }
 
     }
 
-    @GetMapping("/update/{id}")
-    @Operation(summary = "[Chỉnh sửa]")
-    public String update(@PathVariable("id") String id, Model model) {
-        List<Cinema> listCinema = service.fillAll();
-        model.addAttribute("listCinema", listCinema);
-        model.addAttribute("cinema", service.findById(id));
-        return "admin/cinema";
-    }
+    //    @GetMapping("/update/{id}")
+//    @Operation(summary = "[Chỉnh sửa]")
+//    public String update(@PathVariable("id") String id, Model model) {
+//        List<Cinema> listCinema = service.fillAll();
+//        model.addAttribute("listCinema", listCinema);
+//        model.addAttribute("cinema", service.findById(id));
+//        return "admin/cinema";
+//    }
+
 
     @GetMapping("/delete/{id}")
     @Operation(summary = "[Xóa]")
-    public String delete(@PathVariable("id") String id) {
-        service.delete(id);
+    public String delete(@PathVariable("id") String id, RedirectAttributes ra) {
+        try {
+            service.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/cinema/find-all";
     }
 
     @GetMapping("/search-cinema")
-    public String searchCinema(Model model, @RequestParam("keyword") String keyword){
+    public String searchCinema(Model model, @RequestParam("keyword") String keyword) {
         List<Cinema> searcCinema = service.searchCinema(keyword);
         model.addAttribute("cinema", new Cinema());
         model.addAttribute("listCinema", searcCinema);

@@ -46,17 +46,6 @@ function validateFormRated(event) {
 
     // Nếu có bất kỳ lỗi nào, ngăn chặn sự kiện mặc định của form
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
         event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title: "Thành công"
-        })
-        document.getElementById('loading-overlay').style.display = 'flex';
     }
 }

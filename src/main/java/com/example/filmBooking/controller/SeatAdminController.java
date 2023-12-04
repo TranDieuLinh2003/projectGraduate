@@ -1,6 +1,7 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
+import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -54,19 +56,25 @@ public class SeatAdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") String id) {
-        seatService.delete(id);
+    public String delete(@PathVariable(name = "id") String id,RedirectAttributes ra) {
+
+        try {
+            seatService.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/seat/find-all";
     }
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public String save( Model model,@RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("room") Room room) {
+    public String save( Model model,@RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("room") Room room, RedirectAttributes ra) {
         try {
             if ( seatService.save(lineNumber, number, room) instanceof Seat){
-                model.addAttribute("thanhCong", "Thêm ghế thành công");
+                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
             }else {
-                model.addAttribute("thatBai", "Thêm ghế thất bại");
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại!!!");
             }
             model.addAttribute("seat", new Seat());
             return "redirect:/seat/find-all";
@@ -76,36 +84,41 @@ public class SeatAdminController {
         }
     }
 
-    @GetMapping("/update/{pageNumber}/{id}")
-    public String updateSeat(Model model, @PathVariable("id") String id, @PathVariable("pageNumber") Integer currentPage) {
-        model.addAttribute("seat", seatService.findById(id));
-        List<Room> getAll = roomService.fillAll();
-        model.addAttribute("listRoomId", getAll);
-        model.addAttribute("currentPage", currentPage);
-        return "admin/seat";
+//    @GetMapping("/update/{pageNumber}/{id}")
+//    public String updateSeat(Model model, @PathVariable("id") String id, @PathVariable("pageNumber") Integer currentPage) {
+//        model.addAttribute("seat", seatService.findById(id));
+//        List<Room> getAll = roomService.fillAll();
+//        model.addAttribute("listRoomId", getAll);
+//        model.addAttribute("currentPage", currentPage);
+//        return "admin/seat";
+//    }
+//
+//    @PostMapping("/update/{pageNumber}")
+//    public String update(Model model, @RequestParam("id") String id,
+//                         @RequestParam(name = "status") Integer status) {
+//        try {
+//            Seat seat = Seat.builder()
+//                    .id(id)
+//                    .status(status)
+//                    .build();
+//            if (seatService.update(id, seat) instanceof Seat) {
+//                model.addAttribute("thanhCong", "Sửa thành công");
+//            } else {
+//                model.addAttribute("thatBai", "Sửa thất bại");
+//            }
+//            return "redirect:/seat/find-all";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "admin/seat";
+//        }
+//    }
+
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Seat updatedRoom, RedirectAttributes ra) {
+        seatService.update(id, updatedRoom);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+        return "redirect:/seat/find-all";   // Redirect to the promotion list page after update
     }
-
-    @PostMapping("/update/{pageNumber}")
-    public String update(Model model, @RequestParam("id") String id,
-                         @RequestParam(name = "status") Integer status) {
-        try {
-            Seat seat = Seat.builder()
-                    .id(id)
-                    .status(status)
-                    .build();
-            if (seatService.update(id, seat) instanceof Seat) {
-                model.addAttribute("thanhCong", "Sửa thành công");
-            } else {
-                model.addAttribute("thatBai", "Sửa thất bại");
-            }
-            return "redirect:/seat/find-all";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "admin/seat";
-        }
-    }
-
-
     @GetMapping("/seat-manager")
     public String viewSeatCustomer() {
         return "admin/seat-manager";

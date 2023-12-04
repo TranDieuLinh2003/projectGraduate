@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -38,7 +39,7 @@ public class PromotionAdminController {
                                @RequestParam(name = "startDate") LocalDateTime startDate,
                                @RequestParam(name = "endDate") LocalDateTime endDate,
                                @RequestParam(name = "quantity") Integer quantity,
-                               @RequestParam(name = "description") String description
+                               @RequestParam(name = "description") String description, RedirectAttributes ra
     ) {
         try {
             Promotion promotion = Promotion.builder()
@@ -53,13 +54,14 @@ public class PromotionAdminController {
                     .endDate(endDate)
                     .quantity(quantity)
                     .build();
-            if (promotionService.save(promotion) instanceof Promotion){
-                model.addAttribute("thanhCong", "Thêm phiếu thành công");
-            }else {
-                model.addAttribute("thatBai", "Thêm phiếu thất bại");
+            if (promotionService.save(promotion) instanceof Promotion) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
+
+            } else {
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại!!!");
             }
             return "redirect:/promotion/find-all";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("promotion", new Promotion());
             return "admin/promotion";
@@ -67,39 +69,61 @@ public class PromotionAdminController {
 
     }
 
+//    @GetMapping("/find-all")
+//    public String viewPromotion(Model model) {
+//        return findAll(model, 1);
+//    }
+//
+//    @GetMapping("/find-all/page/{pageNumber}")
+//    public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage) {
+//        Page<Promotion> page = promotionService.getAll(currentPage);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        model.addAttribute("listPromotion", page.getContent());
+//        List<RankCustomer> rankCustomer = rankCustomerService.fillAll();
+//        model.addAttribute("rankCustomer", rankCustomer);
+//        model.addAttribute("promotion", new Promotion()); // bắt buộc. không có là lỗi
+//        return "admin/promotion";
+//    }
+
     @GetMapping("/find-all")
     public String viewPromotion(Model model) {
-        return findAll(model, 1);
-    }
-
-    @GetMapping("/find-all/page/{pageNumber}")
-    public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage) {
-        Page<Promotion> page = promotionService.getAll(currentPage);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listPromotion", page.getContent());
+        List<Promotion> listPromotion = promotionService.fillAll();
         List<RankCustomer> rankCustomer = rankCustomerService.fillAll();
         model.addAttribute("rankCustomer", rankCustomer);
-        model.addAttribute("promotion", new Promotion()); // bắt buộc. không có là lỗi
+        model.addAttribute("promotion", new Promotion());
+        model.addAttribute("listPromotion", listPromotion);
         return "admin/promotion";
     }
 
     @GetMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu promotion]")
-    public String delete(@PathVariable(name = "id") String id) {
+    public String delete(@PathVariable(name = "id") String id, RedirectAttributes ra) {
 
-        promotionService.delete(id);
-
+        try {
+            promotionService.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
         return "redirect:/promotion/find-all";
     }
 
-    @GetMapping("/update/{id}")
-    public String detailUpdatepromotion(Model model, @PathVariable(name = "id") String id) {
+//    @GetMapping("/update/{id}")
+//    public String updatePromotionForm(Model model, @PathVariable(name = "id") String id) {
+//        Promotion promotion = promotionService.findById(id);
+//        // Add any necessary data to the model for populating the update form
+//        model.addAttribute("promotion", promotion);  // Assuming there's a method to retrieve all promotions
+//
+//        return "redirect:/promotion/find-all";    }
 
-        model.addAttribute("detailPromotion", promotionService.findById(id));
-        model.addAttribute("promotion", new Promotion());
-        return "admin/promotion";
+    @PostMapping("/update/{id}")
+    public String updatePromotion(@PathVariable(name = "id") String id, Promotion updatedPromotion, RedirectAttributes ra) {
+        promotionService.update(id, updatedPromotion);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+
+        return "redirect:/promotion/find-all";   // Redirect to the promotion list page after update
     }
 
     @GetMapping("/findById/{pageNumber}/{id}")
@@ -117,16 +141,16 @@ public class PromotionAdminController {
 
     }
 
-    @GetMapping("/search-by-name-promotion/{pageNumber}")
-    public String searchPromotion(@RequestParam("keyword") String keyword, Model model, @PathVariable("pageNumber") Integer currentPage) {
-        Page<Promotion> page = promotionService.searchByNamePromotion(keyword, currentPage);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listPromotion", page.getContent());
-        model.addAttribute("promotion", new Promotion());
-        return "admin/promotion";
-    }
+//    @GetMapping("/search-by-name-promotion/{pageNumber}")
+//    public String searchPromotion(@RequestParam("keyword") String keyword, Model model, @PathVariable("pageNumber") Integer currentPage) {
+//        Page<Promotion> page = promotionService.searchByNamePromotion(keyword, currentPage);
+//        model.addAttribute("keyword", keyword);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        model.addAttribute("listPromotion", page.getContent());
+//        model.addAttribute("promotion", new Promotion());
+//        return "admin/promotion";
+//    }
 }
 

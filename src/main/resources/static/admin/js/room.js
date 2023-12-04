@@ -31,18 +31,7 @@ function validateFormRoom(event) {
 
     // Nếu có bất kỳ lỗi nào, ngăn chặn sự kiện mặc định của form
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Thêm phòng thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
-        event.preventDefault();
-    }else {
-            Toast.fire({
-                icon: "success",
-                title: "Thêm phòng thành công"
-            })
-        document.getElementById('loading-overlay').style.display = 'flex';
+        event.preventDefault(); // This line prevents the default behavior without any visible indication
     }
 }
 
@@ -75,17 +64,6 @@ function updateFormRoom(event){
         descriptionRoomErr.innerText = "";
     }
     if (!isValid) {
-        Toast.fire({
-            icon: "error",
-            title: "Sửa phòng thất bại"
-        });
-        document.getElementById('loading-overlay').style.display = 'none';
-        event.preventDefault();
-    }else {
-        Toast.fire({
-            icon: "success",
-            title: "Sửa phòng thành công"
-        })
-        document.getElementById('loading-overlay').style.display = 'flex';
+        event.preventDefault(); // This line prevents the default behavior without any visible indication
     }
 }
