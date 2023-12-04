@@ -51,25 +51,21 @@ public class MovieAdminController {
     @Operation(summary = "[Hiển thị tất cả]")
     public String findAll(Model model, @PathVariable("pageNumber") Integer pageNumber,
                           @Param("keyword") String keyword,
-                          @RequestParam(name = "status", required = false) String status) {
-        Page<Movie> page = service.getAll(pageNumber);
-        if (status != null && !status.isEmpty()) {
-            page = service.findAllByStatus("%" + keyword + "%", "%" + status + "%", pageNumber);
-        } else {
+                          @Param("status") String status) {
+        Page<Movie> page;
+        if (status != null && keyword != null) {
+            page = service.findAllByStatus(status, keyword, pageNumber);
+        }else {
             page = service.getAll(pageNumber);
         }
-
         model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listMovie", page.getContent());
-//        List<Movie> listMovie = service.findAll();
         List<Rated> ratedId = ratedService.fillAll();
-//        model.addAttribute("listMovie", listMovie);
         model.addAttribute("ratedId", ratedId);
-
         return "admin/movie";
     }
 
