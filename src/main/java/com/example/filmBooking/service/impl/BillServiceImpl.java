@@ -25,18 +25,6 @@ public class BillServiceImpl implements BillService {
     @Autowired
     private BillRepository repository;
 
-    @Autowired
-    private ScheduleServiceImpl scheduleRepository;
-
-    @Autowired
-    private CustomerServiceImpl customerService;
-
-    @Autowired
-    private BillTicketRepository billTicketRepository;
-
-    @Autowired
-    private TicketRepository ticketRepository;
-
     @Override
     public List<Bill> findAll() {
         return repository.findAll();

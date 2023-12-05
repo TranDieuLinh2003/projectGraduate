@@ -23,9 +23,6 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
 
     @Override
     public GeneralSetting save(GeneralSetting GeneralSetting) {
-//        Random generator = new Random();
-//        int value = generator.nextInt((100000 - 1) + 1) + 1;
-//        GeneralSetting.setCode("code_" + value);
         return repository.save(GeneralSetting);
     }
 
