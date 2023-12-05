@@ -201,7 +201,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<Movie> findAllByStatus(String name,String status, Integer pageable) {
-        return repository.findAllByStatusContainsOrStatusIsNullAndNameContainsOrNameIsNull(name, status, pageMovie(pageable));
+    public Page<Movie> findAllByStatus(String status,String keyword, Integer pageable) {
+        return repository.findAllByStatusAndName(status, keyword, pageMovie(pageable));
     }
 }
