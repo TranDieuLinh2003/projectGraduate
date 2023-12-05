@@ -42,23 +42,29 @@
     <div class="chartOne">
         <div id="myChart" style="width: 100%; height: 400px"></div>
     </div>
-    <form action="/home/tong-quan">
-        <label>Ngày bắt đầu:</label>
-        <input
-                type="date"
-                class="form-control"
-                name="startDate"
-                id="startDate"
-        />
-        <label>Ngày kết thúc:</label>
-        <input
-                type="date"
-                class="form-control"
-                name="endDate"
-                id="endDate"
-        />
-        <button type="submit" class="btn btn-success">Thống kê</button>
-    </form>
+    <div class="thong-ke-date">
+        <form action="/home/tong-quan">
+           <div class="flex_one">
+               <label for="startDate">Ngày bắt đầu:</label>
+               <input
+                       type="date"
+                       class="form-control"
+                       name="startDate"
+                       id="startDate"
+               />
+           </div>
+            <div class="flex_two">
+                <label for="endDate">Ngày kết thúc:</label>
+                <input
+                        type="date"
+                        class="form-control"
+                        name="endDate"
+                        id="endDate"
+                />
+            </div>
+            <button type="submit" class="btn btn-success">Thống kê</button>
+        </form>
+    </div>
     <div class="row">
         <div class="col-6">
             <div class="bieu-do-tron">
