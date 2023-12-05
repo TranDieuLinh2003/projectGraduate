@@ -34,7 +34,7 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
                                  Integer percentDay,
                                  Integer percentWeekend,
                                  Integer breakTime,
-                                 Integer waitingTime
+                                 Integer waitingTime,Integer confirmationWaitingTime
     ) {
         GeneralSetting generalSettingNew = findById("hihi");
         generalSettingNew.setTimeBeginsToChange(timeBeginsToChange);
@@ -45,6 +45,7 @@ public class GeneralSettingServiceImpl implements GeneralSettingService {
         generalSettingNew.setPercentDay(percentDay);
         generalSettingNew.setPercentWeekend(percentWeekend);
         generalSettingNew.setWaitingTime(waitingTime);
+        generalSettingNew.setConfirmationWaitingTime(confirmationWaitingTime);
         return repository.save(generalSettingNew);
     }
 

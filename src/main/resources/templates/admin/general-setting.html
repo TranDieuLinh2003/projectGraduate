@@ -67,7 +67,7 @@
             </div>
             <span id="show_time_giao_err" style="color: red"></span>
             <div class="input-box">
-                <label for="payment_time">Thời gian chờ thanh toán:</label>
+                <label for="payment_time">Thời gian thao tác đặt vé:</label>
                 <input type="number" id="payment_time" th:field="*{waitingTime}"><br>
             </div>
             <span id="payment_time_err" style="color: red"></span>
@@ -85,6 +85,10 @@
             <div class="input-box">
                 <label for="weekday_price_increase">Phần trăm tăng giá ngày thường:</label>
                 <input type="number" id="weekday_price_increase" th:field="*{percentDay}"><br>
+            </div>
+            <div class="input-box">
+                <label for="weekday_price_increase">Thời gian chờ xác nhận hóa đơn:</label>
+                <input type="number"  th:field="*{confirmationWaitingTime}"><br>
             </div>
             <span id="weekday_price_increase_err" style="color: red"></span>
 <!--            <span ></span>-->
