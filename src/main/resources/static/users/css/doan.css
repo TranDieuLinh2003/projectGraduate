@@ -700,7 +700,7 @@ a:hover {
 }
 
 .accordion[open] {
-    height: 330px;
+    height: 550px;
 }
 
 /* remove marker */

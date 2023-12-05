@@ -76,8 +76,10 @@
                     aria-label="Close"></button>
         </div>
     </div>
+    <h2>QUẢN LÝ RATED</h2>
+    <hr>
     <form th:action="@{/rated/search-rated}" method="get" th:object="${rated}">
-        <div class="search_cinema">
+        <div class="search_customer">
             <input type="text" name="keycode" placeholder="Tìm kiếm rated"/>
             <button type="submit"><i class="bx bx-search-alt-2"></i></button>
         </div>
@@ -148,7 +150,7 @@
                 </div>
                 <form class="row g-3" th:object="${rated}" th:action="@{/rated/update/{id}(id=${rated.id})}"
                       method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="id" th:value="${rated.id}"
                                disabled
@@ -167,8 +169,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>

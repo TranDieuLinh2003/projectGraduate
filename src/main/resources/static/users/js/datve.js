@@ -855,6 +855,26 @@ document.getElementsByName("time")[0].value = time;
 var timetime = document.getElementById("giochieu").textContent;
 document.getElementsByName("timetime")[0].value = timetime;
 
+let searchInput = document.getElementById('voucherSearchInput');
+
+// Add event listener for the input event
+searchInput.addEventListener('input', function() {
+    let filter = searchInput.value.toUpperCase();
+    let table = document.querySelector('.tablee');
+    let tr = table.getElementsByTagName('tr');
+
+    for (let i = 0; i < tr.length; i++) {
+        let td = tr[i].getElementsByTagName('td')[0];
+        if (td) {
+            let textValue = td.textContent || td.innerText;
+            if (textValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+});
 
 
 

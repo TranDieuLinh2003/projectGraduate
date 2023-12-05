@@ -80,6 +80,8 @@
                     aria-label="Close"></button>
         </div>
     </div>
+    <h2>QUẢN LÝ KHUYẾN MÃI</h2>
+    <hr>
     <form th:action="@{/promotion/save}" th:object="${promotion}" method="post" class="form_add_promotion">
         <div class="promotion_input">
             <input type="hidden" th:field="*{id}">
@@ -188,7 +190,7 @@
         <div class="form_search_movie">
             <div class="input-box-1">
                 <input type="text" id="searchInput"
-                       placeholder="Search.."/>
+                       placeholder="Tìm kiếm khuyến mãi"/>
                 <button type="submit"><i class="bx bx-search-alt-2"></i></button>
             </div>
         </div>
@@ -264,7 +266,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="row g-3" th:object="${promotion}" th:action="@{/promotion/update/{id}(id=${promotion.id})}" method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="ID" th:value="${promotion.id}"
                                disabled
@@ -321,9 +323,8 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
-
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
                     </div>
                 </form>
 

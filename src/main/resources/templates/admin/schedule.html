@@ -67,6 +67,8 @@
             <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
+    <h2>QUẢN LÝ SUẤT CHIẾU</h2>
+    <hr>
     <div class="row">
         <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat">
             <div class="row">
@@ -326,7 +328,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="row g-3" th:object="${schedule}" th:action="@{/schedule/update/{id}(id=${schedule.id})}" method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="id" th:value="${schedule.id}"
                                disabled
@@ -364,8 +366,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>

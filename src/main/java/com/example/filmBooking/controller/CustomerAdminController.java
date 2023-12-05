@@ -2,6 +2,7 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/customer")
@@ -21,6 +26,9 @@ public class CustomerAdminController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private BillRepository repository;
 
     @GetMapping("/find-all")
     public String viewCustomer(Model model){
@@ -71,7 +79,6 @@ public class CustomerAdminController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable(name = "id") String id, RedirectAttributes ra){
-
         try {
             customerService.delete(id);
             ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
@@ -101,4 +108,34 @@ public class CustomerAdminController {
 
         return "redirect:/cinema/find-all";   // Redirect to the promotion list page after update
     }
+
+    @GetMapping("/detail/{id}")
+    public String detailBill(Model model, @PathVariable("id") String id) {
+        List<Object[]> detailBill = repository.findBillDetailsByCustomerbillCustomer(id);
+        Map<String, List<Object[]>> groupedBillDetails = detailBill.stream()
+                .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
+
+// Separate unique and duplicate records
+        Map<String, List<Object[]>> uniqueRecords = new HashMap<>();
+        Map<String, List<Object[]>> duplicateRecords = new HashMap<>();
+        groupedBillDetails.forEach((transactionId, details) -> {
+            if (details.size() > 1) {
+                duplicateRecords.put(transactionId, details);
+            } else {
+                uniqueRecords.put(transactionId, details);
+            }
+        });
+        uniqueRecords.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        duplicateRecords.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        model.addAttribute("groupedBillDetails", groupedBillDetails);
+
+        return "admin/chitietkhachhang";
+    }
+
 }

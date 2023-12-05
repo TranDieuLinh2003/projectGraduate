@@ -91,9 +91,32 @@ public class ThongTinController {
         duplicateRecordsCho.forEach((transactionId, details) -> {
             details.forEach(detail -> System.out.println(Arrays.toString(detail)));
         });
+        // bill huy
+        List<Object[]> listBillHuy = billRepository.findBillDetailsByCustomerHuy(customer.getId());
+        Map<String, List<Object[]>> groupedBillDetailsHuy = listBillHuy.stream()
+                .collect(Collectors.groupingBy(bill -> (String) bill[0])); // Assuming the transaction ID is at index 0 in the Object array
+
+
+        Map<String, List<Object[]>> uniqueRecordsHuy = new HashMap<>();
+        Map<String, List<Object[]>> duplicateRecordsHuy = new HashMap<>();
+        groupedBillDetailsCho.forEach((transactionId, details) -> {
+            if (details.size() > 1) {
+                uniqueRecordsHuy.put(transactionId, details);
+            } else {
+                duplicateRecordsHuy.put(transactionId, details);
+            }
+        });
+        uniqueRecordsHuy.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
+
+        duplicateRecordsHuy.forEach((transactionId, details) -> {
+            details.forEach(detail -> System.out.println(Arrays.toString(detail)));
+        });
         model.addAttribute("customer", customer);
         model.addAttribute("groupedBillDetails", groupedBillDetails);
         model.addAttribute("groupedBillDetailsCho", groupedBillDetailsCho);
+        model.addAttribute("groupedBillDetailsHuy", groupedBillDetailsHuy);
         model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
         return "users/ThongTinCaNhan";
     }

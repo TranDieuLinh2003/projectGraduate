@@ -38,6 +38,8 @@
 <body>
 <div th:replace="~{/layout/header-admin :: header}"></div>
 <section class="bill-html">
+    <h2>QUẢN LÝ HÓA ĐƠN</h2>
+    <hr>
     <div class="add-movie-button">
         <a th:href="@{/bill/xac-nhan}" onclick="overLoad()">
             <button type="button" class="btn btn-outline-success">Hóa đơn chờ <span class="badge text-bg-secondary">[[${soldTicketsCount}]]</span>
@@ -71,7 +73,7 @@
                                 </div>
                                 <div class="flex" style="display: none">
                                     <div class="input-container">
-                                        <label>Nhập mã gia dịch</label>
+                                        <label>Nhập mã giao dịch</label>
                                         <input type="text" name="status" value="1">
                                     </div>
 
