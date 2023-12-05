@@ -28,3 +28,24 @@
     margin:0px 15px 0px 0px;
     box-shadow: 0px 0px 10px 4px #d2d2d2;
 }
+.thong-ke-date{
+    margin: 30px 30px 30px 40px;
+    /* width:400px; */
+}
+.thong-ke-date form{
+    display:flex;
+}
+.thong-ke-date form input{
+    border:1px solid darkgrey
+}
+.thong-ke-date button{
+    margin:20px;
+}
+.thong-ke-date .flex_one{
+    width:690px;
+    margin: 0px 0px 0px 10px
+}
+.thong-ke-date .flex_two{
+    width: 690px;
+    margin: 0px 0px 0px 10px
+}
