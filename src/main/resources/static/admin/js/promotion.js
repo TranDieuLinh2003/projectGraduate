@@ -38,8 +38,8 @@ function validatePPromotion(event) {
     if (percentPromotion.trim() === ''){
         percentPromotionErr.textContent = "Phần trăm không được để trống !";
         isValid = false;
-    }else if(isNaN(percentPromotion) || percentPromotion < 0){
-        percentPromotionErr.textContent = "Phần trăm không được âm !";
+    }else if(isNaN(percentPromotion) || percentPromotion < 0 || percentPromotion > 100){
+        percentPromotionErr.textContent = "Phần trăm phải nằm trong khoảng từ 0 đến 100!";
         isValid = false;
     }
     else{
