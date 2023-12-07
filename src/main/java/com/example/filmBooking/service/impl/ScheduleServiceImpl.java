@@ -406,8 +406,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Integer currentPage) {
-        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, status, pageSchedule(currentPage));
+    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage) {
+        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, pageSchedule(currentPage));
     }
 
     public void autoSave(String idSchedule) {

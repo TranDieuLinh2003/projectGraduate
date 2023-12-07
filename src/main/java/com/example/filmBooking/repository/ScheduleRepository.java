@@ -101,10 +101,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
             "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
             "AND ((?3 is NULL) OR (s.movie.name like ?3)) " +
-            "AND((?6 is NULL) OR (s.status like ?6))" +
             "ORDER BY s.startAt ASC"
     )
-    Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Pageable pageable);
+    Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Pageable pageable);
 
     List<Schedule> findAllByStatus(String status);
 
