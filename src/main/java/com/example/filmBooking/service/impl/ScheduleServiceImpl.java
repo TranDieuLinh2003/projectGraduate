@@ -1,14 +1,9 @@
 package com.example.filmBooking.service.impl;
 
-import com.example.filmBooking.model.GeneralSetting;
-import com.example.filmBooking.model.Movie;
-import com.example.filmBooking.model.Room;
-import com.example.filmBooking.model.Schedule;
-import com.example.filmBooking.repository.GeneralSettingRepository;
-import com.example.filmBooking.repository.MovieRepository;
-import com.example.filmBooking.repository.RoomRepository;
-import com.example.filmBooking.repository.ScheduleRepository;
+import com.example.filmBooking.model.*;
+import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.ScheduleService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,10 +18,6 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.example.filmBooking.model.Seat;
-import com.example.filmBooking.model.Ticket;
-import com.example.filmBooking.repository.SeatRepository;
-import com.example.filmBooking.repository.TicketRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +42,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private BillRepository billRepository;
 
     @Override
     public List<Schedule> findAll() {
@@ -124,7 +121,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
             long dateFinishAt = zdt2.toInstant().toEpochMilli();
 
-            if (dateStartAt > date) {
+
+            if (schedule.getStatus().equals("Hủy")) {
+                schedule.setStatus("Hủy");
+                repository.save(schedule);
+            } else if (dateStartAt > date) {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
             } else if (dateFinishAt <= date) {
@@ -167,8 +168,57 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule scheduleNew = findById(id);
         scheduleNew.setPrice(schedule.getPrice());
         scheduleNew.setStatus(schedule.getStatus());
+        if (scheduleNew.getStatus().equals("Hủy")) {
+            updateTicket(id);
+            updatePointCustomer(id);
+            return repository.save(scheduleNew);
+        } else if (scheduleNew.getStatus().equals("Sắp chiếu")) {
+            updateTicket2(id);
+            return repository.save(scheduleNew);
+        }
+        return null;
+    }
 
-        return repository.save(scheduleNew);
+    // cập nhật vé khi suất chiếu bị hủy
+    private void updateTicket(String scheduleId) {
+        List<Ticket> ticketList = new ArrayList<>();
+        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)
+        ) {
+            ticket.setStatus("Bị hủy do rạp");
+            ticketList.add(ticket);
+        }
+        ticketRepository.saveAll(ticketList);
+    }
+
+    private void updateTicket2(String scheduleId) {
+        List<Ticket> ticketList = new ArrayList<>();
+        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)
+        ) {
+            ticket.setStatus("Chưa bán");
+            ticketList.add(ticket);
+        }
+        ticketRepository.saveAll(ticketList);
+    }
+
+    // trả điểm cho khách hàng khi suất chiếu bị hủy
+    private void updatePointCustomer(String scheduleId) {
+        List<String> listBillId = repository.findBillByStatusSchedule(scheduleId);
+        for (String id : listBillId
+        ) {
+            Bill bill = billRepository.findById(id).get();
+            Customer customer = bill.getCustomer();
+            System.out.println(customer.getName() + " điểm cũ: " + customer.getPoint());
+            BigDecimal totalMoney = bill.getTotalMoney();
+            Integer pointsCompensationPercentage = findByIdSetting().getPointsCompensationPercentage();
+            System.out.println("số phần trăm cộng thêm:  " + pointsCompensationPercentage);
+            System.out.println("Tổng tiền: " + totalMoney.intValue());
+            Integer point = totalMoney.intValue() * pointsCompensationPercentage / 100;
+            System.out.println(" số điểm cộng thêm: " + point);
+            Integer point2 = customer.getPoint() + point;
+            System.out.println("Điểm mới của khách hàng: " + point2);
+            customer.setPoint(point2);
+            customerRepository.save(customer);
+        }
     }
 
     @Override
@@ -340,7 +390,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> getSchedule1( String movieName, String startAt, String nameRoom) {
+    public List<Schedule> getSchedule1(String movieName, String startAt, String nameRoom) {
         return repository.getSchedule1(movieName, startAt, nameRoom);
     }
 
@@ -356,8 +406,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage) {
-        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, pageSchedule(currentPage));
+    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Integer currentPage) {
+        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, status, pageSchedule(currentPage));
     }
 
     public void autoSave(String idSchedule) {

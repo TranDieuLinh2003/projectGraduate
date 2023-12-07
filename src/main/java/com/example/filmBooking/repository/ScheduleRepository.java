@@ -1,5 +1,6 @@
 package com.example.filmBooking.repository;
 
+import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import org.springframework.data.domain.Page;
@@ -100,12 +101,19 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
             "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
             "AND ((?3 is NULL) OR (s.movie.name like ?3)) " +
+            "AND((?6 is NULL) OR (s.status like ?6))" +
             "ORDER BY s.startAt ASC"
     )
-    Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Pageable pageable);
+    Page<Schedule> searchBySchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Pageable pageable);
 
     List<Schedule> findAllByStatus(String status);
 
-//    Page<Schedule> findByNameContains(String keyword, Pageable pageable);
+    @Query(value = "SELECT DISTINCT b.id " +
+            "FROM bill b " +
+            "INNER JOIN bill_ticket bt ON b.id = bt.bill_id " +
+            "INNER JOIN ticket t ON bt.ticket_id = t.id " +
+            "INNER JOIN schedule s ON t.schedule_id = s.id " +
+            "WHERE s.id = ?1 and b.status ='1' ", nativeQuery = true)
+    List<String> findBillByStatusSchedule(String scheduleId);
 }
 
