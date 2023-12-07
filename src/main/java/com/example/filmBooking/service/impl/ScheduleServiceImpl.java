@@ -280,9 +280,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> generateSchedule(List<String> listRoom, List<String> listMovieId, LocalDateTime startTime, LocalDateTime endTime) {
-//        List<Room> roomList = roomRepository.findAll();
         boolean shouldContinue = true;
-//        Room room= roomRepository.findById("34cc1dc8-2b44-4f98-ac4a-acf0b1cc9b33").get();
         for (String roomId : listRoom
         ) {
             Room room = roomRepository.findById(roomId).get();

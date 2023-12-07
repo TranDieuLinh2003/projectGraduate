@@ -39,8 +39,12 @@ public class BillServiceImpl implements BillService {
         return repository.save(bill);
     }
 
+
+
+//    @Scheduled(fixedRate = 60000)
     @Async
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 0 8-23 * * *") // Chạy từ 8 giờ đến 23 giờ
+    @Scheduled(cron = "0 0 0-2 * * *") // Chạy từ 0 giờ đến 2 giờ
     public void updateBill(){
         for (Bill bill: findStatusZero2()
              ) {
