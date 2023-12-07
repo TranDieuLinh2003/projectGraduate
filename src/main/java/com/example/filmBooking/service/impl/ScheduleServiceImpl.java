@@ -10,12 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.springframework.data.domain.Page;
@@ -51,7 +47,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findAll() {
-        // generateSchedule();
         return repository.findAllByOrderByStartAtAsc();
     }
 
@@ -68,12 +63,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
         schedule.setCode("SCD" + value);
-//        System.out.println("hihihi"+);
         // lấy thông tin phim của suất chiếu
         Movie movie = movieRepository.findById(schedule.getMovie().getId()).get();
         // lấy thông tin phòng chiếu
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
-        System.out.println(room);
         //tạo tên suất chiếu = tên phim + tên phòng
         schedule.setName(movie.getName() + "__" + room.getName());
         // tính thời gian kết thúc = thời gian bắt đầu+ thời lượng phim(phút*60000= millisecond) + 900000(15 phút)
@@ -87,9 +80,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
         String id = null;
-        if (checkScheduleConflict(schedule, schedule.getRoom().getId())
-                && timeSchedule(schedule, findByIdSetting().getBusinessHours(), findByIdSetting().getCloseTime())
-                && dateSchedule(schedule.getMovie().getId(), schedule)) {
+        if (checkScheduleConflict(schedule, schedule.getRoom().getId()) && timeSchedule(schedule, findByIdSetting().getBusinessHours(), findByIdSetting().getCloseTime()) && dateSchedule(schedule.getMovie().getId(), schedule)) {
             // Lưu suất chiếu mới vào cơ sở dữ liệu
             id = repository.save(schedule).getId();
             autoSave(id);
@@ -102,7 +93,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     }
 
-    //    @Async
+    @Async
     @Scheduled(fixedRate = 60000)
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
@@ -148,7 +139,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setName(schedule.getName());
         scheduleNew.setStartAt(schedule.getStartAt());
         scheduleNew.setPrice(schedule.getPrice());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         //lấy thời gian bắt đầu
         LocalDateTime startAt = schedule.getStartAt();
         //lấy thời gian kết thúc
@@ -182,8 +172,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     // cập nhật vé khi suất chiếu bị hủy
     private void updateTicket(String scheduleId) {
         List<Ticket> ticketList = new ArrayList<>();
-        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)
-        ) {
+        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)) {
             ticket.setStatus("Bị hủy do rạp");
             ticketList.add(ticket);
         }
@@ -192,8 +181,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private void updateTicket2(String scheduleId) {
         List<Ticket> ticketList = new ArrayList<>();
-        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)
-        ) {
+        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)) {
             ticket.setStatus("Chưa bán");
             ticketList.add(ticket);
         }
@@ -203,8 +191,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     // trả điểm cho khách hàng khi suất chiếu bị hủy
     private void updatePointCustomer(String scheduleId) {
         List<String> listBillId = repository.findBillByStatusSchedule(scheduleId);
-        for (String id : listBillId
-        ) {
+        for (String id : listBillId) {
             Bill bill = billRepository.findById(id).get();
             Customer customer = bill.getCustomer();
             System.out.println(customer.getName() + " điểm cũ: " + customer.getPoint());
@@ -331,8 +318,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> generateSchedule(List<String> listRoom, List<String> listMovieId, LocalDateTime startTime, LocalDateTime endTime) {
         boolean shouldContinue = true;
-        for (String roomId : listRoom
-        ) {
+        for (String roomId : listRoom) {
             Room room = roomRepository.findById(roomId).get();
             LocalDateTime currentStartTime = startTime;
             LocalDateTime currentEndTime = null;
