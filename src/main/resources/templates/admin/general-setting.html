@@ -90,6 +90,14 @@
                 <label for="weekday_price_increase">Thời gian chờ xác nhận hóa đơn:</label>
                 <input type="number"  th:field="*{confirmationWaitingTime}"><br>
             </div>
+            <div class="input-box">
+                <label for="weekday_price_increase">Phân trăm cộng điểm của tổng hóa đơn:</label>
+                <input type="number"  th:field="*{percentagePlusPoints}"><br>
+            </div>
+            <div class="input-box">
+                <label for="weekday_price_increase">Phân trăm cộng điểm khi hóa đơn bị hủy:</label>
+                <input type="number"  th:field="*{pointsCompensationPercentage}"><br>
+            </div>
             <span id="weekday_price_increase_err" style="color: red"></span>
 <!--            <span ></span>-->
         </th:block>

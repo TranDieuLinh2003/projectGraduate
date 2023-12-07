@@ -22,4 +22,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     List<Customer> findByPromotion (String idPromotion);
 
     Page<Customer> findByNameContains(String keyword, Pageable pageable);
+
+    @Query("SELECT c.point FROM Customer c WHERE c.id = :customerId")
+    Integer findPointById(@Param("customerId") String customerId);
 }
