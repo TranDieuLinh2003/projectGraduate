@@ -166,6 +166,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Schedule update1(String id, Schedule schedule) {
         Schedule scheduleNew = findById(id);
         scheduleNew.setPrice(schedule.getPrice());
+        scheduleNew.setStatus(schedule.getStatus());
+
         return repository.save(scheduleNew);
     }
 
