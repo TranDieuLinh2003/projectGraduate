@@ -39,7 +39,7 @@ public interface ScheduleService {
 
     Pageable pageSchedule(Integer pageNumber);
     
-    Page<Schedule> searchSchedule (String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage);
+    Page<Schedule> searchSchedule (String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Integer currentPage);
 
     List<Schedule> generateSchedule(List<String> listRoom, List<String> listMovie, LocalDateTime startTime, LocalDateTime endTime);
 
