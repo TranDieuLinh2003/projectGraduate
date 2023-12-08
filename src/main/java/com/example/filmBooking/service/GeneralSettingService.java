@@ -19,7 +19,10 @@ public interface GeneralSettingService {
                           Integer percentDay,
                           Integer percentWeekend,
                           Integer breakTime,
-                          Integer waitingTime);
+                          Integer waitingTime,
+                          Integer confirmationWaitingTime,
+                          Integer percentagePlusPoints,
+                          Integer pointsCompensationPercentage);
 
     void delete(String id);
 

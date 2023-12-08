@@ -16,6 +16,7 @@
 <div>
     <form id="searchForm">
         <select size="1" id="name" name="name">
+            <option value="">-- Chọn rạp --</option>
             <option th:each="cinema : ${listcinema}" th:value="${cinema.name}" th:text="${cinema.name}"></option>
         </select>
         <!---->

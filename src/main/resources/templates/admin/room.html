@@ -73,6 +73,8 @@
             <button style="margin-left: 935px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
+    <h2>QUẢN LÝ ĐỒ PHÒNG CHIẾU</h2>
+    <hr>
     <div class="room_add_all">
         <form th:action="@{/room/save}" method="post" class="form_add_room">
             <div class="seat_input">
@@ -117,7 +119,7 @@
     <form th:action="@{/room/find-all/page/1}" method="get" th:object="${room}">
         <div class="search_customer" style="margin-right: 130px">
             <input type="text" name="keyword" id="searchIn"
-                   placeholder="Tìm kiếm phòng chiếu.."/>
+                   placeholder="Tìm kiếm phòng chiếu"/>
             <button type="submit"><i class="bx bx-search-alt-2" onclick="overLoad()"></i></button>
         </div>
     </form>
@@ -197,7 +199,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="row g-3" th:object="${room}" th:action="@{/room/update/{id}(id=${room.id})}" method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="ID" th:value="${room.id}"
                                disabled
@@ -238,8 +240,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>

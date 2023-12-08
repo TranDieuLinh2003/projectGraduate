@@ -2,6 +2,7 @@ package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.CustomerRepository;
+import com.example.filmBooking.repository.GeneralSettingRepository;
 import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.impl.VNPayService;
 import com.example.filmBooking.service.impl.*;
@@ -59,7 +60,8 @@ public class VNPAYController {
     @Autowired
     private CustomerRepository customerRepository;
 
-
+    @Autowired
+    private GeneralSettingRepository generalSettingRepository;
     @GetMapping("/index")
     public String home() {
         return "users/orderfail";
@@ -130,7 +132,10 @@ public class VNPAYController {
         Customer customer = (Customer) session.getAttribute("customer");
         bill.setCustomer(customer);
         bill.setTotalMoney(orderTotalDecimal);
-        BigDecimal phantram = BigDecimal.valueOf(0.05);
+
+        Integer percentagePlusPoints = generalSettingRepository.findPercentagePlusPoints();
+
+        BigDecimal phantram = BigDecimal.valueOf(percentagePlusPoints).divide(BigDecimal.valueOf(100));
         BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
         if (selectedPromition == null) {

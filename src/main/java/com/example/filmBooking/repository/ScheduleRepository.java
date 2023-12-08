@@ -1,5 +1,6 @@
 package com.example.filmBooking.repository;
 
+import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import org.springframework.data.domain.Page;
@@ -106,6 +107,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     List<Schedule> findAllByStatus(String status);
 
-//    Page<Schedule> findByNameContains(String keyword, Pageable pageable);
+    @Query(value = "SELECT DISTINCT b.id " +
+            "FROM bill b " +
+            "INNER JOIN bill_ticket bt ON b.id = bt.bill_id " +
+            "INNER JOIN ticket t ON bt.ticket_id = t.id " +
+            "INNER JOIN schedule s ON t.schedule_id = s.id " +
+            "WHERE s.id = ?1 and b.status ='1' ", nativeQuery = true)
+    List<String> findBillByStatusSchedule(String scheduleId);
 }
 

@@ -55,8 +55,16 @@ public class GeneralSetting {
 
     @Column(name = "waiting_time")
     private Integer waitingTime;
-    
+
     //thời gian chờ xác nhận
     @Column(name = "confirmation_waiting_time")
     private Integer confirmationWaitingTime;
+
+    //Phần trăm cộng điểm khi khách hoàn thành đơn hàng
+    @Column(name = "percentage_plus_points")
+    private Integer percentagePlusPoints;
+
+    //Phần trăm ộng điểm khi đơn hàng bị hủy do lỗi của rạp
+    @Column(name = "points_compensation_percentage")
+    private Integer pointsCompensationPercentage;
 }

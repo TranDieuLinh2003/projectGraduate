@@ -57,7 +57,8 @@
                 </form>
             </div>
             <input type="radio" name="tabs" id="tabtwo">
-            <label for="tabtwo">Hóa đơn chờ xác nhận <span style="color: red;font-size: 15px;width: 25px; height: 25px" class="badge1 text-bg-secondary">[[${soldTicketsCountBill}]]</span></label>
+            <label for="tabtwo">Hóa đơn chờ xác nhận <span style="color: red;font-size: 15px;width: 25px; height: 25px"
+                                                           class="badge1 text-bg-secondary">[[${soldTicketsCountBill}]]</span></label>
             <div class="tab" id="hanhchinhdienanh1">
                 <table>
                     <thead>
@@ -69,7 +70,7 @@
                         <th>Ghế đã đặt</th>
                         <th>Đồ ăn</th>
                         <th>Ngày đặt</th>
-                        <th>Trạng thái </th>
+                        <th>Trạng thái</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,7 +85,7 @@
                                 </li>
                             </ul>
                         </td>
-                        <td >
+                        <td>
                             <ul>
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
@@ -99,7 +100,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[3]}">Detail 1</span>,
-                                    <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <span th:text="${detail[10]}">Detail 1</span>
                                     <!-- Add more spans for other details -->
                                 </li>
                             </ul>
@@ -118,7 +119,8 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[5]}">Detail 1</span>
-                                    (<span th:text="${detail[6]}">Detail 1</span>)<hr>
+                                    (<span th:text="${detail[6]}">Detail 1</span>)
+                                    <hr>
                                     <b>Tổng tiền:</b>
                                     <span id="priceCho1" th:text="${detail[6]*detail[9]}">Detail 1</span>
                                     <!-- Add more spans for other details -->
@@ -130,7 +132,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[7]}">Detail 1</span>
-                                                              </li>
+                                </li>
                             </ul>
                         </td>
                         <td>
@@ -138,7 +140,9 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
-                                    <!-- Add more spans for other details -->
+                                    <hr>
+                                    + <span id="poinn" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
+
                                 </li>
                             </ul>
                         </td>
@@ -198,7 +202,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[3]}">Detail 1</span>,
-                                    <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <span th:text="${detail[10]}">Detail 1</span>
                                     <!-- Add more spans for other details -->
                                 </li>
                             </ul>
@@ -217,7 +221,8 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[5]}">Detail 1</span>
-                                    (<span th:text="${detail[6]}">Detail 1</span>)<hr>
+                                    (<span th:text="${detail[6]}">Detail 1</span>)
+                                    <hr>
                                     <b>Tổng tiền:</b>
                                     <span id="price" th:text="${detail[6]*detail[9]}">Detail 1</span>
                                     <!-- Add more spans for other details -->
@@ -238,11 +243,115 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
-                                    <!-- Add more spans for other details -->
+                                    <hr>
+                                    + <span id="poin" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
                                 </li>
                             </ul>
                         </td>
 
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <input type="radio" name="tabs" id="tabfor">
+            <label for="tabfor">Hóa đơn đã hủy</label>
+            <div class="tab" id="hanhchinhdienanh3">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã giao dịch</th>
+                        <th>Phim</th>
+                        <th>Rạp/phòng chiếu</th>
+                        <th>Suất chiếu</th>
+                        <th>Ghế đã đặt</th>
+                        <th>Đồ ăn</th>
+                        <th>Ngày đặt</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${groupedBillDetailsHuy}">
+                        <!--                    <td th:text="${entry}">Transaction ID</td>-->
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[0]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[1]}">Detail 1</span><br>
+                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[3]}">Detail 1</span>,
+                                    <span th:text="${detail[10]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[4], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[5]}">Detail 1</span>
+                                    (<span th:text="${detail[6]}">Detail 1</span>)
+                                    <hr>
+                                    <b>Tổng tiền:</b>
+                                    <span id="priceHuy" th:text="${detail[6]*detail[9]}">Detail 1</span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[7]}">Detail 1</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+                                    <hr>
+                                    + <span id="poinnn" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
+
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li style="list-style: none;" th:each="detail : ${entry.value}">
+                                    <!-- Display other details as per your requirement -->
+                                    <span th:text="${detail[11]==0 ? 'Chờ thanh toán' : (detail[11]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
+                                    <!-- Add more spans for other details -->
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
 
                     </tbody>
@@ -277,16 +386,26 @@
         return false;
     });
 
-    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1");
+    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1, #priceSum,#priceHuy");
 
     // Loop through each element and format its content to VND
-    priceElements.forEach(function(element) {
+    priceElements.forEach(function (element) {
         var price = parseFloat(element.innerHTML);
-        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
         // Set the formatted price as the inner HTML of the element
         element.innerHTML = formattedPrice;
     });
 
+    // Lấy tất cả các phần tử có id là "poin"
+    var elements = document.querySelectorAll("#poin, #poinn, #poinnn");
+
+    // Duyệt qua từng phần tử và thực hiện việc bỏ hết số 0 sau dấu chấm rồi chuyền giá trị ngược lại
+    elements.forEach(function (element) {
+        var originalNumber = element.innerHTML;
+        var number = parseFloat(originalNumber);
+        var roundedNumber = number.toFixed(0);
+        element.innerHTML = roundedNumber;
+    });
 
 </script>
 </html>

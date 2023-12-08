@@ -46,12 +46,6 @@
 <div id="loading-overlay">
     <div class="spinner"></div>
 </div>
-<!--<div id="notification" class="notification">-->
-<!--    <h3>Thêm đồ ăn thành công</h3>-->
-<!--</div>-->
-<!--<div id="notification_err" class="notification_err">-->
-<!--    <h3>Thêm đồ ăn thất bại</h3>-->
-<!--</div>-->
 <section class="food-html">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -86,6 +80,8 @@
                     aria-label="Close"></button>
         </div>
     </div>
+    <h2>QUẢN LÝ ĐỒ ĂN</h2>
+    <hr>
     <form th:action="@{/food/save/1}" th:object="${food}" class="form_add_promotion" method="post"
           enctype="multipart/form-data" id="yourForm">
         <input type="hidden" th:field="*{id}">
@@ -224,7 +220,7 @@
                 </div>
                 <form class="row g-3" th:object="${promotion}" th:action="@{/food/update/{id}(id=${food.id})}"
                       method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" name="id" th:value="${food.id}"
                                disabled
@@ -267,8 +263,8 @@
                         <input type="hidden" name="oldImage" th:if="${food.image}" th:value="${food.image}"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>

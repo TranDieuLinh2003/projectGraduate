@@ -58,11 +58,14 @@ public class GeneralSettingAdminController {
                          @RequestParam("percentDay") Integer percentDay,
                          @RequestParam("percentWeekend") Integer percentWeekend,
                          @RequestParam("breakTime") Integer breakTime,
-                         @RequestParam("waitingTime") Integer waitingTime) {
+                         @RequestParam("waitingTime") Integer waitingTime,
+                         @RequestParam("confirmationWaitingTime") Integer confirmationWaitingTime,
+                         @RequestParam("percentagePlusPoints") Integer percentagePlusPoints,
+                         @RequestParam("pointsCompensationPercentage") Integer pointsCompensationPercentage) {
         model.addAttribute("setting");
 //        responseBean.setMessage("SUCCESS");
         try {
-            service.update(timeBeginsToChange, businessHours, closeTime, fixedTicketPrice, percentDay, percentWeekend, breakTime, waitingTime);
+            service.update(timeBeginsToChange, businessHours, closeTime, fixedTicketPrice, percentDay, percentWeekend, breakTime, waitingTime,confirmationWaitingTime,percentagePlusPoints,pointsCompensationPercentage);
         } catch (Exception e) {
             e.printStackTrace();
         }

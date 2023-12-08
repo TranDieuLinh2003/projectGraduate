@@ -70,12 +70,25 @@
             <button style="margin-left: 935px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
+
+    <h2>QUẢN LÝ RẠP CHIẾU</h2>
+    <hr>
+<!--    <form th:action="@{/cinema/search-cinema}" th:object="${cinema}" method="get">-->
+<!--        <div class="search_cinema">-->
+<!--            <input type="text" name="keyword" placeholder="Tìm kiếm rạp chiếu"/>-->
+<!--            <button type="submit"><i class="bx bx-search-alt-2"></i></button>-->
+<!--        </div>-->
+<!--    </form>-->
+
     <form th:action="@{/cinema/search-cinema}" th:object="${cinema}" method="get">
-        <div class="search_cinema">
-            <input type="text" name="keyword" placeholder="Tìm kiếm rạp chiếu"/>
-            <button type="submit"><i class="bx bx-search-alt-2"></i></button>
+        <div class="search_customer" style="margin-right: 130px">
+            <input type="text" name="keyword" id="searchIn"
+                   placeholder="Tìm kiếm rạp chiếu"/>
+            <button type="submit"><i class="bx bx-search-alt-2" onclick="overLoad()"></i></button>
         </div>
     </form>
+
+
     <form th:action="@{/cinema/save}" th:object="${cinema}" method="post" class="form_add_cinema">
         <input type="hidden" th:field="*{id}"/>
         <div class="seat_input">
@@ -157,7 +170,7 @@
                 </div>
                 <form class="row g-3" th:object="${room}" th:action="@{/cinema/update/{id}(id=${cinema.id})}"
                       method="post">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="ID" th:value="${cinema.id}"
                                disabled
@@ -190,8 +203,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>

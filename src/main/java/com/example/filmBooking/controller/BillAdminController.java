@@ -5,6 +5,7 @@ import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.BillDto;
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.BillTicketRepository;
+import com.example.filmBooking.repository.GeneralSettingRepository;
 import com.example.filmBooking.service.BillService;
 import com.example.filmBooking.service.BillTicketService;
 import com.example.filmBooking.service.CustomerService;
@@ -60,7 +61,8 @@ public class BillAdminController {
     @Autowired
     private ModelMapper modelMapper;
 
-
+    @Autowired
+    private GeneralSettingRepository generalSettingRepository;
 //    @GetMapping("/find-all/page/{pageNumber}")
 //    @Operation(summary = "[Hiển thị tất cả]")
 //    public String findAll(te") Date endDate) {
@@ -87,7 +89,9 @@ public class BillAdminController {
         Bill bill = service.findById(id);
         bill.setStatus(1);
         Customer customer = customerService.findById(bill.getCustomer().getId());
-        BigDecimal phantram = BigDecimal.valueOf(0.05);
+        Integer percentagePlusPoints = generalSettingRepository.findPercentagePlusPoints();
+
+        BigDecimal phantram = BigDecimal.valueOf(percentagePlusPoints).divide(BigDecimal.valueOf(100));
         BigDecimal orderTotalDecimal = bill.getTotalMoney();
         BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());

@@ -146,8 +146,8 @@ public class ScheduleAdminController {
     ) {
 //        System.out.println("vào rồi");
         try {
-            if (service.generateSchedule(listRoomChecked,listMovieChecked, startTime, endTime) instanceof Schedule) {
-                model.addAttribute("thanhCong", "Thêm lịch chiếu thành công");
+            if (scheduleService.checkScheduleConflict(schedule, String.valueOf(listRoomChecked)) == false) {
+                ra.addFlashAttribute("Message", "Tạo suất chiếu thất bại ");
             } else {
                 service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
                 ra.addFlashAttribute("Message", "Tạo suất chiếu thành công");
