@@ -120,12 +120,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 
             if (schedule.getStatus().equals("Hủy")) {
-                schedule.setStatus("Hủy");
-                repository.save(schedule);
-            } else if (dateStartAt > date) {
+                continue;
+            }
+            if (dateStartAt > date && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
-            } else if (dateFinishAt <= date) {
+            } else if (dateFinishAt <= date && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Đã chiếu");
                 repository.save(schedule);
             } else {
