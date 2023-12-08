@@ -117,8 +117,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             LocalDateTime finishAt = schedule.getFinishAt();
             ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
             long dateFinishAt = zdt2.toInstant().toEpochMilli();
-
-
             if (schedule.getStatus().equals("Hủy")) {
                 schedule.setStatus("Hủy");
                 repository.save(schedule);
@@ -169,9 +167,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             updateTicket(id);
             updatePointCustomer(id);
             return repository.save(scheduleNew);
-        } else if (scheduleNew.getStatus().equals("Sắp chiếu")) {
-            updateTicket2(id);
-            return repository.save(scheduleNew);
         }
         return null;
     }
@@ -182,16 +177,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)) {
             ticket.setStatus("Bị hủy do rạp");
             System.out.println("trạng thái vé" + ticket.getStatus());
-            ticketList.add(ticket);
-        }
-        ticketRepository.saveAll(ticketList);
-    }
-
-    private void updateTicket2(String scheduleId) {
-        List<Ticket> ticketList = new ArrayList<>();
-        for (Ticket ticket : ticketRepository.findBySchedule(scheduleId)) {
-            ticket.setStatus("Chưa bán");
-            System.out.println("trạng thái vé " + ticket.getStatus());
             ticketList.add(ticket);
         }
         ticketRepository.saveAll(ticketList);
@@ -423,8 +408,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Integer currentPage) {
-        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, status, pageSchedule(currentPage));
+    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, Integer currentPage) {
+        return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, pageSchedule(currentPage));
     }
 
     public void autoSave(String idSchedule) {
