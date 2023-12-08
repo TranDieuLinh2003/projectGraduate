@@ -6,9 +6,9 @@ const seatContainer = document.querySelector(".row-container");
 seatContainer.addEventListener("click", function (e) {
     if (
         e.target.classList.contains("seat") &&
-        !e.target.classList.contains("occupied")&&
+        !e.target.classList.contains("occupied") &&
         !e.target.classList.contains("black")
-) {
+    ) {
         e.target.classList.toggle("selected");
         updateSelectedCount();
     }
@@ -722,7 +722,7 @@ let checkboxes = document.querySelectorAll('.tablee input[type="checkbox"]');
 
 // Add a click event listener to each checkbox
 checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('click', function() {
+    checkbox.addEventListener('click', function () {
         // Uncheck all checkboxes
         checkboxes.forEach(cb => {
             if (cb !== this) {
@@ -731,6 +731,7 @@ checkboxes.forEach(checkbox => {
         });
     });
 });
+
 function getPhanTramGiam(checkbox) {
 
     var row = checkbox.parentNode.parentNode; // Lấy thẻ cha của checkbox (thẻ <tr>)
@@ -858,7 +859,7 @@ document.getElementsByName("timetime")[0].value = timetime;
 let searchInput = document.getElementById('voucherSearchInput');
 
 // Add event listener for the input event
-searchInput.addEventListener('input', function() {
+searchInput.addEventListener('input', function () {
     let filter = searchInput.value.toUpperCase();
     let table = document.querySelector('.tablee');
     let tr = table.getElementsByTagName('tr');
@@ -876,5 +877,83 @@ searchInput.addEventListener('input', function() {
     }
 });
 
+function convertToVND() {
+    var pointElement = document.getElementById("poin");
+    if (pointElement) {
+        var point = parseFloat(pointElement.textContent);
+        var input = parseFloat(document.getElementById("inputNumber").value);
+        if (isNaN(input) || input === '') { // Check if the input is blank
+            document.getElementById("result").innerHTML = "0đ";
+            document.getElementById("error").innerHTML = "";
+        } else if (input <= point) {
+            var result = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(input);
+            document.getElementById("result").innerHTML = result;
+            document.getElementById("error").innerHTML = "";
+        } else {
+            document.getElementById("error").innerHTML = "Số điểm nhập vào không được vượt quá điểm bạn có";
+            document.getElementById("result").innerHTML = "";
+        }
+    } else {
+        console.error("Element with ID 'point' not found");
+    }
+}
+
+// Function to capture the data from the input and display it in the "thẻ p" element
+function captureInputAndDisplay() {
+    // Capture the value entered in the input field
+
+    var inputData = document.getElementById("inputNumber").value;
+
+    //
+    if (isNaN(inputData) || inputData === ''){
+let number = 0;
+        // Set the content of the "thẻ p" element to the captured input data
+        document.getElementById("voucher").textContent = number.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+        const tongtien = document.getElementById("tongtien").textContent;
+        let total_Sum = tongtien.replace("₫", "").replace(".", "");
+        console.log(total_Sum)
+
+        const totalPrice = document.getElementById("totalPrice").textContent;
+        let total_totalPrice = totalPrice.replace("₫", "").replace(".", "");
+        console.log(total_totalPrice)
 
 
+        let Number = parseFloat(number);
+        let Number1 = parseFloat(total_Sum);
+        let Number2 = parseFloat(total_totalPrice);
+        const thanhtien = document.getElementById("thanhtien");
+        thanhtien.textContent = (Number1 + Number2 - Number).toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+    }else {
+        var formattedData = (inputData).toLocaleString('vi', {style: 'currency', currency: 'VND'});
+
+        // Set the content of the "thẻ p" element to the captured input data
+        document.getElementById("voucher").textContent = "-" + formattedData
+        const tongtien = document.getElementById("tongtien").textContent;
+        let total_Sum = tongtien.replace("₫", "").replace(".", "");
+        console.log(total_Sum)
+
+        const totalPrice = document.getElementById("totalPrice").textContent;
+        let total_totalPrice = totalPrice.replace("₫", "").replace(".", "");
+        console.log(total_totalPrice)
+
+
+        let Number = parseFloat(inputData);
+        let Number1 = parseFloat(total_Sum);
+        let Number2 = parseFloat(total_totalPrice);
+        const thanhtien = document.getElementById("thanhtien");
+        thanhtien.textContent = (Number1 + Number2 - Number).toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        });
+    }
+
+}
+
+// Add a click event listener to the button to trigger the function when clicked
+document.getElementById("yourButtonId").addEventListener("click", captureInputAndDisplay);

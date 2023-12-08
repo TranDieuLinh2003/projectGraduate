@@ -269,6 +269,33 @@
                     </div>
                 </details>
                 <br>
+                <!--  -->
+                <details class="accordion " >
+                    <summary class="accordion-header">
+                        <div class="accordion-header-content">
+                            <span class="accordion-header-content-label">Ưu đãi <i>(Nhấn vào đây để xem điểm tích
+                                    lũy)</i></span>
+                            <h3 class="accordion-header-content-title">Điểm FilmBooking</h3>
+                        </div>
+                    </summary>
+                    <div class="accordion-content">
+                        <i style="opacity: 0.6;">(Đổi điểm : 1000 điểm = 1.000 vnđ)</i>
+                        <div class="classic-2">
+                            <b>Điểm hiện có:
+                                <br>
+                                <br> <p id="poin"></p></b>
+                            <div><b>Nhập điểm:</b><br><br>
+                                <input type="number" id="inputNumber" oninput="convertToVND()">
+                            </div>
+                            <b>Số tiền được giảm <br><br>
+                                <p id="result">0đ</p>
+                                <p style="font-size: 15px" id="error"></p>
+                            </b>
+                            <button id="yourButtonId" class="cn">Đổi điểm</button>
+                        </div>
+                    </div>
+                </details>
+                <br>
                 <div class="tt">
                     <h3><i class='fa fa-credit-card'></i> CHỌN PHƯƠNG THỨC THANH TOÁN</h3>
                 </div>
@@ -684,11 +711,9 @@
         const selectedSeats = document.querySelectorAll(".container .selected");
         let price_Food = document.getElementById("totalPrice").textContent;
         let total_priceFood = price_Food.replace("₫", "").replace(".", "");
-        console.log(total_priceFood)
         let price_Count = document.getElementById("voucher").textContent;
         let total_priceCount = price_Count.replace("₫", "").replace(".", "").replace("-", "");
 
-        console.log(total_priceCount)
         seatsIndex = [...selectedSeats].map(function (seat) {
             return [...seats].indexOf(seat);
         });
@@ -770,6 +795,12 @@
     }
 
     countdown();
+
+
+    var listPoint = [[${listPoint}]];
+console.log(listPoint)
+    var element = document.getElementById('poin');
+    element.innerHTML = listPoint;
 </script>
 <link
         rel="stylesheet"
