@@ -118,12 +118,12 @@ public class ScheduleServiceImpl implements ScheduleService {
             ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
             long dateFinishAt = zdt2.toInstant().toEpochMilli();
             if (schedule.getStatus().equals("Hủy")) {
-                schedule.setStatus("Hủy");
-                repository.save(schedule);
-            } else if (dateStartAt > date) {
+                continue;
+            }
+            if (dateStartAt > date && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
-            } else if (dateFinishAt <= date) {
+            } else if (dateFinishAt <= date && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Đã chiếu");
                 repository.save(schedule);
             } else {
