@@ -3,6 +3,7 @@ package com.example.filmBooking.controllerApi;
 import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
+import com.example.filmBooking.repository.CustomerRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ import java.util.*;
 public class BookingControllerApi {
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private CustomerRepository repository;
 
     public static String apiGetSchedule = Api.baseURL + "/api/ticket/show/schedule";
     public static String apiGetSchedule1 = Api.baseURL + "/api/ticket/show/schedule1";
@@ -64,15 +68,19 @@ public class BookingControllerApi {
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
 
+
         if (customer == null) {
             // Initialize the customer object if it doesn't exist in the session
             customer = new Customer();
             // Set the necessary attributes of the customer
             customer.setId("yourCustomerId");
-            // ... Set other attributes of the customer
-            // Store the customer object in the session
+
             session.setAttribute("customer", customer);
+        }else {
+                Integer listPoint = repository.findPointById(customer.getId());
+                model.addAttribute("listPoint", listPoint);
         }
+
         String customerId = customer.getId();
         HttpEntity<?> entity = new HttpEntity<>(customer);
 
