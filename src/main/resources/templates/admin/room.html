@@ -73,10 +73,10 @@
             <button style="margin-left: 935px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
-    <h2>QUẢN LÝ ĐỒ PHÒNG CHIẾU</h2>
+    <h2>QUẢN LÝ PHÒNG CHIẾU</h2>
     <hr>
     <div class="room_add_all">
-        <form th:action="@{/room/save}" method="post" class="form_add_room">
+        <form th:action="@{/room/save}" method="post" class="form_add_room" onsubmit="validateFormRoom(event)">
             <div class="seat_input">
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -110,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-success" onclick="validateFormRoom(event)">
+            <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn có muốn thêm phòng mới !')">
                 Thêm
             </button>
         </form>
@@ -147,7 +147,7 @@
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-                    <a th:href="@{'/room/delete/' + ${room.id}}" onclick="overLoad()">
+                    <a th:href="@{'/room/delete/' + ${room.id}}" onclick="return confirm('Bạn muốn xóa phòng này !')">
                         <button type="button" class="btn btn-outline-danger">
                             <i class="bx bxs-trash"></i>
                         </button>
@@ -241,7 +241,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn sửa phòng này !')">Sửa</button>
 
                     </div>
                 </form>
