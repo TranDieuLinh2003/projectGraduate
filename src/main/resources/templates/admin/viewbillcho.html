@@ -68,8 +68,8 @@
                 <td th:text="${billZero.status == 0 ? 'Chờ thanh toán' : 'Đã thanh toán'}"
                 ></td>
                 <td>
-                    <a th:href="@{'/bill/update/' + ${billZero.id}}" onclick="xacNhanHoaDon(event)">
-                        <button class="btn btn-success"><i class='bx bx-check'></i></button>
+                    <a th:href="@{'/bill/update/' + ${billZero.id}}" onsubmit="xacNhanHoaDon(event)">
+                        <button class="btn btn-success" onclick="return confirm('Bạn muốn xác nhận cho hóa đơn này !')"><i class='bx bx-check'></i></button>
                     </a>
                     <a th:href="@{'/bill/detail/' + ${billZero.id}}">
                         <button class="btn btn-outline-primary"><i class='bx bx-show-alt'></i></button>
