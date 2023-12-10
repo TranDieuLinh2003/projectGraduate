@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rạp chiếu phim</title>
+    <title>Cài đặt cấu hình hệ thống</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
@@ -41,7 +41,7 @@
 <div th:replace="~{/layout/header-admin :: header}"></div>
 <section class="cinema-html">
     <h1>Cấu hình rạp chiếu</h1>
-    <form th:action="@{/general-setting/update}" method="post" th:object="${general}"  th:modelAttribute="${general}" >
+    <form onsubmit="validateSetting(event)" th:action="@{/general-setting/update}" method="post" th:object="${general}"  th:modelAttribute="${general}" >
         <th:block th:each="g : ${listSetting}">
             <div class="input-box">
                 <label for="open_time">Thời gian mở cửa:</label>
@@ -102,7 +102,7 @@
 <!--            <span ></span>-->
         </th:block>
         <br>
-        <button type="submit" class="btn btn-outline-success" onclick="validateSetting(event)">Xác nhận thay đổi</button>
+        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn cập nhật lại cài đặt !')">Xác nhận thay đổi</button>
     </form>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"

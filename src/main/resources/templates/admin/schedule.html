@@ -72,7 +72,7 @@
     <h2>QUẢN LÝ SUẤT CHIẾU</h2>
     <hr>
     <div class="row">
-        <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat">
+        <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat" onsubmit="validateSchedule(event)">
             <div class="row">
                 <div class="col-8">
                     <div class="row">
@@ -162,7 +162,7 @@
                                 <button
                                         type="submit"
                                         class="btn btn-outline-success"
-                                        onclick="validateSchedule(event)"
+                                        onclick="return confirm('Bạn muốn thêm lịch chiếu mới !')"
                                 >
                                     Thêm lịch chiếu hàng loạt
                                 </button>
@@ -401,7 +401,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn cập nhật lại lịch chiếu !')">Sửa</button>
 
                     </div>
                 </form>

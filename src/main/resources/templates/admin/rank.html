@@ -84,7 +84,7 @@
             <button type="submit"><i class="bx bx-search-alt-2"></i></button>
         </div>
     </form>
-    <form th:action="@{/rank/save}" th:object="${rank}" method="post" class="form_add_cinema">
+    <form th:action="@{/rank/save}" th:object="${rank}" method="post" class="form_add_cinema" onsubmit="validateRank(event)">
         <input type="hidden" th:field="*{id}">
         <div class="seat_input">
             <div class="row g-3">
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-success" onclick="validateRank(event)">
+        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm hạng !')">
             Thêm
         </button>
     </form>
@@ -140,8 +140,8 @@
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-                    <a th:href="@{'/rank/delete/' + ${r.id}}" onclick="overLoad()">
-                        <button type="button" class="btn btn-outline-danger">
+                    <a th:href="@{'/rank/delete/' + ${r.id}}">
+                        <button onclick="return confirm('Bạn muốn xóa hạng này !')" type="button" class="btn btn-outline-danger">
                             <i class="bx bxs-trash"></i>
                         </button>
                     </a>
@@ -191,7 +191,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn cập nhật hạng này !')" >Sửa</button>
 
                     </div>
                 </form>

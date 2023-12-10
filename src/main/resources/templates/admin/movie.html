@@ -86,10 +86,11 @@
                         <span class="card-text" th:text="${#dates.format(movie.endDate, 'dd/MM/yyyy')}"></span>
                         <p class="card-text">Trạng thái: [[${movie.status}]]</p>
                         <div class="button-movie">
-                            <a th:href="@{'/movie/update/'+${currentPage} +'/' + ${movie.id}}" onclick="overLoad()">
+                            <a th:href="@{'/movie/update/'+${currentPage} +'/' + ${movie.id}}">
                                 <button
                                         type="button"
                                         class="btn btn-outline-success"
+                                        onclick="return confirm('Bạn muốn sửa phim này !')"
                                 >
                                     <i class='bx bxs-edit-alt'></i>
                                 </button>
@@ -103,10 +104,11 @@
                                 >
                             </a>
                             <div class="notifications"></div>
-                            <a th:href="@{'/movie/delete/' + ${movie.id}}" onclick="overLoad()">
+                            <a th:href="@{'/movie/delete/' + ${movie.id}}">
                                 <button
                                         type="button"
                                         class="btn btn-outline-danger"
+                                        onclick="return confirm('Bạn muốn xóa phim này !')"
                                 >
                                     <i class="bx bxs-trash"></i>
                                 </button>

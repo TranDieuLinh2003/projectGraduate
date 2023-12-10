@@ -89,7 +89,7 @@
     </form>
 
 
-    <form th:action="@{/cinema/save}" th:object="${cinema}" method="post" class="form_add_cinema">
+    <form th:action="@{/cinema/save}" th:object="${cinema}" method="post" class="form_add_cinema" onsubmit="validateCinema(event)">
         <input type="hidden" th:field="*{id}"/>
         <div class="seat_input">
             <div class="row g-3">
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-success" onclick="validateCinema(event)">
+        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm rạp chiếu mới !')">
             Thêm
         </button>
     </form>
@@ -149,7 +149,7 @@
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-                    <a th:href="@{'/cinema/delete/' + ${c.id}}" onclick="overLoad()">
+                    <a th:href="@{'/cinema/delete/' + ${c.id}}" onclick="return confirm('Bạn muốn xóa phòng này !')">
                         <button type="button" class="btn btn-outline-danger">
                             <i class="bx bxs-trash"></i>
                         </button>
@@ -168,7 +168,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết rạp</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3" th:object="${room}" th:action="@{/cinema/update/{id}(id=${cinema.id})}"
+                <form class="row g-3" th:object="${cinema}" th:action="@{/cinema/update/{id}(id=${cinema.id})}"
                       method="post">
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
@@ -204,7 +204,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn sửa rạp này !')">Sửa</button>
 
                     </div>
                 </form>
