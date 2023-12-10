@@ -72,8 +72,9 @@ public class LoginController {
             return "redirect:/filmbooking/trangchu";
         }
     }
+
     @GetMapping("/logout")
-    public String logout( HttpServletRequest request) {
+    public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.setAttribute("customer", null);
         return "redirect:/filmbooking/login";

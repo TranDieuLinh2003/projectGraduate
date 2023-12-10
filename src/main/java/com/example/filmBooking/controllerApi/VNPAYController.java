@@ -62,6 +62,7 @@ public class VNPAYController {
 
     @Autowired
     private GeneralSettingRepository generalSettingRepository;
+
     @GetMapping("/index")
     public String home() {
         return "users/orderfail";
@@ -80,6 +81,7 @@ public class VNPAYController {
                               @RequestParam("priceSeatSeat") String priceSeatSeat,
                               @RequestParam("priceFoodFood") String priceFoodFood,
                               @RequestParam("discountcount") String discountcount,
+                              @RequestParam(value ="point", required = false) Integer point,
                               HttpServletRequest request,
                               RedirectAttributes ra,
                               @RequestParam("selectedSeats") List<Ticket> selectedSeats,
@@ -122,11 +124,9 @@ public class VNPAYController {
             }
         }
 
-//thêm bill
+//      thêm bill
         Bill bill = new Bill();
-//        Customer customer1 = new Customer();
         bill.setStatus(1);
-//        bill.setTradingCode(vnp_TransactionNo);
         bill.setDateCreate(LocalDateTime.now());
 
         Customer customer = (Customer) session.getAttribute("customer");
@@ -136,18 +136,22 @@ public class VNPAYController {
         Integer percentagePlusPoints = generalSettingRepository.findPercentagePlusPoints();
 
         BigDecimal phantram = BigDecimal.valueOf(percentagePlusPoints).divide(BigDecimal.valueOf(100));
+
         BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
-        if (selectedPromition == null) {
+
+        if (point == null) {
             // Xử lý khi selectedFood là null hoặc rỗng
+        } else {
+            customer.setPoint(customer.getPoint() - point);
+        }
+
+        if (selectedPromition == null) {
+
         } else {
             bill.setPromotion(selectedPromition);
             selectedPromition.setQuantity(selectedPromition.getQuantity() - 1);
         }
-//        Bill createdBill = billService.save(bill);
-//        HttpSession session1 = request.getSession();
-//        session1.setAttribute("bill", createdBill);
-
         session1.setAttribute("bill", bill);
         session1.setAttribute("selectedPromition", selectedPromition);
         session1.setAttribute("customer", customer);
@@ -276,7 +280,8 @@ public class VNPAYController {
                                @RequestParam(value = "selectedFood1", required = false) List<Food> selectedFood1,
                                @RequestParam(value = "selectedQuantity1", required = false) List<Integer> selectedQuantity1,
                                @RequestParam(value = "selectedPrice1", required = false) List<BigDecimal> selectedPrice1,
-                               @RequestParam(value = "selectedPromition1", required = false) Promotion selectedPromition1) {
+                               @RequestParam(value = "selectedPromition1", required = false) Promotion selectedPromition1,                              @RequestParam(value ="point", required = false) Integer point,
+                               @RequestParam(value ="pointt", required = false) Integer pointt) {
 
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
@@ -323,9 +328,14 @@ public class VNPAYController {
         bill.setCustomer(customer);
         bill.setTotalMoney(orderTotalDecimal);
         bill.setTradingCode(transactionCode);
-//        BigDecimal phantram = BigDecimal.valueOf(0.05);
-//        BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
-//        customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
+        System.out.println(pointt);
+        System.out.println(customer.getPoint());
+
+        if (pointt == null) {
+            // Xử lý khi selectedFood là null hoặc rỗng
+        } else {
+            customer.setPoint(customer.getPoint() - pointt);
+        }
 
         if (selectedPromition1 == null) {
             // Xử lý khi selectedFood là null hoặc rỗng
