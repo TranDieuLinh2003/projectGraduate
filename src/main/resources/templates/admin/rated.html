@@ -84,7 +84,7 @@
             <button type="submit"><i class="bx bx-search-alt-2"></i></button>
         </div>
     </form>
-    <form th:action="@{/rated/save}" th:object="${rated}" method="post" class="form_add_cinema">
+    <form th:action="@{/rated/save}" th:object="${rated}" method="post" class="form_add_cinema" onsubmit="validateFormRated(event)">
         <input type="hidden" th:field="*{id}">
         <div class="seat_input">
             <div class="row g-3">
@@ -104,7 +104,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-success" onclick="validateFormRated(event)">
+        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm mới phân loại độ tuổi !')">
             Thêm
         </button>
     </form>
@@ -129,7 +129,7 @@
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-                    <a th:href="@{'/rated/delete/' + ${r.id}}" onclick="overLoad()">
+                    <a th:href="@{'/rated/delete/' + ${r.id}}" onclick="return confirm('Bạn muốn xóa phân loại độ tuổi này !')">
                         <button type="button" class="btn btn-outline-danger">
                             <i class="bx bxs-trash"></i>
                         </button>
@@ -170,7 +170,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn cập nhật lại phân loại độ tuổi !')">Sửa</button>
 
                     </div>
                 </form>

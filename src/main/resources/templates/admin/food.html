@@ -83,7 +83,7 @@
     <h2>QUẢN LÝ ĐỒ ĂN</h2>
     <hr>
     <form th:action="@{/food/save/1}" th:object="${food}" class="form_add_promotion" method="post"
-          enctype="multipart/form-data" id="yourForm">
+          enctype="multipart/form-data" id="yourForm" onsubmit="validateForm(event)">
         <input type="hidden" th:field="*{id}">
         <div class="food_input">
             <div class="row g-3">
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" id="addButton" class="btn btn-outline-success" onclick="validateForm(event)">
+        <button type="submit" id="addButton" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm đồ ăn mới !')">
             Xác nhận
         </button>
 
@@ -160,8 +160,8 @@
                 <td class="description">[[${food.description}]]</td>
                 <!--                <th scope="row">[[${{food.image}}]]</th>-->
                 <td>
-                    <a th:href="@{'/food/delete/' + ${food.id}}">
-                        <button type="button" class="btn btn-outline-danger" id="xoaFood" onclick="overLoad()">
+                    <a th:href="@{'/food/delete/' + ${food.id}}" onclick="return confirm('Bạn muốn xóa đồ ăn !')">
+                        <button type="button" class="btn btn-outline-danger" id="xoaFood">
                             <i class="bx bxs-trash"></i>
                         </button>
                     </a>
@@ -264,7 +264,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn cập nhật đồ ăn')"  class="btn btn-primary">Sửa</button>
 
                     </div>
                 </form>
