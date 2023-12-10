@@ -40,84 +40,6 @@ function setSeatsColor(color) {
     }
 }
 
-// const seats = document.querySelectorAll(".row .seat:not(.occupied)");
-// const seatContainer = document.querySelector(".row-container");
-// let selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
-//
-// // Function to update selected seats count
-// function updateSelectedCount() {
-//     const selectedSeatsCount = document.querySelectorAll('.row .seat.selected').length;
-//     // Update count
-//     // ...
-// }
-//
-// // Function to save selected seats to local storage
-// function saveSelectedSeats() {
-//     localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-// }
-//
-// // Function to set seat color on page load
-// function setSeatColor() {
-//     seats.forEach((seat, index) => {
-//         if (selectedSeats.includes(index)) {
-//             seat.classList.add("selected");
-//         } else {
-//             seat.classList.remove("selected");
-//         }
-//     });
-// }
-//
-// // Function to set seats color to "default"
-// function setSeatsToDefault() {
-//     seats.forEach((seat) => {
-//         seat.classList.remove("selected");
-//     });
-//     selectedSeats = [];
-//     saveSelectedSeats();
-//     updateSelectedCount();
-// }
-//
-// // Add event listener to seats
-// seatContainer.addEventListener("click", function (e) {
-//     if (
-//         e.target.classList.contains("seat") &&
-//         !e.target.classList.contains("occupied")
-//     ) {
-//         e.target.classList.toggle("selected");
-//         const seatIndex = Array.from(seats).indexOf(e.target);
-//
-//         if (selectedSeats.includes(seatIndex)) {
-//             selectedSeats = selectedSeats.filter((index) => index !== seatIndex);
-//         } else {
-//             selectedSeats.push(seatIndex);
-//         }
-//
-//         updateSelectedCount();
-//         saveSelectedSeats();
-//     }
-// });
-//
-// // Set seat color to "default" on page load
-// setSeatColor();
-//
-// // Set seats color to "black" on page reload
-// window.addEventListener("load", function () {
-//     seats.forEach((seat, index) => {
-//         if (selectedSeats.includes(index)) {
-//             seat.classList.add("black1");
-//             seat.classList.remove("selected");
-//         } else {
-//             seat.classList.remove("black1");
-//         }
-//     });
-// });
-//
-// // Automatically set seats color to "default" after 1 minute
-// setTimeout(function () {
-//     setSeatsToDefault();
-// }, 60000);
-// // Initial count and total rendering
-// updateSelectedCount();
 
 // menu
 const menuSlide = () => {
@@ -640,84 +562,7 @@ var tenphim = document.getElementById("movie").textContent;
 document.getElementById("orderInfo").innerHTML = tenphim;
 document.getElementById("orderInfor").innerHTML = tenphim;
 
-// function selectHighestPercentage() {
-//     let checkboxes = document.querySelectorAll('.tablee tbody tr input[type="checkbox"]');
-//
-//     let highestPercentage = -1; // Initialize with -1 to ensure proper comparison
-//
-//     // Loop through checkboxes to find the highest percentage
-//     checkboxes.forEach(function (checkbox) {
-//         let row = checkbox.parentNode.parentNode;
-//         let phantramgiamElement = row.querySelector(".phantramgiam");
-//
-//         if (phantramgiamElement) {
-//             let phantramgiam = parseInt(phantramgiamElement.textContent);
-//             if (phantramgiam > highestPercentage) {
-//                 highestPercentage = phantramgiam;
-//             }
-//         }
-//
-//         // Attach event listener to each checkbox
-//         checkbox.addEventListener('change', handleCheckboxSelection);
-//     });
-//
-//     // Select the checkbox(s) with the highest percentage
-//     checkboxes.forEach(function (checkbox) {
-//         let row = checkbox.parentNode.parentNode;
-//         let phantramgiamElement = row.querySelector(".phantramgiam");
-//
-//         if (phantramgiamElement) {
-//             let phantramgiam = parseInt(phantramgiamElement.textContent);
-//             checkbox.checked = (phantramgiam === highestPercentage);
-//         }
-//     });
-//
-//     // Event listener function to handle checkbox selection
-//     function handleCheckboxSelection(event) {
-//         if (event.target.checked) {
-//             checkboxes.forEach(function (cb) {
-//                 if (cb !== event.target) {
-//                     cb.checked = false;
-//                 }
-//             });
-//         }
-//     }
-// }
-//
-// // Call the function to select the checkbox with the highest percentage by default
-// selectHighestPercentage();
-// const voucherRows = document.querySelectorAll('.tablee tbody tr');
-//
-// let maxDiscount = 0;
-// let selectedVoucher = null;
-//
-// // Loop through each voucher row to find the one with the highest discount percentage
-// voucherRows.forEach(row => {
-//     const discountPercentage = parseInt(row.querySelector('.phantramgiam').textContent);
-//     if (discountPercentage > maxDiscount) {
-//         maxDiscount = discountPercentage;
-//         selectedVoucher = row.querySelector('input[type="checkbox"]');
-//     }
-// });
-// // Add event listener to each checkbox
-// voucherRows.forEach(row => {
-//     const checkbox = row.querySelector('input[type="checkbox"]');
-//     checkbox.addEventListener('change', function() {
-//         if (this.checked) {
-//             // Uncheck other checkboxes
-//             voucherRows.forEach(otherRow => {
-//                 const otherCheckbox = otherRow.querySelector('input[type="checkbox"]');
-//                 if (otherCheckbox !== this) {
-//                     otherCheckbox.checked = false;
-//                 }
-//             });
-//         }
-//     });
-// });
-// If a voucher with the highest discount percentage is found, select it
-// if (selectedVoucher) {
-//     selectedVoucher.checked = true;
-// }
+
 let checkboxes = document.querySelectorAll('.tablee input[type="checkbox"]');
 
 // Add a click event listener to each checkbox
@@ -779,6 +624,8 @@ function getPhanTramGiam(checkbox) {
             currency: "VND"
         });
         ;
+        document.getElementsByName("point")[0].value =""
+        document.getElementsByName("pointt")[0].value = ""
         var row = checkbox.parentNode.parentNode;
         var promotionID = row.querySelector('td[value]').getAttribute('value');
         const selectedPromitionInput = document.getElementById('selectedPromition'); // Lấy thẻ input theo ID
@@ -903,44 +750,49 @@ function captureInputAndDisplay() {
     // Capture the value entered in the input field
 
     var inputData = document.getElementById("inputNumber").value;
+    // var formattedData = inputData.toLocaleString("vi-VN", {
+    //     style: "currency",
+    //     currency: "VND"
+    // });
+    // console.log(formattedData)
+    var input = parseFloat(document.getElementById("inputNumber").value);
 
-    //
-    if (isNaN(inputData) || inputData === ''){
-let number = 0;
+    var result = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(input);
+    const total = document.getElementById("thanhtien").textContent.replace("₫", "").replace(".", "");
+    ;
+
+    const tongtien1 = document.getElementById("tongtien").textContent;
+    let total_Sum1 = tongtien1.replace("₫", "").replace(".", "");
+
+    const totalPrice1 = document.getElementById("totalPrice").textContent;
+    let total_totalPrice1 = totalPrice1.replace("₫", "").replace(".", "");
+
+
+    let Number1 = parseFloat(total_Sum1);
+    let Number2 = parseFloat(total_totalPrice1);
+
+    if (isNaN(inputData) || inputData === '') {
+        let number = 0;
         // Set the content of the "thẻ p" element to the captured input data
-        document.getElementById("voucher").textContent = number.toLocaleString("vi-VN", {
-            style: "currency",
-            currency: "VND"
-        });
-        const tongtien = document.getElementById("tongtien").textContent;
-        let total_Sum = tongtien.replace("₫", "").replace(".", "");
-        console.log(total_Sum)
-
-        const totalPrice = document.getElementById("totalPrice").textContent;
-        let total_totalPrice = totalPrice.replace("₫", "").replace(".", "");
-        console.log(total_totalPrice)
-
+        document.getElementById("voucher").textContent = number;
 
         let Number = parseFloat(number);
-        let Number1 = parseFloat(total_Sum);
-        let Number2 = parseFloat(total_totalPrice);
         const thanhtien = document.getElementById("thanhtien");
         thanhtien.textContent = (Number1 + Number2 - Number).toLocaleString("vi-VN", {
             style: "currency",
             currency: "VND"
         });
-    }else {
-        var formattedData = (inputData).toLocaleString('vi', {style: 'currency', currency: 'VND'});
+    } else if (input > ((Number1 + Number2) - 10000)) {
 
-        // Set the content of the "thẻ p" element to the captured input data
-        document.getElementById("voucher").textContent = "-" + formattedData
+        document.getElementById("error").textContent = "số điểm không hợp lý";
+
+    } else {
+        document.getElementById("voucher").textContent = "-" + result
         const tongtien = document.getElementById("tongtien").textContent;
         let total_Sum = tongtien.replace("₫", "").replace(".", "");
-        console.log(total_Sum)
 
         const totalPrice = document.getElementById("totalPrice").textContent;
         let total_totalPrice = totalPrice.replace("₫", "").replace(".", "");
-        console.log(total_totalPrice)
 
 
         let Number = parseFloat(inputData);
@@ -951,6 +803,13 @@ let number = 0;
             style: "currency",
             currency: "VND"
         });
+        document.getElementById("tiendcgiam").innerHTML = "-" + result
+        document.getElementById("tiendcgiam1").innerHTML = "-" + result
+        document.getElementsByName("point")[0].value =  Number
+        document.getElementsByName("pointt")[0].value = Number
+        document.getElementsByName("discountcount")[0].value =""
+        document.getElementsByName("discount")[0].value =""
+
     }
 
 }
