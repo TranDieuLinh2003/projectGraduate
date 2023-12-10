@@ -92,5 +92,11 @@ public class CinemaAdminController {
         model.addAttribute("listCinema", searcCinema);
         return "admin/cinema";
     }
+    @PostMapping("/update/{id}")
+    public String updateCinema(@PathVariable(name = "id") String id, Cinema cinema, RedirectAttributes ra) {
+        service.update(id, cinema);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+        return "redirect:/cinema/find-all";   // Redirect to the promotion list page after update
+    }
 
 }
