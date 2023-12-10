@@ -58,19 +58,21 @@
             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </symbol>
     </svg>
-    <div th:if="${successMessage}" style="margin-left: 50px" class="alert alert-success d-flex align-items-center" role="alert">
+    <div th:if="${successMessage}" style="margin-left: 50px" class="alert alert-success d-flex align-items-center"
+         role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
             <use xlink:href="#check-circle-fill"/>
         </svg>
         <div>
             <strong>[[${successMessage}]]</strong>
-            <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
         </div>
     </div>
     <h2>QUẢN LÝ SUẤT CHIẾU</h2>
     <hr>
     <div class="row">
-        <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat">
+        <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat" onsubmit="validateSchedule(event)">
             <div class="row">
                 <div class="col-8">
                     <div class="row">
@@ -160,7 +162,7 @@
                                 <button
                                         type="submit"
                                         class="btn btn-outline-success"
-                                        onclick="validateSchedule(event)"
+                                        onclick="return confirm('Bạn muốn thêm lịch chiếu mới !')"
                                 >
                                     Thêm lịch chiếu hàng loạt
                                 </button>
@@ -220,30 +222,55 @@
             <div class="col-12">
                 <div class="form-loc-schedule">
                     <form th:action="@{/schedule/find-all/page/1}" method="get">
-                        <select size="1" id="nameCinema" name="nameCinema" class="form-select"
-                                aria-label="Default select example">
-                            <option value="">-- Chọn rạp --</option>
-                            <option th:each="cinema : ${cinemaId}" th:value="${cinema.name}"
-                                    th:text="${cinema.name}"></option>
-                        </select>
-                        <select size="1" id="nameMovie" name="nameMovie" class="form-select"
-                                aria-label="Default select example">
-                            <option value="">-- Chọn phim --</option>
-                            <option th:each="movie : ${movieId}" th:value="${movie.name}"
-                                    th:text="${movie.name}"></option>
-                        </select>
-                        <select size="1" id="startAt" name="startAt" class="form-select"
-                                aria-label="Default select example">
-                            <option value="">-- Chọn ngày --</option>
-                        </select>
-                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch chiếu
-                        </button>
+                        <div class="row">
+                            <div class="col-2">
+                                <select size="1" id="nameCinema" name="nameCinema" class="form-select"
+                                        aria-label="Default select example">
+                                    <option value="">-- Chọn rạp --</option>
+                                    <option th:each="cinema : ${cinemaId}" th:value="${cinema.name}"
+                                            th:text="${cinema.name}"></option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <select size="1" id="nameMovie" name="nameMovie" class="form-select"
+                                        aria-label="Default select example">
+                                    <option value="">-- Chọn phim --</option>
+                                    <option th:each="movie : ${movieId}" th:value="${movie.name}"
+                                            th:text="${movie.name}"></option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <select size="1" id="startAt" name="startAt" class="form-select"
+                                        aria-label="Default select example">
+                                    <option value="">-- Chọn ngày --</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" name="status" aria-label="Default select example">
+                                    <option value="">-- Chọn trạng thái--</option>
+                                    <option value="Đang chiếu" th:selected="${schedule.status == 'Đang chiếu'}">Đang
+                                        chiếu
+                                    </option>
+                                    <option value="Đã chiếu" th:selected="${schedule.status == 'Đã chiếu'}">Đã chiếu
+                                    </option>
+                                    <option value="Sắp chiếu" th:selected="${schedule.status == 'Sắp chiếu'}">Sắp
+                                        chiếu
+                                    </option>
+                                    <option value="Hủy" th:selected="${schedule.status == 'Hủy'}">Hủy</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch
+                                    chiếu
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div >
+    <div>
         <table class="table">
             <thead>
             <tr>
@@ -267,7 +294,7 @@
                 <td id="ngayketthuc">[[${schedule.finishAt}]]</td>
                 <td>[[${schedule.status}]]</td>
                 <td>
-                    <a >
+                    <a>
                         <button class="btn btn-outline-success"
                                 data-bs-toggle="modal"
                                 th:attr="data-bs-target='#exampleModal_' + ${schedule.id}">
@@ -327,7 +354,8 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết suất chiếu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3" th:object="${schedule}" th:action="@{/schedule/update/{id}(id=${schedule.id})}" method="post">
+                <form class="row g-3" th:object="${schedule}" th:action="@{/schedule/update/{id}(id=${schedule.id})}"
+                      method="post">
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
                         <input type="text" class="form-control" id="id" name="id" th:value="${schedule.id}"
@@ -335,36 +363,36 @@
                                required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Mã suất chiếu</label>
+                        <label class="form-label">Mã suất chiếu</label>
                         <input type="text" class="form-control" id="code" name="code" th:value="${schedule.code}"
                                disabled required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Tên phim/Phòng chiếu/Rạp chiếu</label>
+                        <label class="form-label">Tên phim/Phòng chiếu/Rạp chiếu</label>
                         <input type="text" class="form-control" id="name" name="name" th:value="${schedule.name}"
-                               disabled  required>
+                               disabled required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Giá </label>
-                        <input type="number" class="form-control"  name="price" th:value="${schedule.price}"
-                                 required>
+                        <label class="form-label">Giá </label>
+                        <input type="number" class="form-control" name="price" th:value="${schedule.price}"
+                               required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Thời gian bắt đầu</label>
+                        <label class="form-label">Thời gian bắt đầu</label>
                         <input type="datetime-local" class="form-control" name="startAt" th:value="${schedule.startAt}"
-                               disabled   required>
+                               disabled required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Thời điểm kết thúc </label>
-                        <input type="datetime-local" class="form-control" id="finishAt" name="finishAt" th:value="${schedule.finishAt}"
-                               disabled  required>
+                        <label class="form-label">Thời điểm kết thúc </label>
+                        <input type="datetime-local" class="form-control" id="finishAt" name="finishAt"
+                               th:value="${schedule.finishAt}"
+                               disabled required>
                     </div>
                     <div class="col-md-6">
-                        <label  class="form-label">Trạng thái</label>
-<!--                        <input type="text" class="form-control"  name="status" th:value="${schedule.status}"-->
-<!--                               disabled  required>-->
+                        <label class="form-label">Trạng thái</label>
                         <select class="form-select" name="status" aria-label="Default select example">
-                            <option value="Đang chiếu" th:selected="${schedule.status == 'Đang chiếu'}">Đang chiếu</option>
+                            <option value="Đang chiếu" th:selected="${schedule.status == 'Đang chiếu'}">Đang chiếu
+                            </option>
                             <option value="Đã chiếu" th:selected="${schedule.status == 'Đã chiếu'}">Đã chiếu</option>
                             <option value="Sắp chiếu" th:selected="${schedule.status == 'Sắp chiếu'}">Sắp chiếu</option>
                             <option value="Hủy" th:selected="${schedule.status == 'Hủy'}">Hủy</option>
@@ -373,7 +401,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn cập nhật lại lịch chiếu !')">Sửa</button>
 
                     </div>
                 </form>
@@ -414,9 +442,9 @@
         }
     });
     var priceElements = document.querySelectorAll("#price");
-    priceElements.forEach(function(element) {
+    priceElements.forEach(function (element) {
         var price = parseFloat(element.innerHTML);
-        var formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
         // Set the formatted price as the inner HTML of the element
         element.innerHTML = formattedPrice;
     });

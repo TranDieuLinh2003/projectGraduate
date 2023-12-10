@@ -62,7 +62,7 @@ public class ScheduleAdminController {
 
     @GetMapping("/find-all")
     public String viewSchedule(Model model) {
-        return findAll(model, 1, null, null, null, null, null);
+        return findAll(model, 1, null, null, null, null, null , null);
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
@@ -72,18 +72,21 @@ public class ScheduleAdminController {
                           @DateTimeFormat(pattern = "dd/MM/yyyy")
                           @Param(value = "startAt") LocalDate startAt,
                           @Param(value = "startTime") Integer startTime,
+                          @Param(value = "status") String status,
                           @Param(value = "endTime") Integer endTime) {
         Page<Schedule> page = scheduleService.getAll(currentPage);
         nameCinema = Strings.isEmpty(nameCinema) ? null : nameCinema;
         nameMovie = Strings.isEmpty(nameMovie) ? null : nameMovie;
-        if (nameCinema != null || nameMovie != null || startAt != null || startTime != null || endTime != null) {
-            page = scheduleService.searchSchedule(nameCinema, startAt, nameMovie, startTime, endTime, currentPage);
+        status = Strings.isEmpty(status) ? null : status;
+        if (nameCinema != null || nameMovie != null || startAt != null || startTime != null || endTime != null|| status !=null) {
+            page = scheduleService.searchSchedule(nameCinema, startAt, nameMovie, startTime, endTime, status, currentPage);
         }
         model.addAttribute("nameCinema", nameCinema);
         model.addAttribute("nameMovie", nameMovie);
         model.addAttribute("startAt", startAt);
         model.addAttribute("startTime", startTime);
         model.addAttribute("endTime", endTime);
+        model.addAttribute("status", status);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

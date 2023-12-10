@@ -139,7 +139,7 @@
                         <!-- Display other details as per your requirement -->
                         <span id="price1" th:text="${detail[12]}">Detail 1</span>
                         <br>
-                        (+ <span id="poin" th:text="${detail[12]}">Detail 1</span> điểm tích lũy)
+                        (+ <span id="poin" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy)
                         <hr>
                         (<span th:text="${detail[11]==0 ? 'Chờ thanh toán' : (detail[11]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
                         )

@@ -177,12 +177,13 @@
                 <td>[[${c.rankCustomer.name}]]</td>
                 <td>
                     <a th:href="@{'/customer/detail/' + ${c.id}}">
-                        <button class="btn btn-outline-primary"><i class='bx bx-show-alt'></i></button>
+                        <button class="btn btn-outline-primary" onclick="return confirm('Bạn muốn xem tài khoản này !')"><i class='bx bx-show-alt'></i></button>
                     </a>
                     <a th:href="@{'/customer/delete/' + ${c.id}}">
                         <button
                                 type="button"
                                 class="btn btn-outline-danger"
+                                onclick="return confirm('Bạn CHẮC CHẮN muốn xóa tài khoản này !')"
                         >
                             <i class="bx bxs-trash"></i>
                         </button>

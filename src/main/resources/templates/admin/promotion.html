@@ -82,7 +82,7 @@
     </div>
     <h2>QUẢN LÝ KHUYẾN MÃI</h2>
     <hr>
-    <form th:action="@{/promotion/save}" th:object="${promotion}" method="post" class="form_add_promotion">
+    <form th:action="@{/promotion/save}" th:object="${promotion}" method="post" class="form_add_promotion" onsubmit="validatePPromotion(event)">
         <div class="promotion_input">
             <input type="hidden" th:field="*{id}">
             <div class="row g-3">
@@ -181,7 +181,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-success" onclick="validatePPromotion(event)">
+        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm khuyến mãi !')">
             Thêm
         </button>
     </form>
@@ -226,10 +226,11 @@
                     </div>
                 </td>
                 <td>
-                    <a th:href="@{'/promotion/delete/' + ${promotion.id}}" onclick="overLoad()">
+                   <a th:href="@{'/promotion/delete/' + ${promotion.id}}">
                         <button
                                 type="button"
                                 class="btn btn-outline-danger"
+                                onclick="return confirm('Bạn muốn xóa khuyến mãi này !')"
                         >
                             <i class="bx bxs-trash"></i>
                         </button>
@@ -242,11 +243,11 @@
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-<!--                    <a>-->
-<!--                        <button type="button" class="btn btn-outline-success">-->
-<!--                            <i class='bx bxs-edit-alt'></i>-->
-<!--                        </button>-->
-<!--                    </a>-->
+                    <!--                    <a>-->
+                    <!--                        <button type="button" class="btn btn-outline-success">-->
+                    <!--                            <i class='bx bxs-edit-alt'></i>-->
+                    <!--                        </button>-->
+                    <!--                    </a>-->
                 </td>
             </tr>
             </tbody>
@@ -324,7 +325,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary">Sửa</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn sửa khuyến mãi này !')">Sửa</button>
                     </div>
                 </form>
 
@@ -392,7 +393,5 @@
             }
         });
     });
-
-
 </script>
 </html>
