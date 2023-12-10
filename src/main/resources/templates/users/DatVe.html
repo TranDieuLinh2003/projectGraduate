@@ -285,7 +285,7 @@
                                 <br>
                                 <br> <p id="poin"></p></b>
                             <div><b>Nhập điểm:</b><br><br>
-                                <input type="number" id="inputNumber" oninput="convertToVND()">
+                                <input type="number" id="inputNumber"  min="0" oninput="convertToVND()">
                             </div>
                             <b>Số tiền được giảm <br><br>
                                 <p id="result">0đ</p>
@@ -438,7 +438,8 @@
                         <div class="card_info_movie">
                             <b>Tiền được giảm: </b>
                             <p id="tiendcgiam">0</p>
-                            <input type="hidden" name="discountcount" value="">
+                            <input type="hidden"  name="discountcount" value="">
+                            <input type="hidden"  name="point" value="">
 
                         </div>
                         <hr>
@@ -517,6 +518,7 @@
                             <b>Tiền được giảm: </b>
                             <p id="tiendcgiam1">0</p>
                             <input type="hidden" name="discount" value="">
+                            <input type="hidden"  name="pointt" value="">
 
                         </div>
                         <hr>

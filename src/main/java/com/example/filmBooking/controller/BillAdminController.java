@@ -5,6 +5,7 @@ import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.BillDto;
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.BillTicketRepository;
+import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.repository.GeneralSettingRepository;
 import com.example.filmBooking.service.BillService;
 import com.example.filmBooking.service.BillTicketService;
@@ -61,6 +62,7 @@ public class BillAdminController {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @Autowired
     private GeneralSettingRepository generalSettingRepository;
 //    @GetMapping("/find-all/page/{pageNumber}")
@@ -95,6 +97,7 @@ public class BillAdminController {
         BigDecimal orderTotalDecimal = bill.getTotalMoney();
         BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
+        customerService.update(bill.getCustomer().getId(), customer);
 //        customer.setPoint();
         try {
             if (service.update(id, bill) instanceof Bill) {
