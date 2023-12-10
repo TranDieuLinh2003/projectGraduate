@@ -168,7 +168,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết rạp</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3" th:object="${room}" th:action="@{/cinema/update/{id}(id=${cinema.id})}"
+                <form class="row g-3" th:object="${cinema}" th:action="@{/cinema/update/{id}(id=${cinema.id})}"
                       method="post">
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
