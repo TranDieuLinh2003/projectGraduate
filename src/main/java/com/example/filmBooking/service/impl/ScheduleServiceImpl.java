@@ -228,8 +228,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             System.out.println(" số điểm cộng thêm: " + point);
             Integer point2 = customer.getPoint() + point;
             System.out.println("Điểm mới của khách hàng: " + point2);
-//            customer.setPoint(point2);
-//            customerRepository.save(customer);
+            customer.setPoint(point2);
+            customerRepository.save(customer);
         }
     }
 
