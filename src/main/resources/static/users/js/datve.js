@@ -477,17 +477,20 @@ function sumFood() {
     });
     const totalPriceElement = document.getElementById("totalPrice");
     const sumMoney = document.getElementById("tongtien").textContent;
+    const voucher = document.getElementById("voucher").textContent;
     const intoMoney = document.getElementById("thanhtien");
 
     if (totalPriceElement) {
         totalPriceElement.innerText = formattedTotalPrice;
         const number1 = sumMoney;
         const number2 = formattedTotalPrice;
+        const number3 = voucher;
+
         const parsedNumber1 = parseFloat(number1.replace(/\./g, ""));
         const parsedNumber2 = parseFloat(number2.replace(/\./g, ""));
-        const sumsum = parsedNumber1 + parsedNumber2;
-        // var p = document.getElementById("amount");
-        // var value = p.textContent
+        const parsedNumber3 = parseFloat(number3.replace(/\./g, ""));
+        const sumsum = (parsedNumber1 + parsedNumber2) + parsedNumber3;
+
 
         document.getElementById("tongtiendoan").innerHTML = number2;
         document.getElementById("tongtiendoan1").innerHTML = number2;

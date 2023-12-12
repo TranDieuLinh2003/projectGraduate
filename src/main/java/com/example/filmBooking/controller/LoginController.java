@@ -33,6 +33,10 @@ public class LoginController {
     public String hienThiFormLogin() {
         return "users/DangNhap";
     }
+    @GetMapping(value = "/dangky")
+    public String hienThiDangKy() {
+        return "users/DangKy";
+    }
 ////
 //    @PostMapping("/login")
 //    public String login(

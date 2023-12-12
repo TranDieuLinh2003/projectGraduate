@@ -25,4 +25,13 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
     @Query("SELECT c.point FROM Customer c WHERE c.id = :customerId")
     Integer findPointById(@Param("customerId") String customerId);
+
+    String customer = ("SELECT sum(b.point), SUM(b.total_money) AS total_money_sum, r.name, c.point\n" +
+            "FROM projectLinh.customer c\n" +
+            "JOIN projectLinh.rank_customer r ON c.rank_customer_id = r.id\n" +
+            "JOIN projectLinh.bill b ON c.id = b.customer_id\n" +
+            "WHERE c.id = :customerId and b.status = 1");
+
+    @Query(value = customer, nativeQuery = true)
+    List<Object[]> getCustommerById(@Param("customerId") String customerId);
 }

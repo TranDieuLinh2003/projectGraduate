@@ -4,6 +4,7 @@ import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Customer;
 import com.example.filmBooking.repository.BillRepository;
+import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.CustomerService;
 import com.example.filmBooking.service.impl.CustomerServiceImpl;
@@ -31,18 +32,21 @@ public class ThongTinController {
     private BillRepository billRepository;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
-    public static String apiGetCinema = Api.baseURL + "/api/ticket/show/test";
+    private CustomerRepository repository;
+
+//    public static String apiGetCinema = Api.baseURL + "/api/ticket/show/test";
 
     @GetMapping("/thongtincanhan")
     public String showThongTinCaNhan(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Customer customerSession = (Customer) session.getAttribute("customer");
 
+
         Customer customer = customerService.findByEmail(customerSession.getEmail());
         if (customer == null){
             return "redirect:/filmbooking/login";
         }
+        List<Object[]> listCustomer = repository.getCustommerById(customer.getId());
 
         String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
 //        System.out.println(soldTicketsCountBill);
@@ -114,6 +118,7 @@ public class ThongTinController {
             details.forEach(detail -> System.out.println(Arrays.toString(detail)));
         });
         model.addAttribute("customer", customer);
+        model.addAttribute("listCustomer", listCustomer);
         model.addAttribute("groupedBillDetails", groupedBillDetails);
         model.addAttribute("groupedBillDetailsCho", groupedBillDetailsCho);
         model.addAttribute("groupedBillDetailsHuy", groupedBillDetailsHuy);
