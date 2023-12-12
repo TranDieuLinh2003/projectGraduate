@@ -24,7 +24,7 @@
                             <th>Hạng thành viên</th>
                             <th>Tổng chi tiêu</th>
                             <th>Điểm tích lũy</th>
-                            <th>Điểm đã tiêu</th>
+<!--                            <th>Điểm đã tiêu</th>-->
                             <th>Điểm khả dụng</th>
 
                         </tr>
@@ -41,9 +41,9 @@
                                 <td id="point">
                                     [[${custom[0]}]]
                                 </td>
-                                <td >
-<!--                                    [[${custom[0]}]]-->bỏ
-                                </td>
+<!--                                <td >-->
+<!--&lt;!&ndash;                                    [[${custom[0]}]]&ndash;&gt;bỏ-->
+<!--                                </td>-->
                                 <td >
                                     [[${custom[3]}]]
                                 </td>
@@ -126,7 +126,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[1]}">Detail 1</span><br>
-                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <img width="50px" height="70px" th:src="${'http://localhost:8080/admin/assets/img/'+ detail[2]}">
                                     <!-- Add more spans for other details -->
                                 </li>
                             </ul>
@@ -228,7 +228,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[1]}">Detail 1</span><br>
-                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <img width="50px" height="70px" th:src="${'http://localhost:8080/admin/assets/img/' +detail[2]}">
                                     <!-- Add more spans for other details -->
                                 </li>
                             </ul>
@@ -323,7 +323,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[1]}">Detail 1</span><br>
-                                    <img width="50px" height="70px" th:src="${detail[2]}">
+                                    <img width="50px" height="70px" th:src="${'http://localhost:8080/admin/assets/img/' +detail[2]}">
                                     <!-- Add more spans for other details -->
                                 </li>
                             </ul>
