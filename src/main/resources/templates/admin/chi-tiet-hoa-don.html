@@ -75,7 +75,7 @@
                     <li style="list-style: none;" th:each="detail : ${entry.value}">
                         <!-- Display other details as per your requirement -->
                         <span th:text="${detail[1]}">Detail 1</span><br>
-                        <img width="50px" height="70px" th:src="${detail[2]}">
+                        <img width="50px" height="70px" th:src="${'http://localhost:8080/admin/assets/img/' +detail[2]}">
                         <!-- Add more spans for other details -->
                     </li>
                 </ul>

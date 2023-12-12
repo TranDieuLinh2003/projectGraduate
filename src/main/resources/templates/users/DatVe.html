@@ -202,7 +202,7 @@
                         <div class="force-overflow">
                             <th:block th:each="food : ${listFood}">
                                 <div class="combo_tt">
-                                    <img th:src="${food.image}" alt="" width="70px" height="70px">
+                                    <img th:src="'http://localhost:8080/admin/assets/img/'+${food.image}" alt="" width="70px" height="70px">
                                     <b style="margin-left: -110px" id="namefood"
                                        th:value="${food.id}">[[${food.name}]] </b>
                                     <p style="margin-left: -80px" class="mot">[[${food.description}]] => Giá : <b
@@ -339,7 +339,7 @@
             <div id="split_frame_2" class="split_frame_2">
                 <th:block th:each="schdeule : ${listSchedule}">
                     <div class="block">
-                        <img th:src="${schdeule.movie.image}" alt="">
+                        <img th:src="'http://localhost:8080/admin/assets/img/'+${schdeule.movie.image}" alt="">
                         <div class="block_1">
                             <h3 id="tenphim">[[${schdeule.movie.name}]]</h3><br>
                             <p>2D Phụ đề</p>
