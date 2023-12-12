@@ -85,6 +85,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
+//        ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
+//        long date = zdt.toInstant().toEpochMilli();
+        if (startAt.isAfter(LocalDateTime.now())) {
+            schedule.setStatus("Sắp chiếu");
+        } else if (finishAt.isBefore(LocalDateTime.now())) {
+            schedule.setStatus("Đã chiếu");
+        } else {
+            schedule.setStatus("Đang chiếu");
+        }
         String id = null;
         if (checkScheduleConflict(schedule, schedule.getRoom().getId()) && timeSchedule(schedule, findByIdSetting().getBusinessHours(), findByIdSetting().getCloseTime()) && dateSchedule(schedule.getMovie().getId(), schedule)) {
             // Lưu suất chiếu mới vào cơ sở dữ liệu
@@ -105,25 +114,25 @@ public class ScheduleServiceImpl implements ScheduleService {
         // danh sách lịch chiếu
         List<Schedule> listSchedule = repository.findAll();
         // ngày hiện tại
-        LocalDateTime localDateTime = LocalDateTime.now();
-        ZonedDateTime zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
-        long date = zdt.toInstant().toEpochMilli();
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        ZonedDateTime zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+//        long date = zdt.toInstant().toEpochMilli();
         for (Schedule schedule : listSchedule) {
             //lấy thời gian bắt đầu
             LocalDateTime startAt = schedule.getStartAt();
-            ZonedDateTime zdt1 = ZonedDateTime.of(startAt, ZoneId.systemDefault());
-            long dateStartAt = zdt1.toInstant().toEpochMilli();
+//            ZonedDateTime zdt1 = ZonedDateTime.of(startAt, ZoneId.systemDefault());
+//            long dateStartAt = zdt1.toInstant().toEpochMilli();
             //lấy thời gian kết thúc
             LocalDateTime finishAt = schedule.getFinishAt();
-            ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
-            long dateFinishAt = zdt2.toInstant().toEpochMilli();
+//            ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
+//            long dateFinishAt = zdt2.toInstant().toEpochMilli();
             if (schedule.getStatus().equals("Hủy")) {
                 continue;
             }
-            if (dateStartAt > date && schedule.getStatus() != "Hủy") {
+            if (startAt.isAfter(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
-            } else if (dateFinishAt <= date && schedule.getStatus() != "Hủy") {
+            } else if (finishAt.isBefore(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Đã chiếu");
                 repository.save(schedule);
             } else {
@@ -219,8 +228,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             System.out.println(" số điểm cộng thêm: " + point);
             Integer point2 = customer.getPoint() + point;
             System.out.println("Điểm mới của khách hàng: " + point2);
-//            customer.setPoint(point2);
-//            customerRepository.save(customer);
+            customer.setPoint(point2);
+            customerRepository.save(customer);
         }
     }
 
