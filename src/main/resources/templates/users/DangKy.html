@@ -14,22 +14,21 @@
 <div id="login-box">
     <div class="left">
         <h1>ĐĂNG KÝ</h1>
-        <form th:action="@{/filmbooking/custom/save}" method="post" th:object="${customer}" class="form">
             <div>
-                <input type="text" th:field="*{name}" placeholder="Họ và tên"/>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                <input type="text"  placeholder="Họ và tên"/>
+                <div class="alert alert-warning"  ></div>
             </div>
             <div>
-                <input type="text" th:field="*{email}" placeholder="E-mail"/>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                <input type="text"  placeholder="E-mail"/>
+                <div class="alert alert-warning"></div>
             </div>
             <div>
-                <input type="text" th:field="*{phoneNumber}" placeholder="Số điện thoại"/></div>
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+                <input type="text"  placeholder="Số điện thoại"/></div>
+            <div class="alert alert-warning" ></div>
 
             <div>
                 <input type="password" th:field="*{password}" placeholder="Mật khẩu"/>
-                <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                <div class="alert alert-warning" ></div>
 
             </div>
             <div>
@@ -38,7 +37,6 @@
 
 
             <input type="submit" value="ĐĂNG KÝ"/>
-        </form>
     </div>
 
     <div class="right">

@@ -17,6 +17,42 @@
             <input type="radio" name="tabs" id="tabone" checked="checked">
             <label for="tabone">Thông tin tài khoản</label>
             <div class="tab">
+                <div class="infor">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Hạng thành viên</th>
+                            <th>Tổng chi tiêu</th>
+                            <th>Điểm tích lũy</th>
+                            <th>Điểm đã tiêu</th>
+                            <th>Điểm khả dụng</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="custom : ${listCustomer}">
+                            <tr class="clickable">
+                                <td>
+                                    [[${custom[2]}]]
+                                </td>
+                                <td id="pricee">
+                                    [[${custom[1]}]]
+                                </td>
+                                <td id="point">
+                                    [[${custom[0]}]]
+                                </td>
+                                <td >
+<!--                                    [[${custom[0]}]]-->bỏ
+                                </td>
+                                <td >
+                                    [[${custom[3]}]]
+                                </td>
+                            </tr>
+                        </th:block>
+                        <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
                 <form th:action="@{/filmbooking/update-thongtin/${customer.id}}" method="post">
                     <div class="container" id="app">
 
@@ -141,7 +177,7 @@
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
                                     <hr>
-                                    + <span id="poinn" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
+                                    + <span id="poinn" th:text="${detail[13]}">Detail 1</span> điểm tích lũy
 
                                 </li>
                             </ul>
@@ -244,7 +280,7 @@
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
                                     <hr>
-                                    + <span id="poin" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
+                                    + <span id="poin" th:text="${detail[13]}">Detail 1</span> điểm tích lũy
                                 </li>
                             </ul>
                         </td>
@@ -338,7 +374,7 @@
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${#dates.format(detail[8], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
                                     <hr>
-                                    + <span id="poinnn" th:text="${detail[12]*0.05}">Detail 1</span> điểm tích lũy
+                                    + <span id="poinnn" th:text="${detail[13]}">Detail 1</span> điểm tích lũy
 
                                 </li>
                             </ul>
@@ -348,7 +384,7 @@
                                 <li style="list-style: none;" th:each="detail : ${entry.value}">
                                     <!-- Display other details as per your requirement -->
                                     <span th:text="${detail[11]==0 ? 'Chờ thanh toán' : (detail[11]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
-                                    <!-- Add more spans for other details -->
+                                  (Thời gian hủy:<span th:text="${#dates.format(detail[14], 'dd/MM/yyyy HH:mm')}">Detail 1</span>)
                                 </li>
                             </ul>
                         </td>
@@ -386,7 +422,7 @@
         return false;
     });
 
-    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1, #priceSum,#priceHuy");
+    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1, #priceSum,#priceHuy, #pricee");
 
     // Loop through each element and format its content to VND
     priceElements.forEach(function (element) {

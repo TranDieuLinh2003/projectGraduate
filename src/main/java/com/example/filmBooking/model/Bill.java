@@ -64,4 +64,7 @@ public class Bill {
 
     @Column(name = "waiting_time")
     private LocalDateTime waitingTime;
+
+    @Column(name = "point")
+    private Integer point ;
 }
