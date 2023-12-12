@@ -17,7 +17,7 @@
           method="get">
         <section>
 
-            <div class="col1"><img src="" th:src="*{image}" alt=""></div>
+            <div class="col1"><img src="" th:src="@{'http://localhost:8080/admin/assets/img/' + *{image}}" alt=""></div>
             <div class="col2">
 <!--                <input style="border: #ffffff" type="text" th:field="*{name}" id="name" placeholder="Name">-->
                 <h2 th:utext="*{name}"></h2><br>
