@@ -32,21 +32,11 @@
                         <tbody>
                         <th:block th:each="custom : ${listCustomer}">
                             <tr class="clickable">
-                                <td>
-                                    [[${custom[2]}]]
-                                </td>
-                                <td id="pricee">
-                                    [[${custom[1]}]]
-                                </td>
-                                <td id="point">
-                                    [[${custom[0]}]]
-                                </td>
-                                <td>
-                                    [[${custom[4]}]]
-                                </td>
-                                <td>
-                                    [[${custom[3]}]]
-                                </td>
+                                <td th:text="${custom[2] != null} ? ${custom[2]} : '0'"></td>
+                                <td id="pricee" th:text="${custom[1] != null} ? ${custom[1]} : '0'"></td>
+                                <td id="point" th:text="${custom[0] != null} ? ${custom[0]} : '0'"></td>
+                                <td th:text="${custom[4] != null} ? ${custom[4]} : '0'"></td>
+                                <td th:text="${custom[3] != null} ? ${custom[3]} : '0'"></td>
                             </tr>
                         </th:block>
                         <!-- Add more rows as needed -->
