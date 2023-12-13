@@ -31,12 +31,15 @@ public class TicketAdminController {
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
-    public String findAll(Model model, @RequestParam (value = "roomId", required = false) String roomId, @RequestParam(value = "movieId" ,required = false) String movieId, @RequestParam(value = "dateSearch", required = false) Date dateSearch, @PathVariable("pageNumber") Integer currentPage,
+    public String findAll(Model model, @RequestParam(value = "roomId", required = false) String roomId, @RequestParam(value = "movieId", required = false) String movieId, @RequestParam(value = "dateSearch", required = false) Date dateSearch, @PathVariable("pageNumber") Integer currentPage,
                           @RequestParam(value = "status", required = false) String status) {
         Page<Ticket> page = ticketService.findAllByStatus(roomId, movieId, dateSearch, status, currentPage);
+//        Page<Ticket> page = ticketService.findByScheduleId(id, currentPage);
+        if (status != null) {
+            page = ticketService.findAllByStatus(status, currentPage);
+        }
         model.addAttribute("status", status);
 //        model.addAttribute("idSchedule", id);
-
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

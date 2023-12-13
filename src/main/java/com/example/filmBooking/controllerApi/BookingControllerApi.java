@@ -198,15 +198,16 @@ public class BookingControllerApi {
 
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
-
         if (customer == null) {
             // Initialize the customer object if it doesn't exist in the session
             customer = new Customer();
             // Set the necessary attributes of the customer
             customer.setId("yourCustomerId");
-            // ... Set other attributes of the customer
-            // Store the customer object in the session
+
             session.setAttribute("customer", customer);
+        }else {
+            Integer listPoint = repository.findPointById(customer.getId());
+            model.addAttribute("listPoint", listPoint);
         }
         String customerId = customer.getId();
         HttpEntity<?> entity = new HttpEntity<>(customer);

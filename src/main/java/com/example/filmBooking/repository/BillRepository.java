@@ -73,7 +73,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status,b.total_money\n" +
+            "    b.status,b.total_money, b.point\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -99,7 +99,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 1\n" +
-            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point\n" +
             "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = bill, nativeQuery = true)
@@ -120,7 +120,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status,b.total_money\n" +
+            "    b.status,b.total_money, b.point\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -146,7 +146,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 0\n" +
-            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point\n" +
             "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billCho, nativeQuery = true)
@@ -167,7 +167,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status, b.total_money, cu.name, cu.phone_number\n" +
+            "    b.status, b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -192,7 +192,8 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    projectLinh.food f ON bf.food_id = f.id\n" +
             "WHERE\n" +
             "    b.id = :idBill\n" +
-            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, cu.name, cu.phone_number\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , " +
+            "b.status , b.id , b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time\n" +
             "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billDetail, nativeQuery = true)
@@ -234,7 +235,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status,b.total_money\n" +
+            "    b.status,b.total_money, b.point, b.waiting_time\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -260,7 +261,8 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 2\n" +
-            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create ," +
+            " bt.total_money , r.name , b.status , b.id , b.total_money, b.point, b.waiting_time\n" +
             "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billHuy, nativeQuery = true)
@@ -282,7 +284,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status,b.total_money\n" +
+            "    b.status,b.total_money, b.point\n" +
             "    FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -307,7 +309,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    projectLinh.food f ON bf.food_id = f.id\n" +
             "     WHERE\n" +
             "    cu.id = :customerId\n" +
-            "     GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money\n" +
+            "     GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point\n" +
             "     ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billCustomer, nativeQuery = true)

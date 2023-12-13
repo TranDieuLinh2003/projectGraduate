@@ -28,7 +28,7 @@
             <div class="khoi">
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
-                        <img th:src="${movie.image}" style="width: 100%; height: 459px">
+                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie.image}}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">[[${movie.rated.code}]]</span><span
                                 class="month">Trailer</span></div>
                         <i class="myBtn" data-toggle="modal" data-target="#myModal"
@@ -61,7 +61,7 @@
             <div class="khoi">
                 <th:block th:each="movie1 : ${listmovie1}">
                     <figure class="snip1208">
-                        <img th:src="${movie1.image}" style="width: 100%; height: 459px">
+                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie1.image}}" style="width: 100%; height: 459px">
                         <div class="date"><span class="day">[[${movie1.rated.code}]]</span><span
                                 class="month">Trailer</span></div>
                         <i class="myBtnn" data-toggle="modal" data-target="#myModall"

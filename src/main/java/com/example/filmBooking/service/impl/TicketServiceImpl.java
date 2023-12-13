@@ -151,9 +151,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
+        return repository.findAllByStatus(status, pageTicket(pageNumber));
+    }
+
+    @Override
     public Page<Ticket> findAllByStatus(String roomName, String movieName, Date dateSearch, String status, Integer pageNumber) {
         return repository.searchTicket(roomName, movieName, dateSearch, status, pageTicket(pageNumber));
     }
-
 
 }
