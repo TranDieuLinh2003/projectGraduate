@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -98,6 +99,7 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
 
     Page<Ticket> findAllByStatus(String status, Pageable pageable);
 
-
+    @Query("FROM Ticket t where t.schedule.room.id like %:roomName% and t.schedule.movie.id like %:movieName% and Date(t.schedule.startAt)= : dateSearch and t.status is null or t.status like %:status% ")
+    Page<Ticket> searchTicket(String roomName, String movieName, Date dateSearch, String status, Pageable pageable);
 
 }
