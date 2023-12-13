@@ -26,7 +26,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     @Query("SELECT c.point FROM Customer c WHERE c.id = :customerId")
     Integer findPointById(@Param("customerId") String customerId);
 
-    String customer = ("SELECT sum(b.point), SUM(b.total_money) AS total_money_sum, r.name, c.point\n" +
+    String customer = ("SELECT sum(b.point), SUM(b.total_money) AS total_money_sum, r.name, c.point, sum(b.use_points)\n" +
             "FROM projectLinh.customer c\n" +
             "JOIN projectLinh.rank_customer r ON c.rank_customer_id = r.id\n" +
             "JOIN projectLinh.bill b ON c.id = b.customer_id\n" +
