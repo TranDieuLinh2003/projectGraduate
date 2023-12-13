@@ -10,6 +10,7 @@ import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -97,8 +99,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime,String nameRoom) {
-        return repository.findTicketsBySchedule_Id(cinemaId,movieId,startAt,startTime,nameRoom);
+    public List<Ticket> getTicket(String cinemaId, String movieId, String startAt, String startTime, String nameRoom) {
+        return repository.findTicketsBySchedule_Id(cinemaId, movieId, startAt, startTime, nameRoom);
     }
 
     @Override
@@ -108,21 +110,20 @@ public class TicketServiceImpl implements TicketService {
 
     public static void main(String[] args) {
         // Giá ban đầu
-        }
+    }
 
 
     // hàm check
 
-    public String checkSchedule(){
+    public String checkSchedule() {
         LocalDateTime date = LocalDateTime.now();
         // list schedule
         List<Schedule> listSchedule = scheduleRepository.findAll();
-        for(Schedule dto: listSchedule)
-        {
-            if(date.isAfter(dto.getFinishAt())){
+        for (Schedule dto : listSchedule) {
+            if (date.isAfter(dto.getFinishAt())) {
                 //tìm kiếm tất cả vé
                 List<Ticket> tickets = repository.findBySchedule(dto.getId());
-                for (Ticket ticket : tickets){
+                for (Ticket ticket : tickets) {
                     // thực hiện update
                     ticket.setStatus("Đã chiếu");
                     repository.save(ticket);
@@ -133,15 +134,15 @@ public class TicketServiceImpl implements TicketService {
 
         return null;
     }
-     
+
     @Override
     public Page<Ticket> getAll(Integer pageNumber) {
         return repository.findAll(pageTicket(pageNumber));
     }
-     
+
     @Override
     public Pageable pageTicket(Integer pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber -1, 10);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 10);
         return pageable;
     }
 
@@ -150,11 +151,14 @@ public class TicketServiceImpl implements TicketService {
         return repository.findByScheduleId(scheduleId, pageTicket(pageable));
     }
 
+//    @Override
+//    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
+//        return repository.findAllByStatus(status, pageTicket(pageNumber));
+//    }
+
     @Override
-    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
-        return repository.findAllByStatus(status, pageTicket(pageNumber));
+    public Page<Ticket> findAllByStatus(String scheduleId, String status, Integer pageNumber) {
+        return repository.searchTicket(scheduleId, status, pageTicket(pageNumber));
     }
-
-
 
 }

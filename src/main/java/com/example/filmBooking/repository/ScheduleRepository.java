@@ -1,7 +1,5 @@
 package com.example.filmBooking.repository;
 
-import com.example.filmBooking.model.Bill;
-import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,11 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 public interface ScheduleRepository extends JpaRepository<Schedule, String> {
@@ -114,5 +110,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             "INNER JOIN schedule s ON t.schedule_id = s.id " +
             "WHERE s.id = ?1 and b.status ='1' ", nativeQuery = true)
     List<String> findBillByStatusSchedule(String scheduleId);
+
+    @Query(" select distinct s.name from Schedule s ")
+    List<String> listSchedule();
+
+    @Query("from Schedule s where s.name like %:name%")
+    List<Schedule> findAllByName(String name);
+
 }
 

@@ -50,21 +50,27 @@
 
 
     <form th:action="@{/movie/find-all/page/1}" class="form_search_movie">
-        <div class="text-loc-ticket">
-            <h4>Lọc phim theo trạng thái</h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>Chọn trạng thái phim</h4>
+                <select class="form-select" aria-label="Default select example" name="status">
+                    <option value="">Tất cả</option>
+                    <option value="Sắp chiếu">Sắp chiếu</option>
+                    <option value="Đang chiếu">Đang chiếu</option>
+                    <option value="Đã chiếu">Đã chiếu</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-5">
+                <input class="form-control border" type="text" name="keyword" placeholder="Tìm kiếm phim"/></div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-success" onclick="overLoad()">Tìm kiếm</button>
+            </div>
         </div>
+
         <br>
-        <select class="form-select" aria-label="Default select example" name="status">
-            <option value="">Tất cả</option>
-            <option value="Sắp chiếu">Sắp chiếu</option>
-            <option value="Đang chiếu">Đang chiếu</option>
-            <option value="Đã chiếu">Đã chiếu</option>
-        </select>
-        <br>
-        <div class="input-box-1">
-            <input type="text" name="keyword" placeholder="Tìm kiếm phim"/>
-        </div>
-        <button type="submit" class="btn btn-success" onclick="overLoad()">Tìm kiếm</button>
+
     </form>
     <div class="movie-card">
         <div class="row row-cols-1 row-cols-md-4 g-4">

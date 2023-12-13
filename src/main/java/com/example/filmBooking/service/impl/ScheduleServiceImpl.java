@@ -3,7 +3,6 @@ package com.example.filmBooking.service.impl;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.ScheduleService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -382,6 +381,16 @@ public class ScheduleServiceImpl implements ScheduleService {
             shouldContinue = true;
         }
         return findAll();
+    }
+
+    @Override
+    public List<String> listSchedule() {
+        return repository.listSchedule();
+    }
+
+    @Override
+    public List<Schedule> getScheduleByName(String name) {
+        return repository.findAllByName(name);
     }
 
     @Override

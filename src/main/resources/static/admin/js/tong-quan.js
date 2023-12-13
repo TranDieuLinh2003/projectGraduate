@@ -10,9 +10,9 @@ for (var i = 0; i < 7; i++) {
     dateList.push(tempDate);
 }
 // Đổi định dạng ngày thành chuỗi và đưa vào mảng kết quả
-// console.log(myDinh)
-// console.log(mipec)
-// console.log(thanhXuan)
+console.log(myDinh)
+console.log(mipec)
+console.log(thanhXuan)
 
 var resultList = dateList.map(function (date) {
     return date.toISOString().slice(0, 10);
