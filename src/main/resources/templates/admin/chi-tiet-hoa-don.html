@@ -141,10 +141,14 @@
                         <br>
                         (+ <span id="poin" th:text="${detail[15]}">Detail 1</span> điểm tích lũy)
                         <hr>
+                        <span th:if="${detail[17] == null}">-0 điểm tiêu dùng</span>
+                        <span th:if="${detail[17] != null}" th:text="${-detail[17]} + ' điểm tiêu dùng'"></span>
+                        <hr>
                         (<span th:text="${detail[11]==0 ? 'Chờ thanh toán' : (detail[11]==1 ? 'Đã thanh toán' : 'Đã hủy')}"></span>
                         )
-                        (Thời gian hủy:<span th:text="${#dates.format(detail[16], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
-                        )
+                        <span th:if="${detail[11] == 2}" th:text="${'Thời gian hủy:'+ #dates.format(detail[16], 'dd/MM/yyyy HH:mm')}">Detail 1</span>
+
+
                     </li>
                 </ul>
             </td>
