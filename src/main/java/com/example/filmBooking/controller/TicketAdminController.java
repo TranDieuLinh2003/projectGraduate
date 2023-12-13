@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,18 +27,19 @@ public class TicketAdminController {
 
     @GetMapping("/find-all")
     public String viewTicket(Model model) {
-        return findAll(model, null, 1, null);
+        return findAll(model, null, null, null, 1, null);
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
-    public String findAll(Model model, @Param("id") String id, @PathVariable("pageNumber") Integer currentPage,
-                          @Param("status") String status) {
-        Page<Ticket> page = ticketService.findByScheduleId(id, currentPage);
-        if(status != null){
+    public String findAll(Model model, @RequestParam(value = "roomId", required = false) String roomId, @RequestParam(value = "movieId", required = false) String movieId, @RequestParam(value = "dateSearch", required = false) Date dateSearch, @PathVariable("pageNumber") Integer currentPage,
+                          @RequestParam(value = "status", required = false) String status) {
+        Page<Ticket> page = ticketService.findAllByStatus(roomId, movieId, dateSearch, status, currentPage);
+//        Page<Ticket> page = ticketService.findByScheduleId(id, currentPage);
+        if (status != null) {
             page = ticketService.findAllByStatus(status, currentPage);
         }
         model.addAttribute("status", status);
-        model.addAttribute("idSchedule", id);
+//        model.addAttribute("idSchedule", id);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
