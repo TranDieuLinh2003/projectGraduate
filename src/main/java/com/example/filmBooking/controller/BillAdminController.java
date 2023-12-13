@@ -97,8 +97,9 @@ public class BillAdminController {
         BigDecimal orderTotalDecimal = bill.getTotalMoney();
         BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
+        customer.setPoint(customer.getPoint()-bill.getUsepoints());
         customerService.update(bill.getCustomer().getId(), customer);
-//        customer.setPoint();
+
         try {
             if (service.update(id, bill) instanceof Bill) {
                 String email = bill.getCustomer().getEmail();

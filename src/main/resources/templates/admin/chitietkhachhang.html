@@ -132,6 +132,9 @@
                         <span id="price1" th:text="${detail[12]}">Detail 1</span>
                         <br>
                         (+ <span id="poin" th:text="${detail[13]}">Detail 1</span> điểm tích lũy)
+                        <hr>
+                        <span th:if="${detail[14] == null}">-0 điểm tiêu dùng</span>
+                        <span th:if="${detail[14] != null}" th:text="${-detail[14]} + ' điểm tiêu dùng'"></span>
 
                     </li>
                 </ul>

@@ -34,4 +34,7 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
     @Query(value = customer, nativeQuery = true)
     List<Object[]> getCustommerById(@Param("customerId") String customerId);
+
+    Customer findByEmail(String email);
+
 }

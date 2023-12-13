@@ -29,4 +29,7 @@ public interface CustomerService {
     Pageable pageCustomer(Integer pageNumber);
 
     Page<Customer>searchCustomer(String keyword, Integer pageNumber);
+
+    Customer findCustomerByEmail(String email);
+
 }

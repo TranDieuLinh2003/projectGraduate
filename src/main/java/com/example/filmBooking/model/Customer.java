@@ -8,6 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,8 +38,7 @@ public class Customer {
     @Column(name = "code")
     private String code;
 
-//    @NotEmpty(message = "Họ tên không được để trống!!")
-//    @Min(value = 3 , message = "Tên đăng ký tối thiểu trên 3 ký tự!! ")
+    @NotEmpty(message = "Họ tên không được để trống")
     @Column(name = "name")
     private String name;
 
@@ -43,19 +46,19 @@ public class Customer {
     @JoinColumn(name = "rankCustomer_id")
     private RankCustomer rankCustomer;
 
-//    @NotNull
-//    @Size(max = 10, min = 10, message = "Số điện thoại di động phải có 10 chữ số")
-//    @Pattern(regexp = "/((0)+([0-9]{9})\\b)/g", message = "Số điện thoại di động không hợp lệ!!")
+    @NotEmpty(message = "SĐT không được để trống")
+    @Pattern(regexp="^0\\d{9,10}$", message="SĐT phải đúng định dạng")
     @Column(name = "phone_number")
     private String phoneNumber;
 
-//    @NotBlank(message = "Email không được để trống")
-//    @Email(message = "Email không hợp lệ!!")
+    @NotEmpty(message = "Email không được để trống")
+    @Email(message = "Email sai định dạng mail")
     @Column(name = "email")
     private String email;
 
-//    @NotBlank(message = "Mật khẩu không được để trống")
-//    @Size(min = 8, message = "Mật khẩu >= 8 ký tự")
+
+    @NotEmpty(message = "Password không được để trống")
+    @Size(min = 8, message = "Mật khẩu phải có độ dài tối thiểu 8 ký tự")
     @Column(name = "password")
     private String password;
 

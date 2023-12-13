@@ -135,6 +135,11 @@
 			<artifactId>HikariCP</artifactId>
 			<version>3.3.1</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.sun.mail</groupId>-->
+<!--			<artifactId>jakarta.mail</artifactId>-->
+<!--			<version>1.6.7</version> &lt;!&ndash; Replace with the appropriate version &ndash;&gt;-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

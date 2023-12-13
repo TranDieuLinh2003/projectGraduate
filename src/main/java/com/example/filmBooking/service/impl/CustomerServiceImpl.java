@@ -120,7 +120,12 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<Customer> searchCustomer(String keyword, Integer pageNumber) {
         return repository.findByNameContains(keyword, pageCustomer(pageNumber));
     }
-    
+
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
     @Override
     public Page<Customer> getAll(Integer currentPage) {
         return repository.findAll(pageCustomer(currentPage));
