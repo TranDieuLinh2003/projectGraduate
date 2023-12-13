@@ -27,8 +27,8 @@ public interface TicketService {
 
     Page<Ticket> findByScheduleId(String scheduleId, Integer pageable);
 
-    Page<Ticket> findAllByStatus(String roomName, String movieName, Date dateSearch, String status, Integer pageNumber);
+    Page<Ticket> findAllByStatus(String scheduleId, String status, Integer pageNumber);
 
-    Page<Ticket> findAllByStatus(String roomName, String movieName, Date dateSearch, String status, Integer pageNumber);
+//    Page<Ticket> findAllByStatus(String roomName, String movieName, Date dateSearch, String status, Integer pageNumber);
 
 }

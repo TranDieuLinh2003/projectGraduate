@@ -1,6 +1,7 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.BillTicket;
+import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -98,10 +99,11 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
 
 
     Page<Ticket> findAllByStatus(String status, Pageable pageable);
-//
+
+    //
 //    @Query("FROM Ticket t where t.schedule.room.id like %:roomName% and t.schedule.movie.id like %:movieName% and Date(t.schedule.startAt)= : dateSearch and t.status is null or t.status like %:status% ")
 //    Page<Ticket> searchTicket(String roomName, String movieName, Date dateSearch, String status, Pageable pageable);
-@Query("FROM Ticket t WHERE t.schedule.room.id LIKE %:roomName% AND t.schedule.movie.id LIKE %:movieName% AND DATE(t.schedule.startAt) = :dateSearch AND (t.status IS NULL OR t.status LIKE %:status%)")
-Page<Ticket> searchTicket(@Param("roomName") String roomName, @Param("movieName") String movieName, @Param("dateSearch") Date dateSearch, @Param("status") String status, Pageable pageable);
+    @Query("FROM Ticket t WHERE t.schedule.id LIKE %:scheduleId% AND (t.status IS NULL OR t.status LIKE %:status%) order by t.seat.line ASC, t.seat.number ASC ")
+    Page<Ticket> searchTicket(@Param("scheduleId") String scheduleId, @Param("status") String status, Pageable pageable);
 
 }

@@ -10,6 +10,7 @@ import com.example.filmBooking.repository.TicketRepository;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -150,14 +151,14 @@ public class TicketServiceImpl implements TicketService {
         return repository.findByScheduleId(scheduleId, pageTicket(pageable));
     }
 
-    @Override
-    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
-        return repository.findAllByStatus(status, pageTicket(pageNumber));
-    }
+//    @Override
+//    public Page<Ticket> findAllByStatus(String status, Integer pageNumber) {
+//        return repository.findAllByStatus(status, pageTicket(pageNumber));
+//    }
 
     @Override
-    public Page<Ticket> findAllByStatus(String roomName, String movieName, Date dateSearch, String status, Integer pageNumber) {
-        return repository.searchTicket(roomName, movieName, dateSearch, status, pageTicket(pageNumber));
+    public Page<Ticket> findAllByStatus(String scheduleId, String status, Integer pageNumber) {
+        return repository.searchTicket(scheduleId, status, pageTicket(pageNumber));
     }
 
 }

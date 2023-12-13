@@ -3,11 +3,11 @@ package com.example.filmBooking.service;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -43,5 +43,8 @@ public interface ScheduleService {
 
     List<Schedule> generateSchedule(List<String> listRoom, List<String> listMovie, LocalDateTime startTime, LocalDateTime endTime);
 
+    List<String> listSchedule();
+
+    List<Schedule> getScheduleByName(String name);
 
 }

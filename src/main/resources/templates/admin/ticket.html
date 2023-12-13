@@ -51,34 +51,26 @@
                         <div class="text-loc-ticket">
                             <h4>Lọc vé theo suất chiếu</h4>
                         </div>
-                        <select class="form-select" aria-label="Default select example" name="id">
-                            <th:block th:each="s : ${scheduleId}">
-                                <option th:value="${s.id}">[[${s.name}]]</option>
+                        <select class="form-select" aria-label="Default select example" id="scheduleNames">
+                            <th:block th:each="s : ${scheduleNames}">
+                                <option th:value="${s}">[[${s}]]</option>
                             </th:block>
                         </select>
-                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Tìm kiếm vé</button>
-<!--                        <a th:href=""></a>-->
-<!--                        <button type="button" class="btn btn-outline-success">Đã bán</button>-->
-                    </div>
-                </form>
-            </div>
-            <div class="col-6">
-                <form th:action="@{/ticket/find-all/page/1}" method="get">
-                    <div class="search_by_ticket">
-                        <div class="text-loc-ticket">
-                            <h4>Lọc vé đã bán và chưa bán</h4>
-                        </div>
+                        <select class="form-select" aria-label="Default select example" id="scheduleDate" name="id">
+                            <th:block th:each="s : ${scheduleDate}">
+                                <option th:value="${s}">[[${s}]]</option>
+                            </th:block>
+                        </select>
                         <select class="form-select" aria-label="Default select example" name="status">
                             <option value="">Tất cả</option>
                             <option value="đã bán">Đã bán</option>
                             <option value="chưa bán">Chưa bán</option>
                         </select>
-                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc vé</button>
+                        <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Tìm kiếm vé</button>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
     <div class="table_customer">
         <table class="table">
@@ -113,7 +105,8 @@
             <ul class="pagination">
                 <th:block th:if="${currentPage > 1}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/ticket/find-all/page/' + ${currentPage - 1} + ${idSchedule == null ? '' : '?id=' + idSchedule} + ${status == null ? '' : '?status=' + status}}"
+                        <a class="page-link"
+                           th:href="@{'/ticket/find-all/page/' + ${currentPage - 1} + ${idSchedule == null ? '' : '?id=' + idSchedule} + ${status == null ? '' : '?status=' + status}}"
                            aria-label="Previous" onclick="overLoad()">
                             &laquo;
                         </a>
@@ -121,14 +114,17 @@
                 </th:block>
                 <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/ticket/find-all/page/' + ${pageNumber}  + ${idSchedule == null ? '' : '?id=' + idSchedule}+ ${status == null ? '' : '?status=' + status}}" onclick="overLoad()">
+                        <a class="page-link"
+                           th:href="@{'/ticket/find-all/page/' + ${pageNumber}  + ${idSchedule == null ? '' : '?id=' + idSchedule}+ ${status == null ? '' : '?status=' + status}}"
+                           onclick="overLoad()">
                             [[${pageNumber}]]
                         </a>
                     </li>
                 </th:block>
                 <th:block th:if="${currentPage < totalPages}">
                     <li class="page-item">
-                        <a class="page-link" th:href="@{'/ticket/find-all/page/' + ${currentPage + 1}  + ${idSchedule == null ? '' : '?id=' + idSchedule}+ ${status == null ? '' : '?status=' + status}}"
+                        <a class="page-link"
+                           th:href="@{'/ticket/find-all/page/' + ${currentPage + 1}  + ${idSchedule == null ? '' : '?id=' + idSchedule}+ ${status == null ? '' : '?status=' + status}}"
                            aria-label="Next" onclick="overLoad()">
                             &raquo;
                         </a>
@@ -138,7 +134,37 @@
         </nav>
     </div>
 </section>
+<script th:inline="javascript">
+    var scheduleNames = [[${scheduleNames}]];
+    var scheduleDate = [[${scheduleDate}]];
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('scheduleNames').addEventListener('change', function () {
+            var selectedScheduleName = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/ticket/schedule-date?schedule-name=' + selectedScheduleName, true);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var options = document.getElementById('scheduleDate');
+                    options.innerHTML = '';
+                    data.forEach(function (value) {
+                        var option = document.createElement('option');
+                        option.value = value.id;
+                        option.text = value.startAt;
+                        options.appendChild(option);
+                    });
+                }
+            };
+
+            xhr.send();
+        });
+    });
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
