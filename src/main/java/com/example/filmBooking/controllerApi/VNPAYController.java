@@ -141,6 +141,7 @@ public class VNPAYController {
         customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
 
         bill.setPoint(diemKhachHang.intValue());
+        bill.setUsepoints(point);
         if (point == null) {
             // Xử lý khi selectedFood là null hoặc rỗng
         } else {
@@ -329,6 +330,7 @@ public class VNPAYController {
         bill.setCustomer(customer);
         bill.setTotalMoney(orderTotalDecimal);
         bill.setTradingCode(transactionCode);
+
         Integer percentagePlusPoints = generalSettingRepository.findPercentagePlusPoints();
 
         BigDecimal phantram = BigDecimal.valueOf(percentagePlusPoints).divide(BigDecimal.valueOf(100));
