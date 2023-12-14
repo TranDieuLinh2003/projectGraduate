@@ -155,7 +155,7 @@ function validateSchedule(event) {
     //         icon: "success",
     //         title: "Thêm lịch chiếu thành công"
     //     });
-    //     document.getElementById('loading-overlay').style.display = 'flex';
+        document.getElementById('loading-overlay').style.display = 'flex';
     // }
 }
 
