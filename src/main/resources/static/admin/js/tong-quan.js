@@ -124,7 +124,7 @@ var optionOne = {
     },
     series: [
         {
-            name: 'Access From',
+            name: 'Rạp',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
@@ -177,7 +177,7 @@ var optionTwo = {
     },
     series: [
         {
-            name: 'Access From',
+            name: 'Đồ ăn',
             type: 'pie',
             radius: ['40%', '70%'],
             avoidLabelOverlap: false,
