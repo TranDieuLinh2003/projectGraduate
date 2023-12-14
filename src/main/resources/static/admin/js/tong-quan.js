@@ -159,29 +159,48 @@ var dataChartTwo2=[];
 for (var i = 0; i < revenueFood.length; i++) {
     var totalMoney2 = revenueFood[i][1]; // Access the total money
     var foodName = revenueFood[i][0]; // Access the cinema name
-    dataChartTwo.push(totalMoney2);
-    dataChartTwo2.push(foodName);
+    // dataChartTwo.push(totalMoney2);
+    // dataChartTwo2.push(foodName);
+    dataChartTwo.push({value: totalMoney2, name: foodName})
 }
 var myChartTwo = echarts.init(document.getElementById('myChartTwo'));
 var optionTwo = {
     title: {
         text: 'Top 7 đồ ăn cho doanh thu cao nhất'
     },
-    xAxis: {
-        type: 'category',
-        data: dataChartTwo2
+    tooltip: {
+        trigger: 'item'
     },
-    yAxis: {
-        type: 'value'
+    legend: {
+        top: '5%',
+        left: 'center'
     },
     series: [
         {
-            data: dataChartTwo,
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-                color: 'rgba(180, 180, 180, 0.2)'
-            }
+            name: 'Access From',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: 40,
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            data: dataChartTwo
         }
     ]
 };
