@@ -208,8 +208,9 @@
                                     <p style="margin-left: -80px" class="mot">[[${food.description}]] => Giá : <b
                                             class="priceFood">[[${food.price}]]</b></p>
                                     <div class="cart-quantity cart-column">
-                                        <input class="cart-quantity-input" type="number" min="0" value="0"
-                                               onchange="sumFood()">
+                                        <input class="cart-quantity-input" type="number" min="0" value="0" onchange="sumFood()" readonly>
+                                        <button onclick="increaseValue()">+</button>
+                                        <button onclick="decreaseValue()">-</button>
                                     </div>
                                 </div>
                                 <hr style="opacity: 0.6; width: 900px;">

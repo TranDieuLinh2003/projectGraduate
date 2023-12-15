@@ -3,11 +3,13 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.apis.Api;
 import com.example.filmBooking.model.Bill;
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.model.RankCustomer;
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.repository.ScheduleRepository;
 import com.example.filmBooking.service.CustomerService;
 import com.example.filmBooking.service.impl.CustomerServiceImpl;
+import com.example.filmBooking.service.impl.RankCustomerServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class ThongTinController {
     @Autowired
     private CustomerRepository repository;
 
+    @Autowired
+    private RankCustomerServiceImpl rankCustomerService;
 //    public static String apiGetCinema = Api.baseURL + "/api/ticket/show/test";
 
     @GetMapping("/thongtincanhan")
@@ -43,10 +47,11 @@ public class ThongTinController {
 
 
         Customer customer = customerService.findByEmail(customerSession.getEmail());
-        if (customer == null){
+        if (customer == null) {
             return "redirect:/filmbooking/login";
         }
         List<Object[]> listCustomer = repository.getCustommerById(customer.getId());
+        List<Integer> rankCustomerList = repository.getPoint(customer.getId());
 
         String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
 //        System.out.println(soldTicketsCountBill);
@@ -119,6 +124,7 @@ public class ThongTinController {
         });
         model.addAttribute("customer", customer);
         model.addAttribute("listCustomer", listCustomer);
+        model.addAttribute("rankCustomerList", rankCustomerList);
         model.addAttribute("groupedBillDetails", groupedBillDetails);
         model.addAttribute("groupedBillDetailsCho", groupedBillDetailsCho);
         model.addAttribute("groupedBillDetailsHuy", groupedBillDetailsHuy);
@@ -139,7 +145,7 @@ public class ThongTinController {
             customer.setName(name);
             customer.setPhoneNumber(phoneNumber);
 //            customer.setPassword(password);
-            customerService.save(customer);
+            customerService.update(customer.getId(), customer);
         } else {
             System.out.println("không tìm thấy account");
         }

@@ -31,9 +31,6 @@ public class Promotion {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "type")
-    private Integer type;
-
     @Column(name = "percent")
     private Integer percent;
 

@@ -21,12 +21,9 @@
                     <table>
                         <thead>
                         <tr>
-                            <th>Hạng thành viên</th>
-                            <th>Tổng chi tiêu</th>
-                            <th>Điểm tích lũy</th>
-                            <th>Điểm đã tiêu</th>
-                            <th>Điểm khả dụng</th>
-
+                            <th>Hạng rank</th>
+                            <th>Tổng chi tiêu của khách hàng</th>
+                            <th>Điểm point tích lũy</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,6 +32,34 @@
                                 <td th:text="${custom[2] != null} ? ${custom[2]} : '0'"></td>
                                 <td id="pricee" th:text="${custom[1] != null} ? ${custom[1]} : '0'"></td>
                                 <td id="point" th:text="${custom[0] != null} ? ${custom[0]} : '0'"></td>
+                            </tr>
+                        </th:block>
+                        <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+                <th:block th:each="rank : ${rankCustomerList}">
+
+                    <b id="rank" style="color: #1c1c1c;display: none">[[${rank}]]</b>
+                </th:block>
+                <p style="color: black;text-align: center; margin-bottom: -22px;">Bạn cần tích lũy thêm <b id="rankpoint">sds</b> để nâng Hạng
+                    Bạc</p>
+                <div class="animated-progress progress-blue">
+
+                    <span data-progress=""></span>
+                </div>
+                <br>
+                <div class="infor">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Điểm đã tiêu </th>
+                            <th>Điểm khả dụng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="custom : ${listCustomer}">
+                            <tr class="clickable">
                                 <td th:text="${custom[4] != null} ? ${custom[4]} : '0'"></td>
                                 <td th:text="${custom[3] != null} ? ${custom[3]} : '0'"></td>
                             </tr>
@@ -43,7 +68,7 @@
                         </tbody>
                     </table>
                 </div>
-                <form th:action="@{/filmbooking/update-thongtin/${customer.id}}" method="post">
+                <form th:action="@{/filmbooking/update-thongtin}" method="post">
                     <div class="container" id="app">
 
                         <div>
@@ -77,7 +102,7 @@
                                 </button>
                             </fieldset>
                         </div>
-                        <button id="cancel" class="button cancel-button">Cập nhập</button>
+                        <button type="submit" id="cancel" class="button cancel-button">Cập nhập</button>
 
                     </div>
                 </form>
@@ -412,39 +437,25 @@
 <div th:replace="~{/layout/Footer :: footer}"></div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/users/js/thongtin.js}"></script>
 <script>
-    $('.unmask').on('click', function () {
-        var inputField = $(this).prev('input');
-        var currentType = inputField.attr('type');
+    const rank = document.getElementById("rank").textContent;
+    const point = document.getElementById("point").textContent;
 
-        if (currentType === 'password') {
-            inputField.attr('type', 'text');
-        } else {
-            inputField.attr('type', 'password');
-        }
+    const sum = parseFloat(rank) - parseFloat(point);
+    document.getElementById("rankpoint").innerHTML = sum + ' điểm';
 
-        return false;
-    });
+    const precent = (point / rank) * 100;
+    // Lấy phần tử HTML chứa thuộc tính data-progress
+    var element = document.querySelector('span[data-progress]');
 
-    var priceElements = document.querySelectorAll("#price,#price1,#priceCho,#priceCho1, #priceSum,#priceHuy, #pricee");
-
-    // Loop through each element and format its content to VND
-    priceElements.forEach(function (element) {
-        var price = parseFloat(element.innerHTML);
-        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
-        // Set the formatted price as the inner HTML of the element
-        element.innerHTML = formattedPrice;
-    });
-
-    // Lấy tất cả các phần tử có id là "poin"
-    var elements = document.querySelectorAll("#poin, #poinn, #poinnn");
-
-    // Duyệt qua từng phần tử và thực hiện việc bỏ hết số 0 sau dấu chấm rồi chuyền giá trị ngược lại
-    elements.forEach(function (element) {
-        var originalNumber = element.innerHTML;
-        var number = parseFloat(originalNumber);
-        var roundedNumber = number.toFixed(0);
-        element.innerHTML = roundedNumber;
+    // Gán dữ liệu vào thuộc tính data-progress
+    element.setAttribute('data-progress', precent);
+    $(".animated-progress span").each(function () {
+        $(this).animate({
+            width: precent + "%",
+        }, 1000);
+        $(this).text(precent + "%");
     });
 
 </script>

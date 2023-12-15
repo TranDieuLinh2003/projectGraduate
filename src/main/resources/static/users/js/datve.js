@@ -819,3 +819,20 @@ function captureInputAndDisplay() {
 
 // Add a click event listener to the button to trigger the function when clicked
 document.getElementById("yourButtonId").addEventListener("click", captureInputAndDisplay);
+function increaseValue() {
+    var value = parseInt(document.querySelector('.cart-quantity-input').value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    document.querySelector('.cart-quantity-input').value = value;
+    sumFood(); // Gọi hàm sumFood() khi giá trị thay đổi
+}
+
+function decreaseValue() {
+    var value = parseInt(document.querySelector('.cart-quantity-input').value, 10);
+    value = isNaN(value) ? 0 : value;
+    if (value > 0) {
+        value--;
+        document.querySelector('.cart-quantity-input').value = value;
+        sumFood(); // Gọi hàm sumFood() khi giá trị thay đổi
+    }
+}

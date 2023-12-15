@@ -33,7 +33,6 @@ public class PromotionAdminController {
     public String addPromotion(Model model, @RequestParam(name = "id") String id,
                                @RequestParam(name = "name") String name,
                                @RequestParam(name = "code") String code,
-                               @RequestParam(name = "type") Integer type,
                                @RequestParam(name = "percent") Integer percent,
                                @RequestParam(name = "rankCustomer") RankCustomer rankCustomer,
                                @RequestParam(name = "startDate") LocalDateTime startDate,
@@ -46,7 +45,6 @@ public class PromotionAdminController {
                     .id(id)
                     .code(code)
                     .name(name)
-                    .type(type)
                     .description(description)
                     .percent(percent)
                     .rankCustomer(rankCustomer)

@@ -1,6 +1,8 @@
 package com.example.filmBooking.repository;
 
 import com.example.filmBooking.model.Customer;
+import com.example.filmBooking.model.RankCustomer;
+import com.example.filmBooking.model.Seat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,6 +36,22 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
     @Query(value = customer, nativeQuery = true)
     List<Object[]> getCustommerById(@Param("customerId") String customerId);
+
+    String point = ("SELECT r.point \n" +
+            "FROM projectLinh.rank_customer r\n" +
+            "WHERE r.point > \n" +
+            "(SELECT point \n" +
+            "FROM projectLinh.rank_customer r\n" +
+            "WHERE r.id = \n" +
+            "(SELECT rank_customer_id\n" +
+            "FROM projectLinh.customer c \n" +
+            "WHERE c.id = :customerId)\n" +
+            ")\n" +
+            "ORDER BY point \n" +
+            "LIMIT 1;");
+
+    @Query(value = point, nativeQuery = true)
+    List<Integer> getPoint(@Param("customerId") String customerId);
 
     Customer findByEmail(String email);
 
