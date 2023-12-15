@@ -445,17 +445,19 @@
     const sum = parseFloat(rank) - parseFloat(point);
     document.getElementById("rankpoint").innerHTML = sum + ' điểm';
 
-    const precent = ((point / rank) * 100).split('.')[1];;
+    const precent = (point / rank) * 100;
+    var afterDecimal = precent.toFixed(2);;
+
     // Lấy phần tử HTML chứa thuộc tính data-progress
     var element = document.querySelector('span[data-progress]');
 
     // Gán dữ liệu vào thuộc tính data-progress
-    element.setAttribute('data-progress', precent);
+    element.setAttribute('data-progress', afterDecimal);
     $(".animated-progress span").each(function () {
         $(this).animate({
-            width: precent + "%",
+            width: afterDecimal + "%",
         }, 1000);
-        $(this).text(precent + "%");
+        $(this).text(afterDecimal + "%");
     });
 
 </script>
