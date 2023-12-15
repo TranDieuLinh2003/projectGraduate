@@ -445,7 +445,7 @@
     const sum = parseFloat(rank) - parseFloat(point);
     document.getElementById("rankpoint").innerHTML = sum + ' điểm';
 
-    const precent = (point / rank) * 100;
+    const precent = ((point / rank) * 100).split('.')[1];;
     // Lấy phần tử HTML chứa thuộc tính data-progress
     var element = document.querySelector('span[data-progress]');
 
