@@ -88,6 +88,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, String> {
             "WHERE " +
             "(:fromDate IS NULL OR b.date_create >= :fromDate) " +
             "AND (:toDate IS NULL OR b.date_create <= :toDate) \n" +
+            "AND b.status =1 " +
             "group by c.id", nativeQuery = true)
     List<Object> revenueTicket(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
@@ -97,9 +98,9 @@ public interface PromotionRepository extends JpaRepository<Promotion, String> {
             "JOIN bill b ON bf.bill_id = b.id\n" +
             "WHERE " +
             "(:fromDate IS NULL OR b.date_create >= :fromDate) " +
-            "AND (:toDate IS NULL OR b.date_create <= :toDate) \n" +
+            "AND (:toDate IS NULL OR b.date_create <= :toDate) " +
+            "AND b.status =1 " +
             "GROUP BY bf.food_id, f.name\n" +
-            "ORDER BY total_revenue DESC\n" +
             "LIMIT 7", nativeQuery = true)
     List<Object> revenueFood(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 

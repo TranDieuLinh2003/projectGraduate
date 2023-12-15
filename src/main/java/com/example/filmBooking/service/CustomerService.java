@@ -32,4 +32,6 @@ public interface CustomerService {
 
     Customer findCustomerByEmail(String email);
 
+    Integer pointSetRank(String customerId);
+
 }

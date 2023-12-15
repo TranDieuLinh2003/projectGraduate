@@ -61,21 +61,29 @@ public class CustomerServiceImpl implements CustomerService {
         listRank.sort((o1, o2) -> {
             return o1.getPoint().compareTo(o2.getPoint());
         });
+        System.out.println(listRank);
         for (Customer customer : repository.findAll()
         ) {
-            if (customer.getPoint() > listRank.get(listRank.size() - 1).getPoint()) {
+            System.out.println(customer.getId());
+            System.out.println(pointSetRank(customer.getId()));
+            if(pointSetRank(customer.getId())==null){
+                customer.setRankCustomer(listRank.get(0));
+                repository.save(customer);
+            }
+            else if (pointSetRank(customer.getId()) != null && pointSetRank(customer.getId()) > listRank.get(listRank.size() - 1).getPoint()) {
                 //chuyển thành  goi cao nhat
                 customer.setRankCustomer(rankRepository.findById(listRank.get(listRank.size() - 1).getId()).get());
                 repository.save(customer);
             } else {
                 for (int i = 0; i < listRank.size(); i++) {
-                    if (customer.getPoint() >= listRank.get(i).getPoint() && customer.getPoint() < listRank.get(i + 1).getPoint()) {
+                    if (pointSetRank(customer.getId()) >= listRank.get(i).getPoint() && pointSetRank(customer.getId()) < listRank.get(i + 1).getPoint()) {
                         customer.setRankCustomer(rankRepository.findById(listRank.get(i).getId()).get());
                         repository.save(customer);
                         break;
                     }
                 }
             }
+//            System.out.println(customer.getName() + customer.getRankCustomer().getName());
         }
     }
 
@@ -124,6 +132,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer findCustomerByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    @Override
+    public Integer pointSetRank(String customerId) {
+//        System.out.println(repository.pointSetRank("c2710df2-fee7-44e1-a757-b381ec4303a3") +"hahahahahhah");
+        return repository.pointSetRank(customerId);
     }
 
     @Override

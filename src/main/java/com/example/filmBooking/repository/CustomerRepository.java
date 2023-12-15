@@ -18,8 +18,8 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     @Query(value = "SELECT c.* FROM customer c " +
             "INNER JOIN rank_customer r ON c.rank_customer_id = r.id " +
             "INNER JOIN promotion p ON p.rank_customer_id = r.id " +
-            "WHERE p.id = ?1 ",nativeQuery = true)
-    List<Customer> findByPromotion (String idPromotion);
+            "WHERE p.id = ?1 ", nativeQuery = true)
+    List<Customer> findByPromotion(String idPromotion);
 
     Page<Customer> findByNameContains(String keyword, Pageable pageable);
 
@@ -36,5 +36,8 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
     List<Object[]> getCustommerById(@Param("customerId") String customerId);
 
     Customer findByEmail(String email);
+
+    @Query(" select sum (b.point) from Bill b where b.customer.id =:customerId and b.status=1")
+    Integer pointSetRank(String customerId);
 
 }
