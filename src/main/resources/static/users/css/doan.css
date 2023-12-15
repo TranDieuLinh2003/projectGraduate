@@ -631,8 +631,12 @@ a:hover {
     padding-bottom: 10px;
     margin-top: 10px;
     margin-left: 90px;
+    display: grid;
+    grid-template-columns: auto auto auto ;
 }
-
+.cart-column button{
+    width: 20px;
+}
 .cart-quantity-input {
     height: 34px;
     width: 50px;

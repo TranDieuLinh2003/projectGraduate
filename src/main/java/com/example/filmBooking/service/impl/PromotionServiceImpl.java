@@ -42,7 +42,7 @@ public class PromotionServiceImpl implements PromotionService {
         promotionNew.setStartDate(promotion.getStartDate());
         promotionNew.setPercent(promotion.getPercent());
         promotionNew.setQuantity(promotion.getQuantity());
-        promotionNew.setType(promotion.getType());
+//        promotionNew.setType(promotion.getType());
         return promotionRepository.save(promotion);
     }
 
