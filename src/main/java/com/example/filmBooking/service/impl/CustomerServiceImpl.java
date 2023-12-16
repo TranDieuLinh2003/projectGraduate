@@ -55,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     //tự động cập nhật rank cho khách hàng
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 60000)
     public void autoCheckPoint() {
         List<RankCustomer> listRank = rankRepository.findAll();
         listRank.sort((o1, o2) -> {
