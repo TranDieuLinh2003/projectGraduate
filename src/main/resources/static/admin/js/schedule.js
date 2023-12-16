@@ -304,3 +304,18 @@ for (var j = 0; j < sevenDays.length; j++) {
 //     var formattedTime = formattedHour + ":" + formattedMinute;
 //     element.innerHTML = formattedTime;
 // })
+
+document.getElementById("addButton").addEventListener("click", function(event) {
+    if (document.getElementById("selectedMovieList").children.length === 0 ) {
+        alert("Error: Chọn phim trước khi thêm");
+        event.preventDefault(); // Prevent the default link behavior
+    } else if (document.getElementById("selectedRoomList").children.length === 0) {
+        alert("Error: Chọn phòng trước khi thêm");
+        event.preventDefault(); // Prevent the default link behavior
+    } else {
+        var confirmAdd = confirm('Bạn muốn thêm lịch chiếu mới!'); // Show a confirmation dialog
+        if (!confirmAdd) {
+            event.preventDefault(); // Prevent the default link behavior if the user cancels
+        }
+    }
+});

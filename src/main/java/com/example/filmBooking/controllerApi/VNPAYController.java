@@ -227,7 +227,7 @@ public class VNPAYController {
             }
             message.setRecipients(Message.RecipientType.TO, recipientAddresses);
             StringBuilder emailContent = new StringBuilder();
-            message.setSubject("Thông tin đơn hàng của bạn(Đơn hàng thanh toán thành công)");
+            message.setSubject("FilmBooking_Thông tin đơn hàng của bạn(Đơn hàng thanh toán thành công)");
             emailContent.append("Tên phim : ").append(nameFiml).append("\n");
             emailContent.append("Rạp/Phòng chiếu : ").append(roomm).append("\n");
             emailContent.append("Ngày chiếu : ").append(datedate).append("\n");
@@ -454,7 +454,7 @@ public class VNPAYController {
             emailContent1.append("Email : ").append(customer.getEmail()).append("\n");
             emailContent1.append("Mã giao dịch : ").append(transactionCode).append("\n");
             emailContent1.append("Đơn hàng thanh toán lúc: ").append(LocalDateTime.now()).append("\n");
-            emailContent1.append("Xác nhận đơn hàng:  ").append("http://localhost:8080/bill/xac-nhan").append("\n");
+            emailContent1.append("Xác nhận đơn hàng:  ").append("http://localhost:8080/bill/detail/").append(bill.getId());
             message2.setText(emailContent1.toString());
             Transport.send(message2);
         } catch (

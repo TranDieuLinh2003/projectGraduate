@@ -69,6 +69,18 @@
                     aria-label="Close"></button>
         </div>
     </div>
+    <div th:if="${errorMessage}" style="margin-left: 50px" class="alert alert-danger d-flex align-items-center"
+         role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+
+        <div>
+            <strong>[[${errorMessage}]]</strong>
+            <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    </div>
     <h2>QUẢN LÝ SUẤT CHIẾU</h2>
     <hr>
     <div class="row">
@@ -162,7 +174,7 @@
                                 <button
                                         type="submit"
                                         class="btn btn-outline-success"
-                                        onclick="return confirm('Bạn muốn thêm lịch chiếu mới !')"
+                                        id="addButton"
                                 >
                                     Thêm lịch chiếu hàng loạt
                                 </button>
