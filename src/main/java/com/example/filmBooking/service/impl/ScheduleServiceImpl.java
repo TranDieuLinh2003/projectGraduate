@@ -407,7 +407,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Pageable pageSchedule(Integer pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+        Pageable pageable = PageRequest.of(pageNumber - 1, 20);
         return pageable;
     }
 

@@ -198,6 +198,7 @@ public class VNPAYController {
         //        gửi về mail
         String thongbao = "không có";
         String thongbaos = "0";
+        Date currentTime = new Date();
 
         String email = customer.getEmail();
         final String username = "toanhd290803@gmail.com";
@@ -250,6 +251,7 @@ public class VNPAYController {
                 emailContent.append("Tiền được giảm : ").append(discountcount).append("\n");
             }
             emailContent.append("Thành tiền : ").append(formattedPriceVN).append("\n");
+            emailContent.append("Thời gian thanh toán : ").append(currentTime).append("\n");
             emailContent.append("Đơn hàng của bạn được đặt thành công! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.");
             message.setText(emailContent.toString());
 //            Transport.send(message);
@@ -387,6 +389,7 @@ public class VNPAYController {
 //        gửi về mail
         String thongbao = "không có";
         String thongbaos = "0";
+        Date currentTime = new Date();
 
         String email = customer.getEmail();
         final String username = "toanhd290803@gmail.com";
@@ -440,6 +443,8 @@ public class VNPAYController {
             }
             emailContent.append("Thành tiền : ").append(formattedPriceVN).append("\n");
             emailContent.append("Mã đơn hàng : ").append(transactionCode).append("\n");
+            emailContent.append("Thời gian thanh toán : ").append(currentTime).append("\n");
+
             emailContent.append("Đơn hàng của bạn đang chờ xác nhận! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.");
             message.setText(emailContent.toString());
             Transport.send(message);

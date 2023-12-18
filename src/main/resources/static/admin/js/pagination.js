@@ -1,4 +1,4 @@
-const rowsPerPage = 5;
+const rowsPerPage = 15;
 // Các hàng dữ liệu trong bảng
 const tableRows = document.querySelectorAll('tbody tr');
 // Tính số trang dựa trên số hàng dữ liệu
