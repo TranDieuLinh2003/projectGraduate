@@ -2,14 +2,8 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoMovie;
-import com.example.filmBooking.repository.BillRepository;
-import com.example.filmBooking.repository.CinemaRepository;
-import com.example.filmBooking.repository.FootRepository;
-import com.example.filmBooking.repository.ScheduleRepository;
-import com.example.filmBooking.service.impl.BillServiceImpl;
-import com.example.filmBooking.service.impl.CinemaServiceImpl;
-import com.example.filmBooking.service.impl.MovieServiceImpl;
-import com.example.filmBooking.service.impl.ScheduleServiceImpl;
+import com.example.filmBooking.repository.*;
+import com.example.filmBooking.service.impl.*;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -41,20 +35,16 @@ public class FilmBookingController {
     private CinemaServiceImpl cinemaService;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
-
-    @Autowired
-    private ScheduleServiceImpl scheduleService;
-
-    @Autowired
-    private CinemaRepository repository;
-
-    @Autowired
     private ScheduleRepository repository1;
+
     @Autowired
     private BillRepository billRepository;
+
     @Autowired
-    private BillServiceImpl billService;
+    private RankCustomerServiceImpl rankCustomerService;
+
+    @Autowired
+    private GeneralSettingRepository generalSettingRepository;
 
     @GetMapping("/trangchu")
     public String getAllPosts(Model model, HttpServletRequest request) {
@@ -62,14 +52,14 @@ public class FilmBookingController {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
-        if(customer == null) {
+        if (customer == null) {
             // Phim đang chiếu
             List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
             List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
             model.addAttribute("listmovie1", listmovie1);
-        }else {
+        } else {
             List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
@@ -184,7 +174,15 @@ public class FilmBookingController {
     }
 
     @GetMapping("/rank-and-membership")
-    public String rankAndMembership(){
+    public String rankAndMembership(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        List<GeneralSetting> generalSettingList = generalSettingRepository.findAll();
+        List<RankCustomer> rankCustomerList = rankCustomerService.fillAll();
+        Collections.sort(rankCustomerList, new RankCustomerComparator());
+        model.addAttribute("customer", customer);
+        model.addAttribute("rankCustomerList", rankCustomerList);
+        model.addAttribute("generalSettingList", generalSettingList);
         return "users/rankAndMembership";
     }
 

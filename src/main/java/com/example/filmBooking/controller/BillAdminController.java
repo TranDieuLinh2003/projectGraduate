@@ -154,74 +154,7 @@ public class BillAdminController {
         }
 
     }
-    @GetMapping("/update1/{id}")
-    public String updateStatus1(Model model, @PathVariable(name = "id") String id) {
-        Bill bill = service.findById(id);
-        bill.setStatus(1);
-        Customer customer = customerService.findById(bill.getCustomer().getId());
-        Integer percentagePlusPoints = generalSettingRepository.findPercentagePlusPoints();
 
-        BigDecimal phantram = BigDecimal.valueOf(percentagePlusPoints).divide(BigDecimal.valueOf(100));
-        BigDecimal orderTotalDecimal = bill.getTotalMoney();
-        BigDecimal diemKhachHang = orderTotalDecimal.multiply(phantram);
-        customer.setPoint(customer.getPoint() + diemKhachHang.intValue());
-        if (bill.getUsepoints() == null){
-
-        }else {
-            customer.setPoint(customer.getPoint() - bill.getUsepoints());
-        }
-        customerService.update(bill.getCustomer().getId(), customer);
-
-        try {
-            if (service.update(id, bill) instanceof Bill) {
-                String email = bill.getCustomer().getEmail();
-                final String username = "toanhd290803@gmail.com";
-                final String password = "tjfv pjmw qsca jkkr"; // Replace <your-password> with your actual password
-
-                Properties props = new Properties();
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.port", "587");
-
-                Session session = Session.getInstance(props, new Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-                try {
-                    Message message = new MimeMessage(session);
-                    message.setFrom(new InternetAddress("toanhd290803@gmail.com"));
-
-                    // Populate multiple recipients
-                    String[] recipients = {email}; // Replace with actual recipient emails
-                    InternetAddress[] recipientAddresses = new InternetAddress[recipients.length];
-                    for (int i = 0; i < recipients.length; i++) {
-                        recipientAddresses[i] = new InternetAddress(recipients[i]);
-                    }
-                    message.setRecipients(Message.RecipientType.TO, recipientAddresses);
-                    message.setSubject("Đơn hàng đã được xác nhận!");
-                    StringBuilder emailContent = new StringBuilder();
-                    emailContent.append("Đơn hàng của bạn đã được xác nhận  ").append(LocalDateTime.now()).append("\n");
-//                    emailContent.append("Mã bil: ").append(bill.getCode()).append("\n");
-                    emailContent.append("Mã giao dịch đơn hàng : ").append(bill.getTradingCode()).append("\n");
-                    message.setText(emailContent.toString());
-
-                    Transport.send(message);
-                } catch (MessagingException e) {
-                    // Handle the exception, for example:
-                }
-            } else {
-                model.addAttribute("thatBai", "Xác nhận hóa đơn thất bại");
-            }
-            return "redirect:/bill/find-all";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "admin/chi-tiet-hoa-don";
-        }
-
-    }
 //    @GetMapping("/delete/{id}")
 //    public String delete(@PathVariable("id") String id) {
 //        service.delete(id);

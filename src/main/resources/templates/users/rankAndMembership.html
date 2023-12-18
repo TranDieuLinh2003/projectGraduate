@@ -1,68 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
     <meta charset="UTF-8">
     <title>Thành viên và giá vé</title>
     <link rel="stylesheet" th:href="@{/users/css/web.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/users/css/thongtincanhan.css}">
+
     <link rel="icon" th:href="@{/users/img//logo.png}" type="image/x-icon"/>
 </head>
 <body>
 <div th:replace="~{/layout/Header :: header}"></div>
-<section>
-    <div class="row">
-        <div class="col-6">
-            <h4>Hạng thành viên</h4>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Tên hạng</th>
-                    <th scope="col">Điểm xét hạng</th>
-                    <th scope="col">Mô tả</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="r : ${listRank}">
-                    <td>[[${r.name}]]</td>
-                    <td>[[${r.point}]]</td>
-                    <td>[[${r.description}]]</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-6">
-            <h4>Giá vé</h4>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
+<br>
+<section style="margin-top: 50px;">
 
-                </tbody>
-            </table>
-        </div>
+    <div class="infor">
+        <h2>HẠNG RANK KHÁCH HÀNG</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Hạng rank</th>
+                <th>Điểm point set hạng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="rank : ${rankCustomerList}">
+                <tr>
+                    <td th:text="${rank.name}"></td>
+                    <td th:text="${rank.point}"></td>
+                </tr>
+            </th:block>
+            <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        <hr>
+        <h2>GIÁ VÉ RAP FILMBOOKING</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Bảng giá vé</th>
+                <th>8h - 17h</th>
+                <th>17h - 23h</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="font-size: 25px;">Thứ 2-3-4-5-6</td>
+
+                <th:block th:each="setting : ${generalSettingList}">
+                    <td id="price">
+                        [[${setting.fixedTicketPrice}]]
+                    </td>
+                    <td id="percent" style="display: none">
+                        [[${setting.percentDay}]]
+                    </td>
+                    <td id="sum">
+
+                    </td>
+                </th:block>
+
+            </tr>
+            <tr>
+                <td style="font-size: 25px;">Thứ 7-CN</td>
+                <th:block th:each="setting : ${generalSettingList}">
+                    <td id="summ">
+
+                    </td>
+                    <td id="summm">
+
+                    </td>
+                    <td id="percentt" style="display: none">
+                        [[${setting.percentWeekend}]]
+                    </td>
+
+                </th:block>
+            </tr>
+            <!-- Add more rows as needed -->
+            </tbody>
+        </table>
     </div>
 </section>
 <div th:replace="~{/layout/Footer :: footer}"></div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-<script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
+
 <script th:src="@{/users/js/web.js}"></script>
 </body>
+<script>
+    var percent = document.getElementById("percent").textContent;
+    var price = document.getElementById("price").textContent;
+    var percentt = document.getElementById("percentt").textContent;
+
+    var sum = parseFloat(price) + parseFloat(price * (percent / 100))
+    // console.log(sum)
+    var summ = parseFloat(price) + parseFloat(price * (percentt / 100))
+    var summm = summ + parseFloat(price * (percent / 100))
+
+    console.log(summm)
+    console.log(summ)
+    document.getElementById("sum").innerHTML = sum;
+    document.getElementById("summ").innerHTML = summ;
+    document.getElementById("summm").innerHTML = summm;
+
+    var priceElements = document.querySelectorAll("#price, #sum, #summ, #summm");
+
+    // Loop through each element and format its content to VND
+    priceElements.forEach(function (element) {
+        var price = parseFloat(element.innerHTML);
+        var formattedPrice = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(price);
+        // Set the formatted price as the inner HTML of the element
+        element.innerHTML = formattedPrice;
+    });
+</script>
 </html>
