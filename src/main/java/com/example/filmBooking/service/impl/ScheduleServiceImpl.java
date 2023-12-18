@@ -112,23 +112,14 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void scheduleFixedRate() {
         // danh sách lịch chiếu
         List<Schedule> listSchedule = repository.findAll();
-        // ngày hiện tại
-//        LocalDateTime localDateTime = LocalDateTime.now();
-//        ZonedDateTime zdt = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
-//        long date = zdt.toInstant().toEpochMilli();
         for (Schedule schedule : listSchedule) {
             //lấy thời gian bắt đầu
             LocalDateTime startAt = schedule.getStartAt();
-//            ZonedDateTime zdt1 = ZonedDateTime.of(startAt, ZoneId.systemDefault());
-//            long dateStartAt = zdt1.toInstant().toEpochMilli();
             //lấy thời gian kết thúc
             LocalDateTime finishAt = schedule.getFinishAt();
-//            ZonedDateTime zdt2 = ZonedDateTime.of(finishAt, ZoneId.systemDefault());
-//            long dateFinishAt = zdt2.toInstant().toEpochMilli();
             if (schedule.getStatus().equals("Hủy")) {
                 continue;
-            }
-            if (startAt.isAfter(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
+            } else if (startAt.isAfter(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
             } else if (finishAt.isBefore(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
