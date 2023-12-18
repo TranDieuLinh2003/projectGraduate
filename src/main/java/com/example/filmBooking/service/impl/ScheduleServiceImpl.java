@@ -127,8 +127,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 //            long dateFinishAt = zdt2.toInstant().toEpochMilli();
             if (schedule.getStatus().equals("Hủy")) {
                 continue;
-            }
-            if (startAt.isAfter(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
+            } else if (startAt.isAfter(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
                 schedule.setStatus("Sắp chiếu");
                 repository.save(schedule);
             } else if (finishAt.isBefore(LocalDateTime.now()) && schedule.getStatus() != "Hủy") {
