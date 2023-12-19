@@ -22,8 +22,8 @@ function validateFormRoom(event) {
     if (quantitys.trim() === '') {
         quantityError.textContent = 'Số lượng phòng không được để trống !';
         isValid = false;
-    } else if(isNaN(quantitys) || +quantitys <= 0) {
-        quantityError.textContent = 'Số lượng phòng phải lớn hơn 0 !';
+    } else if(isNaN(quantitys) || quantitys <= 0 || quantitys >13) {
+        quantityError.textContent = 'Số lượng phòng phải lớn hơn 0 và nhỏ hơn 13 !';
         isValid = false;
     } else {
         movieDurationError.textContent = '';
