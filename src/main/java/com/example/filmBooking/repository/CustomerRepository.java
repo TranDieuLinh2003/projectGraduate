@@ -49,7 +49,6 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
             ")\n" +
             "ORDER BY point \n" +
             "LIMIT 1;");
-
     @Query(value = point, nativeQuery = true)
     List<Integer> getPoint(@Param("customerId") String customerId);
 

@@ -120,7 +120,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status,b.total_money, b.point,b.use_points,b.id\n" +
+            "    b.status,b.total_money, b.point,b.use_points\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -146,7 +146,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 0\n" +
-            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point,b.use_points, b.id\n" +
+            "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point,b.use_points\n" +
             "ORDER BY DATE(b.date_create)  DESC");
 
     @Query(value = billCho, nativeQuery = true)
@@ -167,7 +167,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "    b.date_create,\n" +
             "    bt.total_money,\n" +
             "    r.name,\n" +
-            "    b.status, b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time,b.use_points\n" +
+            "    b.status, b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time,b.use_points,b.id\n" +
             "FROM\n" +
             "    projectLinh.bill b\n" +
             "        JOIN\n" +
@@ -193,7 +193,7 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "WHERE\n" +
             "    b.id = :idBill\n" +
             "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , " +
-            "b.status , b.id , b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time,b.use_points\n" +
+            "b.status , b.id , b.total_money, cu.name, cu.phone_number, b.point, b.waiting_time,b.use_points,b.id\n" +
             "ORDER BY DATE(b.date_create)  DESC");
     @Query(value = billDetail, nativeQuery = true)
     List<Object[]> findBillDetailId(@Param("idBill") String idBill);

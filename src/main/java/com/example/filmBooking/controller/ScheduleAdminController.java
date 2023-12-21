@@ -106,12 +106,11 @@ public class ScheduleAdminController {
                                    @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra, Schedule schedule
     ) {
         try {
-            if (listMovieChecked == null) {
-                ra.addFlashAttribute("errorMessage", "Tạo suất chiếu thất bại ");
-            } else {
+//            if (scheduleService.checkScheduleConflict(schedule, String.valueOf(listRoomChecked)) == false) {
+//                ra.addFlashAttribute("Message", "Tạo suất chiếu thất bại ");
+//            } else {
                 service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
-                ra.addFlashAttribute("Message", "Tạo suất chiếu thành công");
-            }
+//
 
             model.addAttribute("listRoomChecked", listRoomChecked);
             model.addAttribute("listMovieChecked", listMovieChecked);
