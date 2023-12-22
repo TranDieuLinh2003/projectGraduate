@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -55,23 +57,38 @@ public class Movie {
     @JoinColumn(name = "rated_id")
     private Rated rated;
 
-    @Column(name = "director")
-    private String director;
+    @ManyToMany
+    @JoinTable(
+            name = "movie_director",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "director_id"))
+    private List<Director> directors = new ArrayList<>();
 
-    @Column(name = "performers")
-    private String performers;
+    @ManyToMany
+    @JoinTable(
+            name = "movie_performer",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "performer_id"))
+    private List<Performer> performers = new ArrayList<>();
 
-    @Column(name = "language")
-    private String languages;
+    @ManyToMany
+    @JoinTable(
+            name = "movie_language",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id"))
+    private List<Language> languages = new ArrayList<>();
 
     @Column(name = "image")
     private String image;
 
-    @Column(name = "movie_type")
-    private String movieType;
+    @ManyToMany
+    @JoinTable(
+            name = "movie_movie_type",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "movie_type_id"))
+    private List<MovieType> movieTypes = new ArrayList<>();
 
     @Column(name = "description", length = 1000)
     private String description;
-
 
 }
