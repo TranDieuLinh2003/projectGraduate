@@ -38,6 +38,10 @@ public class Seat {
     @Column(name = "code")
     private String code;
 
+    @ManyToOne
+    @JoinColumn(name = "seat_type_id")
+    private SeatType seatType;
+
     @Column(name = "number")
     private Integer number;
 
