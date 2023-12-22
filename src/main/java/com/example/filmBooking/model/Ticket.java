@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 
 
 @Entity
@@ -45,5 +46,7 @@ public class Ticket {
     @JoinColumn(name = "seat_id")
     private Seat seat;
 
+    @Column(name = "price")
+    private BigDecimal price;
 
 }
