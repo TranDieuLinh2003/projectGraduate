@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" th:href="@{/admin/css/mobiscroll.javascript.min.css}">
+    <script th:src="@{/admin/js/mobiscroll.javascript.min.js}"></script>
 </head>
 <body>
 
@@ -42,25 +44,25 @@
 <div id="loading-overlay">
     <div class="spinner"></div>
 </div>
-<form th:action="@{/movie/save}" method="post" th:object="${movie}" class="form_add_movie"
+<form th:action="@{/movie/save}" method="post" class="form_add_movie"
       enctype="multipart/form-data" onsubmit="validateFormMovie(event)">
-    <input type="hidden" th:field="*{id}">
+    <input type="hidden">
     <div class="seat_input">
         <div class="row g-3">
             <div class="col">
-                <div class="input-box">
+                <div class="input-movie">
                     <label>Tên phim</label>
-                    <input type="text" th:field="*{name}" id="nameMovie" onblur="checkDuplicateMovieName()"/>
+                    <input type="text" id="nameMovie" onblur="checkDuplicateMovieName()" class="form-control"/>
                 </div>
                 <span id="nameMovieErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
             <div class="col">
-                <div class="input-box">
+                <div class="input-movie">
                     <label>Thời lượng phim</label>
                     <input
                             type="number"
                             id="movieDuration"
-                            th:field="*{movieDuration}"
+                            class="form-control"
                     />
                 </div>
                 <span id="movieDurationErr" style="color: red; margin: 10px 0px 0px 0px"></span>
@@ -68,27 +70,41 @@
         </div>
         <div class="row g-3">
             <div class="col">
-                <div class="input-box">
-                    <label>Tên đạo diễn</label>
-                    <input type="text" id="director" th:field="*{director}"/>
+                <div class="btnDaoDien">
+                    <button type="button" data-bs-toggle="modal"
+                            th:attr="data-bs-target='#exampleModalDaoDien'"><i class='bx bx-plus'></i></button>
+                </div>
+                <div class="flexDaoDien">
+                    <div class="selectDaoDien">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Đạo diễn
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input1"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select1" multiple>
+                                    <option value="1">Books</option>
+                                    <option value="2">Movies, Music & Games</option>
+                                    <option value="3">Electronics & Computers</option>
+                                    <option value="4">Home, Garden & Tools</option>
+                                    <option value="5">Health & Beauty</option>
+                                    <option value="6">Toys, Kids & Baby</option>
+                                    <option value="7">Clothing & Jewelry</option>
+                                    <option value="8">Sports & Outdoors</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <span id="directorErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-            </div>
-            <div class="col">
-                <div class="input-box">
-                    <label>Tên diễn viên</label>
-                    <input type="text" th:field="*{performers}" id="performers"/>
-                </div>
-                <span id="performersErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-            </div>
-        </div>
-        <div class="row g-3">
-            <div class="col">
-                <div class="input-box">
-                    <label>Ngôn ngữ phim</label>
-                    <input type="text" th:field="*{languages}" id="languages"/>
-                </div>
-                <span id="languagesErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
             <div class="col">
                 <div class="date">
@@ -99,55 +115,119 @@
                                     type="text"
                                     id="premiereDate"
                                     placeholder="mm/dd/yyyy"
-                                    th:field="*{premiereDate}"
+                                    class="form-control"
                             />
                             <span id="premiereDateErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                         </div>
                         <div class="col-5">
-                            <span>Ngày kết thúc</span>
-                            <input
-                                    type="text"
-                                    id="endDate"
-                                    placeholder="mm/dd/yyyy"
-                                    th:field="*{endDate}"
-                            />
+                            <div class="movieEndDate">
+                                <span>Ngày kết thúc</span>
+                                <input
+                                        type="text"
+                                        id="endDate"
+                                        placeholder="mm/dd/yyyy"
+                                        class="form-control"
+                                />
+                            </div>
                             <span id="endDateErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="row g-3">
             <div class="col">
-                <div class="input-box">
-                    <label>Thể loại phim</label>
-                    <input type="text" th:field="*{movieType}" id="movieType"/>
+                <div class="flexTheLoai">
+                    <div class="btnDaoDien">
+                        <button type="button" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#exampleModalType'"><i class='bx bx-plus'></i></button>
+                    </div>
+                    <div class="selectDaoDien">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Thể loại phim
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input2"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select2" multiple>
+                                    <option value="1">Books</option>
+                                    <option value="2">Movies, Music & Games</option>
+                                    <option value="3">Electronics & Computers</option>
+                                    <option value="4">Home, Garden & Tools</option>
+                                    <option value="5">Health & Beauty</option>
+                                    <option value="6">Toys, Kids & Baby</option>
+                                    <option value="7">Clothing & Jewelry</option>
+                                    <option value="8">Sports & Outdoors</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <span id="movieTypeErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                <span id="languagesErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
             <div class="col">
-                <div class="image_movie">
-                    <label>Hình ảnh</label>
-                    <input type="file" th:field="*{image}" id="image"/>
-                </div>
-                <span id="imageErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-            </div>
-        </div>
-        <div class="row g-3">
-            <div class="col">
-                <div class="input-box">
+                <div class="input-movie">
                     <label>Thước phim giới thiệu</label>
-                    <input type="text" th:field="*{trailer}" id="trailler"/>
+                    <input type="text" id="trailler" class="form-control"/>
                 </div>
                 <span id="traillerErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
+        </div>
+        <div class="row g-3">
+            <div class="col">
+                <div class="flexNgonNgu">
+                    <div class="btnDaoDien">
+                        <button type="button" data-bs-toggle="modal"
+                                th:attr="data-bs-target='#exampleModalNgonNgu'"><i class='bx bx-plus'></i></button>
+                    </div>
+                    <div class="selectDaoDien">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Ngôn Ngữ
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input3"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select3" multiple>
+                                    <option value="1">Books</option>
+                                    <option value="2">Movies, Music & Games</option>
+                                    <option value="3">Electronics & Computers</option>
+                                    <option value="4">Home, Garden & Tools</option>
+                                    <option value="5">Health & Beauty</option>
+                                    <option value="6">Toys, Kids & Baby</option>
+                                    <option value="7">Clothing & Jewelry</option>
+                                    <option value="8">Sports & Outdoors</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span id="movieTypeErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+            </div>
+
             <div class="col">
                 <div class="input-rated">
                     <label>Giới hạn xem phim</label>
                     <select
                             class="form-select"
                             aria-label="Default select example"
-                            th:field="*{rated}"
                     >
                         <!--                                    <option selected>Mời chọn phim</option>-->
                         <th:block th:each="r : ${ratedId}">
@@ -160,42 +240,205 @@
                     </select>
                 </div>
             </div>
+
+            <div class="row g-3">
+                <div class="col">
+                    <div class="flexDienVien">
+                        <div class="btnDaoDien">
+                            <button type="button" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#exampleModalDienVien'"><i class='bx bx-plus'></i></button>
+                        </div>
+                        <div class="selectDaoDien">
+                            <div mbsc-page class="demo-multiple-select">
+                                <div style="height: 100%">
+                                    <label>
+                                        Diễn Viên
+                                        <input
+                                                mbsc-input
+                                                id="demo-multiple-select-input4"
+                                                placeholder="Please select..."
+                                                data-dropdown="true"
+                                                data-input-style="outline"
+                                                data-label-style="stacked"
+                                                data-tags="true"
+                                        />
+                                    </label>
+                                    <select id="demo-multiple-select4" multiple>
+                                        <option value="1">Books</option>
+                                        <option value="2">Movies, Music & Games</option>
+                                        <option value="3">Electronics & Computers</option>
+                                        <option value="4">Home, Garden & Tools</option>
+                                        <option value="5">Health & Beauty</option>
+                                        <option value="6">Toys, Kids & Baby</option>
+                                        <option value="7">Clothing & Jewelry</option>
+                                        <option value="8">Sports & Outdoors</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="performersErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                </div>
+                <div class="col">
+                    <div class="input-movie">
+                        <label>Mô tả</label>
+                        <input type="text" id="description" class="form-control"/>
+                    </div>
+                    <span id="descriptionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                </div>
+
+            </div>
         </div>
         <div class="row g-3">
             <div class="col">
-                <div class="input-box">
-                    <label>Mô tả</label>
-                    <input type="text" th:field="*{description}" id="description"/>
+                <div class="image_movie">
+                    <label>Hình ảnh</label>
+                    <input type="file" id="image"/>
                 </div>
-                <span id="descriptionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                <span id="imageErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
-        </div>
 
+        </div>
     </div>
     <div class="notifications"></div>
-    <button
-            type="submit"
-            class="btn btn-outline-success"
-            id="success"
-            onclick="return confirm('Bạn muốn thực hiện điều này !')"
-    >
-       Xác nhận
-    </button>
-</form>
-<!-- <div class="uploadExcelMovie">
-<form action="" enctype="multipart/form-data">
-    <div class="image_movie">
-        <label>Movie Excel</label>
-        <input type="file" />
+    <div class="btnAddMovie">
+        <button
+                type="submit"
+                class="btn btn-outline-success"
+                id="success"
+                onclick="return confirm('Bạn muốn thực hiện điều này !')"
+        >
+            Xác nhận
+        </button>
     </div>
-    <button
-            type="submit"
-            class="btn btn-outline-success"
-    >
-        Thêm phim excel
-    </button>
 </form>
-</div> -->
+<div class="modalDaoDien">
+    <div class="modal" th:attrappend="id='exampleModalDaoDien'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đạo diễn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3"
+                      method="post">
+                    <div class="col-md-6">
+                        <label class="form-label">Mã đạo diễn</label>
+                        <input type="text" class="form-control" name="name"
+                               required disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tên đạo diễn</label>
+                        <input type="number" class="form-control" name="price"
+                               required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn thêm đạo diễn')"
+                                class="btn btn-primary">Xác nhận
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modalNgonNgu">
+    <div class="modal" th:attrappend="id='exampleModalNgonNgu'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ngôn ngữ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3"
+                      method="post">
+                    <div class="col-md-6">
+                        <label class="form-label">Mã ngôn ngữ</label>
+                        <input type="text" class="form-control" name="code"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tên ngôn ngữ</label>
+                        <input type="text" class="form-control" name="name"
+                               required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn thêm ngôn ngữ')"
+                                class="btn btn-primary">Xác nhận
+                        </button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modalDienVien">
+    <div class="modal" th:attrappend="id='exampleModalDienVien'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">Diễn viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3"
+                      method="post">
+                    <div class="col-md-6">
+                        <label class="form-label">Mã diễn viên</label>
+                        <input type="text" class="form-control" name="code"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tên diễn viên</label>
+                        <input type="text" class="form-control" name="name"
+                               required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn thêm diễn viên')"
+                                class="btn btn-primary">Xác nhận
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modalType">
+    <div class="modal" th:attrappend="id='exampleModalType'">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel4">Thể loại phim</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3"
+                      method="post">
+                    <div class="col-md-6">
+                        <label class="form-label">Mã thể loại phim</label>
+                        <input type="text" class="form-control" name="code"
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tên thể loại phim</label>
+                        <input type="text" class="form-control" name="name"
+                               required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn thêm thể loại phim')"
+                                class="btn btn-primary">Xác nhận
+                        </button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
 <!--<script th:src="@{/admin/js/fomat-date.js}"></script>-->
@@ -207,6 +450,26 @@
         type="module"
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
 ></script>
+<script th:inline="javascript">
+    mobiscroll.setOptions({
+        locale: mobiscroll.localeEn,
+        theme: "ios",
+        themeVariant: "light",
+    });
+
+    mobiscroll.select("#demo-multiple-select1", {
+        inputElement: document.getElementById("demo-multiple-select-input1"),
+    });
+    mobiscroll.select("#demo-multiple-select2", {
+        inputElement: document.getElementById("demo-multiple-select-input2"),
+    });
+    mobiscroll.select("#demo-multiple-select3", {
+        inputElement: document.getElementById("demo-multiple-select-input3"),
+    });
+    mobiscroll.select("#demo-multiple-select4", {
+        inputElement: document.getElementById("demo-multiple-select-input4"),
+    });
+</script>
 <script
         nomodule
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
