@@ -10,6 +10,14 @@
 
     <link rel="icon" th:href="@{/users/img//logo.png}" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px; /* Optional: Add margin between rows */
+        }
+
+    </style>
 </head>
 
 <body>
@@ -82,52 +90,17 @@
                     </div>
 
                     <div class="row-container">
+
                         <div class="row">
-                            <div th:each="seat : ${listA}" class="seat" th:onclick="hienGiaMoi(this)"
+                            <div th:each="seat : ${listSeatDTOS}" class="seat" th:onclick="hienGiaMoi(this)"
                                  data-selected="false"
                                  th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                  th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                  th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                                [[${seat.code}]]
+                             [[${seat.code}]]
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div th:each="seat : ${listB}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 data-selected="false"
-                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
-                                 th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                 th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                                [[${seat.code}]]
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div th:each="seat : ${listC}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 data-selected="false"
-                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
-                                 th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                 th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                                [[${seat.code}]]
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div th:each="seat : ${listD}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 data-selected="false"
-                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
-                                 th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                 th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                                [[${seat.code}]]
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div th:each="seat : ${listE}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 data-selected="false"
-                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
-                                 th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                 th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                                [[${seat.code}]]
-                            </div>
-                        </div>
                         <hr style="margin-top: 50px; opacity: 0.7; max-width: 100%">
 
                         <div class="text-wrapper">

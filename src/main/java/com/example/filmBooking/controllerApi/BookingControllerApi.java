@@ -124,25 +124,10 @@ public class BookingControllerApi {
                 DtoSeat[].class,
                 listRequestParam);
 
-        DtoSeat[] listSeatDTOS = (DtoSeat[]) listSeat.getBody();
-        DtoSeat[] listA = new DtoSeat[8];
-        DtoSeat[] listB = new DtoSeat[8];
-        DtoSeat[] listC = new DtoSeat[8];
-        DtoSeat[] listD = new DtoSeat[8];
-        DtoSeat[] listE = new DtoSeat[8];
-        for (int i = 0; i <= 7; i++) {
-            listA[i] = listSeatDTOS[i];
-            listB[i] = listSeatDTOS[i + 8];
-            listC[i] = listSeatDTOS[i + 16];
-            listD[i] = listSeatDTOS[i + 24];
-            listE[i] = listSeatDTOS[i + 32];
-        }
+        DtoSeat[] listSeatDTOS = listSeat.getBody();
 
-        model.addAttribute("listA", listA);
-        model.addAttribute("listB", listB);
-        model.addAttribute("listC", listC);
-        model.addAttribute("listD", listD);
-        model.addAttribute("listE", listE);
+        model.addAttribute("listSeatDTOS", listSeatDTOS);
+
 
 
         //lấy ra foood
@@ -246,25 +231,10 @@ public class BookingControllerApi {
                 DtoSeat[].class,
                 listRequestParam1);
 
-        DtoSeat[] listSeatDTOS = (DtoSeat[]) listSeat.getBody();
-        DtoSeat[] listA = new DtoSeat[8];
-        DtoSeat[] listB = new DtoSeat[8];
-        DtoSeat[] listC = new DtoSeat[8];
-        DtoSeat[] listD = new DtoSeat[8];
-        DtoSeat[] listE = new DtoSeat[8];
-        for (int i = 0; i <= 7; i++) {
-            listA[i] = listSeatDTOS[i];
-            listB[i] = listSeatDTOS[i + 8];
-            listC[i] = listSeatDTOS[i + 16];
-            listD[i] = listSeatDTOS[i + 24];
-            listE[i] = listSeatDTOS[i + 32];
-        }
+        DtoSeat[] listSeatDTOS = listSeat.getBody();
 
-        model.addAttribute("listA", listA);
-        model.addAttribute("listB", listB);
-        model.addAttribute("listC", listC);
-        model.addAttribute("listD", listD);
-        model.addAttribute("listE", listE);
+        model.addAttribute("listSeatDTOS", listSeatDTOS);
+
 //
 
         //lấy ra foood

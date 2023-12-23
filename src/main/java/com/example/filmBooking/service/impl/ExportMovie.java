@@ -88,11 +88,11 @@ public class ExportMovie {
             createCell(row, columnCount++, Movie.getPremiereDate(), style);
             createCell(row, columnCount++, Movie.getEndDate(), style);
             createCell(row, columnCount++, Movie.getStatus(), style);
-            createCell(row, columnCount++, Movie.getDirector(), style);
+            createCell(row, columnCount++, Movie.getDirectors(), style);
             createCell(row, columnCount++, Movie.getPerformers(), style);
             createCell(row, columnCount++, Movie.getLanguages(), style);
             createCell(row, columnCount++, Movie.getImage(), style);
-            createCell(row, columnCount++, Movie.getMovieType(), style);
+            createCell(row, columnCount++, Movie.getMovieTypes(), style);
             createCell(row, columnCount++, Movie.getDescription(), style);
 //            createCell(row, columnCount++, Movie.getFoundedYear().toString(), style);
 //            createCell(row, columnCount++, Movie.getAcreage(), style);

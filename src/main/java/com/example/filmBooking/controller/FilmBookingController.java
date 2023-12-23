@@ -142,7 +142,7 @@ public class FilmBookingController {
         Map<String, Map<String, List<LocalDateTime>>> suatChieuMap = new HashMap<>();
         for (Schedule suatChieu : allSuatChieu) {
             String tenPhim = suatChieu.getMovie().getName();
-            String theloai = suatChieu.getMovie().getMovieType();
+            String theloai = String.valueOf(suatChieu.getMovie().getMovieTypes());
             Integer thoiluong = suatChieu.getMovie().getMovieDuration();
             String img = suatChieu.getMovie().getImage();
             String combinedKey = tenPhim + "_" + theloai + "_" + thoiluong + "_" + img; // Create a combined key by concatenating the two keys

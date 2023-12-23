@@ -836,3 +836,35 @@ function decreaseValue() {
         sumFood(); // Gọi hàm sumFood() khi giá trị thay đổi
     }
 }
+//
+// // Lấy tất cả các ghế
+// const allSeats = document.querySelectorAll('.seat');
+//
+// // Tạo một đối tượng Map để lưu trữ ghế theo hàng
+// const seatMap = new Map();
+//
+// // Lặp qua từng ghế
+// allSeats.forEach(seat => {
+//     // Lấy chữ cái đầu tiên của ghế
+//     const seatLetter = seat.innerText.trim().charAt(0);
+//
+//     // Nếu đối tượng Map đã có phần tử với key là chữ cái đã lấy, thêm ghế vào mảng tương ứng
+//     if (seatMap.has(seatLetter)) {
+//         seatMap.get(seatLetter).push(seat);
+//     } else { // Nếu chưa có, tạo một mảng mới và thêm ghế vào đó
+//         seatMap.set(seatLetter, [seat]);
+//     }
+// });
+//
+// // Lấy danh sách các hàng có nhiều hơn 1 ghế
+// const rowsWithMultipleSeats = Array.from(seatMap.values()).filter(seats => seats.length > 1);
+//
+// // Hiển thị các hàng và danh sách ghế tương ứng
+// rowsWithMultipleSeats.forEach(seats => {
+//     console.log(`Các ghế trên hàng ${seats[0].innerText.trim().charAt(0)}: `, seats.map(seat => seat.innerText.trim()));
+//
+// });
+
+
+
+
