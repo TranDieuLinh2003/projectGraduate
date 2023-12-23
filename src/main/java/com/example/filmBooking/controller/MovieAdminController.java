@@ -1,10 +1,8 @@
 package com.example.filmBooking.controller;
 
 import com.example.filmBooking.common.ResponseBean;
-import com.example.filmBooking.model.Movie;
-import com.example.filmBooking.model.Rated;
-import com.example.filmBooking.service.MovieService;
-import com.example.filmBooking.service.RatedService;
+import com.example.filmBooking.model.*;
+import com.example.filmBooking.service.*;
 import com.example.filmBooking.util.UploadImage;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -38,7 +36,20 @@ public class MovieAdminController {
     private RatedService ratedService;
 
     @Autowired
+    private DirectorService directorService;
+
+    @Autowired
+    private LanguageService languageService;
+
+    @Autowired
+    private MovieTypeService movieTypeService;
+
+    @Autowired
+    private PerformerService performerService;
+    @Autowired
     private UploadImage uploadImage;
+
+
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
@@ -72,7 +83,16 @@ public class MovieAdminController {
     @GetMapping("/view-add")
     public String viewAdd(Model model) {
         List<Rated> ratedId = ratedService.fillAll();
+        List<Director> directorId = directorService.fillAll();
+        List<Language> languageId = languageService.fillAll();
+        List<MovieType> movieTypeId = movieTypeService.fillAll();
+        List<Performer> performerId = performerService.fillAll();
+
         model.addAttribute("ratedId", ratedId);
+        model.addAttribute("languages", languageId);
+        model.addAttribute("movieTypes", movieTypeId);
+        model.addAttribute("directors", directorId);
+        model.addAttribute("performers", performerId);
         model.addAttribute("movie", new Movie());
         return "admin/form-add-movie";
     }
@@ -89,14 +109,14 @@ public class MovieAdminController {
     public String save(Model model,
                        @RequestParam(name = "id") String id,
                        @RequestParam(name = "name") String name,
-                       @RequestParam(name = "movieType") String movieType,
-                       @RequestParam(name = "languages") String languages,
+                       @RequestParam(name = "movieType") List<MovieType> movieTypes,
+                       @RequestParam(name = "language") List<Language> languages,
                        @RequestParam(name = "trailer") String trailer,
-                       @RequestParam(name = "performers") String performers,
+                       @RequestParam(name = "performer") List<Performer> performers,
                        @RequestParam(name = "description") String description,
                        @RequestParam(name = "endDate") Date endDate,
-                       @RequestParam(name = "premiereDate") Date permiereDate,
-                       @RequestParam(name = "director") String director,
+                       @RequestParam(name = "premiereDate") Date premiereDate,
+                       @RequestParam(name = "director") List<Director> directors,
                        @RequestParam(name = "image") MultipartFile multipartFile,
                        @RequestParam(name = "movieDuration") Integer movieDuration,
                        @RequestParam(name = "rated") Rated rated
@@ -105,19 +125,20 @@ public class MovieAdminController {
         try {
             Movie movie = Movie.builder()
                     .id(id)
-                    .performers(performers)
-                    .director(director)
-                    .movieType(movieType)
                     .movieDuration(movieDuration)
                     .name(name)
                     .description(description)
-                    .languages(languages)
                     .trailer(trailer)
                     .endDate(endDate)
-                    .premiereDate(permiereDate)
+                    .premiereDate(premiereDate)
                     .image(multipartFile.getOriginalFilename())
                     .rated(rated)
+                    .directors(directors)
+                    .movieTypes(movieTypes)
+                    .languages(languages)
+                    .performers(performers)
                     .build();
+
             if (service.save(movie) instanceof Movie) {
                 model.addAttribute("thanhCong", "Thêm thành công!");
             } else {
@@ -162,5 +183,89 @@ public class MovieAdminController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("isDuplicate", isDuplicate);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/director/save")
+    @Operation(summary = "[Thêm mới đạo diễn]")
+    public String saveDirector(Model model,
+                               @RequestParam(name = "code") String code,
+                               @RequestParam(name = "name") String name) {
+        try {
+            Director director = Director.builder()
+                    .code(code)
+                    .name(name)
+                    .build();
+
+            directorService.save(director);
+
+            model.addAttribute("thanhCong", "Thêm đạo diễn thành công!");
+            return "redirect:/movie/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/movie";
+        }
+    }
+
+    @PostMapping("/language/save")
+    @Operation(summary = "[Thêm mới ngôn ngữ]")
+    public String saveLanguage(Model model,
+                               @RequestParam(name = "code") String code,
+                               @RequestParam(name = "name") String name) {
+        try {
+            Language language = Language.builder()
+                    .code(code)
+                    .name(name)
+                    .build();
+
+            languageService.save(language);
+
+            model.addAttribute("thanhCong", "Thêm ngôn ngữ thành công!");
+            return "redirect:/movie/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/movie";
+        }
+    }
+
+    @PostMapping("/performer/save")
+    @Operation(summary = "[Thêm mới diễn viên]")
+    public String savePerformer(Model model,
+                                @RequestParam(name = "code") String code,
+                                @RequestParam(name = "name") String name) {
+        try {
+            Performer performer = Performer.builder()
+                    .code(code)
+                    .name(name)
+                    .build();
+
+            performerService.save(performer);
+
+            model.addAttribute("thanhCong", "Thêm diễn viên thành công!");
+            return "redirect:/movie/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/movie";
+        }
+    }
+
+    @PostMapping("/movie-type/save")
+    @Operation(summary = "[Thêm mới thể loại phim]")
+    public String saveMovieType(Model model,
+                                @RequestParam(name = "code") String code,
+                                @RequestParam(name = "name") String name) {
+        try {
+            MovieType movieType = MovieType.builder()
+                    .code(code)
+                    .name(name)
+                    .build();
+
+            movieTypeService.save(movieType);
+
+            model.addAttribute("thanhCong", "Thêm thể loại phim thành công!");
+            return "redirect:/movie/find-all";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/movie";
+        }
     }
 }
