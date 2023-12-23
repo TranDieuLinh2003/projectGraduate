@@ -72,24 +72,24 @@ public class MovieServiceImpl implements MovieService {
 
 
     //tự động check ngày để đổi trạng thái phim
-    @Scheduled(fixedRate = 86400000)
-    public void scheduleFixedRate() {
-        // check danh sách movie
-        List<Movie> movies = repository.findAll();
-        for (Movie dto : movies) {
-            java.util.Date date = new java.util.Date();
-            if (date.after(dto.getEndDate())) {
-                dto.setStatus("Đã chiếu");
-                repository.save(dto);
-            } else if (date.before(dto.getPremiereDate())) {
-                dto.setStatus("Sắp chiếu");
-                repository.save(dto);
-            } else {
-                dto.setStatus("Đang chiếu");
-                repository.save(dto);
-            }
-        }
-    }
+//    @Scheduled(fixedRate = 86400000)
+//    public void scheduleFixedRate() {
+//        // check danh sách movie
+//        List<Movie> movies = repository.findAll();
+//        for (Movie dto : movies) {
+//            java.util.Date date = new java.util.Date();
+//            if (date.after(dto.getEndDate())) {
+//                dto.setStatus("Đã chiếu");
+//                repository.save(dto);
+//            } else if (date.before(dto.getPremiereDate())) {
+//                dto.setStatus("Sắp chiếu");
+//                repository.save(dto);
+//            } else {
+//                dto.setStatus("Đang chiếu");
+//                repository.save(dto);
+//            }
+//        }
+//    }
 
     @Override
     public Movie update(String id, Movie movie) {
@@ -98,13 +98,13 @@ public class MovieServiceImpl implements MovieService {
         movieNew.setMovieDuration(movie.getMovieDuration());
         movieNew.setTrailer(movie.getTrailer());
         movieNew.setPremiereDate(movie.getPremiereDate());
-        movieNew.setEndDate(movie.getEndDate());     
         movieNew.setEndDate(movie.getEndDate());
-        movieNew.setDirector(movie.getDirector());
+        movieNew.setEndDate(movie.getEndDate());
+        movieNew.setDirectors(movie.getDirectors());
         movieNew.setPerformers(movie.getPerformers());
         movieNew.setLanguages(movie.getLanguages());
         movieNew.setImage(movie.getImage());
-        movieNew.setMovieType(movie.getMovieType());
+        movieNew.setMovieTypes(movie.getMovieTypes());
         movieNew.setDescription(movie.getDescription());
         movieNew.setRated(movie.getRated());
         java.util.Date date = new java.util.Date();
@@ -114,7 +114,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setStatus("Sắp chiếu");
         } else {
             movie.setStatus("Đang chiếu");
-        }  
+        }
         return repository.save(movieNew);
     }
 
@@ -147,11 +147,11 @@ public class MovieServiceImpl implements MovieService {
                 movie.setMovieDuration(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(2))));
                 movie.setPremiereDate(new Date(String.valueOf(currentRow.getCell(3))));
                 movie.setEndDate(new Date(String.valueOf(currentRow.getCell(4))));
-                movie.setDirector(currentRow.getCell(5).getStringCellValue());
-                movie.setPerformers(currentRow.getCell(6).getStringCellValue());
-                movie.setLanguages(currentRow.getCell(7).getStringCellValue());
+                //movie.setDirector(currentRow.getCell(5).getStringCellValue());
+                //movie.setPerformers(currentRow.getCell(6).getStringCellValue());
+                //movie.setLanguages(currentRow.getCell(7).getStringCellValue());
                 movie.setImage(currentRow.getCell(8).getStringCellValue());
-                movie.setMovieType(currentRow.getCell(9).getStringCellValue());
+                //movie.setMovieTypes(currentRow.getCell(9).getStringCellValue());
                 movie.setDescription(currentRow.getCell(10).getStringCellValue());
                 movie.setTrailer(currentRow.getCell(11).getStringCellValue());
                 listMovie.add(movie);

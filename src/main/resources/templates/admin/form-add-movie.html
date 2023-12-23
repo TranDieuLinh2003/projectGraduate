@@ -90,15 +90,9 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select1" multiple>
-                                    <option value="1">Books</option>
-                                    <option value="2">Movies, Music & Games</option>
-                                    <option value="3">Electronics & Computers</option>
-                                    <option value="4">Home, Garden & Tools</option>
-                                    <option value="5">Health & Beauty</option>
-                                    <option value="6">Toys, Kids & Baby</option>
-                                    <option value="7">Clothing & Jewelry</option>
-                                    <option value="8">Sports & Outdoors</option>
+                                <select id="demo-multiple-select1" name="director" multiple>
+                                    <option th:each="director : ${directors}" th:value="${director.id}" th:text="${director.name}">
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -158,15 +152,9 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select2" multiple>
-                                    <option value="1">Books</option>
-                                    <option value="2">Movies, Music & Games</option>
-                                    <option value="3">Electronics & Computers</option>
-                                    <option value="4">Home, Garden & Tools</option>
-                                    <option value="5">Health & Beauty</option>
-                                    <option value="6">Toys, Kids & Baby</option>
-                                    <option value="7">Clothing & Jewelry</option>
-                                    <option value="8">Sports & Outdoors</option>
+                                <select id="demo-multiple-select2" name="movieType" multiple>
+                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.id}" th:text="${movieType.name}">
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -205,15 +193,9 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select3" multiple>
-                                    <option value="1">Books</option>
-                                    <option value="2">Movies, Music & Games</option>
-                                    <option value="3">Electronics & Computers</option>
-                                    <option value="4">Home, Garden & Tools</option>
-                                    <option value="5">Health & Beauty</option>
-                                    <option value="6">Toys, Kids & Baby</option>
-                                    <option value="7">Clothing & Jewelry</option>
-                                    <option value="8">Sports & Outdoors</option>
+                                <select id="demo-multiple-select3" name="language" multiple>
+                                    <option th:each="language : ${languages}" th:value="${language.id}" th:text="${language.name}">
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -263,15 +245,9 @@
                                                 data-tags="true"
                                         />
                                     </label>
-                                    <select id="demo-multiple-select4" multiple>
-                                        <option value="1">Books</option>
-                                        <option value="2">Movies, Music & Games</option>
-                                        <option value="3">Electronics & Computers</option>
-                                        <option value="4">Home, Garden & Tools</option>
-                                        <option value="5">Health & Beauty</option>
-                                        <option value="6">Toys, Kids & Baby</option>
-                                        <option value="7">Clothing & Jewelry</option>
-                                        <option value="8">Sports & Outdoors</option>
+                                    <select id="demo-multiple-select4" name="performer" multiple>
+                                        <option th:each="performer : ${performers}" th:value="${performer.id}" th:text="${performer.name}">
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -320,7 +296,7 @@
                     <h5 class="modal-title">Đạo diễn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3"
+                <form class="row g-3" th:action="@{/movie/director/save}"
                       method="post">
                     <div class="col-md-6">
                         <label class="form-label">Mã đạo diễn</label>
@@ -351,7 +327,7 @@
                     <h5 class="modal-title">Ngôn ngữ</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3"
+                <form class="row g-3" th:action="@{/movie/language/save}"
                       method="post">
                     <div class="col-md-6">
                         <label class="form-label">Mã ngôn ngữ</label>
@@ -384,7 +360,7 @@
                     <h5 class="modal-title" id="exampleModalLabel3">Diễn viên</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3"
+                <form class="row g-3" th:action="@{/movie/performer/save}"
                       method="post">
                     <div class="col-md-6">
                         <label class="form-label">Mã diễn viên</label>
@@ -415,7 +391,7 @@
                     <h5 class="modal-title" id="exampleModalLabel4">Thể loại phim</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3"
+                <form class="row g-3" th:action="@{/movie/movie-type/save}"
                       method="post">
                     <div class="col-md-6">
                         <label class="form-label">Mã thể loại phim</label>
