@@ -52,7 +52,7 @@
             <div class="col">
                 <div class="input-movie">
                     <label>Tên phim</label>
-                    <input type="text" id="nameMovie" onblur="checkDuplicateMovieName()" class="form-control"/>
+                    <input type="text" id="nameMovie" name="nameMovie" onblur="checkDuplicateMovieName()" class="form-control"/>
                 </div>
                 <span id="nameMovieErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
@@ -62,6 +62,7 @@
                     <input
                             type="number"
                             id="movieDuration"
+                            name="movieDuration"
                             class="form-control"
                     />
                 </div>
@@ -108,6 +109,7 @@
                             <input
                                     type="text"
                                     id="premiereDate"
+                                    name="premiereDate"
                                     placeholder="mm/dd/yyyy"
                                     class="form-control"
                             />
@@ -119,6 +121,7 @@
                                 <input
                                         type="text"
                                         id="endDate"
+                                        name="endDate"
                                         placeholder="mm/dd/yyyy"
                                         class="form-control"
                                 />
@@ -166,7 +169,7 @@
             <div class="col">
                 <div class="input-movie">
                     <label>Thước phim giới thiệu</label>
-                    <input type="text" id="trailler" class="form-control"/>
+                    <input type="text" id="trailler" name="trailler" class="form-control"/>
                 </div>
                 <span id="traillerErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
@@ -210,6 +213,7 @@
                     <select
                             class="form-select"
                             aria-label="Default select example"
+                            name="ratedId"
                     >
                         <!--                                    <option selected>Mời chọn phim</option>-->
                         <th:block th:each="r : ${ratedId}">
@@ -258,7 +262,7 @@
                 <div class="col">
                     <div class="input-movie">
                         <label>Mô tả</label>
-                        <input type="text" id="description" class="form-control"/>
+                        <input type="text" id="description" name="description" class="form-control"/>
                     </div>
                     <span id="descriptionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                 </div>
@@ -269,7 +273,7 @@
             <div class="col">
                 <div class="image_movie">
                     <label>Hình ảnh</label>
-                    <input type="file" id="image"/>
+                    <input type="file" id="image" name="image"/>
                 </div>
                 <span id="imageErr" style="color: red; margin: 10px 0px 0px 0px"></span>
             </div>
@@ -298,14 +302,10 @@
                 </div>
                 <form class="row g-3" th:action="@{/movie/director/save}"
                       method="post">
-                    <div class="col-md-6">
-                        <label class="form-label">Mã đạo diễn</label>
-                        <input type="text" class="form-control" name="name"
-                               required disabled>
-                    </div>
+
                     <div class="col-md-6">
                         <label class="form-label">Tên đạo diễn</label>
-                        <input type="number" class="form-control" name="price"
+                        <input type="text" class="form-control" name="name"
                                required>
                     </div>
                     <div class="modal-footer">
@@ -329,11 +329,6 @@
                 </div>
                 <form class="row g-3" th:action="@{/movie/language/save}"
                       method="post">
-                    <div class="col-md-6">
-                        <label class="form-label">Mã ngôn ngữ</label>
-                        <input type="text" class="form-control" name="code"
-                               required>
-                    </div>
                     <div class="col-md-6">
                         <label class="form-label">Tên ngôn ngữ</label>
                         <input type="text" class="form-control" name="name"
@@ -363,11 +358,6 @@
                 <form class="row g-3" th:action="@{/movie/performer/save}"
                       method="post">
                     <div class="col-md-6">
-                        <label class="form-label">Mã diễn viên</label>
-                        <input type="text" class="form-control" name="code"
-                               required>
-                    </div>
-                    <div class="col-md-6">
                         <label class="form-label">Tên diễn viên</label>
                         <input type="text" class="form-control" name="name"
                                required>
@@ -393,11 +383,6 @@
                 </div>
                 <form class="row g-3" th:action="@{/movie/movie-type/save}"
                       method="post">
-                    <div class="col-md-6">
-                        <label class="form-label">Mã thể loại phim</label>
-                        <input type="text" class="form-control" name="code"
-                               required>
-                    </div>
                     <div class="col-md-6">
                         <label class="form-label">Tên thể loại phim</label>
                         <input type="text" class="form-control" name="name"
