@@ -65,7 +65,8 @@ public class MovieAdminController {
                           @Param("status") String status) {
         Page<Movie> page;
         if (status != null && keyword != null) {
-            page = service.findAllByStatus(status, keyword, pageNumber);
+            page = service.searchByNameAndRelatedEntities(status, keyword, pageNumber);
+
         }else {
             page = service.getAll(pageNumber);
         }

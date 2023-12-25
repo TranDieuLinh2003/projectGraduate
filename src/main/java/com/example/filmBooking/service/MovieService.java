@@ -38,4 +38,6 @@ public interface MovieService {
     Movie findByName(String name);
 
     Page<Movie> findAllByStatus(String name,String status, Integer pageable);
+
+    Page<Movie> searchByNameAndRelatedEntities(String status, String keyword, Integer pageable);
 }

@@ -43,4 +43,17 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     @Query(value = "SELECT m FROM Movie m WHERE (:status IS NULL OR m.status IS NULL OR m.status like %:status%) " +
             "AND (:name IS NULL OR m.name IS NULL OR m.name LIKE %:name%)")
     Page<Movie> findAllByStatusAndName(@Param("status") String status,@Param("name") String keyword, Pageable pageable);
+
+    @Query(value = "SELECT DISTINCT m FROM Movie m " +
+            "LEFT JOIN m.directors d " +
+            "LEFT JOIN m.languages lang " +
+            "LEFT JOIN m.movieTypes type " +
+            "LEFT JOIN m.performers performer " +
+            "WHERE (:status IS NULL OR m.status IS NULL OR m.status LIKE %:status%) " +
+            "AND (:keyword IS NULL OR m.name LIKE %:keyword% " +
+            "OR d.name LIKE %:keyword% " +
+            "OR lang.name LIKE %:keyword% " +
+            "OR type.name LIKE %:keyword% " +
+            "OR performer.name LIKE %:keyword%)")
+    Page<Movie> findAllByStatusAndNameAndKeyWord(@Param("status") String status, @Param("keyword") String keyword, Pageable pageable);
 }
