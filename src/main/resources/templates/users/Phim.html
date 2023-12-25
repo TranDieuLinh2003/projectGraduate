@@ -28,7 +28,8 @@
             <div class="khoi">
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
-                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie.image}}" style="width: 100%; height: 459px">
+                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie.image}}"
+                             style="width: 100%; height: 459px">
                         <div class="date"><span class="day">[[${movie.rated.code}]]</span><span
                                 class="month">Trailer</span></div>
                         <i class="myBtn" data-toggle="modal" data-target="#myModal"
@@ -38,9 +39,14 @@
                                 <a th:href="@{'/filmbooking/movie/edit/' + ${movie.id}}">[[${movie.name}]]</a>
                             </h3>
                             <p>
-                                - Thể loại: [[${movie.movieType}]]<br>
+                                - Thể loại:
+                                <span th:each="type, iterStat : ${movie.movieTypes}">
+                                        <span th:text="${type.name}"></span>
+                                        <span th:if="${!iterStat.last}">, </span>
+                                </span>
+                                <br>
                                 - Thời lượng: [[${movie.movieDuration}]] phút <br>
-                                - Ngày khởi chiếu: [[${movie.premiereDate}]] <br>
+                                - Ngày khởi chiếu: <span th:text="${#dates.format(movie.premiereDate, 'yyyy-MM-dd')}"></span><br>
                             </p>
 
                             <th:block th:if="${customer == null}">
@@ -48,7 +54,7 @@
                             </th:block>
 
                             <th:block th:unless="${customer == null}">
-                                <button><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>
+                                <button><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Mua Vé</a></button>
                             </th:block>
                             <!--                            <button ><a th:href="@{'/show/cinema?movieId='+${movie.id}}">Đặt vé</a></button>-->
                         </figcaption>
@@ -61,7 +67,8 @@
             <div class="khoi">
                 <th:block th:each="movie1 : ${listmovie1}">
                     <figure class="snip1208">
-                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie1.image}}" style="width: 100%; height: 459px">
+                        <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${movie1.image}}"
+                             style="width: 100%; height: 459px">
                         <div class="date"><span class="day">[[${movie1.rated.code}]]</span><span
                                 class="month">Trailer</span></div>
                         <i class="myBtnn" data-toggle="modal" data-target="#myModall"
@@ -71,9 +78,13 @@
                                 <a th:href="@{'/filmbooking/movie/edit/' + ${movie1.id}}">[[${movie1.name}]]</a>
                             </h3>
                             <p>
-                                - Thể loại: [[${movie1.movieType}]]<br>
+                                - Thể loại:
+                                <span th:each="type, iterStat : ${movie1.movieTypes}">
+                                        <span th:text="${type.name}"></span>
+                                        <span th:if="${!iterStat.last}">, </span>
+                                </span>
                                 - Thời lượng: [[${movie1.movieDuration}]] phút<br>
-                                - Ngày khởi chiếu: [[${movie1.premiereDate}]] <br>
+                                - Ngày khởi chiếu: <span th:text="${#dates.format(movie1.premiereDate, 'yyyy-MM-dd')}"></span><br>
                             </p>
                             <!--                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>  -->
                         </figcaption>
@@ -84,6 +95,7 @@
 
     </div>
 </div>
+
 <!-- gọi trailer phim đang chiếu -->
 <th:block th:each="movie : ${listmovie}">
     <div id="myModal" th:attrappend="id=${movie.id}" class="modal">

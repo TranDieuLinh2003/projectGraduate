@@ -16,15 +16,15 @@
 
 .seat_manager {
     background-color: rgb(255, 100, 3);
-    width: 60px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
     margin: 15px 10px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     text-align: center;
     font-weight: bold;
-    font-size: 20px;
-    /*padding: auto;*/
+    font-size: 15px;
+    padding-top: 10px;
     float: left;
 }
 
@@ -48,13 +48,13 @@
     background-color: rgb(156, 215, 244);
 }
 
-.seat_manager:nth-of-type(2) {
-    margin-right: 40px;
-}
+/*.seat_manager:nth-of-type(2) {*/
+/*    margin-right: 40px;*/
+/*}*/
 
-.seat_manager:nth-last-of-type(2) {
-    margin-left: 40px;
-}
+/*.seat_manager:nth-last-of-type(2) {*/
+/*    margin-left: 40px;*/
+/*}*/
 
 .seat_manager:not(.sold):hover {
     cursor: pointer;

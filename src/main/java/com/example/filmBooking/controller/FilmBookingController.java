@@ -54,16 +54,16 @@ public class FilmBookingController {
         model.addAttribute("customer", customer);
         if (customer == null) {
             // Phim đang chiếu
-            List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
-            List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
             model.addAttribute("listmovie1", listmovie1);
         } else {
-            List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
-            List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
+            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
             model.addAttribute("listmovie1", listmovie1);
             String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
             model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
@@ -88,13 +88,23 @@ public class FilmBookingController {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
-        System.out.println(customer);
-        List<DtoMovie> listmovie = (List<DtoMovie>) service.showPhimDangChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
-        model.addAttribute("listmovie", listmovie);
+        if (customer == null) {
+            // Phim đang chiếu
+            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+            model.addAttribute("listmovie", listmovie);
+            // Phim sắp chiếu
+            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+            model.addAttribute("listmovie1", listmovie1);
+        } else {
+            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+            model.addAttribute("listmovie", listmovie);
+            // Phim sắp chiếu
+            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+            model.addAttribute("listmovie1", listmovie1);
+            String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+            model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+        }
 
-//      phim sap chiếu
-        List<DtoMovie> listmovie1 = (List<DtoMovie>) service.showPhimSapChieu().stream().map(movie -> modelMapper.map(movie, DtoMovie.class)).collect(Collectors.toList());
-        model.addAttribute("listmovie1", listmovie1);
         return "users/Phim";
     }
 

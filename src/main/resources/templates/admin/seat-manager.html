@@ -1,9 +1,9 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quản lí ghế</title>
+    <title>Ghế Film Bookings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link
@@ -30,84 +30,98 @@
     <link rel="stylesheet" th:href="@{/admin/css/room.css}">
     <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
     <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">-->
 </head>
 <body>
-<div th:replace="~{/layout/header-admin :: header}"></div>
-<section class="seat_session">
+
+
+<div class="container" style="margin-bottom: 50px">
+    <div th:each="seat, iterStat : ${seatList}">
+        <div th:if="${iterStat.index == 0 or seat.room.name != seatList[iterStat.index - 1].room.name}">
+           <h2>[[${seat.room.name}]]</h2>
+        </div>
+    </div>
     <ul class="showcase">
         <li>
-            <div class="seat_1"></div>
-            <small>Ghế chưa chọn</small>
+            <div class="seat"></div>
+            <small>Ghế đang hoạt động</small>
         </li>
         <li>
-            <div class="seat_1 selected"></div>
-            <small>Ghế đang chọn</small>v
-        </li>
-        <li>
-            <div class="seat_1 sold"></div>
-            <small>Ghế đã chọn</small>
+            <div class="seat " style="background-color: #e00000"></div>
+            <small>Ghế đang bảo trì</small>
         </li>
     </ul>
-    <div class="screen">
-        <img th:src="@{admin/assets/img/bg-screen.png}" alt="">
+    <div class="movie-screen">
+        <img th:src='@{/users/img/screen-thumb.png}' alt='screen'/>
+        <!--                    <img th:src="@{/admin/img/screen-thumb.png}" alt="">-->
     </div>
-    <div class="seat_manager_container">
-        <div class="seat_row">
-            <div class="seat_manager" th:each="s : ${listSeat}"</div>
-            <!-- <div class="seat_manager">{{seat.number}}</div>
-            <div class="seat_manager"></div>
-            <div class="seat_manager"></div>
-            <div class="seat_manager"></div>
-            <div class="seat_manager"></div>
-            <div class="seat_manager"></div>
-            <div class="seat_manager"></div> -->
+    <div class="row-container">
+        <div th:each="entry : ${groupedSeats}">
+            <!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
+            <div class="row">
+                <div th:each="seat : ${entry.value}" class="seat"
+                     th:class="${seat.status == 1 ? 'seat black' : 'seat'}">
+                    <button data-bs-toggle="modal"
+                            th:attr="data-bs-target='#exampleModal_' + ${seat.id}">[[${seat.code}]]
+                    </button>
+                </div>
+            </div>
         </div>
-        <!-- <div class="seat_row">
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-        </div>
-        <div class="seat_row">
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-        </div>
-        <div class="seat_row">
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-        </div>
-        <div class="seat_row">
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager"></div>
-          <div class="seat_manager sold"></div>
-          <div class="seat_manager"></div>
-        </div> -->
     </div>
-</section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</div>
+<th:block th:each="seat : ${seatList}">
+    <div class="modal" th:attrappend="id='exampleModal_' + ${seat.id}">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 365px; margin-top: 100px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chi tiết ghế</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="row g-3" th:object="${seat}" th:action="@{/seat/update/{id}(id=${seat.id})}" method="post">
+                    <div style="display: none" class="col-md-6">
+                        <label class="form-label">Id</label>
+                        <input type="text" class="form-control" id="id" name="ID" th:value="${seat.id}"
+                               disabled
+                               required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ghế</label>
+                        <input type="text" class="form-control" id="code" name="code" th:value="${seat.code}"
+                               disabled required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Phòng</label>
+                        <input type="text" class="form-control" id="room" name="room" th:value="${seat.room.name}"
+                               disabled required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"> Trạng thái (Ghế có trạng thái : [[${seat.status == 0 ? 'Ghế đang hoạt
+                            động' : 'Ghế đang bảo trì'}]])</label>
+                        <select name="status" class="form-select" aria-label="Default select example">
+                            <option value="0" th:selected="${seat.status == 0}">Đang hoạt động</option>
+                            <option value="1" th:selected="${seat.status == 1}">Đang bảo trì</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                        <button type="submit" class="btn btn-primary"
+                                onclick="return confirm('Bạn muốn cập nhật lại ghế !')">Sửa
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</th:block>
 <script th:src="@{/admin/js/index.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script th:src="@{/admin/js/seat.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
+        integrity="sha512-GAaXlfJeIbLNG2LQu2v4pf8YEc7iPz+GE3LZyUmdR7d7Id5JsER9vmJVxMKw1MqmdlVh3NXxTxQVd9AS53G+4w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script
         type="module"
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"

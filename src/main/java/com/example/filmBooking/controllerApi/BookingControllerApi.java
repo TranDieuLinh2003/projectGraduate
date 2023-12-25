@@ -125,8 +125,19 @@ public class BookingControllerApi {
                 listRequestParam);
 
         DtoSeat[] listSeatDTOS = listSeat.getBody();
-
-        model.addAttribute("listSeatDTOS", listSeatDTOS);
+        Map<Character, List<DtoSeat>> groupedSeats = new HashMap<>();
+        for (DtoSeat seat : listSeatDTOS) {
+            char initialLetter = seat.getCode().charAt(0);
+            if (groupedSeats.containsKey(initialLetter)) {
+                groupedSeats.get(initialLetter).add(seat);
+            } else {
+                List<DtoSeat> seats = new ArrayList<>();
+                seats.add(seat);
+                groupedSeats.put(initialLetter, seats);
+            }
+        }
+        model.addAttribute("groupedSeats", groupedSeats);
+//        model.addAttribute("listSeatDTOS", listSeatDTOS);
 
 
 

@@ -10,14 +10,7 @@
 
     <link rel="icon" th:href="@{/users/img//logo.png}" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <style>
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 10px; /* Optional: Add margin between rows */
-        }
 
-    </style>
 </head>
 
 <body>
@@ -91,15 +84,20 @@
 
                     <div class="row-container">
 
-                        <div class="row">
-                            <div th:each="seat : ${listSeatDTOS}" class="seat" th:onclick="hienGiaMoi(this)"
-                                 data-selected="false"
-                                 th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
-                                 th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                 th:class="(${seat.status == 1}) ? 'seat black' : 'seat'">
-                             [[${seat.code}]]
+                        <!-- Iterate over the grouped seats in the Thymeleaf template -->
+                        <div th:each="entry : ${groupedSeats}">
+<!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
+                            <div class="row">
+                                <div th:each="seat : ${entry.value}" class="seat" th:onclick="hienGiaMoi(this)"
+                                     data-selected="false"
+                                     th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
+                                     th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
+                                     th:class="${seat.status == 1 ? 'seat black' : 'seat'}">
+                                    [[${seat.code}]]
+                                </div>
                             </div>
                         </div>
+
 
                         <hr style="margin-top: 50px; opacity: 0.7; max-width: 100%">
 
@@ -321,7 +319,10 @@
                     </div>
                     <div class="infor">
                         <p><i class='fa fa-film'></i> Thể loại </p>
-                        <b>[[${schdeule.movie.movieType}]] </b>
+                        <th:block th:each="type, iterStat : ${schdeule.movie.movieTypes}">
+                                        <span th:text="${type.name}"></span>
+                                        <span th:if="${!iterStat.last}"> </span>
+                                </th:block>
                     </div>
                     <div class="infor">
                         <p><i class='fa fa-history'></i> Thời lượng </p>
@@ -777,6 +778,8 @@
 console.log(listPoint)
     var element = document.getElementById('poin');
     element.innerHTML = listPoint;
+
+
 </script>
 <link
         rel="stylesheet"

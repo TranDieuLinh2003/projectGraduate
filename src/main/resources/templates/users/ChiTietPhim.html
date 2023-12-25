@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb"><head>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
     <title>Chi tiết phim</title>
     <!-- <link rel="stylesheet" href="css/web.css"> -->
     <link rel="stylesheet" th:href="@{/users/css/dangky.css}">
@@ -19,17 +20,38 @@
 
             <div class="col1"><img src="" th:src="@{'http://localhost:8080/admin/assets/img/' + *{image}}" alt=""></div>
             <div class="col2">
-<!--                <input style="border: #ffffff" type="text" th:field="*{name}" id="name" placeholder="Name">-->
+                <!--                <input style="border: #ffffff" type="text" th:field="*{name}" id="name" placeholder="Name">-->
                 <h2 th:utext="*{name}"></h2><br>
-                <p th:utext="*{description}"> </p> <br>
-                <div class="khoi" ><b>ĐẠO DIỄN:</b> <p th:utext="*{director}"></p> </div>
-                <div class="khoi"><b>DIỄN VIÊN:</b> <p th:utext="*{performers}"></p> </div>
-                <div class="khoi"><b>THỂ LOẠI:</b> <p th:utext="*{movieType}"></p></div>
-                <div class="khoi"><b>THỜI LƯỢNG (phút): </b> <p th:utext="*{movieDuration}"></p> </div>
-                <div class="khoi"><b>NGÔN NGỮ:</b> <p th:utext="*{languages}"></p> </div>
-                <div class="khoi"><b>NGÀY KHỞI CHIẾU:</b> <p id="ngaytao" th:utext="*{premiereDate}" value="dd/MM/yyyy"></p> </div>
+                <p th:utext="*{description}"></p> <br>
+                <div class="khoi"><b>ĐẠO DIỄN:</b>
+                    <th:block th:each="directors, iterStat : ${movie.directors}">
+                        <span th:text="${directors.name}"></span>
+                        <span th:if="${!iterStat.last}"></span>
+                    </th:block>
                 </div>
-
+                <div class="khoi"><b>DIỄN VIÊN:</b>
+                    <th:block th:each="performer, iterStat : ${movie.performers}">
+                        <span th:text="${performer.name}"></span>
+                        <span th:if="${!iterStat.last}"></span>
+                    </th:block>
+                </div>
+                <div class="khoi"><b>THỂ LOẠI:</b>
+                    <th:block th:each="type, iterStat : ${movie.movieTypes}">
+                        <span th:text="${type.name}"></span>
+                        <span th:if="${!iterStat.last}"> </span>
+                    </th:block>
+                </div>
+                <div class="khoi"><b>THỜI LƯỢNG (phút): </b>
+                    <p th:utext="*{movieDuration}"></p></div>
+                <div class="khoi"><b>NGÔN NGỮ:</b>
+                    <th:block th:each="languages, iterStat : ${movie.languages}">
+                        <span th:text="${languages.name}"></span>
+                        <span th:if="${!iterStat.last}"> </span>
+                    </th:block>
+                </div>
+                <div class="khoi"><b>NGÀY KHỞI CHIẾU:</b>
+                    <p id="ngaytao" th:utext="*{premiereDate}" value="dd/MM/yyyy"></p></div>
+            </div>
         </section>
         <div class="trailler">
             <h2>TRAILLER</h2>
@@ -61,7 +83,7 @@
         var month = dateTime.getMonth() + 1;
         var formattedMonth = String(month).padStart(2, '0');
         var year = dateTime.getFullYear();
-        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year ;
+        var formattedDate = formattedDay + "/" + formattedMonth + "/" + year;
         element.innerHTML = formattedDate;
     });
 </script>

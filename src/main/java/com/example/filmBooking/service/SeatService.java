@@ -31,6 +31,8 @@ public interface SeatService {
     List<DtoSeat> getSeats1(String movieName,String startAt, String roomName);
     
     Page<Seat> findAll(Integer currentPage);
+
+    List<Seat> listSeat(String roomName);
     
     Pageable pageSeat(Integer pagaNumber);
 

@@ -3,9 +3,12 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.model.Cinema;
 import com.example.filmBooking.model.Promotion;
 import com.example.filmBooking.model.Room;
+import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.impl.RoomServiceImpl;
+import com.example.filmBooking.service.impl.SeatServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/room")
@@ -28,6 +34,8 @@ public class RoomAdminController {
     @Autowired
     private RoomServiceImpl roomServiceI;
 
+    @Autowired
+    private SeatServiceImpl seatService;
 
     @Autowired
     private CinemaService cinemaService;
@@ -37,7 +45,7 @@ public class RoomAdminController {
     public String addRoom(Model model, @RequestParam(name = "cinema") Cinema idCinema, @RequestParam(name = "quantity") int quantity,
                           @RequestParam(name = "description1") String description, RedirectAttributes ra) {
         try {
-            boolean saveRoom = roomService.saveAll(idCinema, quantity,description);
+            boolean saveRoom = roomService.saveAll(idCinema, quantity, description);
             if (saveRoom == true) {
                 ra.addFlashAttribute("successMessage", "Thêm thành công");
             } else {
@@ -99,35 +107,7 @@ public class RoomAdminController {
         return "admin/room";
     }
 
-    //    @PostMapping("/update")
-//    @Operation(summary = "[Thêm dữ liệu room]")
-//    public String updateRoom(Model model,
-//                             @RequestParam(name = "id") String id,
-//                             @RequestParam(name = "code") String code,
-//                             @RequestParam(name = "name") String name,
-//                             @RequestParam(name = "cinema") Cinema idCinema,
-//                             @RequestParam(name = "description") String description) {
-//        try {
-//            Room room = Room.builder()
-//                    .id(id)
-//                    .code(code)
-//                    .name(name)
-//                    .type(0)
-//                    .cinema(idCinema)
-//                    .description(description)
-//                    .build();
-//            if (roomService.update(id,room) instanceof Room) {
-//                model.addAttribute("thanhCong", "Sửa phòng thành công");
-//            }else {
-//                model.addAttribute("thatBai", "Sửa phòng thất bại");
-//            }
-//            model.addAttribute("room", new Room());
-//            return "redirect:/room/find-all";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "admin/room";
-//        }
-//    }
+
     @PostMapping("/update/{id}")
     public String updatePromotion(@PathVariable(name = "id") String id, Room updatedRoom, RedirectAttributes ra) {
         roomServiceI.update(id, updatedRoom);
@@ -148,5 +128,30 @@ public class RoomAdminController {
         model.addAttribute("cinemaId", cinemaId);
         model.addAttribute("room", new Room());
         return "admin/room";
+    }
+
+
+    @GetMapping("/search/seat")
+    public String SearchSeat(Model model, @RequestParam(value = "roomName", required = false) String roomName) {
+        List<Room> getAll = roomService.fillAll();
+        model.addAttribute("getAll", getAll);
+//        List<Seat> listSeat = seatService.getAll();
+        List<Seat> seatList = seatService.listSeat(roomName);
+        Map<Character, List<Seat>> groupedSeats = new HashMap<>();
+        for (Seat seat : seatList) {
+            char initialLetter = seat.getCode().charAt(0);
+            if (groupedSeats.containsKey(initialLetter)) {
+                groupedSeats.get(initialLetter).add(seat);
+            } else {
+                List<Seat> seats = new ArrayList<>();
+                seats.add(seat);
+                groupedSeats.put(initialLetter, seats);
+            }
+        }
+        model.addAttribute("groupedSeats", groupedSeats);
+        model.addAttribute("seatList", seatList);
+//        System.out.println("Tôi là :" + seatList);
+
+        return "admin/seat-manager";
     }
 }

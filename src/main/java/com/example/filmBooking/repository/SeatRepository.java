@@ -75,6 +75,12 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
                         @Param("nameRoom") String nameRoom);
 
 
+    String SeatByRoom = ("select s.* from projectLinh.seat s\n" +
+            "join projectLinh.room r on s.room_id = r.id\n" +
+            "where r.name=:roomName\n" +
+            "ORDER BY s.code ASC");
+    @Query(value = SeatByRoom, nativeQuery = true)
+    List<Seat> getSeatByRoom(@Param("roomName") String roomName);
 
     @Query(value = "select s.* from projectLinh.seat s\n" +
             "Join projectLinh.room r where r.name =:roomname;", nativeQuery = true)

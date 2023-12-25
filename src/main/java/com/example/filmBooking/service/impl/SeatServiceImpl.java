@@ -22,8 +22,7 @@ import org.springframework.data.domain.Pageable;
 
 
 @Service
-public class
-SeatServiceImpl implements SeatService {
+public class SeatServiceImpl implements SeatService {
     @Autowired
     private SeatRepository seatRepository;
 
@@ -192,6 +191,11 @@ SeatServiceImpl implements SeatService {
     @Override
     public Page<Seat> findAll(Integer currentPage) {
         return seatRepository.findAll(pageSeat(currentPage));
+    }
+
+    @Override
+    public List<Seat> listSeat(String roomName) {
+        return  seatRepository.getSeatByRoom(roomName);
     }
 
     @Override

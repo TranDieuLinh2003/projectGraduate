@@ -109,6 +109,11 @@ public class ScheduleAdminController {
 //            if (scheduleService.checkScheduleConflict(schedule, String.valueOf(listRoomChecked)) == false) {
 //                ra.addFlashAttribute("Message", "Tạo suất chiếu thất bại ");
 //            } else {
+            System.out.println("tôi là:" + listMovieChecked);
+            System.out.println("tôi là:" + listRoomChecked);
+            System.out.println("tôi là:" + startTime);
+            System.out.println("tôi là:" + endTime);
+
                 service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
 //
 

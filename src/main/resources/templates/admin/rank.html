@@ -84,7 +84,8 @@
             <button type="submit"><i class="bx bx-search-alt-2"></i></button>
         </div>
     </form>
-    <form th:action="@{/rank/save}" th:object="${rank}" method="post" class="form_add_cinema" onsubmit="validateRank(event)">
+    <form th:action="@{/rank/save}" th:object="${rank}" method="post" class="form_add_cinema"
+          onsubmit="validateRank(event)">
         <input type="hidden" th:field="*{id}">
         <div class="seat_input">
             <div class="row g-3">
@@ -141,7 +142,8 @@
                         </button>
                     </a>
                     <a th:href="@{'/rank/delete/' + ${r.id}}">
-                        <button onclick="return confirm('Bạn muốn xóa hạng này !')" type="button" class="btn btn-outline-danger">
+                        <button onclick="return confirm('Bạn muốn xóa hạng này !')" type="button"
+                                class="btn btn-outline-danger">
                             <i class="bx bxs-trash"></i>
                         </button>
                     </a>
@@ -154,7 +156,8 @@
 <th:block th:each="rank : ${listRank}">
     <div class="modal" th:attrappend="id='exampleModal_' + ${rank.id}">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="height: 410px;
+    margin-top: 100px;">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết hạng khách hàng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -170,7 +173,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Mã hạng</label>
                         <input type="text" class="form-control" id="code" name="code" th:value="${rank.code}"
-                               required>
+                               disabled   required>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Tên hạng</label>
@@ -191,7 +194,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn cập nhật hạng này !')" >Sửa</button>
+                        <button type="submit" class="btn btn-primary"
+                                onclick="return confirm('Bạn muốn cập nhật hạng này !')">Sửa
+                        </button>
 
                     </div>
                 </form>
