@@ -8,6 +8,7 @@ import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/seat")
+@Tag(name = "Seat")
 @SessionAttributes("soldTicketsCount")
 
 public class SeatAdminController {
@@ -51,21 +53,33 @@ public class SeatAdminController {
         return "redirect:/seat/find-all";
     }
 
+//    @PostMapping("/save")
+//    @Operation(summary = "[Thêm mới]")
+//    public String save( Model model,@RequestParam("listLineCodes") List<String> listLineCodes,@RequestParam("listSeatTypeId") List<String> listSeatTypeId, @RequestParam("listNumberOfSeatPerLine") List<Integer> listNumberOfSeatPerLine, RedirectAttributes ra) {
+//        try {
+//            if ( seatService.save(listLineCodes, listSeatTypeId, listNumberOfSeatPerLine) instanceof Seat){
+//                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
+//            }else {
+//                ra.addFlashAttribute("errorMessage", "Thêm thất bại!!!");
+//            }
+//            model.addAttribute("seat", new Seat());
+//            return "redirect:/seat/find-all";
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return "admin/seat";
+//        }
+//    }
+
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
-    public String save( Model model,@RequestParam("lineNumber") Integer lineNumber, @RequestParam("number") Integer number, @RequestParam("room") Room room, RedirectAttributes ra) {
-        try {
-            if ( seatService.save(lineNumber, number, room) instanceof Seat){
-                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
-            }else {
-                ra.addFlashAttribute("errorMessage", "Thêm thất bại!!!");
-            }
-            model.addAttribute("seat", new Seat());
-            return "redirect:/seat/find-all";
-        }catch (Exception e){
-            e.printStackTrace();
-            return "admin/seat";
-        }
+    public ResponseEntity<?> save( Model model,@RequestParam("listLineCodes") List<String> listLineCodes,@RequestParam("listSeatTypeId") List<String> listSeatTypeId, @RequestParam("listNumberOfSeatPerLine") List<Integer> listNumberOfSeatPerLine,@RequestParam("roomId") String roomId,  RedirectAttributes ra) {
+         ResponseBean responseBean= new ResponseBean();
+         responseBean.setCode(HttpStatus.OK.toString());
+         responseBean.setMessage("success");
+         responseBean.setData(seatService.save(listLineCodes, listSeatTypeId, listNumberOfSeatPerLine, roomId));
+
+            return new ResponseEntity<>(responseBean, HttpStatus.OK);
+
     }
 
 

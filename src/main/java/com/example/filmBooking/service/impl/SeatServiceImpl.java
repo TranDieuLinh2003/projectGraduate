@@ -6,10 +6,8 @@ import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
-import com.example.filmBooking.repository.RoomRepository;
-import com.example.filmBooking.repository.ScheduleRepository;
-import com.example.filmBooking.repository.SeatRepository;
-import com.example.filmBooking.repository.TicketRepository;
+import com.example.filmBooking.repository.*;
+import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 
 @Service
-public class SeatServiceImpl implements SeatService {
+public class
+SeatServiceImpl implements SeatService {
     @Autowired
     private SeatRepository seatRepository;
 
@@ -35,6 +35,10 @@ public class SeatServiceImpl implements SeatService {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private SeatTypeRepository seatTypeRepository;
+
 
     @Autowired
     private ModelMapper modelMapper;
@@ -49,32 +53,24 @@ public class SeatServiceImpl implements SeatService {
         return seatRepository.findAllByRoom(roomId);
     }
 
-     @Override
-    public Seat save(Integer lineNumber, Integer number, Room room) {
-        //Nhập số hàng ghế
-        //Nhập số lượng ghế/hàng
-        //Lấy ra thông tin loại ghế
-        //Tạo mảng line
-        List<Character> listLine = new ArrayList<>();
-        //Thêm dữ liệu vào line
-        for (char i = 'A'; i <= 'Z'; i++) {
-            listLine.add(i);
-        }
-        char line = listLine.get(lineNumber);
-        Seat seat = new Seat();
-        for (char i = 'A'; i <= line - 1; i++) {
-            for (int j = 1; j <= number; j++) {
+    @Override
+    public Seat save(List<String> listLineCodes, List<String> listSeatTypeId, List<Integer> listNumberOfSeatPerLine, String roomId) {
+        List<Seat> seatList = new ArrayList<>();
+        for (int i = 0; i < listLineCodes.size(); i++) {
+            for (int j = 1; j <= listNumberOfSeatPerLine.get(i); j++) {
+                Seat seat = new Seat();
                 seat.setId(UUID.randomUUID().toString());
-                seat.setRoom(room);
-                seat.setCode(i + "" + j);
-                seat.setLine(i + "");
+                seat.setLine(listLineCodes.get(i));
                 seat.setNumber(j);
-                seatRepository.save(seat);
+                seat.setCode(seat.getLine() + seat.getNumber());
+                seat.setRoom(roomRepository.findById(roomId).get());
+                seat.setSeatType(seatTypeRepository.findById(listSeatTypeId.get(i)).get());
+                seat.setStatus(0);
+                System.out.println(seat);
+                seatList.add(seat);
             }
         }
-//        Room room = roomRepository.findById(idRoom).get();
-        room.setCapacity(roomRepository.findNumber(room.getId()));
-        roomRepository.save(room);
+        seatRepository.saveAll(seatList);
         return null;
     }
 
@@ -135,7 +131,7 @@ public class SeatServiceImpl implements SeatService {
                 .collect(Collectors.toList());
 //        System.out.println(occupiedSeats);
 // Lấy ra các vé
-        List<Ticket> tickets = ticketRepository.ticketShow(cinemaId, movieId, startAt, startTime,nameRoom);
+        List<Ticket> tickets = ticketRepository.ticketShow(cinemaId, movieId, startAt, startTime, nameRoom);
 //        System.out.println(tickets);
 //        tickets.forEach(ticket -> {
 //            String ticketId = ticket.getId();
@@ -164,15 +160,15 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public List<DtoSeat> getSeats1( String movieName, String startAt, String nameRoom) {
+    public List<DtoSeat> getSeats1(String movieName, String startAt, String nameRoom) {
 
-        List<Seat> listSeat = seatRepository.getSeat1( movieName, startAt, nameRoom);
+        List<Seat> listSeat = seatRepository.getSeat1(movieName, startAt, nameRoom);
 // Lấy ra các vé đã được đặt trong lịch đó rồi map sang các chỗ ngồi
-        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id1( movieName, startAt,nameRoom)
+        List<Seat> occupiedSeats = ticketRepository.findTicketsBySchedule_Id1(movieName, startAt, nameRoom)
                 .stream().map(ticket -> ticket.getSeat())
                 .collect(Collectors.toList());
 
-        List<Ticket> tickets = ticketRepository.ticketShow1(movieName, startAt,nameRoom);
+        List<Ticket> tickets = ticketRepository.ticketShow1(movieName, startAt, nameRoom);
 
         // Map list chỗ ngồi của phòng ở bước 1 sang list dto
         List<DtoSeat> filteredSeats = listSeat.stream().map(seat -> {
@@ -192,15 +188,15 @@ public class SeatServiceImpl implements SeatService {
 
         return filteredSeats;
     }
-    
+
     @Override
     public Page<Seat> findAll(Integer currentPage) {
         return seatRepository.findAll(pageSeat(currentPage));
     }
-     
+
     @Override
     public Pageable pageSeat(Integer pagaNumber) {
-        Pageable pageable = PageRequest.of(pagaNumber -1, 8);
+        Pageable pageable = PageRequest.of(pagaNumber - 1, 8);
         return pageable;
     }
 

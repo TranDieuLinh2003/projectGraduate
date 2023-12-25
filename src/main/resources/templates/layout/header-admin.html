@@ -79,7 +79,7 @@
             </li>
             <li>
                 <a class="sub-btn_one">
-                    <i class="bx bx-detail"></i>
+                    <i class='bx bxs-group' ></i>
                     <span>Quản lý khách hàng</span>
                     <i class="fas fa-angle-right dropdown_one"></i>
                 </a>
@@ -88,6 +88,22 @@
                     <a th:href="@{/rank/find-all}" onclick="overLoad()"
                     ><i class='bx bx-group'></i>Hạng khách hàng</a
                     >
+
+                </div>
+            </li>
+            <li>
+                <a class="sub-btn_one">
+                    <i class='bx bxs-widget' ></i>
+                    <span>Quản lý thuộc tính</span>
+                    <i class="fas fa-angle-right dropdown_one"></i>
+                </a>
+                <div class="dropdown_menu_one">
+                    <a th:href="@{/customer/find-all}" onclick="overLoad()"><i class='bx bx-movie-play'></i>Thể loại phim</a>
+                    <a th:href="@{/rank/find-all}" onclick="overLoad()"
+                    ><i class='bx bx-world'></i>Ngôn ngữ phim</a
+                    >
+                    <a th:href="@{/rated/find-all}" onclick="overLoad()"><i class='bx bxs-user'></i>Đạo diễn phim</a>
+                    <a th:href="@{/rated/find-all}" onclick="overLoad()"><i class='bx bxs-group' ></i>Diễn viên phim</a>
                     <a th:href="@{/rated/find-all}" onclick="overLoad()"><i class='bx bx-child'></i>Phân loại độ tuổi</a>
                 </div>
             </li>
@@ -123,12 +139,12 @@
                     <span>Quản lý khuyến mãi</span>
                 </a>
             </li>
-<!--            <li>-->
-<!--                    <a th:href="@{/statistical/find-all}" onclick="overLoad()">-->
-<!--                    <i class="bx bx-line-chart"></i>-->
-<!--                    <span>Thống kê</span>-->
-<!--                </a>-->
-<!--            </li>-->
+            <li>
+                    <a th:href="@{/statistical/find-all}" onclick="overLoad()">
+                    <i class="bx bx-line-chart"></i>
+                    <span>Thống kê</span>
+                </a>
+            </li>
             <li>
                 <a th:href="@{/general-setting/find-view}" onclick="overLoad()">
                     <i class="bx bx-cog"></i>

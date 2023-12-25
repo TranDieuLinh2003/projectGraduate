@@ -26,8 +26,8 @@ public class RoomServiceImpl implements RoomService {
     private RoomRepository repository;
     @Autowired
     private CinemaRepository repositoryCinema;
-    @Autowired
-    private SeatRepository seatRepository;
+//    @Autowired
+//    private SeatRepository seatRepository;
 
     @Override
     public Page<Room> getAll(Integer currentPage) {
@@ -66,27 +66,27 @@ public class RoomServiceImpl implements RoomService {
     }
 
     public void saveSeat(String roomId) {
-        List<Character> listLine = new ArrayList<>();
-        Room room= repository.findById(roomId).get();
-        //Thêm dữ liệu vào line
-        for (char i = 'A'; i <= 'Z'; i++) {
-            listLine.add(i);
-        }
-        char line = listLine.get(5);
-        Seat seat = new Seat();
-        for (char ch = 'A'; ch <line; ch++) {
-            for (int i = 1; i <9; i++) {
-                seat.setId(UUID.randomUUID().toString());
-                seat.setRoom(room);
-                seat.setCode(ch + "" + i);
-                seat.setLine(ch + "");
-                seat.setNumber(i);
-                seat.setStatus(1);
-                seatRepository.save(seat);
-            }
-        }
-        room.setCapacity(repository.findNumber(room.getId()));
-        save(room);
+//        List<Character> listLine = new ArrayList<>();
+//        Room room= repository.findById(roomId).get();
+//        //Thêm dữ liệu vào line
+//        for (char i = 'A'; i <= 'Z'; i++) {
+//            listLine.add(i);
+//        }
+//        char line = listLine.get(5);
+//        Seat seat = new Seat();
+//        for (char ch = 'A'; ch <line; ch++) {
+//            for (int i = 1; i <9; i++) {
+//                seat.setId(UUID.randomUUID().toString());
+//                seat.setRoom(room);
+//                seat.setCode(ch + "" + i);
+//                seat.setLine(ch + "");
+//                seat.setNumber(i);
+//                seat.setStatus(1);
+//                seatRepository.save(seat);
+//            }
+//        }
+//        room.setCapacity(repository.findNumber(room.getId()));
+//        save(room);
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface SeatService {
 
     List<Seat> findAllByRoom(String roomId);
 
-    Seat save(Integer lineNumber, Integer number, Room room);
+    Seat save(List<String> listLineCodes, List<String> listSeatTypeId, List<Integer> listNumberOfSeatPerLine, String roomId);
 
     Seat update(String id, Seat seat);
 

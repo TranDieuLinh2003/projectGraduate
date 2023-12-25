@@ -107,11 +107,10 @@ public class MovieAdminController {
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
     public String save(Model model,
-                       @RequestParam(name = "id") String id,
-                       @RequestParam(name = "name") String name,
+                       @RequestParam(name = "nameMovie") String name,
                        @RequestParam(name = "movieType") List<MovieType> movieTypes,
                        @RequestParam(name = "language") List<Language> languages,
-                       @RequestParam(name = "trailer") String trailer,
+                       @RequestParam(name = "trailler") String trailer,
                        @RequestParam(name = "performer") List<Performer> performers,
                        @RequestParam(name = "description") String description,
                        @RequestParam(name = "endDate") Date endDate,
@@ -119,12 +118,11 @@ public class MovieAdminController {
                        @RequestParam(name = "director") List<Director> directors,
                        @RequestParam(name = "image") MultipartFile multipartFile,
                        @RequestParam(name = "movieDuration") Integer movieDuration,
-                       @RequestParam(name = "rated") Rated rated
+                       @RequestParam(name = "ratedId") Rated rated
     ) {
         uploadImage.handerUpLoadFile(multipartFile);
         try {
             Movie movie = Movie.builder()
-                    .id(id)
                     .movieDuration(movieDuration)
                     .name(name)
                     .description(description)
@@ -188,18 +186,16 @@ public class MovieAdminController {
     @PostMapping("/director/save")
     @Operation(summary = "[Thêm mới đạo diễn]")
     public String saveDirector(Model model,
-                               @RequestParam(name = "code") String code,
                                @RequestParam(name = "name") String name) {
         try {
             Director director = Director.builder()
-                    .code(code)
                     .name(name)
                     .build();
 
             directorService.save(director);
 
             model.addAttribute("thanhCong", "Thêm đạo diễn thành công!");
-            return "redirect:/movie/find-all";
+            return "redirect:/movie/view-add";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/movie";
@@ -209,18 +205,16 @@ public class MovieAdminController {
     @PostMapping("/language/save")
     @Operation(summary = "[Thêm mới ngôn ngữ]")
     public String saveLanguage(Model model,
-                               @RequestParam(name = "code") String code,
                                @RequestParam(name = "name") String name) {
         try {
             Language language = Language.builder()
-                    .code(code)
                     .name(name)
                     .build();
 
             languageService.save(language);
 
             model.addAttribute("thanhCong", "Thêm ngôn ngữ thành công!");
-            return "redirect:/movie/find-all";
+            return "redirect:/movie/view-add";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/movie";
@@ -230,18 +224,16 @@ public class MovieAdminController {
     @PostMapping("/performer/save")
     @Operation(summary = "[Thêm mới diễn viên]")
     public String savePerformer(Model model,
-                                @RequestParam(name = "code") String code,
                                 @RequestParam(name = "name") String name) {
         try {
             Performer performer = Performer.builder()
-                    .code(code)
                     .name(name)
                     .build();
 
             performerService.save(performer);
 
             model.addAttribute("thanhCong", "Thêm diễn viên thành công!");
-            return "redirect:/movie/find-all";
+            return "redirect:/movie/view-add";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/movie";
@@ -251,18 +243,16 @@ public class MovieAdminController {
     @PostMapping("/movie-type/save")
     @Operation(summary = "[Thêm mới thể loại phim]")
     public String saveMovieType(Model model,
-                                @RequestParam(name = "code") String code,
                                 @RequestParam(name = "name") String name) {
         try {
             MovieType movieType = MovieType.builder()
-                    .code(code)
                     .name(name)
                     .build();
 
             movieTypeService.save(movieType);
 
             model.addAttribute("thanhCong", "Thêm thể loại phim thành công!");
-            return "redirect:/movie/find-all";
+            return "redirect:/movie/view-add";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/movie";
