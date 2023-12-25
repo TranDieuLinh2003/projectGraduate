@@ -406,3 +406,8 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 .image_movie {
     margin: 0px 0px 0px 20px;
 }
+.modal-content {
+    width: 900px;
+    margin-left: -170px;
+    height: 260px;
+}
