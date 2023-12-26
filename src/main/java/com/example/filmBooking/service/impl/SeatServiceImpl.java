@@ -9,16 +9,24 @@ import com.example.filmBooking.model.dto.SeatDTO;
 import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -209,4 +217,43 @@ public class SeatServiceImpl implements SeatService {
         return seatRepository.searchByRoom(id, pageSeat(currentPage));
     }
 
+    @Override
+    public Seat readExcel(MultipartFile file) {
+        try {
+            InputStream excelFile = file.getInputStream();
+            Workbook workbook = new XSSFWorkbook(excelFile);
+            Sheet datatypeSheet = workbook.getSheetAt(0);
+            DataFormatter fmt = new DataFormatter();
+            Iterator<Row> iterator = datatypeSheet.iterator();
+            Row firstRow = iterator.next();
+            List<Seat> listSeat = new ArrayList<>();
+
+            while (iterator.hasNext()) {
+                Row currentRow = iterator.next();
+                Seat seat = new Seat();
+                seat.setNumber(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(1))));
+                seat.setStatus(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(2))));
+                seat.setDescription(currentRow.getCell(3).getStringCellValue());
+                seat.setCode(currentRow.getCell(4).getStringCellValue());
+                seat.setLine(currentRow.getCell(5).getStringCellValue());
+
+                listSeat.add(seat);
+            }
+            for (Seat seat : listSeat) {
+                saveAll(seat);
+            }
+            workbook.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return  null;
+    }
+
+    @Override
+    public Seat saveAll(Seat seat) {
+        return seatRepository.save(seat);
+    }
+
 }
+
+

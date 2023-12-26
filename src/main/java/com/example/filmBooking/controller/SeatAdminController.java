@@ -84,6 +84,16 @@ public class SeatAdminController {
         return "admin/seat-manager";
     }
 
+    @GetMapping("/view-upload")
+    public String viewUpload() {
+        return "admin/ghe";
+    }
+
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
+        seatService.readExcel(file);
+        return "redirect:/seat/find-all";
+    }
 
 
 
