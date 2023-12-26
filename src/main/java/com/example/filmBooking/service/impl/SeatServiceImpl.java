@@ -65,7 +65,6 @@ public class SeatServiceImpl implements SeatService {
                 seat.setRoom(roomRepository.findById(roomId).get());
                 seat.setSeatType(seatTypeRepository.findById(listSeatTypeId.get(i)).get());
                 seat.setStatus(0);
-                System.out.println(seat);
                 seatList.add(seat);
             }
         }
@@ -76,10 +75,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Seat update(String id, Seat seat) {
         Seat seatNew = findById(id);
-        seatNew.setNumber(seat.getNumber());
-        seatNew.setLine(seat.getLine());
+//        seatNew.setNumber(seat.getNumber());
+//        seatNew.setLine(seat.getLine());
         seatNew.setStatus(seat.getStatus());
-        seatNew.setDescription(seat.getDescription());
+//        seatNew.setDescription(seat.getDescription());
         return seatRepository.save(seatNew);
     }
 
