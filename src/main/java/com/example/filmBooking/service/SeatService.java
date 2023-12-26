@@ -8,6 +8,7 @@ import com.example.filmBooking.model.dto.SeatDTO;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface SeatService {
     List<Seat> getAll();
@@ -37,5 +38,9 @@ public interface SeatService {
     Pageable pageSeat(Integer pagaNumber);
 
     Page<Seat> searchByRoom (String id, Integer currentPage);
+
+    Seat readExcel(MultipartFile file);
+
+    Seat saveAll(Seat seat);
 
 }
