@@ -411,3 +411,9 @@ input[type="date"]::-webkit-datetime-edit-day-field{
     margin-left: -170px;
     height: 260px;
 }
+.searchLocMovie{
+    background-color: darkgrey;
+    border-radius:10px;
+    padding-top: 10px;
+    margin-top: 20px;
+}
