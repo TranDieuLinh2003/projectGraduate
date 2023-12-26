@@ -23,18 +23,30 @@
             href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
             rel="stylesheet"
     />
-    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/home.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
+            <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
+        <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
+        <link rel="stylesheet" th:href="@{/admin/css/home.css}">
+        <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
     <link rel="stylesheet" th:href="@{/admin/css/room.css}">
     <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
     <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
     <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
     <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
+        <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+        <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
+<!--    <style>-->
+<!--        .form-control {-->
+<!--            width: 250px;-->
+<!--            margin-left: 370px;-->
+<!--            margin-top: -35px;-->
+<!--        }-->
 
+<!--        .form-select {-->
+<!--            width: 300px;-->
+<!--            margin-left: 80px;-->
+<!--            margin-top: -50px;-->
+<!--        }-->
+<!--    </style>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -45,7 +57,7 @@
 <div id="loading-overlay">
     <div class="spinner"></div>
 </div>
-<section class="room-html">
+<section class="room-html" style="margin-bottom: 20px">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
@@ -57,50 +69,44 @@
             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
         </symbol>
     </svg>
-    <div th:if="${successMessage}"  class="alert alert-success d-flex align-items-center" role="alert">
+    <div th:if="${successMessage}" class="alert alert-success d-flex align-items-center" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
             <use xlink:href="#check-circle-fill"/>
         </svg>
         <div>
             <strong>[[${successMessage}]]</strong>
-            <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button style="margin-left: 850px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
         </div>
     </div>
-    <div  th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <div th:if="${errorMessage}" class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
         <div>
             <strong>[[${errorMessage}]]</strong>
-            <button style="margin-left: 935px" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button style="margin-left: 935px" type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
         </div>
     </div>
     <h2>QUẢN LÝ PHÒNG CHIẾU</h2>
     <hr>
     <div class="room_add_all">
-        <form th:action="@{/room/save}" method="post" class="form_add_room" onsubmit="validateFormRoom(event)">
+        <form th:action="@{/room/save}"  th:object="${room}" method="post" class="form_add_room" onsubmit="validateFormRoom(event)">
+            <input type="hidden" th:field="*{id}"/>
+
             <div class="seat_input">
+
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="input-box">
-                            <label>Mời nhập số lượng phòng</label>
-                            <input type="number" id="quantity" name="quantity"/>
-                        </div>
-                        <span id="quantityErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-box">
-                            <label>Mô tả phòng</label>
-                            <input type="text" id="description1" name="description1"/>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" >
                         <div class="select_cinema">
                             <label>Rạp chiếu</label>
                             <select
                                     class="form-select"
                                     aria-label="Default select example"
-                                    name="cinema"
+                                    th:field="*{cinema}"style="margin-top: 10px"
                             >
-                                <th:block th:each="c : ${cinemaId}">
+                                <th:block th:each="c : ${cinemaList}">
                                     <option th:value="${c.id}">
                                         [[${c.name}]]
                                     </option>
@@ -108,92 +114,140 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="input-box">
+                            <label>Diện tích phòng</label>
+                            <input type="number" min 0 id="acreage"  th:field="*{acreage}"/>
+                        </div>
+                        <span id="acreageErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-box">
+                            <label>Số ghế</label>
+                            <input type="number" min 0 id="capacity" th:field="*{capacity}"/>
+                        </div>
+                        <span id="quantityErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-box">
+                            <label>Thiế bị khác</label>
+                            <input type="text"  id="other_equipment" th:field="*{other_equipment}"/>
+                        </div>
+                        <span id="other_equipmentErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="select_cinema" >
+                            <label>Máy chiếu</label>
+                            <select class="form-select"  th:field="*{projector}" aria-label="Default select example"  style="margin-top: 10px">
+<!--                                <option selected>-&#45;&#45;Chọn-&#45;&#45;</option>-->
+                                <option value="Máy chiếu công nghệ LCD (dựa trên màu RGB)">Máy chiếu công nghệ LCD (dựa
+                                    trên màu RGB)
+                                </option>
+                                <option value="Máy chiếu công nghệ DLP (dùng gương)">Máy chiếu công nghệ DLP (dùng gương)</option>
+                                <option value="Máy chiếu công nghệ LED">Máy chiếu công nghệ LED</option>
+                                <option value="Máy chiếu công nghệ laser">Máy chiếu công nghệ laser</option>
+
+                            </select></div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="input-box">
+                            <label>Mô tả phòng</label>
+                            <input type="text" id="description" th:field="*{description}"/>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="select_cinema"  >
+                            <label>Tình trạng</label>
+
+                            <select class="form-select"  th:field="*{status}"aria-label="Default select example"  style="margin-top: 10px">
+
+                                <option value="0">Tốt</option>
+                                <option value="1">Khá</option>
+                                <option value="2">Không tốt</option>
+
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn có muốn thêm phòng mới !')">
-                Thêm
+            <button type="submit" class="btn btn-outline-success" style="margin-top: 60px">
+                Tiếp tục
             </button>
         </form>
     </div>
+    <div class="table_bill_food">
 
-    <form th:action="@{/room/find-all/page/1}" method="get" th:object="${room}">
-        <div class="search_customer" style="margin-right: 130px">
-            <input type="text" name="keyword" id="searchIn"
-                   placeholder="Tìm kiếm phòng chiếu"/>
-            <button type="submit"><i class="bx bx-search-alt-2" onclick="overLoad()"></i></button>
-        </div>
-    </form>
-    <div>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Mã phòng</th>
                 <th scope="col">Tên phòng</th>
-                <th scope="col">Sức chứa</th>
-                <th scope="col">Mô tả</th>
+                <th scope="col">Diện tích phòng</th>
+                <th scope="col">Số ghế</th>
+                <th scope="col">Tình trạng </th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="room : ${listRoom}">
-                <th scope="row">[[${room.code}]]</th>
+            <tr th:each="room : ${roomList}">
+                <td>[[${room.code}]]</td>
                 <td>[[${room.name}]]</td>
+                <td>[[${room.acreage}]]</td>
                 <td>[[${room.capacity}]]</td>
-                <td>[[${room.description}]]</td>
+                <td th:text="${room.status == 0 ? 'Tốt' : (room.status == 1 ? 'Khá' : 'Không tốt')}"></td>
+
                 <td>
+                    <a th:href="@{'/room/delete/' + ${room.id}}">
+                        <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                onclick="return confirm('Bạn muốn xóa khuyến mãi này !')"
+                        >
+                            <i class="bx bxs-trash"></i>
+                        </button>
+                    </a>
                     <a>
-                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                        <button
+                                class="btn btn-outline-primary"
+                                data-bs-toggle="modal"
                                 th:attr="data-bs-target='#exampleModal_' + ${room.id}">
                             <i class='bx bxs-edit-alt'></i>
                         </button>
                     </a>
-                    <a th:href="@{'/room/delete/' + ${room.id}}" onclick="return confirm('Bạn muốn xóa phòng này !')">
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="bx bxs-trash"></i>
-                        </button>
-                    </a>
+
                 </td>
             </tr>
             </tbody>
         </table>
+        <div >
+            .
+        </div>
     </div>
-    <div class="pagination">
-        <nav aria-label="Page navigation example" style="text-align: center">
-            <ul class="pagination">
-                <th:block th:if="${currentPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link"
-                           th:href="@{'/room/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
-                           aria-label="Previous" onclick="overLoad()">
-                            <button> &laquo;</button>
-                        </a>
-                    </li>
-                </th:block>
-                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                    <li class="page-item">
-                        <a class="page-link" onclick="overLoad()"
-                           th:href="@{'/room/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword}}">
-                            <button> [[${pageNumber}]]</button>
-                        </a>
-                    </li>
-                </th:block>
-                <th:block th:if="${currentPage < totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" onclick="overLoad()"
-                           th:href="@{'/room/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
-                           aria-label="Next">
-                            <button> &raquo;</button>
-                        </a>
-                    </li>
-                </th:block>
-            </ul>
-        </nav>
-    </div>
+    <!--    <div class="room_add_all" id="addSeat" style="display: none">-->
+    <!--            <div class="seat_input">-->
+    <!--                <div class="row g-3">-->
+    <!--                    <div class="col-md-6">-->
+    <!--                        <div class="input-box">-->
+    <!--                            <label>Mời số lượng hàng ghế</label>-->
+    <!--                            <input type="number" id="inputNumber" min="0" oninput="displayLettersBefore()">-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                        <div id="result"></div>-->
+
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--    </div>-->
+
+
 </section>
-<th:block th:each="room : ${listRoom}">
+<th:block th:each="room : ${roomList}">
     <div class="modal" th:attrappend="id='exampleModal_' + ${room.id}">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="height: 610px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết phòng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -208,37 +262,56 @@
                     <div class="col-md-6">
                         <label class="form-label">Mã phòng</label>
                         <input type="text" class="form-control" id="code" name="code" th:value="${room.code}"
-                               required>
+                               disabled required>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Tên phòng</label>
                         <input type="text" class="form-control" id="name" name="name" th:value="${room.name}"
-                               required disabled>
+                                disabled>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label"> Loại phòng</label>
-                        <input type="text" class="form-control" id="type" name="type" th:value="${room.type}"
-                               required disabled>
+                        <label class="form-label"> Số ghế</label>
+                        <input type="text" class="form-control"  name="capacity" th:value="${room.capacity}">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Số lượng ghế trong phòng</label>
-                        <input type="text" class="form-control" id="capacity" name="capacity"
-                               th:value="${room.capacity}"
-                               required disabled>
+                        <label class="form-label">Diện tích phong</label>
+                        <input type="text" class="form-control"name="acreage"
+                               th:value="${room.capacity}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Trang thiết bị khác</label>
+                        <input type="text" class="form-control"name="other_equipment"
+                               th:value="${room.other_equipment}">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <label class="form-label"> Máy chiếu</label>
+                            <select name="projector" class="form-select" aria-label="Default select example" style="width: 435px">
+
+                                <option value="Máy chiếu công nghệ LCD (dựa trên màu RGB)"  th:selected="${room.status == 'Máy chiếu công nghệ LCD (dựa trên màu RGB)'}">Máy chiếu công nghệ LCD (dựa
+                                    trên màu RGB)
+                                </option>
+                                <option value="Máy chiếu công nghệ DLP (dùng gương)"  th:selected="${room.status == 'Máy chiếu công nghệ DLP (dùng gương) '}">Máy chiếu công nghệ DLP (dùng gương)</option>
+                                <option value="Máy chiếu công nghệ LED"  th:selected="${room.status == 'Máy chiếu công nghệ LED'}">Máy chiếu công nghệ LED</option>
+                                <option value="Máy chiếu công nghệ laser"  th:selected="${room.status == 'Máy chiếu công nghệ laser'}">Máy chiếu công nghệ laser</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"> Tình trạng </label>
+                        <select name="status" class="form-select" aria-label="Default select example">
+                            <option value="0" th:selected="${room.status == 0}">Tốt</option>
+                            <option value="1" th:selected="${room.status == 1}">Khá</option>
+                            <option value="2" th:selected="${room.status == 2}">Không tốt</option>
+
+                        </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Mô tả</label>
-                        <textarea class="form-control"  id="description" name="description" th:text="${room.description}" rows="3"></textarea>
+                        <textarea class="form-control"   name="description" th:text="${room.description}" rows="3"></textarea>
 
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label">Rạp</label>
-                        <input  type="text" class="form-control" id="cinema" name="cinema"
-                               th:value="${room.cinema.id}"
-                               required disabled>
 
-
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
                         <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn sửa phòng này !')">Sửa</button>
@@ -275,6 +348,38 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+<script th:inline="javascript" x>
+
+    function convertNumberToLetters(number) {
+        if (number < 1 || number > 26) {
+            return "Số lượng không hợp lý";
+        } else {
+            let result = "";
+            let seatTypeList = [[${seatTypeList}]];
+
+            for (let i = 1; i <= number; i++) {
+                result += `<div class="letter-box">${String.fromCharCode(64 + i)}</div>`;
+                result += `<select class="form-select" name="seatType" id="seatType">`;
+
+                seatTypeList.forEach(seatType => {
+                    result += `<option value="${seatType.id}">${seatType.name}</option>`;
+                });
+
+                result += `</select> `;
+                result += `<input type="number" class="form-control" min="0" max="20" placeholder="Số lượng ghế trên 1 hàng" name="seatCount" id="seatCount">`;
+            }
+
+
+            return result;
+        }
+    }
+
+    function displayLettersBefore() {
+        let inputNumber = parseInt(document.getElementById("inputNumber").value);
+        let result = convertNumberToLetters(inputNumber);
+        document.getElementById("result").innerHTML = result;
+    }
+</script>
 </body>
 
 </html>

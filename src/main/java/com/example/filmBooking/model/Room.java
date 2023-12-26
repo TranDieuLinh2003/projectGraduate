@@ -41,11 +41,20 @@ public class Room {
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
-    @Column(name = "type")
-    private Integer type;
-
     @Column(name = "capacity")
     private Integer capacity;
+
+    @Column(name = "acreage")
+    private Integer acreage;
+
+    @Column(name = "other_equipment")
+    private String other_equipment;
+
+    @Column(name = "projector")
+    private String projector;
+
+    @Column(name = "status")
+    private Integer status;
 
     @Column(name = "description", length = 560)
     private String description;

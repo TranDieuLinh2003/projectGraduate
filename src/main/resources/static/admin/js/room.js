@@ -67,3 +67,11 @@ function updateFormRoom(event){
         event.preventDefault(); // This line prevents the default behavior without any visible indication
     }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    var button = document.querySelector('.btn-outline-success');
+    var divToShow = document.getElementById('addSeat');
+
+    button.addEventListener('click', function() {
+        divToShow.style.display = 'block';
+    });
+});

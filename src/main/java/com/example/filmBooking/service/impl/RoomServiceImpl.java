@@ -39,24 +39,26 @@ public class RoomServiceImpl implements RoomService {
         return repository.findAll();
     }
 
-    @Override
-    public boolean saveAll(Cinema cinema, int quantity, String description) {
-        try {
-            for (int i = 1; i < quantity + 1; i++) {
-                Random generator = new Random();
-                int value = generator.nextInt((100000 - 1) + 1) + 1;
-                Room room = new Room();
-                room.setId(UUID.randomUUID().toString());
-                room.setCode("RM" + value);
-                room.setCinema(cinema);
-                room.setDescription(description);
-                room.setType(0);
-                room.setName("Room" + value + "_" + room.getCinema().getName());
-                String id = save(room).getId();
-                cinema.setCapacity(repositoryCinema.findNumberOfRoom(room.getCinema().getId()));
-                saveSeat(id);
 
-            }
+    @Override
+    public boolean saveAll(Cinema cinema, String description, Integer capacity, Integer acreage,String other_equipment, String projector,  Integer status) {
+        try {
+
+            Random generator = new Random();
+            int value = generator.nextInt((100000 - 1) + 1) + 1;
+            Room room = new Room();
+            room.setId(UUID.randomUUID().toString());
+            room.setCode("ROOM" + value);
+            room.setCinema(cinema);
+            room.setDescription(description);
+            room.setCapacity(capacity);
+            room.setAcreage(acreage);
+            room.setProjector(projector);
+            room.setOther_equipment(other_equipment);
+            room.setStatus(status);
+            room.setName("Room" + value + "_" + room.getCinema().getName());
+            repository.save(room);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +93,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room save(Room room) {
+        Random generator = new Random();
+        int value = generator.nextInt((100000 - 1) + 1) + 1;
+//        room.setId(UUID.randomUUID().toString());
+        room.setCode("ROOM" + value);
+        room.setName("Room" + value + "_" + room.getCinema().getName());
+//        repository.save(room);
         return repository.save(room);
     }
 
@@ -98,11 +106,16 @@ public class RoomServiceImpl implements RoomService {
     public Room update(String id, Room room) {
         Room customerNew = findById(id);
 //        customerNew.setName(room.getName());
-        customerNew.setCode(room.getCode());
+//        customerNew.setCode(room.getCode());
         customerNew.setDescription(room.getDescription());
 //        customerNew.setType(room.getType());
-//        customerNew.setCapacity(room.getCapacity());
-//        customerNew.setCinema(room.getCinema());
+        customerNew.setCapacity(room.getCapacity());
+        customerNew.setAcreage(room.getAcreage());
+        customerNew.setOther_equipment(room.getOther_equipment());
+        customerNew.setProjector(room.getProjector());
+        customerNew.setStatus(room.getStatus());
+        customerNew.setStatus(room.getStatus());
+
         return repository.save(customerNew);
     }
 

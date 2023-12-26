@@ -7,6 +7,7 @@ import com.example.filmBooking.model.Seat;
 import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
+import com.example.filmBooking.service.impl.SeatServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -30,6 +32,9 @@ public class SeatAdminController {
 
     @Autowired
     private SeatService seatService;
+
+    @Autowired
+    private SeatServiceImpl saveCustomersToDatabase;
 
     @Autowired
     private RoomService roomService;
@@ -53,22 +58,7 @@ public class SeatAdminController {
         return "redirect:/seat/find-all";
     }
 
-//    @PostMapping("/save")
-//    @Operation(summary = "[Thêm mới]")
-//    public String save( Model model,@RequestParam("listLineCodes") List<String> listLineCodes,@RequestParam("listSeatTypeId") List<String> listSeatTypeId, @RequestParam("listNumberOfSeatPerLine") List<Integer> listNumberOfSeatPerLine, RedirectAttributes ra) {
-//        try {
-//            if ( seatService.save(listLineCodes, listSeatTypeId, listNumberOfSeatPerLine) instanceof Seat){
-//                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
-//            }else {
-//                ra.addFlashAttribute("errorMessage", "Thêm thất bại!!!");
-//            }
-//            model.addAttribute("seat", new Seat());
-//            return "redirect:/seat/find-all";
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return "admin/seat";
-//        }
-//    }
+
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
@@ -93,6 +83,8 @@ public class SeatAdminController {
     public String viewSeatCustomer() {
         return "admin/seat-manager";
     }
+
+
 
 
 }

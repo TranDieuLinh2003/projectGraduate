@@ -1,14 +1,12 @@
 package com.example.filmBooking.controller;
 
-import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Promotion;
-import com.example.filmBooking.model.Room;
-import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.impl.RoomServiceImpl;
 import com.example.filmBooking.service.impl.SeatServiceImpl;
+import com.example.filmBooking.service.impl.SeatTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/room")
@@ -40,19 +35,40 @@ public class RoomAdminController {
     @Autowired
     private CinemaService cinemaService;
 
+    @Autowired
+    private SeatTypeServiceImpl seatTypeService;
+
+
     @PostMapping("/save")
     @Operation(summary = "[Thêm dữ liệu room]")
-    public String addRoom(Model model, @RequestParam(name = "cinema") Cinema idCinema, @RequestParam(name = "quantity") int quantity,
-                          @RequestParam(name = "description1") String description, RedirectAttributes ra) {
+    public String addRoom(Model model, @RequestParam(name = "cinema") Cinema cinema,
+                          @RequestParam(name = "capacity") int capacity,
+                          @RequestParam(name = "acreage") int acreage,
+                          @RequestParam(name = "projector") String projector,
+                          @RequestParam(name = "other_equipment") String other_equipment,
+                          @RequestParam(name = "status") int status,
+                          @RequestParam(name = "description") String description,
+                          @RequestParam(name = "id") String id,
+                          RedirectAttributes ra) {
+
         try {
-            boolean saveRoom = roomService.saveAll(idCinema, quantity, description);
-            if (saveRoom == true) {
-                ra.addFlashAttribute("successMessage", "Thêm thành công");
+            Room room = Room.builder()
+                    .id(id)
+                    .cinema(cinema)
+                    .capacity(capacity)
+                    .acreage(acreage)
+                    .projector(projector)
+                    .other_equipment(other_equipment)
+                    .status(status)
+                    .description(description)
+                    .build();
+            if (roomService.save(room) instanceof Room) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công!!!");
             } else {
                 ra.addFlashAttribute("errorMessage", "Thêm thất bại");
             }
-            model.addAttribute("room", new Room());
-            return "redirect:/room/find-all";
+            model.addAttribute("cinema", new Cinema());
+            return "redirect:/cinema/find-all";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/room";
@@ -62,24 +78,20 @@ public class RoomAdminController {
 
     @GetMapping("/find-all")
     public String viewRoom(Model model) {
-        return findAll(model, 1, null);
-    }
+        List<Room> roomList = roomService.fillAll();
+        model.addAttribute("roomList", roomList);
 
-    @GetMapping("/find-all/page/{pageNumber}")
-    public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage, @Param("keyword") String keyword) {
-        Page<Room> page = roomService.getAll(currentPage);
-        if (keyword != null) {
-            page = roomService.serachRoom(keyword, currentPage);
-        }
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("listRoom", page.getContent());
-        model.addAttribute("cinemaId", cinemaService.fillAll());
-        model.addAttribute("room", new Room()); // bắt buộc. không có là lỗi
+        List<SeatType> seatTypeList = seatTypeService.findAll();
+        Collections.sort(seatTypeList, Comparator.comparing(SeatType::getSurcharge));
+        List<Cinema> cinemaList = cinemaService.fillAll();
+        model.addAttribute("seatTypeList", seatTypeList);
+        model.addAttribute("cinemaList", cinemaList);
+        model.addAttribute("room", new Room());
+
         return "admin/room";
     }
+
+
 
     @GetMapping("/delete/{id}")
     @Operation(summary = "[Xóa dữ liệu room]")
