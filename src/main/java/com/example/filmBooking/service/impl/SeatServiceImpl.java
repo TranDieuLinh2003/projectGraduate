@@ -11,6 +11,7 @@ import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ public class SeatServiceImpl implements SeatService {
                 seat.setRoom(roomRepository.findById(roomId).get());
                 seat.setSeatType(seatTypeRepository.findById(listSeatTypeId.get(i)).get());
                 seat.setStatus(0);
+                System.out.println(seat);
                 seatList.add(seat);
             }
         }
@@ -81,11 +83,10 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Seat update(String id, Seat seat) {
         Seat seatNew = findById(id);
-//        seatNew.setNumber(seat.getNumber());
-//        seatNew.setLine(seat.getLine());
+        seatNew.setNumber(seat.getNumber());
+        seatNew.setLine(seat.getLine());
         seatNew.setStatus(seat.getStatus());
-        seatNew.setSeatType(seat.getSeatType());
-//        seatNew.setDescription(seat.getDescription());
+        seatNew.setDescription(seat.getDescription());
         return seatRepository.save(seatNew);
     }
 
@@ -201,7 +202,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public List<Seat> listSeat(String roomName) {
-        return seatRepository.getSeatByRoom(roomName);
+        return  seatRepository.getSeatByRoom(roomName);
     }
 
     @Override
@@ -222,41 +223,80 @@ public class SeatServiceImpl implements SeatService {
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
             DataFormatter fmt = new DataFormatter();
-            Iterator<Row> iterator = datatypeSheet.iterator();
-            Row firstRow = iterator.next();
-            List<Seat> listSeat = new ArrayList<>();
-            Row row = iterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-            while (iterator.hasNext()) {
-                Row currentRow = iterator.next();
-                Cell currentCell = cellIterator.next();
 
-                Seat seat = new Seat();
-//                seat.setNumber(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(1))));
-//                seat.setStatus(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(2))));
-                seat.setCode(currentRow.getCell(2).getStringCellValue());
-                seat.setLine(currentRow.getCell(1).getStringCellValue());
+            for (int rowNum = 1; rowNum <= datatypeSheet.getLastRowNum(); rowNum++) {
+                Row currentRow = datatypeSheet.getRow(rowNum);
 
-//                SeatType seatType = seatTypeRepository.findIdByName(currentRow.getCell(5).getStringCellValue());
-//
-//                Room room = roomRepository.findIdByName(currentRow.getCell(6).getStringCellValue());
-//                seat.setSeatType(seatType);
-//                seat.setRoom(room);
-                listSeat.add(seat);
+                if (currentRow == null) {
+                    // Bỏ qua dòng trống
+                    continue;
+                }
+
+                for (int colNum = 1; colNum < currentRow.getLastCellNum(); colNum++) {
+                    Cell cell = currentRow.getCell(colNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+                    String cellValue = fmt.formatCellValue(cell);
+
+                    if (!cellValue.trim().isEmpty()) {
+                        // Giả sử thông tin ghế cần có ở đây
+                        Color backgroundColor = cell.getCellStyle().getFillForegroundColorColor();
+
+                        if (backgroundColor instanceof XSSFColor) {
+                            byte[] rgb = ((XSSFColor) backgroundColor).getRGB();
+                            String hexColor = String.format("#%02X%02X%02X", rgb[0], rgb[1], rgb[2]);
+
+                            // Xác định seat_type dựa trên mã màu
+                            String seatTypeId = determineSeatTypeByColor(hexColor);
+
+                            Seat seat = new Seat();
+
+                            // Xác định 'line' từ chỉ mục dòng
+                            seat.setLine(Character.toString((char) ('A' + rowNum - 1)));
+                            // Xác định 'number' từ chỉ mục cột
+                            seat.setNumber(colNum);
+                            Room roomId = roomRepository.findById("8ce88748-12f4-4c5b-a762-9f37a82ccd86").orElse(null);
+                            // TODO: Bạn cần logic ở đây để xác định 'seatType' dựa trên thông tin có sẵn
+                            // Ví dụ: seat.setSeatType(determineSeatType(cellValue, seat.getLine(), seat.getNumber()));
+                            SeatType seatType = seatTypeRepository.findById(seatTypeId).orElse(null);
+                            seat.setSeatType(seatType);
+                            seat.setRoom(roomId);
+                            // Mặc định 'status' là có sẵn (ví dụ: 1) hoặc bạn cần chỉ định logic tương tự như cho 'seatType'
+                            seat.setStatus(0);
+
+                            // 'description' và 'code' có thể được xác định nếu có sẵn thông tin
+                            seat.setDescription("không có");
+                            seat.setCode(seat.getLine() + seat.getNumber());
+
+                            // Lưu vào DB
+                            saveAll(seat);
+                        }
+                    }
+                }
             }
-            for (Seat seat : listSeat) {
-                saveAll(seat);
-            }
+
+
             workbook.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        return null;
+        return  null;
     }
 
     @Override
     public Seat saveAll(Seat seat) {
+
         return seatRepository.save(seat);
+
+    }
+    private static String determineSeatTypeByColor(String hexColor) {
+        // Đặt logic xác định seat_type dựa trên mã màu (hexColor)
+        // Ví dụ: Nếu mã màu là "#FF0000" thì xác định là seat_type_id 2d4a187b-21a0-45dc-9111-0aef92bd5ec2
+        if ("#FF0000".equalsIgnoreCase(hexColor)) {
+            return "2d4a187b-21a0-45dc-9111-0aef92bd5ec2";
+        } else if ("#0000FF".equalsIgnoreCase(hexColor)) {
+            return "8e310157-f72c-44e3-942a-d1ab3caa38e8";
+        }
+        // Nếu không xác định được, trả về null hoặc xử lý tùy theo yêu cầu của bạn
+        return null;
     }
 
 }
