@@ -3,16 +3,14 @@ package com.example.filmBooking.service.impl;
 
 import com.example.filmBooking.model.Room;
 import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.SeatType;
 import com.example.filmBooking.model.Ticket;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.model.dto.SeatDTO;
 import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.SeatService;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +84,7 @@ public class SeatServiceImpl implements SeatService {
 //        seatNew.setNumber(seat.getNumber());
 //        seatNew.setLine(seat.getLine());
         seatNew.setStatus(seat.getStatus());
+        seatNew.setSeatType(seat.getSeatType());
 //        seatNew.setDescription(seat.getDescription());
         return seatRepository.save(seatNew);
     }
@@ -202,7 +201,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public List<Seat> listSeat(String roomName) {
-        return  seatRepository.getSeatByRoom(roomName);
+        return seatRepository.getSeatByRoom(roomName);
     }
 
     @Override
@@ -226,16 +225,23 @@ public class SeatServiceImpl implements SeatService {
             Iterator<Row> iterator = datatypeSheet.iterator();
             Row firstRow = iterator.next();
             List<Seat> listSeat = new ArrayList<>();
-
+            Row row = iterator.next();
+            Iterator<Cell> cellIterator = row.cellIterator();
             while (iterator.hasNext()) {
                 Row currentRow = iterator.next();
-                Seat seat = new Seat();
-                seat.setNumber(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(1))));
-                seat.setStatus(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(2))));
-                seat.setDescription(currentRow.getCell(3).getStringCellValue());
-                seat.setCode(currentRow.getCell(4).getStringCellValue());
-                seat.setLine(currentRow.getCell(5).getStringCellValue());
+                Cell currentCell = cellIterator.next();
 
+                Seat seat = new Seat();
+//                seat.setNumber(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(1))));
+//                seat.setStatus(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(2))));
+                seat.setCode(currentRow.getCell(2).getStringCellValue());
+                seat.setLine(currentRow.getCell(1).getStringCellValue());
+
+//                SeatType seatType = seatTypeRepository.findIdByName(currentRow.getCell(5).getStringCellValue());
+//
+//                Room room = roomRepository.findIdByName(currentRow.getCell(6).getStringCellValue());
+//                seat.setSeatType(seatType);
+//                seat.setRoom(room);
                 listSeat.add(seat);
             }
             for (Seat seat : listSeat) {
@@ -245,7 +251,7 @@ public class SeatServiceImpl implements SeatService {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
     @Override

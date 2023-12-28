@@ -23,30 +23,30 @@
             href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
             rel="stylesheet"
     />
-            <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
-        <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
-        <link rel="stylesheet" th:href="@{/admin/css/home.css}">
-        <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/home.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">
     <link rel="stylesheet" th:href="@{/admin/css/room.css}">
     <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">
     <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
     <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">
     <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
-        <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
-        <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
-<!--    <style>-->
-<!--        .form-control {-->
-<!--            width: 250px;-->
-<!--            margin-left: 370px;-->
-<!--            margin-top: -35px;-->
-<!--        }-->
+    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/bill.css}">
+    <!--    <style>-->
+    <!--        .form-control {-->
+    <!--            width: 250px;-->
+    <!--            margin-left: 370px;-->
+    <!--            margin-top: -35px;-->
+    <!--        }-->
 
-<!--        .form-select {-->
-<!--            width: 300px;-->
-<!--            margin-left: 80px;-->
-<!--            margin-top: -50px;-->
-<!--        }-->
-<!--    </style>-->
+    <!--        .form-select {-->
+    <!--            width: 300px;-->
+    <!--            margin-left: 80px;-->
+    <!--            margin-top: -50px;-->
+    <!--        }-->
+    <!--    </style>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -92,19 +92,20 @@
     <h2>QUẢN LÝ PHÒNG CHIẾU</h2>
     <hr>
     <div class="room_add_all">
-        <form th:action="@{/room/save}"  th:object="${room}" method="post" class="form_add_room" onsubmit="validateFormRoom(event)">
+        <form th:action="@{/room/save}" th:object="${room}" method="post" class="form_add_room"
+              onsubmit="validateFormRoom(event)">
             <input type="hidden" th:field="*{id}"/>
 
             <div class="seat_input">
 
                 <div class="row g-3">
-                    <div class="col-md-6" >
+                    <div class="col-md-6">
                         <div class="select_cinema">
                             <label>Rạp chiếu</label>
                             <select
                                     class="form-select"
                                     aria-label="Default select example"
-                                    th:field="*{cinema}"style="margin-top: 10px"
+                                    th:field="*{cinema}" style="margin-top: 10px"
                             >
                                 <th:block th:each="c : ${cinemaList}">
                                     <option th:value="${c.id}">
@@ -117,33 +118,36 @@
                     <div class="col-md-6">
                         <div class="input-box">
                             <label>Diện tích phòng</label>
-                            <input type="number" min 0 id="acreage"  th:field="*{acreage}"/>
+                            <input type="number" min 0 id="acreage" th:field="*{acreage}"/>
                         </div>
                         <span id="acreageErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-box">
-                            <label>Số ghế</label>
-                            <input type="number" min 0 id="capacity" th:field="*{capacity}"/>
-                        </div>
-                        <span id="quantityErr" style="color: red; margin: 10px 0px 0px 0px"></span>
-                    </div>
+                    <!--                    <div class="col-md-6">-->
+                    <!--                        <div class="input-box">-->
+                    <!--                            <label>Số ghế</label>-->
+                    <!--                            <input type="number" min 0 id="capacity" th:field="*{capacity}"/>-->
+                    <!--                        </div>-->
+                    <!--                        <span id="quantityErr" style="color: red; margin: 10px 0px 0px 0px"></span>-->
+                    <!--                    </div>-->
                     <div class="col-md-6">
                         <div class="input-box">
                             <label>Thiế bị khác</label>
-                            <input type="text"  id="other_equipment" th:field="*{other_equipment}"/>
+                            <input type="text" id="other_equipment" th:field="*{other_equipment}"/>
                         </div>
                         <span id="other_equipmentErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                     </div>
                     <div class="col-md-6">
-                        <div class="select_cinema" >
+                        <div class="select_cinema">
                             <label>Máy chiếu</label>
-                            <select class="form-select"  th:field="*{projector}" aria-label="Default select example"  style="margin-top: 10px">
-<!--                                <option selected>-&#45;&#45;Chọn-&#45;&#45;</option>-->
+                            <select class="form-select" th:field="*{projector}" aria-label="Default select example"
+                                    style="margin-top: 10px">
+                                <!--                                <option selected>-&#45;&#45;Chọn-&#45;&#45;</option>-->
                                 <option value="Máy chiếu công nghệ LCD (dựa trên màu RGB)">Máy chiếu công nghệ LCD (dựa
                                     trên màu RGB)
                                 </option>
-                                <option value="Máy chiếu công nghệ DLP (dùng gương)">Máy chiếu công nghệ DLP (dùng gương)</option>
+                                <option value="Máy chiếu công nghệ DLP (dùng gương)">Máy chiếu công nghệ DLP (dùng
+                                    gương)
+                                </option>
                                 <option value="Máy chiếu công nghệ LED">Máy chiếu công nghệ LED</option>
                                 <option value="Máy chiếu công nghệ laser">Máy chiếu công nghệ laser</option>
 
@@ -160,10 +164,11 @@
 
 
                     <div class="col-md-6">
-                        <div class="select_cinema"  >
+                        <div class="select_cinema">
                             <label>Tình trạng</label>
 
-                            <select class="form-select"  th:field="*{status}"aria-label="Default select example"  style="margin-top: 10px">
+                            <select class="form-select" th:field="*{status}" aria-label="Default select example"
+                                    style="margin-top: 10px">
 
                                 <option value="0">Tốt</option>
                                 <option value="1">Khá</option>
@@ -188,7 +193,7 @@
                 <th scope="col">Tên phòng</th>
                 <th scope="col">Diện tích phòng</th>
                 <th scope="col">Số ghế</th>
-                <th scope="col">Tình trạng </th>
+                <th scope="col">Tình trạng</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -219,35 +224,27 @@
                         </button>
                     </a>
                     <a>
-                        <button
-                                class="btn btn-outline-primary">
-                           Tạo ghế
-                        </button>
+                        <!--                        <button th:unless="room.capacity =='' " class="btn btn-outline-primary">-->
+                        <!--                          <a th:href="@{'/room/' + ${room.id}}">Tạo ghế</a>-->
+                        <!--                        </button>-->
+                        <div th:unless="${room.capacity}">
+                            <button style="margin-top: -70px;margin-left: 122px;" class="btn btn-outline-primary">
+                                <a th:href="@{'/room/' + ${room.id}}">Tạo ghế</a>
+                            </button>
+                        </div>
+                        <div th:if="${room.capacity}">
+                            <!-- Your content here when room.capacity is not empty -->
+                        </div>
+
                     </a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div >
+        <div>
             .
         </div>
     </div>
-    <!--    <div class="room_add_all" id="addSeat" style="display: none">-->
-    <!--            <div class="seat_input">-->
-    <!--                <div class="row g-3">-->
-    <!--                    <div class="col-md-6">-->
-    <!--                        <div class="input-box">-->
-    <!--                            <label>Mời số lượng hàng ghế</label>-->
-    <!--                            <input type="number" id="inputNumber" min="0" oninput="displayLettersBefore()">-->
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                        <div id="result"></div>-->
-
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--    </div>-->
-
-
 </section>
 <th:block th:each="room : ${roomList}">
     <div class="modal" th:attrappend="id='exampleModal_' + ${room.id}">
@@ -272,33 +269,45 @@
                     <div class="col-md-6">
                         <label class="form-label">Tên phòng</label>
                         <input type="text" class="form-control" id="name" name="name" th:value="${room.name}"
-                                disabled>
+                               disabled>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label"> Số ghế</label>
-                        <input type="text" class="form-control"  name="capacity" th:value="${room.capacity}">
+                        <input type="text" disabled class="form-control" name="capacity" th:value="${room.capacity}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Diện tích phong</label>
-                        <input type="text" class="form-control"name="acreage"
-                               th:value="${room.capacity}">
+                        <input type="text" class="form-control" name="acreage"
+                               th:value="${room.acreage}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Trang thiết bị khác</label>
-                        <input type="text" class="form-control"name="other_equipment"
+                        <input type="text" class="form-control" name="other_equipment"
                                th:value="${room.other_equipment}">
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-6">
                             <label class="form-label"> Máy chiếu</label>
-                            <select name="projector" class="form-select" aria-label="Default select example" style="width: 435px">
+                            <select name="projector" class="form-select" aria-label="Default select example"
+                                    style="width: 435px">
 
-                                <option value="Máy chiếu công nghệ LCD (dựa trên màu RGB)"  th:selected="${room.status == 'Máy chiếu công nghệ LCD (dựa trên màu RGB)'}">Máy chiếu công nghệ LCD (dựa
+                                <option value="Máy chiếu công nghệ LCD (dựa trên màu RGB)"
+                                        th:selected="${room.status == 'Máy chiếu công nghệ LCD (dựa trên màu RGB)'}">Máy
+                                    chiếu công nghệ LCD (dựa
                                     trên màu RGB)
                                 </option>
-                                <option value="Máy chiếu công nghệ DLP (dùng gương)"  th:selected="${room.status == 'Máy chiếu công nghệ DLP (dùng gương) '}">Máy chiếu công nghệ DLP (dùng gương)</option>
-                                <option value="Máy chiếu công nghệ LED"  th:selected="${room.status == 'Máy chiếu công nghệ LED'}">Máy chiếu công nghệ LED</option>
-                                <option value="Máy chiếu công nghệ laser"  th:selected="${room.status == 'Máy chiếu công nghệ laser'}">Máy chiếu công nghệ laser</option>
+                                <option value="Máy chiếu công nghệ DLP (dùng gương)"
+                                        th:selected="${room.status == 'Máy chiếu công nghệ DLP (dùng gương) '}">Máy
+                                    chiếu công nghệ DLP (dùng gương)
+                                </option>
+                                <option value="Máy chiếu công nghệ LED"
+                                        th:selected="${room.status == 'Máy chiếu công nghệ LED'}">Máy chiếu công nghệ
+                                    LED
+                                </option>
+                                <option value="Máy chiếu công nghệ laser"
+                                        th:selected="${room.status == 'Máy chiếu công nghệ laser'}">Máy chiếu công nghệ
+                                    laser
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -313,13 +322,16 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Mô tả</label>
-                        <textarea class="form-control"   name="description" th:text="${room.description}" rows="3"></textarea>
+                        <textarea class="form-control" name="description" th:text="${room.description}"
+                                  rows="3"></textarea>
 
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn sửa phòng này !')">Sửa</button>
+                        <button type="submit" class="btn btn-primary"
+                                onclick="return confirm('Bạn muốn sửa phòng này !')">Sửa
+                        </button>
 
                     </div>
                 </form>

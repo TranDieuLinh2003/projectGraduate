@@ -124,6 +124,15 @@
                         <select name="status" class="form-select" aria-label="Default select example">
                             <option value="0" th:selected="${seat.status == 0}">Đang hoạt động</option>
                             <option value="1" th:selected="${seat.status == 1}">Đang bảo trì</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"> Thể loại ghế  (Hạng áp dụng hiện tại :[[${seat.seatType.name}]])</label>
+                        <select id="seatType" name="seatType" class="form-select" aria-label="Default select example">
+                            <th:block th:each="type : ${seatTypeList}">
+                                <option th:value="${type.id}" th:text="${type.name}" th:selected="${type.id == seat.seatType.id}"></option>
+                            </th:block>
                         </select>
                     </div>
 

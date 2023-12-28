@@ -14,11 +14,13 @@ public interface RoomService {
 
     List<Room> fillAll();
 
-    boolean saveAll(Cinema idCinema, String description,Integer capacity, Integer acreage, String projector, String other_equipment, Integer status);
+    boolean saveAll(Cinema idCinema, String description, Integer capacity, Integer acreage, String projector, String other_equipment, Integer status);
 
     Room save(Room room);
 
     Room update(String id, Room room);
+
+    Room updateSeat(String id, Room room);
 
     void delete(String id);
 

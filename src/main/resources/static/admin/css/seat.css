@@ -207,12 +207,14 @@ body {
     width: 40px;
     background: #ff7200;
     border: 2px solid #000000;
-    transition: all .2s ease;
+    /* transition: all .2s ease; */
     text-align: center;
     margin-bottom: 15px;
     margin-left: 5px;
-    padding-left: 9px;
+    /* padding-left: 9px; */
     padding-top: 4px;
+    display: flex;
+    justify-content: center;
 }
 .seattow {
     margin: 5px;
