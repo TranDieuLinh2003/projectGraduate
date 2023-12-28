@@ -2,6 +2,7 @@ package com.example.filmBooking.controller;
 
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
+import com.example.filmBooking.repository.RoomRepository;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.impl.RoomServiceImpl;
@@ -38,11 +39,12 @@ public class RoomAdminController {
     @Autowired
     private SeatTypeServiceImpl seatTypeService;
 
+    @Autowired
+    private RoomRepository repository;
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm dữ liệu room]")
     public String addRoom(Model model, @RequestParam(name = "cinema") Cinema cinema,
-                          @RequestParam(name = "capacity") int capacity,
                           @RequestParam(name = "acreage") int acreage,
                           @RequestParam(name = "projector") String projector,
                           @RequestParam(name = "other_equipment") String other_equipment,
@@ -55,7 +57,6 @@ public class RoomAdminController {
             Room room = Room.builder()
                     .id(id)
                     .cinema(cinema)
-                    .capacity(capacity)
                     .acreage(acreage)
                     .projector(projector)
                     .other_equipment(other_equipment)
@@ -67,8 +68,8 @@ public class RoomAdminController {
             } else {
                 ra.addFlashAttribute("errorMessage", "Thêm thất bại");
             }
-            model.addAttribute("cinema", new Cinema());
-            return "redirect:/cinema/find-all";
+//            model.addAttribute("cinema", new Cinema());
+            return "redirect:/room/find-all";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/room";
@@ -90,7 +91,6 @@ public class RoomAdminController {
 
         return "admin/room";
     }
-
 
 
     @GetMapping("/delete/{id}")
@@ -147,23 +147,48 @@ public class RoomAdminController {
     public String SearchSeat(Model model, @RequestParam(value = "roomName", required = false) String roomName) {
         List<Room> getAll = roomService.fillAll();
         model.addAttribute("getAll", getAll);
+        List<SeatType> seatTypeList = seatTypeService.findAll();
+        System.out.println(seatTypeList);
+        model.addAttribute("seatTypeList", seatTypeList);
 //        List<Seat> listSeat = seatService.getAll();
         List<Seat> seatList = seatService.listSeat(roomName);
         Map<Character, List<Seat>> groupedSeats = new HashMap<>();
+
+// Grouping seats by initial letter
         for (Seat seat : seatList) {
             char initialLetter = seat.getCode().charAt(0);
-            if (groupedSeats.containsKey(initialLetter)) {
-                groupedSeats.get(initialLetter).add(seat);
-            } else {
-                List<Seat> seats = new ArrayList<>();
-                seats.add(seat);
-                groupedSeats.put(initialLetter, seats);
-            }
+            groupedSeats.computeIfAbsent(initialLetter, k -> new ArrayList<>()).add(seat);
         }
+
+// Custom comparator to handle alphanumeric sorting
+        Comparator<Seat> seatComparator = (s1, s2) -> {
+            String code1 = s1.getCode();
+            String code2 = s2.getCode();
+            String numericPart1 = code1.replaceAll("\\D", "");
+            String numericPart2 = code2.replaceAll("\\D", "");
+            if (numericPart1.length() == numericPart2.length()) {
+                return numericPart1.compareTo(numericPart2);
+            } else {
+                return Integer.compare(Integer.parseInt(numericPart1), Integer.parseInt(numericPart2));
+            }
+        };
+
+// Sorting seat codes within each group using the custom comparator
+        groupedSeats.values().forEach(seats -> seats.sort(seatComparator));
         model.addAttribute("groupedSeats", groupedSeats);
         model.addAttribute("seatList", seatList);
 //        System.out.println("Tôi là :" + seatList);
 
         return "admin/seat-manager";
+    }
+
+    @GetMapping("/{id}")
+    public String showEditForm(@PathVariable("id") String id, Model model) {
+        Room room = roomServiceI.findById(id);
+        model.addAttribute("room", room);
+        List<SeatType> seatTypeList = seatTypeService.findAll();
+        model.addAttribute("seatTypeList", seatTypeList);
+
+        return "admin/creatSeat";
     }
 }

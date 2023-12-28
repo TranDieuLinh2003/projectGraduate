@@ -109,7 +109,7 @@ public class RoomServiceImpl implements RoomService {
 //        customerNew.setCode(room.getCode());
         customerNew.setDescription(room.getDescription());
 //        customerNew.setType(room.getType());
-        customerNew.setCapacity(room.getCapacity());
+//        customerNew.setCapacity(room.getCapacity());
         customerNew.setAcreage(room.getAcreage());
         customerNew.setOther_equipment(room.getOther_equipment());
         customerNew.setProjector(room.getProjector());
@@ -118,6 +118,15 @@ public class RoomServiceImpl implements RoomService {
 
         return repository.save(customerNew);
     }
+
+    @Override
+    public Room updateSeat(String id, Room room) {
+        Room customerNew = findById(id);
+
+        customerNew.setCapacity(room.getCapacity());
+
+
+        return repository.save(customerNew);    }
 
     @Override
     public Room findById(String id) {

@@ -37,6 +37,7 @@ function validateFormRated(event) {
     } else {
         ratedCodeError.innerText = "";
     }
+
     if(descriptionRated.trim() === ''){
         descriptionRatedErr.textContent = "Mô tả không được để trống !";
         isValid = false;

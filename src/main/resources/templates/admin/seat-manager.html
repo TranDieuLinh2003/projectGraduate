@@ -39,7 +39,7 @@
 <div class="container" style="margin-bottom: 50px">
     <div th:each="seat, iterStat : ${seatList}">
         <div th:if="${iterStat.index == 0 or seat.room.name != seatList[iterStat.index - 1].room.name}">
-           <h2>[[${seat.room.name}]]</h2>
+            <h2>[[${seat.room.name}]]</h2>
         </div>
     </div>
     <ul class="showcase">
@@ -52,16 +52,27 @@
             <small>Ghế đang bảo trì</small>
         </li>
     </ul>
+    <ul class="showcase" style="margin-right: 135px">
+        <li>
+            <div class="seat"></div>
+            <small>Ghế đơn</small>
+        </li>
+        <li>
+            <div class="seattow " ></div>
+            <small>Ghế ghế đôi</small>
+        </li>
+    </ul>
     <div class="movie-screen">
         <img th:src='@{/users/img/screen-thumb.png}' alt='screen'/>
         <!--                    <img th:src="@{/admin/img/screen-thumb.png}" alt="">-->
     </div>
-    <div class="row-container">
+    <div class="row-container" style="display: contents;">
         <div th:each="entry : ${groupedSeats}">
             <!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
             <div class="row">
                 <div th:each="seat : ${entry.value}" class="seat"
-                     th:class="${seat.status == 1 ? 'seat black' : 'seat'}">
+                     th:class="${seat.status == 1 ? 'seat black' : 'seat'}"
+                     th:classappend="${seat.seatType.name == 'Ghế đôi'} ? 'seattow' : 'seat'">
                     <button data-bs-toggle="modal"
                             th:attr="data-bs-target='#exampleModal_' + ${seat.id}">[[${seat.code}]]
                     </button>
@@ -85,6 +96,18 @@
                                disabled
                                required>
                     </div>
+                    <div style="display: none" class="col-md-6">
+                        <label class="form-label">Id</label>
+                        <input type="text" class="form-control" id="number" name="number" th:value="${seat.number}"
+                               disabled
+                               required>
+                    </div>
+                    <div style="display: none" class="col-md-6">
+                        <label class="form-label">Id</label>
+                        <input type="text" class="form-control" id="line" name="line" th:value="${seat.line}"
+                               disabled
+                               required>
+                    </div>
                     <div class="col-md-6">
                         <label class="form-label">Ghế</label>
                         <input type="text" class="form-control" id="code" name="code" th:value="${seat.code}"
@@ -101,6 +124,15 @@
                         <select name="status" class="form-select" aria-label="Default select example">
                             <option value="0" th:selected="${seat.status == 0}">Đang hoạt động</option>
                             <option value="1" th:selected="${seat.status == 1}">Đang bảo trì</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"> Thể loại ghế  (Hạng áp dụng hiện tại :[[${seat.seatType.name}]])</label>
+                        <select id="seatType" name="seatType" class="form-select" aria-label="Default select example">
+                            <th:block th:each="type : ${seatTypeList}">
+                                <option th:value="${type.id}" th:text="${type.name}" th:selected="${type.id == seat.seatType.id}"></option>
+                            </th:block>
                         </select>
                     </div>
 
