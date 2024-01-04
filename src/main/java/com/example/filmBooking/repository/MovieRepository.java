@@ -67,12 +67,11 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
             "LEFT JOIN m.languages lang " +
             "LEFT JOIN m.movieTypes type " +
             "LEFT JOIN m.performers performer " +
-            "WHERE (?1 IS NULL OR d.id IN ?1) \n" +
-            "AND (?2 IS NULL OR lang.id IN ?2) \n" +
-            "AND (?3 IS NULL OR type.id IN ?3) \n" +
-            "AND (?4 IS NULL OR performer.id IN ?4)")
-    Page<Movie> filterMovies(Pageable pageable,
-                             @Param("directors") String directors,
+            "WHERE (?1 IS NULL OR d.name IN ?1) \n" +
+            "AND (?2 IS NULL OR lang.name IN ?2) \n" +
+            "AND (?3 IS NULL OR type.name IN ?3) \n" +
+            "AND (?4 IS NULL OR performer.name IN ?4)")
+    List<Movie> filterMovies(@Param("directors") String directors,
                              @Param("languages") String languages,
                              @Param("movieTypes") String movieTypes,
                              @Param("performers") String performers);
