@@ -55,29 +55,50 @@ public class MovieAdminController {
 
     @GetMapping("/find-all")
     public String viewMovie(Model model) {
-        return findAll(model, 1, null, null);
+        return findAll(model, 1, null, null, null, null, null, null);
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
     @Operation(summary = "[Hiển thị tất cả]")
     public String findAll(Model model, @PathVariable("pageNumber") Integer pageNumber,
                           @Param("keyword") String keyword,
-                          @Param("status") String status) {
+                          @Param("status") String status,
+                          @RequestParam(value = "director", required = false) String directors,
+                          @RequestParam(value = "movieType", required = false) String movieTypes,
+                          @RequestParam(value = "language", required = false) String languages,
+                          @RequestParam(value = "performer", required = false) String performers) {
         Page<Movie> page;
-        if (status != null && keyword != null) {
+        if ((status != null || keyword != null) && (directors == null && movieTypes == null && languages == null && performers == null)) {
+            // Tìm kiếm theo status và nhập tên
             page = service.searchByNameAndRelatedEntities(status, keyword, pageNumber);
-
-        }else {
+            System.out.println(page);
+        } else if (directors != null || movieTypes != null || languages != null || performers != null) {
+            // Lọc theo 4 trường
+             page = service.filterMovies(pageNumber, directors, languages, movieTypes, performers);
+            System.out.println(service.filterMovies(pageNumber, directors, languages, movieTypes, performers));
+            System.out.println(movieTypes);
+        } else {
+            // Hiển thị tất cả
             page = service.getAll(pageNumber);
         }
+        List<Rated> ratedId = ratedService.fillAll();
+        List<Director> directorId = directorService.fillAll();
+        List<Language> languageId = languageService.fillAll();
+        List<MovieType> movieTypeId = movieTypeService.fillAll();
+        List<Performer> performerId = performerService.fillAll();
+
+        model.addAttribute("ratedId", ratedId);
+        model.addAttribute("languages", languageId);
+        model.addAttribute("movieTypes", movieTypeId);
+        model.addAttribute("directors", directorId);
+        model.addAttribute("performers", performerId);
         model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listMovie", page.getContent());
-        List<Rated> ratedId = ratedService.fillAll();
-        model.addAttribute("ratedId", ratedId);
+
         return "admin/movie";
     }
 
