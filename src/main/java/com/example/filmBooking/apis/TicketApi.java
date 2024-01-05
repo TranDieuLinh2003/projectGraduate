@@ -7,6 +7,7 @@ import com.example.filmBooking.model.dto.DtoSeat;
 
 import com.example.filmBooking.repository.BillRepository;
 import com.example.filmBooking.repository.FootRepository;
+import com.example.filmBooking.repository.MovieRepository;
 import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.service.impl.*;
 import org.modelmapper.ModelMapper;
@@ -47,9 +48,10 @@ public class TicketApi {
     private BillRepository repository;
 
     @Autowired
-    private SeatRepository seatRepository;
+    private MovieRepository movieRepository;
     @Autowired
     private ModelMapper modelMapper;
+
     @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
                                                        @RequestParam String movieId,
@@ -111,5 +113,15 @@ public class TicketApi {
 //    private List<BillDto> FindBill(@RequestParam String tradingCode, @RequestParam LocalDate dateCreate ) {
 //        return repository.findBillsByTradingCodeAndDateCho(tradingCode,dateCreate)
 //                .stream().map(bill -> modelMapper.map(bill, BillDto.class)).collect(Collectors.toList());
+//    }
+
+
+//    @GetMapping("/show/movie")
+//    private ResponseEntity<List<Movie>> getMovie(@RequestParam String directors,
+//                                                       @RequestParam String languages,
+//                                                       @RequestParam String movieTypes,
+//                                                       @RequestParam String performers) {
+//
+//        return new ResponseEntity<>(movieRepository.filterMovies(directors, languages, movieTypes, performers), HttpStatus.OK);
 //    }
 }

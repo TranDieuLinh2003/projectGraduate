@@ -92,7 +92,7 @@
                                      data-selected="false"
                                      th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                      th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
-                                     th:class="${seat.status == 1 ? 'seat black' : 'seat'}">
+                                     th:class="${seat.status == 1 ? 'seat  black' : (seat.status == 0 ? (seat.seatType.name == 'Ghế đôi' ? 'seat seattow' : 'seat') : 'seat red')}">
                                     [[${seat.code}]]
                                 </div>
                             </div>
