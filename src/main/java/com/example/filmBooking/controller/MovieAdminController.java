@@ -71,12 +71,9 @@ public class MovieAdminController {
         if ((status != null || keyword != null) && (directors == null && movieTypes == null && languages == null && performers == null)) {
             // Tìm kiếm theo status và nhập tên
             page = service.searchByNameAndRelatedEntities(status, keyword, pageNumber);
-            System.out.println(page);
         } else if (directors != null || movieTypes != null || languages != null || performers != null) {
             // Lọc theo 4 trường
              page = service.filterMovies(pageNumber, directors, languages, movieTypes, performers);
-            System.out.println(service.filterMovies(pageNumber, directors, languages, movieTypes, performers));
-            System.out.println(movieTypes);
         } else {
             // Hiển thị tất cả
             page = service.getAll(pageNumber);
