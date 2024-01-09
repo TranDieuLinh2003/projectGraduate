@@ -1,18 +1,13 @@
 package com.example.filmBooking.service;
 
-import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.example.filmBooking.model.Room;
 
 public interface ScheduleService {
     List<Schedule> findAll();
@@ -26,6 +21,7 @@ public interface ScheduleService {
 
     Schedule findById(String id);
 
+    Object updateAll(List<Schedule> scheduleList);
 
     List<String> getStart_At(String movieId, String cinemaId);
 

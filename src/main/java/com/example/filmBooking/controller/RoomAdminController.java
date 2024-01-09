@@ -3,12 +3,15 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoSeat;
 import com.example.filmBooking.repository.RoomRepository;
+import com.example.filmBooking.repository.SeatRepository;
 import com.example.filmBooking.service.CinemaService;
 import com.example.filmBooking.service.RoomService;
 import com.example.filmBooking.service.impl.RoomServiceImpl;
 import com.example.filmBooking.service.impl.SeatServiceImpl;
 import com.example.filmBooking.service.impl.SeatTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -40,12 +43,13 @@ public class RoomAdminController {
     private SeatTypeServiceImpl seatTypeService;
 
     @Autowired
-    private RoomRepository repository;
+    private SeatRepository repository;
 
     @PostMapping("/save")
     @Operation(summary = "[Thêm dữ liệu room]")
     public String addRoom(Model model, @RequestParam(name = "cinema") Cinema cinema,
-                          @RequestParam(name = "acreage") int acreage,
+                          @RequestParam(name = "width") int width,
+                          @RequestParam(name = "height") int height,
                           @RequestParam(name = "projector") String projector,
                           @RequestParam(name = "other_equipment") String other_equipment,
                           @RequestParam(name = "status") int status,
@@ -57,7 +61,8 @@ public class RoomAdminController {
             Room room = Room.builder()
                     .id(id)
                     .cinema(cinema)
-                    .acreage(acreage)
+                    .height(height)
+                    .width(width)
                     .projector(projector)
                     .other_equipment(other_equipment)
                     .status(status)
@@ -148,7 +153,7 @@ public class RoomAdminController {
         List<Room> getAll = roomService.fillAll();
         model.addAttribute("getAll", getAll);
         List<SeatType> seatTypeList = seatTypeService.findAll();
-        System.out.println(seatTypeList);
+//        System.out.println(seatTypeList);
         model.addAttribute("seatTypeList", seatTypeList);
 //        List<Seat> listSeat = seatService.getAll();
         List<Seat> seatList = seatService.listSeat(roomName);
@@ -177,18 +182,24 @@ public class RoomAdminController {
         groupedSeats.values().forEach(seats -> seats.sort(seatComparator));
         model.addAttribute("groupedSeats", groupedSeats);
         model.addAttribute("seatList", seatList);
+        model.addAttribute("seat", new Seat());
+
 //        System.out.println("Tôi là :" + seatList);
 
         return "admin/seat-manager";
     }
 
     @GetMapping("/{id}")
-    public String showEditForm(@PathVariable("id") String id, Model model) {
+    public String showEditForm(@PathVariable("id") String id, Model model, HttpServletRequest request) {
         Room room = roomServiceI.findById(id);
+        List<Seat> seatList = repository.seatSeatAll(id);
         model.addAttribute("room", room);
         List<SeatType> seatTypeList = seatTypeService.findAll();
         model.addAttribute("seatTypeList", seatTypeList);
-
+        model.addAttribute("seatList", seatList);
+        HttpSession session = request.getSession();
+        session.setAttribute("room", room);
+        model.addAttribute("seat", new Seat());
         return "admin/creatSeat";
     }
 }

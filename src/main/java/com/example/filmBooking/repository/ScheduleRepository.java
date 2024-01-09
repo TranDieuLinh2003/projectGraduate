@@ -78,6 +78,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
+    @Query(value = " select * from schedule s where s.room_id= ?2 and date(s.start_at) = Date(?1)  order by s.start_at asc ", nativeQuery = true)
+    List<Schedule> findByRoomAndFinishAt(String date, String room);
+
 
     @Query("FROM Schedule s WHERE " +
             " s.status like 'Sắp chiếu'" +

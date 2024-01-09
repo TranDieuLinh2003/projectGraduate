@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public boolean saveAll(Cinema cinema, String description, Integer capacity, Integer acreage,String other_equipment, String projector,  Integer status) {
+    public boolean saveAll(Cinema cinema, String description, Integer capacity, Integer width, Integer height, String other_equipment, String projector, Integer status) {
         try {
 
             Random generator = new Random();
@@ -52,7 +52,8 @@ public class RoomServiceImpl implements RoomService {
             room.setCinema(cinema);
             room.setDescription(description);
             room.setCapacity(capacity);
-            room.setAcreage(acreage);
+            room.setWidth(width);
+            room.setHeight(height);
             room.setProjector(projector);
             room.setOther_equipment(other_equipment);
             room.setStatus(status);
@@ -98,6 +99,8 @@ public class RoomServiceImpl implements RoomService {
 //        room.setId(UUID.randomUUID().toString());
         room.setCode("ROOM" + value);
         room.setName("Room" + value + "_" + room.getCinema().getName());
+        room.setCapacity(0);
+
 //        repository.save(room);
         return repository.save(room);
     }
@@ -110,7 +113,8 @@ public class RoomServiceImpl implements RoomService {
         customerNew.setDescription(room.getDescription());
 //        customerNew.setType(room.getType());
 //        customerNew.setCapacity(room.getCapacity());
-        customerNew.setAcreage(room.getAcreage());
+        customerNew.setHeight(room.getHeight());
+        customerNew.setWidth(room.getWidth());
         customerNew.setOther_equipment(room.getOther_equipment());
         customerNew.setProjector(room.getProjector());
         customerNew.setStatus(room.getStatus());
@@ -126,7 +130,8 @@ public class RoomServiceImpl implements RoomService {
         customerNew.setCapacity(room.getCapacity());
 
 
-        return repository.save(customerNew);    }
+        return repository.save(customerNew);
+    }
 
     @Override
     public Room findById(String id) {

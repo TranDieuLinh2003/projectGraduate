@@ -126,16 +126,28 @@ public class BookingControllerApi {
 
         DtoSeat[] listSeatDTOS = listSeat.getBody();
         Map<Character, List<DtoSeat>> groupedSeats = new HashMap<>();
+
+// Grouping seats by initial letter
         for (DtoSeat seat : listSeatDTOS) {
             char initialLetter = seat.getCode().charAt(0);
-            if (groupedSeats.containsKey(initialLetter)) {
-                groupedSeats.get(initialLetter).add(seat);
-            } else {
-                List<DtoSeat> seats = new ArrayList<>();
-                seats.add(seat);
-                groupedSeats.put(initialLetter, seats);
-            }
+            groupedSeats.computeIfAbsent(initialLetter, k -> new ArrayList<>()).add(seat);
         }
+
+// Custom comparator to handle alphanumeric sorting
+        Comparator<DtoSeat> seatComparator = (s1, s2) -> {
+            String code1 = s1.getCode();
+            String code2 = s2.getCode();
+            String numericPart1 = code1.replaceAll("\\D", "");
+            String numericPart2 = code2.replaceAll("\\D", "");
+            if (numericPart1.length() == numericPart2.length()) {
+                return numericPart1.compareTo(numericPart2);
+            } else {
+                return Integer.compare(Integer.parseInt(numericPart1), Integer.parseInt(numericPart2));
+            }
+        };
+
+// Sorting seat codes within each group using the custom comparator
+        groupedSeats.values().forEach(seats -> seats.sort(seatComparator));
         model.addAttribute("groupedSeats", groupedSeats);
 //        model.addAttribute("listSeatDTOS", listSeatDTOS);
 

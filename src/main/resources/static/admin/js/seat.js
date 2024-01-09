@@ -54,3 +54,4 @@ function validateSeat(event) {
         document.getElementById('loading-overlay').style.display = 'flex';
     }
 }
+

@@ -36,6 +36,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     private SeatRepository seatRepository;
 
     @Autowired
+    private SeatTypeRepository seatTypeRepository;
+
+    @Autowired
     private TicketRepository ticketRepository;
 
     @Autowired
@@ -64,6 +67,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public String save(Schedule schedule) {
+        List<Schedule> scheduleList = new ArrayList<>();
         //tạo mã suất chiếu
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
@@ -84,8 +88,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         LocalDateTime finishAt = timestamp.toLocalDateTime();
         schedule.setFinishAt(finishAt);
         schedule.setPrice(checkTheDayOfTheWeek(schedule));
-//        ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.systemDefault());
-//        long date = zdt.toInstant().toEpochMilli();
+        schedule.setOperatingStatus(0);
         if (startAt.isAfter(LocalDateTime.now())) {
             schedule.setStatus("Sắp chiếu");
         } else if (finishAt.isBefore(LocalDateTime.now())) {
@@ -97,14 +100,26 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (checkScheduleConflict(schedule, schedule.getRoom().getId()) && timeSchedule(schedule, findByIdSetting().getBusinessHours(), findByIdSetting().getCloseTime()) && dateSchedule(schedule.getMovie().getId(), schedule)) {
             // Lưu suất chiếu mới vào cơ sở dữ liệu
             id = repository.save(schedule).getId();
-            autoSave(id);
+//            scheduleList.add(schedule);
+//            autoSave(id);
             System.out.println("Lưu suất chiếu mới thành công.");
         } else {
             System.out.println("Xung đột suất chiếu hoặc suất chiếu nằm ngoài khoảng ngày chiếu của phim. Không thể lưu.");
             return schedule.getId();
         }
+        System.out.println(scheduleList);
         return id;
 
+    }
+
+    @Override
+    public Object updateAll(List<Schedule> scheduleList) {
+        repository.saveAll(scheduleList);
+        for (Schedule schedule : scheduleList
+        ) {
+            autoSave(schedule);
+        }
+        return null;
     }
 
     @Async
@@ -258,7 +273,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         Date endDate = movie.getEndDate();
         //lấy ngày chiếu
         LocalDateTime startAt = schedule.getStartAt();
-        LocalDateTime finishAt = schedule.getFinishAt();
         //chuyển từ datetime sang date
         Date scheduleDate = Date.from(startAt.atZone(ZoneId.systemDefault()).toInstant());
 
@@ -338,6 +352,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             LocalDateTime currentStartTime = startTime;
             LocalDateTime currentEndTime = null;
             while (shouldContinue) {
+                //xáo trộn danh sách các phim
                 Collections.shuffle(listMovieId);
                 for (String movieId : listMovieId) {
                     Movie movie = movieRepository.findById(movieId).get();
@@ -417,13 +432,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime,String status, Integer currentPage) {
+    public Page<Schedule> searchSchedule(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime, String status, Integer currentPage) {
         return repository.searchBySchedule(name, startAt, movieName, startTime, endTime, status, pageSchedule(currentPage));
     }
 
-    public void autoSave(String idSchedule) {
+    public void autoSave(Schedule schedule) {
         List<Ticket> ticketList = new ArrayList<>();
-        Schedule schedule = repository.findById(idSchedule).get();
         Room room = roomRepository.findById(schedule.getRoom().getId()).get();
         List<Seat> seats = seatRepository.findAllByRoom(room.getId());
         for (Seat seat : seats) {
@@ -434,6 +448,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             ticket.setCode("TK" + value);
             ticket.setSchedule(schedule);
             ticket.setSeat(seat);
+            double giaTang= (double) seat.getSeatType().getSurcharge() / 100;
+            ticket.setPrice(schedule.getPrice().add((schedule.getPrice().multiply(BigDecimal.valueOf(giaTang)))));
             ticket.setStatus("Chưa bán");
             ticketList.add(ticket);
         }

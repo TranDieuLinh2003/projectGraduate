@@ -25,7 +25,7 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     public SeatType save(SeatType seatType) {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
-        seatType.setCode("ST" + value);
+        seatType.setCode("TL" + value);
         return SeatTypeRepository.save(seatType);
     }
 
