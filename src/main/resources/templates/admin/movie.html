@@ -59,8 +59,7 @@
                     <div class="col-sm-3">
                         <select class="form-select" aria-label="Default select example" name="status"
                                 style="width: 250px">
-                            <option selected>Mời chọn trạng thái phim</option>
-                            <option value="">Tất cả</option>
+                            <option value="" selected>Tất cả</option>
                             <option value="Sắp chiếu">Sắp chiếu</option>
                             <option value="Đang chiếu">Đang chiếu</option>
                             <option value="Đã chiếu">Đã chiếu</option>
@@ -94,7 +93,7 @@
 
     <div class="searchLocMovie">
 
-        <form th:action="@{/movie/find-all/page/1}">
+        <form th:action="@{/movie/find-all/page/1}" id="filterForm">
 
             <div class="row">
                 <div class="col-3" style="padding:0px;">
@@ -102,7 +101,7 @@
                         <div mbsc-page class="demo-multiple-select">
                             <div style="height: 100%">
                                 <label>
-                                    Thể loại phim
+                                    Đạo diễn
                                     <input
                                             mbsc-input
                                             id="demo-multiple-select-input1"
@@ -113,9 +112,8 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select1" name="movieType" multiple>
-                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.id}"
-                                            th:text="${movieType.name}">
+                                <select id="demo-multiple-select1" name="director" multiple>
+                                    <option th:each="director : ${directors}" th:value="${director.name}" th:text="${director.name}">
                                     </option>
                                 </select>
                             </div>
@@ -139,7 +137,7 @@
                                     />
                                 </label>
                                 <select id="demo-multiple-select2" name="movieType" multiple>
-                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.id}"
+                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"
                                             th:text="${movieType.name}">
                                     </option>
                                 </select>
@@ -152,7 +150,7 @@
                         <div mbsc-page class="demo-multiple-select">
                             <div style="height: 100%">
                                 <label>
-                                    Thể loại phim
+                                    Ngôn ngữ
                                     <input
                                             mbsc-input
                                             id="demo-multiple-select-input3"
@@ -163,9 +161,8 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select3" name="movieType" multiple>
-                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.id}"
-                                            th:text="${movieType.name}">
+                                <select id="demo-multiple-select3" name="language" multiple>
+                                    <option th:each="language : ${languages}" th:value="${language.name}" th:text="${language.name}">
                                     </option>
                                 </select>
                             </div>
@@ -177,7 +174,7 @@
                         <div mbsc-page class="demo-multiple-select">
                             <div style="height: 100%">
                                 <label>
-                                    Thể loại phim
+                                    Diễn viên
                                     <input
                                             mbsc-input
                                             id="demo-multiple-select-input4"
@@ -188,9 +185,8 @@
                                             data-tags="true"
                                     />
                                 </label>
-                                <select id="demo-multiple-select4" name="movieType" multiple>
-                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.id}"
-                                            th:text="${movieType.name}">
+                                <select id="demo-multiple-select4" name="performer" multiple>
+                                    <option th:each="performer : ${performers}" th:value="${performer.name}" th:text="${performer.name}">
                                     </option>
                                 </select>
                             </div>
@@ -317,6 +313,7 @@
         inputElement: document.getElementById("demo-multiple-select-input4"),
     });
 </script>
+
 <script
         nomodule
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"

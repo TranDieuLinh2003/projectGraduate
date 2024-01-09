@@ -1,8 +1,6 @@
 package com.example.filmBooking.repository;
 
-import com.example.filmBooking.model.Bill;
-import com.example.filmBooking.model.Schedule;
-import com.example.filmBooking.model.Seat;
+import com.example.filmBooking.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -57,6 +55,13 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
                        @Param("startTime") String startTime,
                        @Param("nameRoom") String nameRoom);
 
+    @Query("SELECT COUNT(s) FROM Seat s WHERE s.room = :room AND s.line LIKE %:line%")
+    int countByRoomAndLine(@Param("room") Room room, @Param("line") String line);
+
+    @Query("SELECT COUNT(s) FROM Seat s WHERE s.room = :room AND s.code LIKE %:code%")
+    int findByCodeLike(@Param("room") Room room, @Param("code") String code);
+
+//    Seat findByCodeLike(String code);
 
     String seat1 = ("SELECT DISTINCT se.*\n" +
             "            FROM projectLinh.cinema c\n" +
@@ -79,10 +84,21 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
             "join projectLinh.room r on s.room_id = r.id\n" +
             "where r.name=:roomName\n" +
             "ORDER BY s.code ASC");
+
     @Query(value = SeatByRoom, nativeQuery = true)
     List<Seat> getSeatByRoom(@Param("roomName") String roomName);
 
-    @Query(value = "select s.* from projectLinh.seat s\n" +
-            "Join projectLinh.room r where r.name =:roomname;", nativeQuery = true)
-    List<Seat> SeatRoom(@Param("roomname") String roomname);
+//    @Query(value = "select s.* from projectLinh.seat s\n" +
+//            "Join projectLinh.room r where r.name =:roomname;", nativeQuery = true)
+//    List<Seat> SeatRoom(@Param("roomname") String roomname);
+
+
+    String seatSeatAll = ("select s.* from projectLinh.seat s\n" +
+            "join projectLinh.room r on s.room_id = r.id\n" +
+            "where r.id=:idRoom\n" +
+            "ORDER BY s.code ASC");
+
+    @Query(value = seatSeatAll, nativeQuery = true)
+    List<Seat> seatSeatAll(@Param("idRoom") String idRoom);
+//}
 }

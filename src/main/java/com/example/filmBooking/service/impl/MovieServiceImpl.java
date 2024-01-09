@@ -1,6 +1,6 @@
 package com.example.filmBooking.service.impl;
 
-import com.example.filmBooking.model.Movie;
+import com.example.filmBooking.model.*;
 import com.example.filmBooking.repository.MovieRepository;
 import com.example.filmBooking.service.MovieService;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -208,6 +208,11 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Page<Movie> searchByNameAndRelatedEntities(String status, String keyword, Integer pageable) {
         return repository.findAllByStatusAndNameAndKeyWord(status, keyword, pageMovie(pageable));
+    }
+
+    @Override
+    public Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers) {
+        return repository.filterMovies(pageMovie(pageNumber), directors, languages, movieTypes,  performers);
     }
 
 

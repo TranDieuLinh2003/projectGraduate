@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Function to set the color of all seats
 function setSeatsColor(color) {
     // Get all the seat elements
-    var seatElements = document.getElementsByClassName('seat');
+    var seatElements = document.getElementsByClassName('zseat');
 
     // Loop through each seat element
     for (var i = 0; i < seatElements.length; i++) {

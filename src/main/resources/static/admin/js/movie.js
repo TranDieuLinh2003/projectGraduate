@@ -145,6 +145,9 @@ function checkDuplicateMovieName() {
         })
         .catch(error => console.error('Lỗi: ' + error));
 }
+
+
+
 // Lấy giá trị ngày ra mắt và ngày kết thúc từ trường th:value
 var premiereDateValue = document.getElementById("premiereDate").value;
 var endDateValue = document.getElementById("endDate").value;

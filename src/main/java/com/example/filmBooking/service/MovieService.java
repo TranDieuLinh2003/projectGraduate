@@ -40,4 +40,6 @@ public interface MovieService {
     Page<Movie> findAllByStatus(String name,String status, Integer pageable);
 
     Page<Movie> searchByNameAndRelatedEntities(String status, String keyword, Integer pageable);
+
+    Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers);
 }

@@ -44,8 +44,11 @@ public class Room {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Column(name = "acreage")
-    private Integer acreage;
+    @Column(name = "width")
+    private Integer width;
+
+    @Column(name = "height")
+    private Integer height;
 
     @Column(name = "other_equipment")
     private String other_equipment;

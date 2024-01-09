@@ -252,8 +252,12 @@ body {
 
 .seat.black {
     background-color: #e00000;
-}
+    width: 40px;
 
+}
+.seat.bo {
+    background-color: #706f6f;
+}
 .seat.black1 {
     background-color: #3738ea;
 }

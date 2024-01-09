@@ -30,17 +30,18 @@ public interface SeatService {
     List<DtoSeat> getSeats(String cinemaId,String movieId,String startAt, String startTime, String roomName);
 
     List<DtoSeat> getSeats1(String movieName,String startAt, String roomName);
-    
+
     Page<Seat> findAll(Integer currentPage);
 
     List<Seat> listSeat(String roomName);
-    
+
     Pageable pageSeat(Integer pagaNumber);
 
     Page<Seat> searchByRoom (String id, Integer currentPage);
 
-    Seat readExcel(MultipartFile file);
+    Seat readExcel(MultipartFile file, Room roomId);
 
     Seat saveAll(Seat seat);
 
+    Seat saveSeat(Seat seat);
 }
