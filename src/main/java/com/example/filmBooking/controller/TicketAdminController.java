@@ -48,7 +48,6 @@ public class TicketAdminController {
     )
     {
         Page<Ticket> page = ticketService.findAllByStatus(id, status, currentPage);
-//        Page<Ticket> page = ticketService.findByScheduleId(id, currentPage);
         if (status != null) {
             page = ticketService.findAllByStatus(id, status,currentPage);
         }

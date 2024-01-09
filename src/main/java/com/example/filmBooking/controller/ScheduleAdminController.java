@@ -3,13 +3,11 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.common.ResponseBean;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoMovie;
-import com.example.filmBooking.service.CinemaService;
-import com.example.filmBooking.service.MovieService;
-import com.example.filmBooking.service.RoomService;
-import com.example.filmBooking.service.ScheduleService;
-import com.example.filmBooking.service.TicketService;
+import com.example.filmBooking.repository.ScheduleRepository;
+import com.example.filmBooking.service.*;
 import com.example.filmBooking.service.impl.ScheduleServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.util.Strings;
@@ -31,15 +29,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/schedule")
 @SessionAttributes("soldTicketsCount")
-
+@Tag(name = "schedule")
 public class ScheduleAdminController {
     @Autowired
     private ScheduleService service;
+//    @Autowired
+//    private TempScheduleService service;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     @Autowired
     private ScheduleServiceImpl scheduleService;
@@ -55,7 +59,7 @@ public class ScheduleAdminController {
 
     @GetMapping("/find-all")
     public String viewSchedule(Model model) {
-        return findAll(model, 1, null, null, null, null, null , null);
+        return findAll(model, 1, null, null, null, null, null, null);
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
@@ -71,7 +75,7 @@ public class ScheduleAdminController {
         nameCinema = Strings.isEmpty(nameCinema) ? null : nameCinema;
         nameMovie = Strings.isEmpty(nameMovie) ? null : nameMovie;
         status = Strings.isEmpty(status) ? null : status;
-        if (nameCinema != null || nameMovie != null || startAt != null || startTime != null || endTime != null|| status !=null) {
+        if (nameCinema != null || nameMovie != null || startAt != null || startTime != null || endTime != null || status != null) {
             page = scheduleService.searchSchedule(nameCinema, startAt, nameMovie, startTime, endTime, status, currentPage);
         }
         model.addAttribute("nameCinema", nameCinema);
@@ -114,8 +118,7 @@ public class ScheduleAdminController {
             System.out.println("tôi là:" + startTime);
             System.out.println("tôi là:" + endTime);
 
-                service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
-//
+            service.generateSchedule(listRoomChecked, listMovieChecked, startTime, endTime);
 
             model.addAttribute("listRoomChecked", listRoomChecked);
             model.addAttribute("listMovieChecked", listMovieChecked);
@@ -144,4 +147,34 @@ public class ScheduleAdminController {
 
         return "redirect:/schedule/find-all";   // Redirect to the promotion list page after update
     }
+
+    @GetMapping
+    public String view1(Model model) {
+        //lấy các suất chiếu của 1 phòng trong 1 ngày cụ thể
+        findAll(model, 1, null, null, null, null, null, null);
+        List<Room> getAll = roomService.fillAll();
+        model.addAttribute("listRoom", getAll);
+        return "admin/calendar";
+    }
+
+    @PostMapping("/update-all")
+    @Operation(summary = "updateAll")
+    public ResponseEntity<?> updateAll(@RequestBody List<Schedule> itemMapData) {
+        ResponseBean responseBean = new ResponseBean();
+        itemMapData.forEach(item -> System.out.println(item.getStartAt()));
+        responseBean.setData(service.updateAll(itemMapData));
+        responseBean.setMessage("success");
+        return new ResponseEntity<>(responseBean, HttpStatus.OK);   // Redirect to the promotion list page after update
+    }
+
+    @GetMapping("/search-by-date")
+    @ResponseBody
+    public ResponseEntity<?> handleCalendarRequest(Model model, @RequestParam(name = "date1") String date1, @RequestParam(name = "room") String room) {
+        // Xử lý logic ở đây với tham số date được truyền từ JavaScript
+        List<Schedule> getAll = scheduleRepository.findByRoomAndFinishAt(date1, room);
+        model.addAttribute("list", getAll);
+        return new ResponseEntity<>(getAll, HttpStatus.OK);
+    }
 }
+
+

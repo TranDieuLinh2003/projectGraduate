@@ -44,33 +44,34 @@ public class Schedule {
 
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "price")
     private BigDecimal price;
 
     @Column(name = "start_at")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+//    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private LocalDateTime startAt;
 
     @Column(name = "finish_at")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssSSXXX")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
+//    @JsonFormat(pattern = "dd/MM/yyyy HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Asia/Bangkok")
     private LocalDateTime finishAt;
 
     @Column(name = "status")
     private String status;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-
-
+    @Column(name = "operating_status")
+    private Integer operatingStatus;
 
 
 }

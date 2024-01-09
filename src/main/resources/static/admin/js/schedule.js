@@ -1,8 +1,6 @@
 ///
-const selectBtn = document.querySelector(".select-btn"),
-    items = document.querySelectorAll(".item");
-const selectBtnRoom = document.querySelector(".select-btn-room"),
-    itemsRoom = document.querySelectorAll(".itemRoom");
+const selectBtn = document.querySelector(".select-btn"), items = document.querySelectorAll(".item");
+const selectBtnRoom = document.querySelector(".select-btn-room"), itemsRoom = document.querySelectorAll(".itemRoom");
 
 
 selectBtn.addEventListener("click", () => {
@@ -143,23 +141,10 @@ function validateSchedule(event) {
     } else {
         danhSachPhimErr.innerText = "";
     }
-    // if (!isValid) {
-    //     Toast.fire({
-    //         icon: "error",
-    //         title: "Thêm lịch chiếu thất bại"
-    //     });
-    //     document.getElementById('loading-overlay').style.display = 'none';
-    //     event.preventDefault();
-    // }else {
-    //     Toast.fire({
-    //         icon: "success",
-    //         title: "Thêm lịch chiếu thành công"
-    //     });
-        document.getElementById('loading-overlay').style.display = 'flex';
-    // }
+    document.getElementById('loading-overlay').style.display = 'flex';
 }
 
-function updateSchedule(event){
+function updateSchedule(event) {
 
     var startTimeUpdate = document.getElementById('startTimeUpdate').value;
     var startTimeUpdateErr = document.getElementById('startTimeUpdateErr');
@@ -194,66 +179,29 @@ function updateSchedule(event){
     } else {
         endDateUpdateErr.innerText = "";
     }
-    if(priceLichChieu.trim() === ''){
+    if (priceLichChieu.trim() === '') {
         priceLichChieuErr.textContent = "Giá không được để trống !";
         isValid = false;
-    }else if(isNaN(priceLichChieu) || priceLichChieu < 0){
+    } else if (isNaN(priceLichChieu) || priceLichChieu < 0) {
         priceLichChieuErr.textContent = "Giá không được âm !";
         isValid = false;
-    }else {
+    } else {
         priceLichChieuErr.innerText = "";
     }
     if (!isValid) {
         Toast.fire({
-            icon: "error",
-            title: "Sửa lịch chiếu thất bại"
+            icon: "error", title: "Sửa lịch chiếu thất bại"
         });
         document.getElementById('loading-overlay').style.display = 'none';
         event.preventDefault();
-    }else {
+    } else {
         Toast.fire({
-            icon: "success",
-            title: "Thêm lịch chiếu thành công"
+            icon: "success", title: "Thêm lịch chiếu thành công"
         });
         document.getElementById('loading-overlay').style.display = 'flex';
     }
 
 }
-// var selects = document.querySelectorAll('select');
-//
-// selects.forEach(function(select) {
-//     select.addEventListener('focus', function() {
-//         select.size = 5;
-//         select.classList.add('fadeIn');
-//         select.classList.remove('fadeOut');
-//         select.style.backgroundColor = '#FFF';
-//     });
-//
-//     select.addEventListener('blur', function() {
-//         select.size = 1;
-//         select.classList.add('fadeOut');
-//         select.classList.remove('fadeIn');
-//         select.style.backgroundColor = '#FFF';
-//     });
-//
-//     select.addEventListener('change', function() {
-//         select.size = 1;
-//         select.blur();
-//         select.style.backgroundColor = '#FFF';
-//     });
-//
-//     select.addEventListener('mouseover', function() {
-//         if(select.size === 1) {
-//             select.style.backgroundColor = 'rgb(247, 247, 247)';
-//         }
-//     });
-//
-//     select.addEventListener('mouseout', function() {
-//         if(select.size === 1) {
-//             select.style.backgroundColor = '#FFF';
-//         }
-//     });
-// });
 
 var currentDate = new Date();
 var currentDay = currentDate.getDate();
@@ -284,29 +232,8 @@ for (var j = 0; j < sevenDays.length; j++) {
     selectElement.appendChild(optionElement);
 }
 
-// const myData = document.getElementById("gio").textContent;
-// var dateTime = new Date(myData);
-// var hour = dateTime.getHours(); // Lấy giờ (0-23)
-// var formattedHour = String(hour).padStart(2, '0');
-// var minute = dateTime.getMinutes();
-// var formattedMinute = String(minute).padStart(2, '0');
-// var formattedTime = formattedHour + ":" + formattedMinute;
-// document.getElementById("gio").innerHTML = formattedTime;
-// var gioElements = document.querySelectorAll("#gio");
-
-// gioElements.forEach(function (element) {
-//     var myData = element.textContent;
-//     var dateTime = new Date(myData);
-//     var hour = dateTime.getHours(); // Lấy giờ (0-23)
-//     var formattedHour = String(hour).padStart(2, '0');
-//     var minute = dateTime.getMinutes();
-//     var formattedMinute = String(minute).padStart(2, '0');
-//     var formattedTime = formattedHour + ":" + formattedMinute;
-//     element.innerHTML = formattedTime;
-// })
-
-document.getElementById("addButton").addEventListener("click", function(event) {
-    if (document.getElementById("selectedMovieList").children.length === 0 ) {
+document.getElementById("addButton").addEventListener("click", function (event) {
+    if (document.getElementById("selectedMovieList").children.length === 0) {
         alert("Error: Chọn phim trước khi thêm");
         event.preventDefault(); // Prevent the default link behavior
     } else if (document.getElementById("selectedRoomList").children.length === 0) {
