@@ -114,23 +114,21 @@ function hideTodayBtn() {
 const dayElements = document.querySelectorAll('.day');
 var itemMap = {}
 var startTime = undefined;
-
+let inputValues2 = {};
 dayElements.forEach(day => {
     day.addEventListener('click', () => {
         const selectedDay = day.textContent;
         const selectedRoom = document.getElementById("roomName");
         const a = `${currentYear}-${currentMouth + 1}-${selectedDay}`;
         const h1Element = document.getElementById('selectedDate');
-        h1Element.textContent = ' Ngày: '+ formatCustomDateH1(a);
+        h1Element.textContent = ' Ngày: ' + formatCustomDateH1(a);
         var date1 = '';
         fetch('http://localhost:8080/schedule/search-by-date?date1=' + a + '&room=' + selectedRoom.value)
             .then(response => {
                 console.log(response)
                 if (!response.ok) {
                     date1 = a;
-                    // body: JSON.6stringify({ selectedDate: a, additionalData: date1 })
                     console.log(date1 + 'hehehhe');
-                    // throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
@@ -145,25 +143,26 @@ dayElements.forEach(day => {
                     if (index === 0) startTime = item.startAt;
                     const newRowHTML = `<div class="task-item" id="${item.id}">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-5">
                                     ${item.movie.name}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
                                 </div>
-                                <div class="col-2">
-                                    Giá: ${item.price}
+                                <div class="col-4">
+                                    Giá: <input type="text" class="form-control" style="width: 100%" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
                                 </div>
                             </div>                        
                     </div>`;
                     convertToISOString(item.startAt);
                     item.operatingStatus = 1;
-                    // item.price = document.getElementById('price1').value;
-                    // console.log(price2 + "  giá")
                     scheduleModal.innerHTML += newRowHTML;
 
                 })
-
+                Object.keys(inputValues2).forEach(function (itemI) {
+                    document.getElementById('price2').value = inputValues2[itemI];
+                    console.log(inputValues2[itemI] + 'kiki')
+                });
             })
             .catch(error => {
                 console.log('fetch error:', error);
@@ -191,7 +190,6 @@ function sendItemMapToServer() {
         })
         .then(data => {
             console.log('Dữ liệu nhận được từ server sau khi gửi itemMap:', data);
-            document.querySelector('button[data-bs-dismiss="modal"]').disabled = true;
         })
         .catch(error => {
             console.error('Có lỗi xảy ra khi gửi itemMap:', error);
@@ -199,16 +197,23 @@ function sendItemMapToServer() {
 }
 
 function addItemAtIndex(obj, keyToAdd, valueToAdd, index) {
-    return Object.fromEntries(
-        Object.entries(obj)
-            .reduce((acc, [key, value], i) => {
-                if (i === index) {
-                    acc.push([keyToAdd, valueToAdd]);
-                }
-                acc.push([key, value]);
-                return acc;
-            }, [])
-    );
+    if (index === Object.keys(obj).length) {
+        return {
+            ...obj,
+            [keyToAdd]: valueToAdd
+        };
+    } else {
+        return Object.fromEntries(
+            Object.entries(obj)
+                .reduce((acc, [key, value], i) => {
+                    if (i === index) {
+                        acc.push([keyToAdd, valueToAdd]);
+                    }
+                    acc.push([key, value]);
+                    return acc;
+                }, [])
+        );
+    }
 }
 
 
@@ -221,8 +226,6 @@ function formatCustomDate(inputString) {
     let month = String(dateObject.getMonth() + 1).padStart(2, '0');
     let year = dateObject.getFullYear();
     let hours = String(dateObject.getHours()).padStart(2, '0');
-    // let hours = (dateObject.getHours() + 7) % 24; // Cộng thêm 7 giờ và sử dụng phép toán % 24 để đảm bảo giá trị nhỏ hơn 24
-    // hours = String(hours).padStart(2, '0'); // Chuyển kết quả thành chuỗi và đảm bảo định dạng là hai chữ số bằng cách thêm '0' nếu cần
     let minutes = String(dateObject.getMinutes()).padStart(2, '0');
     let seconds = String(dateObject.getSeconds()).padStart(2, '0');
     // Xây dựng chuỗi định dạng mới
@@ -238,12 +241,8 @@ function formatCustomDate2(inputString) {
     let month = String(dateObject.getMonth() + 1).padStart(2, '0');
     let year = dateObject.getFullYear();
     let hours = String(dateObject.getHours()).padStart(2, '0');
-    // let hours = (dateObject.getHours() + 7) % 24; // Cộng thêm 7 giờ và sử dụng phép toán % 24 để đảm bảo giá trị nhỏ hơn 24
-    // hours = String(hours).padStart(2, '0'); // Chuyển kết quả thành chuỗi và đảm bảo định dạng là hai chữ số bằng cách thêm '0' nếu cần
     let minutes = String(dateObject.getMinutes()).padStart(2, '0');
     let seconds = String(dateObject.getSeconds()).padStart(2, '0');
-    // Xây dựng chuỗi định dạng mới
-    // return `${day}/${month}/${year} ${hours}:${minutes}`;
     return `${hours}:${minutes}`;
 }
 
@@ -256,8 +255,6 @@ function formatCustomDateH1(inputString) {
     let month = String(dateObject.getMonth() + 1).padStart(2, '0');
     let year = dateObject.getFullYear();
     let hours = String(dateObject.getHours()).padStart(2, '0');
-    // let hours = (dateObject.getHours() + 7) % 24; // Cộng thêm 7 giờ và sử dụng phép toán % 24 để đảm bảo giá trị nhỏ hơn 24
-    // hours = String(hours).padStart(2, '0'); // Chuyển kết quả thành chuỗi và đảm bảo định dạng là hai chữ số bằng cách thêm '0' nếu cần
     let minutes = String(dateObject.getMinutes()).padStart(2, '0');
     let seconds = String(dateObject.getSeconds()).padStart(2, '0');
     // Xây dựng chuỗi định dạng mới
@@ -285,12 +282,22 @@ drake.on("drag", function (el, source) {
 drake.on("dragend", function (el) {
     el.classList.remove("dragging");
 });
-
+let inputValues = {};
+/////////////////////////
+document.addEventListener("input", function(event) {
+    const { target } = event;
+    if (target.matches('.price-input')) {
+        const id = target.getAttribute("data-id");
+        const value = target.value;
+        inputValues[id] = value;
+    }
+});
+/////////////////////////////////
 drake.on("drop", function (el, target, source, sibling) {
     let items = Array.from(target.children);
     let draggedItemIndex = items.indexOf(el);
     let selectedItem = itemMap[el.id];
-
+    console.log(draggedItemIndex);
     delete itemMap[el.id];
 
     itemMap = addItemAtIndex(itemMap, el.id, selectedItem, draggedItemIndex);
@@ -298,31 +305,38 @@ drake.on("drop", function (el, target, source, sibling) {
     scheduleModal.innerHTML = '';
     const nextStartTime = new Date(startTime);
     const finishAt = new Date(startTime);
-    console.log(nextStartTime);
     Object.values(itemMap).forEach(function (item, index) {
-        console.log(nextStartTime);
         item['startAt'] = formatCustomDate(new Date(nextStartTime));
         item['finishAt'] = formatCustomDate(finishAt.setMinutes(nextStartTime.getMinutes() + item.movie.movieDuration + 15));
-        console.log(item.startAt + '-' + item.finishAt);
         const newRowHTML = `<div class="task-item" id="${item.id}">
-                        <div class="row">
+                            <div class="row">
                                 <div class="col-6">
                                     ${item.movie.name}
                                 </div>
                                 <div class="col-4">
                                     Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
                                 </div>
-                                <div class="col-2">
-                                    Giá: ${item.price}
+                                <div class="col-2"> Giá: <input type="text" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
+
                                 </div>
-                            </div>  
+                            </div>                        
                     </div>`;
+
         scheduleModal.innerHTML += newRowHTML;
         nextStartTime.setMinutes(nextStartTime.getMinutes() + item.movie.movieDuration + 15);
-        console.log(formatCustomDate(nextStartTime) + '  hihihihi')
     })
-
-    console.log(itemMap);
+    Object.keys(inputValues).forEach(function (itemId) {
+        const inputElement = document.querySelector(`input[data-id="${itemId}"]`);
+        if (inputElement) {
+            inputElement.value = inputValues[itemId];
+        }
+        console.log(inputValues[itemId])
+    });
 });
-direction: 'vertical'
+
+function updateItemPrice(itemId, element) {
+    console.log(element.value);
+    itemMap[itemId].price = element.value;
+}
+
 ////////////////////////////////////////////////////////////
