@@ -17,4 +17,8 @@ public interface LanguageService {
     Language findById(String id);
 
     List<Language> searchNameLanguage(String keycode);
+    
+    List<Language> findNameByMovieId(String id);
+
+    Language findByNameLike(String name);
 }
