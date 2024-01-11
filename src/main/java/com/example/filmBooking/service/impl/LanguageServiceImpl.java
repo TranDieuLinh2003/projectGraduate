@@ -5,6 +5,9 @@ import com.example.filmBooking.repository.LanguageRepository;
 import com.example.filmBooking.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.filmBooking.repository.MovieRepository;
+import com.example.filmBooking.model.Movie;
+
 
 import java.util.List;
 import java.util.Random;
@@ -14,6 +17,9 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     @Override
     public List<Language> fillAll() {
@@ -48,5 +54,17 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     public List<Language> searchNameLanguage(String keycode) {
         return languageRepository.findByNameContains(keycode);
+    }
+    
+    @Override
+    public List<Language> findNameByMovieId(String id) {
+        Movie movie = movieRepository.findById(id).get();
+        List<Language> listLanguage = movie.getLanguages();
+        return listLanguage;
+    }
+
+    @Override
+    public Language findByNameLike(String name) {
+        return languageRepository.findByNameLike(name);
     }
 }
