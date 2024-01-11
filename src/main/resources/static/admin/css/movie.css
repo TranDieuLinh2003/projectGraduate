@@ -176,8 +176,8 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 }
 
 .item_movie_detail img {
-    width: 530px;
-    height: 730px;
+    width: 400px;
+    height: 600px;
     transition: all 0.3s ease;
     border-radius: 20px;
     box-shadow: 5px 5px 5px 5px rgb(159, 159, 159);
@@ -194,8 +194,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 }
 
 .text_movie_detail p {
-    font-size: 21px;
-    margin: 10px 0px 0px 0px;
+    font-size: 20px;
 }
 
 .text_h4 {
@@ -205,6 +204,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 .text_h4 h4 {
     padding: 13px 0px 10px 0px;
     font-weight: bold;
+    font-size:20px;
 }
 
 .text_thong_tin {
@@ -215,7 +215,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 6px 0px 6px 0px;
+    padding: 11.55px 0px 6px 0px;
 }
 
 /*.input-rated select {*/
@@ -223,7 +223,7 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 /*}*/
 
 .trailer_detail_movie {
-    margin: 30px -180px 0px 100px;
+    margin: 30px 70px 0px 60px;
 }
 
 .trailer_detail_movie iframe {
@@ -405,11 +405,6 @@ input[type="date"]::-webkit-datetime-edit-day-field{
 
 .image_movie {
     margin: 0px 0px 0px 20px;
-}
-.modal-content {
-    width: 900px;
-    margin-left: -170px;
-    height: 260px;
 }
 .searchLocMovie{
     background-color: darkgrey;
