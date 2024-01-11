@@ -34,6 +34,7 @@
     <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
     <link rel="stylesheet" th:href="@{/admin/css/alert.css}">
     <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/food.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
@@ -80,25 +81,41 @@
                     aria-label="Close"></button>
         </div>
     </div>
-    <h2>QUẢN LÝ ĐỒ ĂN</h2>
-    <hr>
-    <form th:action="@{/food/save/1}" th:object="${food}" class="form_add_promotion" method="post"
+    <div class="row">
+        <div class="col-xl-4"><h2>QUẢN LÝ ĐỒ ĂN</h2>
+        </div>
+        <div class="col-xl-8">
+            <div class="box-food">
+                <input type="checkbox" id="check"/>
+                <div class="search-box">
+                    <form th:action="@{/food/find-all/page/1}" class="form_search_food" method="get">
+                        <input type="text" name="keyword" placeholder="Nhập thông tin..."/>
+                        <label for="check" class="icon" type="submit">
+                            <button type="submit" style="color: #4d4d4d; padding: 0px 15px 0px 15px; border: none"><i
+                                    class='bx bx-search-alt-2'></i></button>
+                        </label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form th:action="@{/food/save/1}" th:object="${food}" class="form_add_food" method="post"
           enctype="multipart/form-data" id="yourForm" onsubmit="validateForm(event)">
         <input type="hidden" th:field="*{id}">
         <div class="food_input">
             <div class="row g-3">
                 <div class="col">
-                    <div class="input-box">
+                    <div class="input-box-food">
                         <label th:for="name">Tên đồ ăn</label>
-                        <input type="text" th:field="*{name}" name="name" id="name"/>
+                        <input type="text" th:field="*{name}" name="name" id="name" class="form-control"/>
                     </div>
                     <span id="nameFvl" style="color: red; margin: 10px 0px 0px 0px"></span>
 
                 </div>
                 <div class="col">
-                    <div class="input-box">
+                    <div class="input-box-food">
                         <label th:for="price">Giá đồ ăn</label>
-                        <input type="number" th:field="*{price}" name="price" id="price"/>
+                        <input type="number" th:field="*{price}" name="price" id="price" class="form-control"/>
                     </div>
                     <span id="priceFvl" style="color: red ; margin: 10px 0px 0px 0px"></span>
 
@@ -106,79 +123,90 @@
             </div>
             <div class="row g-3">
                 <div class="col">
-                    <div class="input-box">
+                    <div class="input-box-food">
                         <label th:for="description">Mô tả</label>
-                        <input type="text" th:field="*{description}" name="description" id="description"/>
+                        <input class="form-control" type="text" th:field="*{description}" name="description"
+                               id="description"/>
                     </div>
                     <span id="descriptionFvl" style="color: red ; margin: 40px 0px 0px 0px"></span>
                 </div>
                 <div class="col">
-                    <div class="date">
-                        <label>Hình ảnh</label>
-                        <input type="file" th:field="*{image}" id="image"/>
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <div class="cbbService" style="margin: -20px 0px 0px 0px">
+                                <label>Dịch vụ</label>
+                                <select class="form-select" aria-label="Default select example" name="service">
+                                    <option selected>Mời chọn dịch vụ</option>
+                                    <th:block th:each="st : ${cbbServiceType}">
+                                        <option th:value="${st.id}">[[${st.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xl-5">
+                            <div class="imageFood" style="margin: -23px 0px 0px 0px">
+                                <div class="date">
+                                    <label>Hình ảnh</label>
+                                    <input name="file" type="file" th:field="*{image}" id="image" hidden/>
+                                    <img id="img" src="" alt=""
+                                         style="border-radius: 10px; filter: drop-shadow(2px 4px 6px black);margin: -28px 0px -70px 70px"
+                                         height="100"
+                                         width="70"
+                                    >
+                                </div>
+                                <div class="img-food" style="margin: 10px 0px 0px -20px">
+                                    <label for="image" class="btnUploadFood">upload image</label>
+                                </div>
+                                <span id="imageFvl" style="color: red ; margin: 10px 0px 0px 0px"></span>
+                            </div>
+                        </div>
                     </div>
-                    <span id="imageFvl" style="color: red ; margin: 10px 0px 0px 0px"></span>
-
                 </div>
             </div>
         </div>
-        <button type="submit" id="addButton" class="btn btn-outline-success" onclick="return confirm('Bạn muốn thêm đồ ăn mới !')">
+        <button type="submit" id="addButton" class="btn btn-outline-success"
+                onclick="return confirm('Bạn muốn thêm đồ ăn mới !')">
             Xác nhận
         </button>
 
     </form>
-    <form th:action="@{/food/find-all/page/1}" class="form_search_movie">
-        <div class="input-box-1">
-            <input type="text" name="keyword" placeholder="Tìm kiếm đồ ăn"/>
-            <button type="submit"><i class="bx bx-search-alt-2"></i></button>
-        </div>
-    </form>
 
-    <div class="table_movie">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Hình ảnh</th>
-                <th scope="col">Tên đồ ăn</th>
-                <th scope="col">Giá đồ ăn</th>
-                <th scope="col">Mô tả</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="food : ${listFood}">
-                <th scope="row">
-                    <img
-                            th:src="@{'http://localhost:8080/admin/assets/img/' + ${food.image}}"
-                            alt=""
-                            width="70"
-                            height="60"
-                    />
-                </th>
-                <td>[[${food.name}]]</td>
-                <td id="priceFood">[[${food.price}]]</td>
-                <td class="description">[[${food.description}]]</td>
-                <!--                <th scope="row">[[${{food.image}}]]</th>-->
-                <td>
-                    <a th:href="@{'/food/delete/' + ${food.id}}" onclick="return confirm('Bạn muốn xóa đồ ăn !')">
-                        <button type="button" class="btn btn-outline-danger" id="xoaFood">
-                            <i class="bx bxs-trash"></i>
-                        </button>
-                    </a>
-                    <a>
-                        <button class="btn btn-outline-success"
-                                data-bs-toggle="modal"
-                                th:attr="data-bs-target='#exampleModal_' + ${food.id}">
-                            <i class='bx bxs-edit-alt'></i>
-                        </button>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div class="col" th:each="food : ${listFood}">
+            <div class="card">
+                <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${food.image}}" class="card-img-top"
+                     alt="..." style="width: 202px; height: 200px">
+                <div class="card-body">
+                    <h6 class="card-title">Tên đồ ăn: [[${food.name}]]</h6>
+                    <h6 class="card-title" style="color: red" id="priceFood">[[${food.price}]]</h6>
+                    <p class="card-text">Mô tả: [[${food.description}]]</p>
+                    <p class="card-text">Phân loại: [[${food.serviceType.name}]]</p>
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <a th:href="@{'/food/delete/' + ${food.id}}"
+                               onclick="return confirm('Bạn muốn xóa đồ ăn !')">
+                                <button type="button" class="btn btn-outline-danger">
+                                    <i class="bx bxs-trash"></i>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-xl-6">
+                            <a>
+                                <button class="btn btn-outline-success"
+                                        data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#exampleModal_' + ${food.id}">
+                                    <i class='bx bxs-edit-alt'></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="phanTrang_Food">
-        <nav aria-label="Page navigation example" style="text-align: center">
+        <nav aria-label="Page navigation example" style="margin: 0px 0px 0px 500px;
+    padding: 0px 0px 50px 0px;">
             <ul class="pagination">
                 <th:block th:if="${currentPage > 1}">
                     <li class="page-item">
@@ -246,25 +274,35 @@
                         <textarea class="form-control" name="description" th:text="${food.description}"
                                   rows="3"></textarea>
                     </div>
-                    <!--                    <div class="col-md-6">-->
-                    <!--                        <label  class="form-label">Ảnh</label>-->
-                    <!--                        <br>-->
-                    <!--                        <img th:if="${food.image}" th:src=" @{'http://localhost:8080/admin/assets/img/' + ${food.image}}" style="width:50px; height: 50px">-->
-
-                    <!--                        <input type="file" class="form-control-file"  name="image">-->
-                    <!--                    </div>-->
                     <div class="col-md-6">
-                        <label class="form-label">Ảnh</label>
-                        <br>
-                        <img th:if="${food.image}"
-                             th:src=" @{'http://localhost:8080/admin/assets/img/' + ${food.image}}"
-                             style="width:50px; height: 50px">
-                        <input type="file" class="form-control-file" name="image">
-                        <input type="hidden" name="oldImage" th:if="${food.image}" th:value="${food.image}"/>
+                        <label>Dịch vụ</label>
+                        <select class="form-select" aria-label="Default select example" name="service">
+                            <option selected>Mời chọn dịch vụ</option>
+                            <th:block th:each="st : ${cbbServiceType}">
+                                <option th:value="${st.id}"  th:selected="${st.id eq food.serviceType}">[[${st.name}]]</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="date">
+                            <label>Hình ảnh</label>
+                            <input name="image" type="file" id="image1" th:if="${food.image == null}" hidden/>
+                            <img id="img1" th:src="@{'http://localhost:8080/admin/assets/img/' + ${food.image}}" alt=""
+                                 style="border-radius: 10px; filter: drop-shadow(2px 4px 6px black);margin: -20px 0px -70px 70px"
+                                 height="100"
+                                 width="90"
+                            >
+                        </div>
+                        <div class="img-food" style="margin: 10px 0px 20px -20px">
+                            <label for="image1" class="btnUploadFood">upload image</label>
+                        </div>
+                        <input name="image" th:value="${food.image}" th:if="${food.image != null}" hidden/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" onclick="return confirm('Bạn muốn cập nhật đồ ăn')"  class="btn btn-primary">Sửa</button>
+                        <button type="submit" onclick="return confirm('Bạn muốn cập nhật đồ ăn')"
+                                class="btn btn-primary">Sửa
+                        </button>
 
                     </div>
                 </form>
@@ -299,9 +337,12 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 </body>
-<script>
+<script th:inline="javascript">
     var priceElements = document.querySelectorAll("#priceFood");
-
+    var inputImg = document.getElementById('image');
+    var inputImg1 = document.getElementById('image1');
+    var img = document.getElementById('img');
+    var img1 = document.getElementById('img1');
     // Loop through each element and format its content to VND
     priceElements.forEach(function (element) {
         var price = parseFloat(element.innerHTML);
@@ -309,5 +350,8 @@
         // Set the formatted price as the inner HTML of the element
         element.innerHTML = formattedPrice;
     });
+    inputImg.onchange = (e) => {
+        if (inputImg.files[0]) img.src = URL.createObjectURL(inputImg.files[0]);
+    };
 </script>
 </html>
