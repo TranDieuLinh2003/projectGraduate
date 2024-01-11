@@ -81,7 +81,7 @@
                     aria-label="Close"></button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom: 30px">
         <div class="col-xl-4"><h2>QUẢN LÝ ĐỒ ĂN</h2>
         </div>
         <div class="col-xl-8">
@@ -103,7 +103,7 @@
           enctype="multipart/form-data" id="yourForm" onsubmit="validateForm(event)">
         <input type="hidden" th:field="*{id}">
         <div class="Service_input">
-            <div class="row g-3">
+            <div class="row g-3" style="margin-top: 20px">
                 <div class="col">
                     <div class="input-box-Service">
                         <label th:for="name">Tên đồ ăn</label>
@@ -121,7 +121,7 @@
 
                 </div>
             </div>
-            <div class="row g-3">
+            <div class="row g-3" style="margin-top: 40px">
                 <div class="col">
                     <div class="input-box-Service">
                         <label th:for="description">Mô tả</label>
@@ -173,7 +173,7 @@
 
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <div class="col" th:each="Service : ${listService}">
-            <div class="card">
+            <div class="card" style="padding: 0px 0px 15px 0px">
                 <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${Service.image}}" class="card-img-top"
                      alt="..." style="width: 202px; height: 200px">
                 <div class="card-body">
