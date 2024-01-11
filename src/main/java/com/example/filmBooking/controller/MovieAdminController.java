@@ -50,7 +50,6 @@ public class MovieAdminController {
     private UploadImage uploadImage;
 
 
-
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     @GetMapping("/find-all")
@@ -61,23 +60,14 @@ public class MovieAdminController {
     @GetMapping("/find-all/page/{pageNumber}")
     @Operation(summary = "[Hiển thị tất cả]")
     public String findAll(Model model, @PathVariable("pageNumber") Integer pageNumber,
-                          @Param("keyword") String keyword,
-                          @Param("status") String status,
+                          @RequestParam(value = "keyword", required = false) String keyword,
+                          @RequestParam(value = "status", required = false) String status,
                           @RequestParam(value = "director", required = false) String directors,
                           @RequestParam(value = "movieType", required = false) String movieTypes,
                           @RequestParam(value = "language", required = false) String languages,
                           @RequestParam(value = "performer", required = false) String performers) {
         Page<Movie> page;
-        if ((status != null || keyword != null) && (directors == null && movieTypes == null && languages == null && performers == null)) {
-            // Tìm kiếm theo status và nhập tên
-            page = service.searchByNameAndRelatedEntities(status, keyword, pageNumber);
-        } else if (directors != null || movieTypes != null || languages != null || performers != null) {
-            // Lọc theo 4 trường
-             page = service.filterMovies(pageNumber, directors, languages, movieTypes, performers);
-        } else {
-            // Hiển thị tất cả
-            page = service.getAll(pageNumber);
-        }
+        page = service.filterMovies(pageNumber, directors, languages, movieTypes, performers, status, keyword);
         List<Rated> ratedId = ratedService.fillAll();
         List<Director> directorId = directorService.fillAll();
         List<Language> languageId = languageService.fillAll();

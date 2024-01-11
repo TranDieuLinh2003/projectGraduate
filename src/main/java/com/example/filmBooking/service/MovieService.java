@@ -5,6 +5,7 @@ import com.example.filmBooking.model.Movie;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 public interface MovieService {
     List<Movie> findAll();
@@ -33,13 +34,7 @@ public interface MovieService {
 
     Pageable pageMovie(Integer pageNumber);
 
-    Page<Movie> searchMovie(String keyword, Integer currentPage);
-
     Movie findByName(String name);
 
-    Page<Movie> findAllByStatus(String name,String status, Integer pageable);
-
-    Page<Movie> searchByNameAndRelatedEntities(String status, String keyword, Integer pageable);
-
-    Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers);
+    Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers, String status, String keyword);
 }

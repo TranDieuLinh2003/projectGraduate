@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -191,28 +192,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<Movie> searchMovie(String keyword, Integer currentPage) {
-        return repository.findByNameContains(keyword, pageMovie(currentPage));
-    }
-
-    @Override
     public Movie findByName(String name) {
         return repository.findByNameLike(name);
     }
 
     @Override
-    public Page<Movie> findAllByStatus(String status,String keyword, Integer pageable) {
-        return repository.findAllByStatusAndName(status, keyword, pageMovie(pageable));
-    }
-
-    @Override
-    public Page<Movie> searchByNameAndRelatedEntities(String status, String keyword, Integer pageable) {
-        return repository.findAllByStatusAndNameAndKeyWord(status, keyword, pageMovie(pageable));
-    }
-
-    @Override
-    public Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers) {
-        return repository.filterMovies(pageMovie(pageNumber), directors, languages, movieTypes,  performers);
+    public Page<Movie> filterMovies(Integer pageNumber, String directors, String languages, String movieTypes,  String performers, String status, String keyword) {
+        return repository.filterMovies(pageMovie(pageNumber), directors, languages, movieTypes,  performers, status, keyword);
     }
 
 

@@ -13,28 +13,21 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, String> {
 
-    String showPhimDangChieu = "select * from projectLinh.movie where status like 'Đang chiếu'; ";
-
-    @Query(value = showPhimDangChieu, nativeQuery = true)
+    @Query("FROM Movie m where m.status like 'Đang chiếu'")
     List<Movie> showPhimDangChieu();
 
-
-    String showPhimSapChieu = "select * from projectLinh.movie where status like 'Sắp chiếu'; ";
-
-    @Query(value = showPhimSapChieu, nativeQuery = true)
+    @Query(" from Movie m where m.status like 'Sắp chiếu' ")
     List<Movie> showPhimSapChieu();
 
-    String showPhimSapChieuAndDangChieu = "select * from projectLinh.movie where status IN ('Sắp chiếu', 'Đang chiếu');";
-
-    @Query(value = showPhimSapChieuAndDangChieu, nativeQuery = true)
+    @Query(" from Movie m where m.status in ('Sắp chiếu', 'Đang chiếu')")
     List<Movie> showPhimSapChieuAndDangChieu();
 
-    String movie = ("SELECT DISTINCT  m.*\n" +
-            "\tfrom projectLinh.cinema c\n" +
-            "\tjoin projectLinh.room r on r.cinema_id = c.id\n" +
-            "\tjoin projectLinh.schedule s on s.room_id = r.id\n" +
-            "\tjoin projectLinh.movie m on m.id = s.movie_id\n" +
-            "where m.id=:movieId\n" +
+    String movie = ("SELECT DISTINCT  m.*" +
+            "\tfrom projectLinh.cinema c" +
+            "\tjoin projectLinh.room r on r.cinema_id = c.id" +
+            "\tjoin projectLinh.schedule s on s.room_id = r.id" +
+            "\tjoin projectLinh.movie m on m.id = s.movie_id" +
+            "where m.id=:movieId" +
             " and c.id =:cinemaId");
 
     @Query(value = movie, nativeQuery = true)
@@ -43,39 +36,31 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     Page<Movie> findByNameContains(String keyword, Pageable pageable);
 
     Movie findByNameLike(String name);
-
-    @Query(value = "SELECT m FROM Movie m WHERE (:status IS NULL OR m.status IS NULL OR m.status like %:status%) " +
-            "AND (:name IS NULL OR m.name IS NULL OR m.name LIKE %:name%)")
-    Page<Movie> findAllByStatusAndName(@Param("status") String status, @Param("name") String keyword, Pageable pageable);
-
-    @Query(value = "SELECT DISTINCT m FROM Movie m " +
+//
+    @Query(" SELECT DISTINCT m" +
+            " FROM Movie m " +
             "LEFT JOIN m.directors d " +
             "LEFT JOIN m.languages lang " +
             "LEFT JOIN m.movieTypes type " +
             "LEFT JOIN m.performers performer " +
-            "WHERE (:status IS NULL OR m.status IS NULL OR m.status LIKE %:status%) " +
-            "AND (:keyword IS NULL OR m.name LIKE %:keyword% " +
-            "OR d.name LIKE %:keyword% " +
-            "OR lang.name LIKE %:keyword% " +
-            "OR type.name LIKE %:keyword% " +
-            "OR performer.name LIKE %:keyword%)")
-    Page<Movie> findAllByStatusAndNameAndKeyWord(@Param("status") String status, @Param("keyword") String keyword, Pageable pageable);
-
-    @Query(value = "SELECT DISTINCT m\n" +
-            "FROM Movie m\n" +
-            "LEFT JOIN m.directors d " +
-            "LEFT JOIN m.languages lang " +
-            "LEFT JOIN m.movieTypes type " +
-            "LEFT JOIN m.performers performer " +
-            "WHERE (?1 IS NULL OR d.name IN ?1) \n" +
-            "AND (?2 IS NULL OR lang.name IN ?2) \n" +
-            "AND (?3 IS NULL OR type.name IN ?3) \n" +
-            "AND (?4 IS NULL OR performer.name IN ?4)")
+            "WHERE " +
+            "    COALESCE(:directors, :languages, :movieTypes, :performers, :status, :keyword) IS NOT NULL" +
+            "    AND (:directors IS NULL OR d.name IN :directors)    " +
+            "    AND (:languages IS NULL OR lang.name IN :languages) " +
+            "    AND (:movieTypes IS NULL OR type.name IN :movieTypes) " +
+            "    AND (:performers IS NULL OR performer.name IN :performers)" +
+            "    AND (:status IS NULL OR m.status IS NULL OR m.status LIKE %:status%)" +
+            "    AND (:keyword IS NULL OR m.name LIKE %:keyword% " +
+            "        OR d.name LIKE %:keyword% " +
+            "        OR lang.name LIKE %:keyword% " +
+            "        OR type.name LIKE %:keyword% " +
+            "        OR performer.name LIKE %:keyword% )")
     Page<Movie> filterMovies(Pageable pageable,
                              @Param("directors") String directors,
                              @Param("languages") String languages,
                              @Param("movieTypes") String movieTypes,
-                             @Param("performers") String performers);
-
-
+                             @Param("performers") String performers,
+                             @Param("status") String status,
+                             @Param("keyword") String keyword
+    );
 }
