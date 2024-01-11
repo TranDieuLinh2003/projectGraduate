@@ -14,8 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.example.filmBooking.model.ServiceType;
+import com.example.filmBooking.service.ServiceTypeService;
+
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/food")
@@ -27,18 +31,22 @@ public class FoodAdminController {
     @Autowired
     private UploadImage uploadImage;
 
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
     @PostMapping("/save/{pageNumber}")
     @Operation(summary = "[Thêm dữ liệu Food]")
     public String addFood(Model model, @RequestParam(name = "id") String id, @RequestParam(name = "name") String name, @RequestParam(name = "price") BigDecimal priceFood,
                           @RequestParam(name = "description") String description, @RequestParam(name = "image")
                                   MultipartFile multipartFile,
-                          @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra) {
+                          @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra, @RequestParam(name = "service") ServiceType serviceType) {
         try {
             Food food = Food.builder()
                     .id(id)
                     .name(name)
                     .price(priceFood)
                     .description(description)
+                    .serviceType(serviceType)
                     .image(multipartFile.getOriginalFilename())
                     .build();
             uploadImage.handerUpLoadFile(multipartFile);
@@ -62,7 +70,7 @@ public class FoodAdminController {
     }
 
     @GetMapping("/find-all/page/{pageNumber}")
-    public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage, @Param("keyword") String name) {
+    public String findAll(Model model, @PathVariable("pageNumber") Integer currentPage,  @RequestParam(value = "keyword", required = false) String name) {
         Page<Food> page = foodService.findAll(currentPage);
         if (name != null) {
             page = foodService.findByNameContains(name, currentPage);
@@ -72,6 +80,8 @@ public class FoodAdminController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listFood", page.getContent());
+        List<ServiceType> listService = serviceTypeService.findAll();
+        model.addAttribute("cbbServiceType", listService);
         model.addAttribute("food", new Food());
         return "admin/food";
     }
@@ -114,5 +124,45 @@ public class FoodAdminController {
 
         return "redirect:/food/find-all";   // Redirect to the promotion list page after update
     }
-
+    @PostMapping("/service-type/save")
+    public String addServiceType(@RequestParam("name") String name, Model model, RedirectAttributes ra){
+        try{
+            ServiceType serviceType = ServiceType.builder()
+                    .name(name)
+                    .build();
+            if (serviceTypeService.addServiceType(serviceType) instanceof ServiceType) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công");
+            } else {
+                ra.addFlashAttribute("errorMessage", "Thêm thất bại");
+            }
+            model.addAttribute("serviceType", new ServiceType());
+            return "redirect:/food/service-type";
+        }catch (Exception e){
+//            e.printStackTrace();
+            return "admin/service-type";
+        }
+    }
+    
+    @PostMapping("/service-type/update/{id}")
+    public String updateServiceType(@PathVariable(name = "id")String id, Model model, ServiceType serviceType, RedirectAttributes ra){
+        serviceTypeService.updateServiceType(serviceType, id);
+        ra.addFlashAttribute("successMessage", "Sửa thành công!!!");
+        return "redirect:/food/service-type";
+    }
+    @GetMapping("/service-type/delete/{id}")
+    public String deleteServiceType(Model model, @PathVariable("id") String id, RedirectAttributes ra){
+        try{
+            serviceTypeService.deleteServiceType(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        }catch (Exception e){
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
+        return "redirect:/food/service-type";
+    }
+    @GetMapping("/service-type")
+    public String getAll(Model model){
+        List<ServiceType> listServiceType = serviceTypeService.findAll();
+        model.addAttribute("listServiceType", listServiceType);
+        return "admin/service-type";
+    }
 }
