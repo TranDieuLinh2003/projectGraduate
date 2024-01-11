@@ -17,4 +17,8 @@ public interface MovieTypeService {
     MovieType findById(String id);
 
     List<MovieType> searchNameMovieType(String keycode);
+    
+    List<MovieType> findMovieTyprbyMovieId(String movieId);
+
+    MovieType findByNameLike(String name);
 }
