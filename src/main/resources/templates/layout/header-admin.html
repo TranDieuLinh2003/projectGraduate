@@ -106,22 +106,15 @@
               <i class="fas fa-angle-right dropdown_one"></i>
             </a>
             <div class="dropdown_menu_one">
-              <a th:href="@{/customer/find-all}" onclick="overLoad()"
-                ><i class="bx bx-movie-play"></i>Thể loại phim</a
-              >
-              <a th:href="@{/rank/find-all}" onclick="overLoad()"
-                ><i class="bx bx-world"></i>Ngôn ngữ phim</a
-              >
-              <a th:href="@{/rated/find-all}" onclick="overLoad()"
-                ><i class="bx bxs-user"></i>Đạo diễn phim</a
-              >
-              <a th:href="@{/rated/find-all}" onclick="overLoad()"
-                ><i class="bx bxs-group"></i>Diễn viên phim</a
-              >
-              <a th:href="@{/rated/find-all}" onclick="overLoad()"
-                ><i class="bx bx-child"></i>Phân loại độ tuổi</a
-              >
-            </div>
+                    <a th:href="@{/movie/movie-type}" onclick="overLoad()"><i class='bx bx-movie-play'></i>Thể loại phim</a>
+                    <a th:href="@{/movie/language}" onclick="overLoad()"
+                    ><i class='bx bx-world'></i>Ngôn ngữ phim</a
+                    >
+                    <a th:href="@{/movie/director}" onclick="overLoad()"><i class='bx bxs-user'></i>Đạo diễn phim</a>
+                    <a th:href="@{/movie/performer}" onclick="overLoad()"><i class='bx bxs-group' ></i>Diễn viên phim</a>
+                    <a th:href="@{/rated/find-all}" onclick="overLoad()"><i class='bx bx-child'></i>Phân loại độ tuổi</a>
+                    <a th:href="@{/food/service-type}" onclick="overLoad()"><i class='bx bxl-slack'></i></i>Thể loại dịch vụ</a>
+                </div>
           </li>
           <li>
             <a class="sub-btn">
