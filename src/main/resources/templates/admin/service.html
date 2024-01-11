@@ -34,7 +34,7 @@
     <link rel="stylesheet" th:href="@{/admin/css/modal.css}">
     <link rel="stylesheet" th:href="@{/admin/css/alert.css}">
     <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">
-    <link rel="stylesheet" th:href="@{/admin/css/Service.css}">
+    <link rel="stylesheet" th:href="@{/admin/css/service.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
@@ -88,7 +88,7 @@
             <div class="box-Service">
                 <input type="checkbox" id="check"/>
                 <div class="search-box">
-                    <form th:action="@{/Service/find-all/page/1}" class="form_search_Service" method="get">
+                    <form th:action="@{/service/find-all/page/1}" class="form_search_Service" method="get">
                         <input type="text" name="keyword" placeholder="Nhập thông tin..."/>
                         <label for="check" class="icon" type="submit">
                             <button type="submit" style="color: #4d4d4d; padding: 0px 15px 0px 15px; border: none"><i
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <form th:action="@{/Service/save/1}" th:object="${Service}" class="form_add_Service" method="post"
+    <form th:action="@{/service/save/1}" th:object="${Service}" class="form_add_Service" method="post"
           enctype="multipart/form-data" id="yourForm" onsubmit="validateForm(event)">
         <input type="hidden" th:field="*{id}">
         <div class="Service_input">
@@ -183,7 +183,7 @@
                     <p class="card-text">Phân loại: [[${Service.serviceType.name}]]</p>
                     <div class="row">
                         <div class="col-xl-6">
-                            <a th:href="@{'/Service/delete/' + ${Service.id}}"
+                            <a th:href="@{'/service/delete/' + ${Service.id}}"
                                onclick="return confirm('Bạn muốn xóa đồ ăn !')">
                                 <button type="button" class="btn btn-outline-danger">
                                     <i class="bx bxs-trash"></i>
@@ -211,7 +211,7 @@
                 <th:block th:if="${currentPage > 1}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/Service/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
+                           th:href="@{'/service/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
                            aria-label="Previous">
                             &laquo;
                         </a>
@@ -220,7 +220,7 @@
                 <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/Service/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword}}">
+                           th:href="@{'/service/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword}}">
                             [[${pageNumber}]]
                         </a>
                     </li>
@@ -228,7 +228,7 @@
                 <th:block th:if="${currentPage < totalPages}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/Service/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
+                           th:href="@{'/service/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword}}"
                            aria-label="Next">
                             &raquo;
                         </a>
@@ -246,7 +246,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết đồ ăn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="row g-3" th:object="${promotion}" th:action="@{/Service/update/{id}(id=${Service.id})}"
+                <form class="row g-3" th:object="${promotion}" th:action="@{/service/update/{id}(id=${Service.id})}"
                       method="post">
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
@@ -317,7 +317,7 @@
         integrity="sha512-GAaXlfJeIbLNG2LQu2v4pf8YEc7iPz+GE3LZyUmdR7d7Id5JsER9vmJVxMKw1MqmdlVh3NXxTxQVd9AS53G+4w=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!--<script th:src="@{/admin/js/alert.js}"></script>-->
-<script th:src="@{/admin/js/Service.js}"></script>
+<script th:src="@{/admin/js/service.js}"></script>
 <script
         type="module"
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
