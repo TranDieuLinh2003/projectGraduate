@@ -41,239 +41,234 @@
 <div id="loading-overlay">
     <div class="spinner"></div>
 </div>
-<section class="movie-html">
+<section class="food-html">
     <h2>QUẢN LÝ PHIM</h2>
     <hr>
-        <div class="col-3">
-            <div class="add-movie-button" style="margin: 0px;">
-                <a th:href="@{/movie/view-add}" onclick="overLoad()">
-                    <button type="button" class="btn btn-outline-success">Thêm phim</button>
-                </a>
-            </div>
+    <div class="col-3">
+        <div class="add-movie-button">
+            <a th:href="@{/movie/view-add}" onclick="overLoad()">
+                <button type="button" class="btn btn-outline-success">Thêm phim</button>
+            </a>
         </div>
-    <div class="row">
-        <div class="col-9">
-            <div class="timPhim" style="margin: -20px 0px 0px 0px">
-                <form th:action="@{/movie/find-all/page/1}">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <select class="form-select" aria-label="Default select example" name="status"
-                                    style="width: 250px">
-                                <option value="" selected>Tất cả</option>
-                                <option value="Sắp chiếu">Sắp chiếu</option>
-                                <option value="Đang chiếu">Đang chiếu</option>
-                                <option value="Đã chiếu">Đã chiếu</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-9">
-                            <div class="form-tim-kiem-movie" style="width: 1300px;margin: -40px 0px 0px 30px;">
-                                <div class="row">
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input class="form-control border" type="text" name="keyword"
-                                                       placeholder="Nhập tên phim, thể loại, diễn viên, đạo diễn ..."/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3" style="padding:0px;">
-                            <div style="width: 280px">
-                                <div mbsc-page class="demo-multiple-select">
-                                    <div style="height: 100%">
-                                        <label>
-                                            Đạo diễn
-                                            <input
-                                                    mbsc-input
-                                                    id="demo-multiple-select-input1"
-                                                    placeholder="Please select..."
-                                                    data-dropdown="true"
-                                                    data-input-style="outline"
-                                                    data-label-style="stacked"
-                                                    data-tags="true"
-                                            />
-                                        </label>
-                                        <select id="demo-multiple-select1" name="director" multiple>
-                                            <option th:each="director : ${directors}" th:value="${director.name}"
-                                                    th:text="${director.name}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3" style="padding:0px;">
-                            <div style="width: 280px">
-                                <div mbsc-page class="demo-multiple-select">
-                                    <div style="height: 100%">
-                                        <label>
-                                            Thể loại phim
-                                            <input
-                                                    mbsc-input
-                                                    id="demo-multiple-select-input2"
-                                                    placeholder="Please select..."
-                                                    data-dropdown="true"
-                                                    data-input-style="outline"
-                                                    data-label-style="stacked"
-                                                    data-tags="true"
-                                            />
-                                        </label>
-                                        <select id="demo-multiple-select2" name="movieType" multiple>
-                                            <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"
-                                                    th:text="${movieType.name}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3" style="padding:0px;">
-                            <div style="width: 280px">
-                                <div mbsc-page class="demo-multiple-select">
-                                    <div style="height: 100%">
-                                        <label>
-                                            Ngôn ngữ
-                                            <input
-                                                    mbsc-input
-                                                    id="demo-multiple-select-input3"
-                                                    placeholder="Please select..."
-                                                    data-dropdown="true"
-                                                    data-input-style="outline"
-                                                    data-label-style="stacked"
-                                                    data-tags="true"
-                                            />
-                                        </label>
-                                        <select id="demo-multiple-select3" name="language" multiple>
-                                            <option th:each="language : ${languages}" th:value="${language.name}"
-                                                    th:text="${language.name}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3" style="padding:0px;">
-                            <div style="width: 280px">
-                                <div mbsc-page class="demo-multiple-select">
-                                    <div style="height: 100%">
-                                        <label>
-                                            Diễn viên
-                                            <input
-                                                    mbsc-input
-                                                    id="demo-multiple-select-input4"
-                                                    placeholder="Please select..."
-                                                    data-dropdown="true"
-                                                    data-input-style="outline"
-                                                    data-label-style="stacked"
-                                                    data-tags="true"
-                                            />
-                                        </label>
-                                        <select id="demo-multiple-select4" name="performer" multiple>
-                                            <option th:each="performer : ${performers}" th:value="${performer.name}"
-                                                    th:text="${performer.name}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success" onclick="overLoad()">Tìm kiếm</button>
-                </form>
-            </div>
+    </div>
 
-            <div class="movie-card">
-                <div class="row row-cols-1 row-cols-md-4 g-4">
-                    <div class="col-sm-6" th:each="movie : ${listMovie}">
-                        <div class="card">
-                            <img
-                                    th:src=" @{'http://localhost:8080/admin/assets/img/' + ${movie.image}}"
-                                    class="card-img-top"
-                                    alt="..."
-                                    height="400"
-                            />
-                            <div class="card-body">
-                                <h5 class="card-title">[[${movie.name}]]</h5>
-                                <h6 class="card-title">Mã phim: [[${movie.code}]]</h6>
-                                <span>Ngày bắt đầu:</span>
-                                <span class="card-text"
-                                      th:text="${#dates.format(movie.premiereDate, 'dd/MM/yyyy')}"></span>
-                                <br>
-                                <span>Ngày kết thúc:</span>
-                                <span class="card-text" th:text="${#dates.format(movie.endDate, 'dd/MM/yyyy')}"></span>
-                                <p class="card-text">Trạng thái: [[${movie.status}]]</p>
-                                <div class="button-movie">
-                                    <a th:href="@{'/movie/update/'+${currentPage} +'/' + ${movie.id}}">
-                                        <button
-                                                type="button"
-                                                class="btn btn-outline-success"
-                                                onclick="return confirm('Bạn muốn sửa phim này !')"
-                                        >
-                                            <i class='bx bxs-edit-alt'></i>
-                                        </button>
-                                    </a>
-                                    <a th:href="@{'/movie/detail/' + ${movie.id}}" onclick="overLoad()">
-                                        <button
-                                                type="button"
-                                                class="btn btn-outline-primary"
-                                        >
-                                            <i class="bx bx-show-alt"></i></button
-                                        >
-                                    </a>
-                                    <div class="notifications"></div>
-                                    <a th:href="@{'/movie/delete/' + ${movie.id}}">
-                                        <button
-                                                type="button"
-                                                class="btn btn-outline-danger"
-                                                onclick="return confirm('Bạn muốn xóa phim này !')"
-                                        >
-                                            <i class="bx bxs-trash"></i>
-                                        </button>
-                                    </a>
-                                </div>
+    <div class="timPhim" style="margin: 10px 0px 0px 0px">
+        <form th:action="@{/movie/find-all/page/1}">
+            <div class="row">
+                <div class="col-xl-3">
+                    <select class="form-select" aria-label="Default select example" name="status"
+                            style="width: 250px">
+                        <option value="" selected>Tất cả</option>
+                        <option value="Sắp chiếu">Sắp chiếu</option>
+                        <option value="Đang chiếu">Đang chiếu</option>
+                        <option value="Đã chiếu">Đã chiếu</option>
+                    </select>
+                </div>
+                <div class="col-xl-8">
+                    <div class="form-tim-kiem-movie" style="width: 820px; margin: 0px 0px 0px 15px">
+                        <input class="form-control border" type="text" name="keyword"
+                               placeholder="Nhập tên phim, thể loại, diễn viên, đạo diễn ..."/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div style="width: 280px; margin: 0px 0px 0px -15px">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Đạo diễn
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input1"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select1" name="director" multiple>
+                                    <option th:each="director : ${directors}" th:value="${director.name}"
+                                            th:text="${director.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="width: 280px">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Thể loại phim
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input2"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select2" name="movieType" multiple>
+                                    <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"
+                                            th:text="${movieType.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="width: 280px">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Ngôn ngữ
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input3"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select3" name="language" multiple>
+                                    <option th:each="language : ${languages}" th:value="${language.name}"
+                                            th:text="${language.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="width: 280px">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Diễn viên
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input4"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select4" name="performer" multiple>
+                                    <option th:each="performer : ${performers}" th:value="${performer.name}"
+                                            th:text="${performer.name}">
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="phanTrang_Movie">
-                <nav aria-label="Page navigation example" style="text-align: center">
-                    <ul class="pagination">
-                        <th:block th:if="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link"
-                                   th:href="@{'/movie/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
-                                   aria-label="Previous" onclick="overLoad()">
-                                    &laquo;
+            <button type="submit" class="btn btn-success" onclick="overLoad()">Tìm kiếm</button>
+        </form>
+    </div>
+    <div class="movie-card">
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col-sm-6" th:each="movie : ${listMovie}">
+                <div class="card" style="padding: 0px 0px 15px 0px">
+                    <img
+                            th:src=" @{'http://localhost:8080/admin/assets/img/' + ${movie.image}}"
+                            class="card-img-top"
+                            alt="..."
+                            height="400"
+                    />
+                    <div class="card-body">
+                        <h5 class="card-title">[[${movie.name}]]</h5>
+                        <h6 class="card-title">Mã phim: [[${movie.code}]]</h6>
+                        <span>Ngày bắt đầu:</span>
+                        <span class="card-text"
+                              th:text="${#dates.format(movie.premiereDate, 'dd/MM/yyyy')}"></span>
+                        <br>
+                        <span>Ngày kết thúc:</span>
+                        <span class="card-text" th:text="${#dates.format(movie.endDate, 'dd/MM/yyyy')}"></span>
+                        <p class="card-text">Trạng thái: [[${movie.status}]]</p>
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <a th:href="@{'/movie/update/'+${currentPage} +'/' + ${movie.id}}">
+                                    <button
+                                            type="button"
+                                            class="btn btn-outline-success"
+                                            onclick="return confirm('Bạn muốn sửa phim này !')"
+                                    >
+                                        <i class='bx bxs-edit-alt'></i>
+                                    </button>
                                 </a>
-                            </li>
-                        </th:block>
-                        <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                            <li class="page-item">
-                                <a class="page-link"
-                                   th:href="@{'/movie/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
-                                   onclick="overLoad()">
-                                    [[${pageNumber}]]
+                            </div>
+                            <div class="col-xl-4">
+                                <a th:href="@{'/movie/detail/' + ${movie.id}}" onclick="overLoad()">
+                                    <button
+                                            type="button"
+                                            class="btn btn-outline-primary"
+                                    >
+                                        <i class="bx bx-show-alt"></i></button
+                                    >
                                 </a>
-                            </li>
-                        </th:block>
-                        <th:block th:if="${currentPage < totalPages}">
-                            <li class="page-item">
-                                <a class="page-link"
-                                   th:href="@{'/movie/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
-                                   aria-label="Next" onclick="overLoad()">
-                                    &raquo;
+                            </div>
+                            <div class="col-xl-4">
+                                <a th:href="@{'/movie/delete/' + ${movie.id}}">
+                                    <button
+                                            type="button"
+                                            class="btn btn-outline-danger"
+                                            onclick="return confirm('Bạn muốn xóa phim này !')"
+                                    >
+                                        <i class="bx bxs-trash"></i>
+                                    </button>
                                 </a>
-                            </li>
-                        </th:block>
-                    </ul>
-                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="phanTrang_Movie">
+        <nav aria-label="Page navigation example" style="text-align: center">
+            <ul class="pagination">
+                <th:block th:if="${currentPage > 1}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           th:href="@{'/movie/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           aria-label="Previous" onclick="overLoad()">
+                            &laquo;
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           th:href="@{'/movie/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           onclick="overLoad()">
+                            [[${pageNumber}]]
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:if="${currentPage < totalPages}">
+                    <li class="page-item">
+                        <a class="page-link"
+                           th:href="@{'/movie/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           aria-label="Next" onclick="overLoad()">
+                            &raquo;
+                        </a>
+                    </li>
+                </th:block>
+            </ul>
+        </nav>
+    </div>
+    </div>
     </div>
 </section>
 
