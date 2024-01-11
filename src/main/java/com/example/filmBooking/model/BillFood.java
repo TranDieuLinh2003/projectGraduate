@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "bill_food")
+@Table(name = "bill_service")
 public class BillFood {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
