@@ -5,6 +5,9 @@ import com.example.filmBooking.repository.DirectorRepository;
 import com.example.filmBooking.service.DirectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.filmBooking.repository.MovieRepository;
+import com.example.filmBooking.model.Movie;
+
 
 import java.util.List;
 import java.util.Random;
@@ -14,6 +17,9 @@ public class DirectorServiceImpl implements DirectorService {
 
     @Autowired
     private DirectorRepository directorRepository;
+    
+    @Autowired
+    private MovieRepository movieRepository;
 
     @Override
     public List<Director> fillAll() {
@@ -48,5 +54,17 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     public List<Director> searchNameDirector(String keycode) {
         return directorRepository.findByNameContains(keycode);
+    }
+    
+    @Override
+    public List<Director> findDireactorByMovieId(String movieId) {
+        Movie movie = movieRepository.findById(movieId).get();
+        List<Director> directors = movie.getDirectors();
+        return directors;
+    }
+
+    @Override
+    public Director findByNameLike(String name) {
+        return directorRepository.findByNameLike(name);
     }
 }
