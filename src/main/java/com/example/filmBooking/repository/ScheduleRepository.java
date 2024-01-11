@@ -30,7 +30,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
             + "\tjoin projectLinh.schedule s on s.room_id = r.id\n"
             + "\tjoin projectLinh.movie m on m.id = s.movie_id\n"
             + "where m.id=:movieId\n"
-            + " and c.id =:cinemaId and  s.status like 'Sắp chiếu' and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
+            + " and c.id =:cinemaId and  s.status like 'Sắp chiếu' and  s.operating_status like '1' and  DATE(s.start_at)=:start_at   ORDER BY  DATE_FORMAT(s.start_at , '%H:%i') ASC");
 
     @Query(value = time, nativeQuery = true)
     List<Object[]> getTime(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId, @Param("start_at") String start_at);
@@ -78,18 +78,18 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query(value = "select *from schedule where room_id= ?1", nativeQuery = true)
     List<Schedule> findByRoom(String id);
 
-    @Query(value = " select * from schedule s where s.room_id= ?2 and date(s.start_at) = Date(?1)  order by s.start_at asc ", nativeQuery = true)
+    @Query(value = " select * from schedule s where s.operating_status like '0' and s.room_id= ?2 and date(s.start_at) = Date(?1)  order by s.start_at asc ", nativeQuery = true)
     List<Schedule> findByRoomAndFinishAt(String date, String room);
 
 
     @Query("FROM Schedule s WHERE " +
             " s.status like 'Sắp chiếu'" +
+            " AND   s.operatingStatus like '1'" +
             "AND ((?1 is NULL) OR (s.room.cinema.name like ?1)) " +
             "AND ((?2 is NULL) OR (date(s.startAt) = Date(?2))) " +
             "AND ((?4 is NULL) OR (HOUR(s.startAt) >= ?4)) " +
             "AND ((?5 is NULL) OR (HOUR(s.startAt) < ?5)) " +
             "AND ((?3 is NULL) OR (s.movie.name like ?3)) " +
-            "AND s.operatingStatus = 1 " +
             "ORDER BY s.startAt ASC"
     )
     List<Schedule> findByConditions(String name, LocalDate startAt, String movieName, Integer startTime, Integer endTime);
