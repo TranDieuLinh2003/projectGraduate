@@ -50,6 +50,11 @@
         /*    width: 100px;*/
         /*    margin-left: 35px;*/
         /*}*/
+        /*#staticBackdrop {*/
+        /*    color: #2c3e50;*/
+        /*    -webkit-font-smoothing: antialiased;*/
+        /*    -moz-osx-font-smoothing: grayscale;*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -169,14 +174,14 @@
             <form th:action="@{/seat/saveUpdateSeat}" th:object="${seat}" method="post"
                   style="margin-left: 50px" onsubmit="validateCinema(event)">
                 <div class="modal-body">
-                    <input type="hidden"  th:field="*{id}"/>
+                    <input type="hidden" th:field="*{id}"/>
                     <input type="hidden" id="IdRoomm" th:field="*{room}" value=""/>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="input-box">
                                 <label>Nhập hàng ghế</label>
-<!--                                <input disabled type="text" id="line" class="line"  th:field="*{line}"/>-->
-                                <input  type="text" id="line" th:field="*{line}" style="pointer-events: none;"/>
+                                <!--                                <input disabled type="text" id="line" class="line"  th:field="*{line}"/>-->
+                                <input type="text" id="line" th:field="*{line}" style="pointer-events: none;"/>
                             </div>
                             <span id="lineErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                         </div>
@@ -222,7 +227,9 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                        <button type="submit" class="btn btn-primary"  onclick="return confirm('Bạn muốn thêm ghế !')">Thêm</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn muốn thêm ghế !')">
+                            Thêm
+                        </button>
                     </div>
                 </div>
             </form>
@@ -249,13 +256,13 @@
 
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
-                        <input type="text" class="form-control"  name="number" th:value="${seat.number}"
+                        <input type="text" class="form-control" name="number" th:value="${seat.number}"
                                disabled
                                required>
                     </div>
                     <div style="display: none" class="col-md-6">
                         <label class="form-label">Id</label>
-                        <input type="text" class="form-control"  name="line" th:value="${seat.line}"
+                        <input type="text" class="form-control" name="line" th:value="${seat.line}"
                                disabled
                                required>
                     </div>
@@ -381,7 +388,7 @@
         var submitButton = document.getElementById("addSeat"); // Replace "submitButton" with the actual ID of your submit button
 
         // Client-side validation for line containing numbers
-        if(/\d/.test(line)){
+        if (/\d/.test(line)) {
             errorSpan.textContent = "Tên hàng không được chứa số!";
             submitButton.disabled = true; // Disable the submit button
         } else {
@@ -391,19 +398,16 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.isDuplicate) {
-                        errorSpan.textContent = "Hàng đã tồn tại trong phòng này!!!";
+                        errorSpan.textContent = "";
                         submitButton.disabled = true; // Disable the submit button
                     } else {
-                        errorSpan.textContent = "";
+                       errorSpan.textContent = "Hàng đã tồn tại trong phòng này!!!";
                         submitButton.disabled = false; // Enable the submit button
                     }
                 })
                 .catch(error => console.error('Lỗi: ' + error));
         }
     }
-
-
-
 
 </script>
 </body>

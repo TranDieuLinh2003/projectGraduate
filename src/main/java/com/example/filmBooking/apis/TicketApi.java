@@ -5,10 +5,7 @@ import com.example.filmBooking.model.dto.BillDto;
 import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.model.dto.DtoSeat;
 
-import com.example.filmBooking.repository.BillRepository;
-import com.example.filmBooking.repository.FootRepository;
-import com.example.filmBooking.repository.MovieRepository;
-import com.example.filmBooking.repository.SeatRepository;
+import com.example.filmBooking.repository.*;
 import com.example.filmBooking.service.impl.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +45,9 @@ public class TicketApi {
     private BillRepository repository;
 
     @Autowired
-    private MovieRepository movieRepository;
+    private TicketRepository ticketRepository;
     @Autowired
-    private ModelMapper modelMapper;
+    private SeatTypeServiceImpl seatTypeService;
 
     @GetMapping("/show/schedule")
     private ResponseEntity<List<Schedule>> getSchedule(@RequestParam String cinemaId,
@@ -58,13 +55,14 @@ public class TicketApi {
                                                        @RequestParam String startAt,
                                                        @RequestParam String startTime,
                                                        @RequestParam String nameRoom) {
-        return new ResponseEntity<>(scheduleService.getSchedule(cinemaId, movieId, startAt, startTime,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.getSchedule(cinemaId, movieId, startAt, startTime, nameRoom), HttpStatus.OK);
     }
+
     @GetMapping("/show/schedule1")
     private ResponseEntity<List<Schedule>> getSchedule1(@RequestParam String movieName,
-                                                       @RequestParam String startAt,
+                                                        @RequestParam String startAt,
                                                         @RequestParam String nameRoom) {
-        return new ResponseEntity<>(scheduleService.getSchedule1(movieName, startAt,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(scheduleService.getSchedule1(movieName, startAt, nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/seat")
@@ -73,28 +71,32 @@ public class TicketApi {
                                                   @RequestParam String startAt,
                                                   @RequestParam String startTime,
                                                   @RequestParam String nameRoom) {
-        return new ResponseEntity<>(seatService.getSeats(cinemaId, movieId, startAt, startTime,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(seatService.getSeats(cinemaId, movieId, startAt, startTime, nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/ticket")
     private ResponseEntity<List<Ticket>> getSTicket(@RequestParam String cinemaId,
-                                                  @RequestParam String movieId,
-                                                  @RequestParam String startAt,
-                                                  @RequestParam String startTime,
-                                                    @RequestParam String nameRoom ) {
-        return new ResponseEntity<>(ticketService.getTicket(cinemaId, movieId, startAt, startTime,nameRoom), HttpStatus.OK);
+                                                    @RequestParam String movieId,
+                                                    @RequestParam String startAt,
+                                                    @RequestParam String startTime,
+                                                    @RequestParam String nameRoom) {
+        return new ResponseEntity<>(ticketRepository.ticketShow(cinemaId, movieId, startAt, startTime, nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/seat1")
     private ResponseEntity<List<DtoSeat>> getSeat1(@RequestParam String movieName,
-                                                  @RequestParam String startAt,
+                                                   @RequestParam String startAt,
                                                    @RequestParam String nameRoom) {
-        return new ResponseEntity<>(seatService.getSeats1(movieName, startAt,nameRoom), HttpStatus.OK);
+        return new ResponseEntity<>(seatService.getSeats1(movieName, startAt, nameRoom), HttpStatus.OK);
     }
 
     @GetMapping("/show/food")
     private ResponseEntity<List<Food>> getAllFood() {
         return new ResponseEntity<>(foodService.findAll(), HttpStatus.OK);
+    }
+    @GetMapping("/show/seatType")
+    private ResponseEntity<List<SeatType>> getAllSeatType() {
+        return new ResponseEntity<>(seatTypeService.findAll(), HttpStatus.OK);
     }
     @GetMapping("/show/voucher")
     private ResponseEntity<List<Promotion>> getAllVoucher(@RequestParam String customerId) {
@@ -105,6 +107,7 @@ public class TicketApi {
     private ResponseEntity<List<GeneralSetting>> getAllGeneralSetting() {
         return new ResponseEntity<>(generalSettingService.fillAll(), HttpStatus.OK);
     }
+
     @GetMapping("/show/bill")
     private ResponseEntity<List<Object[]>> getAllGeneralSetting(@RequestParam String customerId) {
         return new ResponseEntity<>(repository.findBillDetailsByCustomer(customerId), HttpStatus.OK);

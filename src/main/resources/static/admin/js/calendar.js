@@ -150,7 +150,7 @@ dayElements.forEach(day => {
                                     Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
                                 </div>
                                 <div class="col-4">
-                                    Giá: <input type="text" class="form-control" style="width: 100%" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
+                                    Giá: <input type="text" class="form-control" style="width: 90%;margin-left: 40px;margin-top: -30px; padding-top: -20px;margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
                                 </div>
                             </div>                        
                     </div>`;
@@ -317,7 +317,7 @@ drake.on("drop", function (el, target, source, sibling) {
                                     Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
                                 </div>
                                 <div class="col-4">
-                                    Giá: <input type="text" class="form-control" style="width: 100%" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
+                                    Giá: <input  type="text" class="form-control" style="width: 100%;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
                                 </div>
                             </div>                      
                     </div>`;

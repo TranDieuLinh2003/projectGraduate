@@ -86,7 +86,7 @@
 
                         <!-- Iterate over the grouped seats in the Thymeleaf template -->
                         <div th:each="entry : ${groupedSeats}">
-<!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
+                            <!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
                             <div class="row">
                                 <div th:each="seat : ${entry.value}" class="seat" th:onclick="hienGiaMoi(this)"
                                      data-selected="false"
@@ -103,7 +103,8 @@
 
                         <div class="text-wrapper">
                             <p class="text" id="count" style="margin-left: -10px"></p>
-                            <p class="text" id="price"></p>
+                            <p class="text" id="priceDon"></p>
+                            <p class="text" id="priceDoi"></p>
                             <p class="text" id="total" style="margin-left: -10px"></p>
                         </div>
                     </div>
@@ -173,15 +174,17 @@
                         <div class="force-overflow">
                             <th:block th:each="food : ${listFood}">
                                 <div class="combo_tt">
-                                    <img th:src="'http://localhost:8080/admin/assets/img/'+${food.image}" alt="" width="70px" height="70px">
+                                    <img th:src="'http://localhost:8080/admin/assets/img/'+${food.image}" alt=""
+                                         width="70px" height="70px">
                                     <b style="margin-left: -110px" id="namefood"
                                        th:value="${food.id}">[[${food.name}]] </b>
                                     <p style="margin-left: -80px" class="mot">[[${food.description}]] => Giá : <b
                                             class="priceFood">[[${food.price}]]</b></p>
                                     <div class="cart-quantity cart-column">
-                                        <input class="cart-quantity-input" type="number" min="0" value="0" onchange="sumFood()" >
-<!--                                        <button onclick="increaseValue()">+</button>-->
-<!--                                        <button onclick="decreaseValue()">-</button>-->
+                                        <input class="cart-quantity-input" type="number" min="0" value="0"
+                                               onchange="sumFood()">
+                                        <!--                                        <button onclick="increaseValue()">+</button>-->
+                                        <!--                                        <button onclick="decreaseValue()">-</button>-->
                                     </div>
                                 </div>
                                 <hr style="opacity: 0.6; width: 900px;">
@@ -208,7 +211,7 @@
                         <br>
                         <div class="box">
                             <i class="fa-brands fa-searching"></i>
-                            <input type="text" id="voucherSearchInput"  placeholder="Search..">
+                            <input type="text" id="voucherSearchInput" placeholder="Search..">
                         </div>
                         <br>
                         <table class="tablee" style="margin-top: -20px">
@@ -242,7 +245,7 @@
                 </details>
                 <br>
                 <!--  -->
-                <details class="accordion " >
+                <details class="accordion ">
                     <summary class="accordion-header">
                         <div class="accordion-header-content">
                             <span class="accordion-header-content-label">Ưu đãi <i>(Nhấn vào đây để xem điểm tích
@@ -255,9 +258,10 @@
                         <div class="classic-2">
                             <b>Điểm hiện có:
                                 <br>
-                                <br> <p id="poin"></p></b>
+                                <br>
+                                <p id="poin"></p></b>
                             <div><b>Nhập điểm:</b><br><br>
-                                <input type="number" id="inputNumber"  min="0" oninput="convertToVND()">
+                                <input type="number" id="inputNumber" min="0" oninput="convertToVND()">
                             </div>
                             <b>Số tiền được giảm <br><br>
                                 <p id="result">0đ</p>
@@ -320,9 +324,9 @@
                     <div class="infor">
                         <p><i class='fa fa-film'></i> Thể loại </p>
                         <th:block th:each="type, iterStat : ${schdeule.movie.movieTypes}">
-                                        <span th:text="${type.name}"></span>
-                                        <span th:if="${!iterStat.last}"> </span>
-                                </th:block>
+                            <span th:text="${type.name}"></span>
+                            <span th:if="${!iterStat.last}"> </span>
+                        </th:block>
                     </div>
                     <div class="infor">
                         <p><i class='fa fa-history'></i> Thời lượng </p>
@@ -413,8 +417,8 @@
                         <div class="card_info_movie">
                             <b>Tiền được giảm: </b>
                             <p id="tiendcgiam">0</p>
-                            <input type="hidden"  name="discountcount" value="">
-                            <input type="hidden"  name="point" value="">
+                            <input type="hidden" name="discountcount" value="">
+                            <input type="hidden" name="point" value="">
 
                         </div>
                         <hr>
@@ -493,7 +497,7 @@
                             <b>Tiền được giảm: </b>
                             <p id="tiendcgiam1">0</p>
                             <input type="hidden" name="discount" value="">
-                            <input type="hidden"  name="pointt" value="">
+                            <input type="hidden" name="pointt" value="">
 
                         </div>
                         <hr>
@@ -585,26 +589,53 @@
 
     // lấy ra giá ghế
     var listScheduleData = [[${listSchedule}]];
+
+
     var price = document.getElementById("price");
     for (var i = 0; i < listScheduleData.length; i++) {
         var schedule = listScheduleData[i];
         // Sử dụng dữ liệu trong JavaScript
     }
     var priceticket = schedule.price;
+
+    var listTicket = [[${listTicket}]];
+    var uniquePrices = new Set();
+
+    for (var i = 0; i < listTicket.length; i++) {
+        var ticket = listTicket[i];
+        uniquePrices.add(ticket.price);
+    }
+
+    var uniquePricesArray = Array.from(uniquePrices);
+
+    if (uniquePricesArray.length >= 2) {
+        var priceTicket1 = uniquePricesArray[0];
+        var priceTicket2 = uniquePricesArray[1];
+
+
+    } else {
+        console.log("There are not enough unique prices in the list.");
+    }
+    console.log(priceTicket1);
+    console.log( priceTicket2);
     let priceInput = document.getElementById("priceTicket");
     priceInput.value = priceticket;
     let priceInput1 = document.getElementById("priceTicket1");
     priceInput1.value = priceticket;
-    let formattedPriceticket = priceticket.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+    let formattedPriceticket = priceTicket2.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
+    let formattedPriceticket1 = priceTicket1.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
 
 
     var price_ticket = formattedPriceticket;
+    var price_ticket1 = formattedPriceticket1;
+
     var selectedSeatIds = [];
     var selectedSeatIds1 = [];
     var clickedSeats = [];
 
     function hienGiaMoi(seat) {
-        var priceElement = document.getElementById("price");
+        var priceElement = document.getElementById("priceDon");
+        var priceElement1 = document.getElementById("priceDoi");
         var seatIndex = clickedSeats.indexOf(seat);
 
         if (seat.classList.contains('occupied')) {
@@ -626,12 +657,17 @@
         }
 
         if (clickedSeats.length === 0) {
-            if (priceElement) { // Check if priceElement exists
+            if ( priceElement && priceElement1) { // Check if priceElement exists
                 priceElement.innerHTML = "";
+                priceElement1.innerHTML = "";
             }
         } else {
-            if (priceElement) { // Check if priceElement exists
-                priceElement.innerHTML = "Giá: " + price_ticket;
+            if (priceElement && priceElement1) { // Check if priceElement exists
+                if (seat.classList.contains('seattow')) {
+                    priceElement.innerHTML = "Giá ghế đôi: " + price_ticket;
+                }else {
+                    priceElement1.innerHTML = "Giá ghế đơn: " + price_ticket1;
+                }
             }
         }
 
@@ -775,7 +811,7 @@
 
 
     var listPoint = [[${listPoint}]];
-console.log(listPoint)
+    console.log(listPoint)
     var element = document.getElementById('poin');
     element.innerHTML = listPoint;
 

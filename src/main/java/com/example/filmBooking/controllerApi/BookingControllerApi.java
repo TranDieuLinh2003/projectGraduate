@@ -37,8 +37,11 @@ public class BookingControllerApi {
     public static String apiGetSeat = Api.baseURL + "/api/ticket/show/seat";
     public static String apiGetSeat1 = Api.baseURL + "/api/ticket/show/seat1";
     public static String apiGetFoot = Api.baseURL + "/api/ticket/show/food";
+    public static String apiGetSeatType = Api.baseURL + "/api/ticket/show/seatType";
     public static String apiVoucher = Api.baseURL + "/api/ticket/show/voucher";
     public static String apiGeneralSetting= Api.baseURL + "/api/ticket/show/generalSetting";
+    public static String apiGetTicket= Api.baseURL + "/api/ticket/show/ticket";
+
 
     @GetMapping("/schedule")
     public String booking(@RequestParam String cinemaId,
@@ -188,6 +191,34 @@ public class BookingControllerApi {
                 GeneralSetting[].class,
                 listRequestParam);
         model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
+
+
+        String urlTemplateSeatType = UriComponentsBuilder.fromHttpUrl(apiGetSeatType)
+                .queryParam("customerId", customerId)
+                .encode()
+                .toUriString();
+        ResponseEntity<SeatType[]> listSeatType = restTemplate.exchange(urlTemplateSeatType,
+                HttpMethod.GET,
+                entity,
+                SeatType[].class,
+                listRequestParam);
+        model.addAttribute("listSeatType", listSeatType.getBody());
+
+        String urlTemplateTicket = UriComponentsBuilder.fromHttpUrl(apiGetTicket)
+                .queryParam("movieId", "{movieId}")
+                .queryParam("cinemaId", "{cinemaId}")
+                .queryParam("startTime", "{startTime}")
+                .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
+                .encode()
+                .toUriString();
+        ResponseEntity<Ticket[]> listTicket = restTemplate.exchange(urlTemplateTicket,
+                HttpMethod.GET,
+                entity,
+                Ticket[].class,
+                listRequestParam);
+//        Ticket ticket =  listTicket.getBody()[0];
+        model.addAttribute("listTicket", listTicket.getBody());
         return "users/DatVe";
     }
 

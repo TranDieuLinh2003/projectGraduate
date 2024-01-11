@@ -33,6 +33,7 @@ public class SeatTypeServiceImpl implements SeatTypeService {
     public SeatType update(String id, SeatType seatType) {
         SeatType seatTypeUpdate = findById(id);
         seatTypeUpdate.setName(seatType.getName());
+        seatTypeUpdate.setSurcharge(seatType.getSurcharge());
         return SeatTypeRepository.save(seatTypeUpdate);
     }
 
