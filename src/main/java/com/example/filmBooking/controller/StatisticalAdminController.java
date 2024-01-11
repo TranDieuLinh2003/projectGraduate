@@ -1,9 +1,9 @@
 package com.example.filmBooking.controller;
 
-import com.example.filmBooking.model.Food;
+import com.example.filmBooking.model.Service;
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
-import com.example.filmBooking.service.FoodService;
+import com.example.filmBooking.service.ServiceService;
 import com.example.filmBooking.service.MovieService;
 import com.example.filmBooking.service.ScheduleService;
 import com.example.filmBooking.service.StatisticsService;
@@ -26,7 +26,7 @@ public class StatisticalAdminController {
     private MovieService movieService;
 
     @Autowired
-    private FoodService foodService;
+    private ServiceService serviceService;
 
     @Autowired
     private ScheduleService scheduleService;
@@ -42,11 +42,11 @@ public class StatisticalAdminController {
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") Date toDate) {
         List<Object> revenueMovie= statisticsService.revenueMovie(fromDate,toDate);
         List<Movie> movieList= movieService.findAll();
-        List<Food> foodList= foodService.fillAll();
+        List<Service> serviceList= serviceService.fillAll();
         List<Schedule> scheduleList= scheduleService.findAll();
         model.addAttribute("revenueMovie", revenueMovie);
         model.addAttribute("movieList", movieList);
-        model.addAttribute("foodList", foodList);
+        model.addAttribute("ServiceList", serviceList);
         model.addAttribute("scheduleList", scheduleList);
         return "admin/thong-ke";
     }

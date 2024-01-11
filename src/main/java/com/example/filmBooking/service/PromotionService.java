@@ -1,6 +1,6 @@
 package com.example.filmBooking.service;
 
-import com.example.filmBooking.model.Food;
+import com.example.filmBooking.model.Service;
 import com.example.filmBooking.model.Promotion;
 import org.springframework.data.repository.query.Param;
 

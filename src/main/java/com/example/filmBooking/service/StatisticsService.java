@@ -14,7 +14,7 @@ public interface StatisticsService {
 
     List<Object> revenueTicket(Date startDate, Date endDate);
 
-    List<Object> revenueFood(Date startDate, Date endDate);
+    List<Object> revenueService(Date startDate, Date endDate);
 
     List<Object> revenueMovie(Date fromDate, Date toDate);
 }

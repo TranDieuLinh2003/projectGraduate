@@ -52,10 +52,10 @@ public class MovieAdminController {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-    @GetMapping("/find-all")
-    public String viewMovie(Model model) {
-        return findAll(model, 1, null, null, null, null, null, null);
-    }
+//    @GetMapping("/find-all")
+//    public String viewMovie(Model model) {
+//        return findAll(model, 1, null, null, null, null, null, null);
+//    }
 
     @GetMapping("/find-all/page/{pageNumber}")
     @Operation(summary = "[Hiển thị tất cả]")

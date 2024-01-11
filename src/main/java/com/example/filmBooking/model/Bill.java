@@ -44,7 +44,7 @@ public class Bill {
 
     @OneToMany(mappedBy = "bill",
             cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<BillFood> listBillFood;
+    private List<BillService> listBillService;
 
     @ManyToOne
     @JoinColumn(name = "promotion_id")

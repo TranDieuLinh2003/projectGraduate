@@ -93,9 +93,9 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "        JOIN\n" +
             "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "    projectLinh.bill_Service bf ON b.id = bf.bill_id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "    projectLinh.Service f ON bf.Service_id = f.id\n" +
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 1\n" +
@@ -140,9 +140,9 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "        JOIN\n" +
             "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "    projectLinh.bill_Service bf ON b.id = bf.bill_id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "    projectLinh.Service f ON bf.Service_id = f.id\n" +
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 0\n" +
@@ -187,9 +187,9 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "        JOIN\n" +
             "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "    projectLinh.bill_Service bf ON b.id = bf.bill_id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "    projectLinh.Service f ON bf.Service_id = f.id\n" +
             "WHERE\n" +
             "    b.id = :idBill\n" +
             "GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , " +
@@ -254,9 +254,9 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "        JOIN\n" +
             "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "    projectLinh.bill_Service bf ON b.id = bf.bill_id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "    projectLinh.Service f ON bf.Service_id = f.id\n" +
             "WHERE\n" +
             "    cu.id = :customerId\n" +
             "        AND b.status = 2\n" +
@@ -303,9 +303,9 @@ public interface BillRepository extends JpaRepository<Bill, String> {
             "        JOIN\n" +
             "    projectLinh.cinema c ON r.cinema_id = c.id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.bill_food bf ON b.id = bf.bill_id\n" +
+            "    projectLinh.bill_Service bf ON b.id = bf.bill_id\n" +
             "        LEFT JOIN\n" +
-            "    projectLinh.food f ON bf.food_id = f.id\n" +
+            "    projectLinh.Service f ON bf.Service_id = f.id\n" +
             "     WHERE\n" +
             "    cu.id = :customerId\n" +
             "     GROUP BY b.trading_code , m.name , m.image , c.name , s.start_at , b.date_create , bt.total_money , r.name , b.status , b.id , b.total_money, b.point,b.use_points\n" +

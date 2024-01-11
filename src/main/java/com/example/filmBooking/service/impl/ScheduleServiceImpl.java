@@ -51,7 +51,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private BillTicketRepository billTicketRepository;
 
     @Autowired
-    private BillFoodRepository billFoodRepository;
+    private BillServiceRepository billServiceRepository;
 
     @Override
     public List<Schedule> findAll() {
@@ -205,15 +205,15 @@ public class ScheduleServiceImpl implements ScheduleService {
             // dodoirr trạng thái bill tổng
             bill.setStatus(2);
             System.out.println("trạng thái bill " + bill.getStatus());
-            //đổi trạng thái bill food
+            //đổi trạng thái bill Service
             System.out.println(id);
-            List<BillFood> listBillFood = billFoodRepository.findAllByBill(id);
-            System.out.println(listBillFood);
-            for (BillFood billFood : listBillFood
+            List<BillService> listBillService = billServiceRepository.findAllByBill(id);
+            System.out.println(listBillService);
+            for (BillService billService : listBillService
             ) {
-                billFood.setStatus(2);
-                System.out.println("trạng thái bill food: " + billFood.getStatus());
-                billFoodRepository.save(billFood);
+                billService.setStatus(2);
+                System.out.println("trạng thái bill Service: " + billService.getStatus());
+                billServiceRepository.save(billService);
             }
             // đổi trạng thái bill ticket
             List<BillTicket> listBillTicket = billTicketRepository.findAllByBill(id);

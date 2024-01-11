@@ -36,7 +36,7 @@ public class BookingControllerApi {
     public static String apiGetSchedule1 = Api.baseURL + "/api/ticket/show/schedule1";
     public static String apiGetSeat = Api.baseURL + "/api/ticket/show/seat";
     public static String apiGetSeat1 = Api.baseURL + "/api/ticket/show/seat1";
-    public static String apiGetFoot = Api.baseURL + "/api/ticket/show/food";
+    public static String apiGetFoot = Api.baseURL + "/api/ticket/show/Service";
     public static String apiGetSeatType = Api.baseURL + "/api/ticket/show/seatType";
     public static String apiVoucher = Api.baseURL + "/api/ticket/show/voucher";
     public static String apiGeneralSetting= Api.baseURL + "/api/ticket/show/generalSetting";
@@ -157,15 +157,15 @@ public class BookingControllerApi {
 
 
         //lấy ra foood
-        String urlTemplateFood = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
+        String urlTemplateService = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
                 .encode()
                 .toUriString();
-        HttpEntity<Food[]> listFood = restTemplate.exchange(urlTemplateFood,
+        HttpEntity<Service[]> listService = restTemplate.exchange(urlTemplateService,
                 HttpMethod.GET,
                 entity,
-                Food[].class);
-        model.addAttribute("listFood", listFood.getBody());
-        session.setAttribute("listFood", listFood.getBody());
+                Service[].class);
+        model.addAttribute("listService", listService.getBody());
+        session.setAttribute("listService", listService.getBody());
 
 
         //lấy ra voucher
@@ -292,15 +292,15 @@ public class BookingControllerApi {
 //
 
         //lấy ra foood
-        String urlTemplateFood = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
+        String urlTemplateService = UriComponentsBuilder.fromHttpUrl(apiGetFoot)
                 .encode()
                 .toUriString();
-        HttpEntity<Food[]> listFood = restTemplate.exchange(urlTemplateFood,
+        HttpEntity<Service[]> listService = restTemplate.exchange(urlTemplateService,
                 HttpMethod.GET,
                 entity,
-                Food[].class);
-        model.addAttribute("listFood", listFood.getBody());
-        session.setAttribute("listFood", listFood.getBody());
+                Service[].class);
+        model.addAttribute("listService", listService.getBody());
+        session.setAttribute("listService", listService.getBody());
 
 
         //lấy ra voucher

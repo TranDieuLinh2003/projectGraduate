@@ -42,12 +42,12 @@ public class HomeController {
         List<BigDecimal> mipec = statisticsService.revenueInTheLast7DaysMipec();
         List<BigDecimal> myDinh = statisticsService.revenueInTheLast7DaysMyDinh();
         List<Object> revenueTicket = statisticsService.revenueTicket(startDate, endDate);
-        List<Object> revenueFood = statisticsService.revenueFood(startDate, endDate);
+        List<Object> revenueService = statisticsService.revenueService(startDate, endDate);
 
         System.out.println(startDate);
         System.out.println(endDate);
         model.addAttribute("revenueTicket", revenueTicket);
-        model.addAttribute("revenueFood", revenueFood);
+        model.addAttribute("revenueService", revenueService);
         model.addAttribute("thanhXuan", thanhXuan);
         model.addAttribute("myDinh", myDinh);
         model.addAttribute("mipec", mipec);

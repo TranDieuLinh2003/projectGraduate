@@ -17,7 +17,7 @@ public class DtoBillList implements DtoBill{
     private String customerName;
     private String movieImage;
     private String movieName;
-    private String foodName;
+    private String serviceName;
     private Date dateCreate;
     private String ticketCode;
     private String ticketStatus;

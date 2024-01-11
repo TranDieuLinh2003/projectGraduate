@@ -33,7 +33,7 @@ public class TicketApi {
     private SeatServiceImpl seatService;
 
     @Autowired
-    private FootRepository foodService;
+    private FootRepository ServiceService;
 
     @Autowired
     private PromotionServiceImpl promotionService;
@@ -90,9 +90,9 @@ public class TicketApi {
         return new ResponseEntity<>(seatService.getSeats1(movieName, startAt, nameRoom), HttpStatus.OK);
     }
 
-    @GetMapping("/show/food")
-    private ResponseEntity<List<Food>> getAllFood() {
-        return new ResponseEntity<>(foodService.findAll(), HttpStatus.OK);
+    @GetMapping("/show/Service")
+    private ResponseEntity<List<Service>> getAllService() {
+        return new ResponseEntity<>(ServiceService.findAll(), HttpStatus.OK);
     }
     @GetMapping("/show/seatType")
     private ResponseEntity<List<SeatType>> getAllSeatType() {

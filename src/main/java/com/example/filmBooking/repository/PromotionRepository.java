@@ -92,17 +92,17 @@ public interface PromotionRepository extends JpaRepository<Promotion, String> {
             "group by c.id", nativeQuery = true)
     List<Object> revenueTicket(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
-    @Query(value = "SELECT f.name AS food_name, SUM(bf.quantity * f.price) AS total_revenue\n" +
-            "FROM bill_food bf\n" +
-            "JOIN food f ON bf.food_id = f.id\n" +
+    @Query(value = "SELECT f.name AS service_name, SUM(bf.quantity * f.price) AS total_revenue\n" +
+            "FROM bill_service bf \n" +
+            "JOIN service f ON bf.service_id = f.id\n" +
             "JOIN bill b ON bf.bill_id = b.id\n" +
             "WHERE " +
             "(:fromDate IS NULL OR b.date_create >= :fromDate) " +
             "AND (:toDate IS NULL OR b.date_create <= :toDate) " +
             "AND b.status =1 " +
-            "GROUP BY bf.food_id, f.name\n" +
+            "GROUP BY bf.service_id, f.name\n" +
             "LIMIT 7", nativeQuery = true)
-    List<Object> revenueFood(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+    List<Object> revenueService(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
 
     @Query(value = "SELECT m.name AS movie_name, SUM(bt.total_money) AS total_revenue\n" +
             "FROM bill_ticket bt\n" +

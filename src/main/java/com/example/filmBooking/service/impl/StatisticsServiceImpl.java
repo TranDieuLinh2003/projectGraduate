@@ -42,8 +42,8 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<Object> revenueFood(Date startDate, Date endDate) {
-        return repository.revenueFood(startDate, endDate);
+    public List<Object> revenueService(Date startDate, Date endDate) {
+        return repository.revenueService(startDate, endDate);
     }
 
     @Override

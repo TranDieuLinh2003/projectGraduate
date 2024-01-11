@@ -1,6 +1,7 @@
 package com.example.filmBooking.controllerApi;
 
 import com.example.filmBooking.model.*;
+import com.example.filmBooking.model.Service;
 import com.example.filmBooking.repository.CustomerRepository;
 import com.example.filmBooking.repository.GeneralSettingRepository;
 import com.example.filmBooking.repository.TicketRepository;
@@ -49,7 +50,7 @@ public class VNPAYController {
     private BillTicketServiceImpl billTicketService;
 
     @Autowired
-    private BillFoodServiceImpl billFoodService;
+    private BillServiceServiceImpl billServiceService;
 
     @Autowired
     private TicketRepository ticketService;
@@ -75,18 +76,18 @@ public class VNPAYController {
                               @RequestParam("roomm") String roomm,
                               @RequestParam("datedate") String datedate,
                               @RequestParam("timetime") String timetime,
-                              @RequestParam("foodfood") String foodfood,
+                              @RequestParam("ServiceService") String ServiceService,
                               @RequestParam("seatseat") String seatseat,
                               @RequestParam("seatCountCount") String seatCountCount,
                               @RequestParam("priceSeatSeat") String priceSeatSeat,
-                              @RequestParam("priceFoodFood") String priceFoodFood,
+                              @RequestParam("priceServiceService") String priceServiceService,
                               @RequestParam("discountcount") String discountcount,
                               @RequestParam(value = "point", required = false) Integer point,
                               HttpServletRequest request,
                               RedirectAttributes ra,
                               @RequestParam("selectedSeats") List<Ticket> selectedSeats,
                               @RequestParam("priceTicket") BigDecimal priceTicket,
-                              @RequestParam(value = "selectedFood", required = false) List<Food> selectedFood,
+                              @RequestParam(value = "selectedService", required = false) List<Service> selectedService,
                               @RequestParam(value = "selectedQuantity", required = false) List<Integer> selectedQuantity,
                               @RequestParam(value = "selectedPrice", required = false) List<BigDecimal> selectedPrice,
                               @RequestParam(value = "selectedPromition", required = false) Promotion selectedPromition) {
@@ -143,7 +144,7 @@ public class VNPAYController {
         bill.setPoint(diemKhachHang.intValue());
         bill.setUsepoints(point);
         if (point == null) {
-            // Xử lý khi selectedFood là null hoặc rỗng
+            // Xử lý khi selectedService là null hoặc rỗng
         } else {
             customer.setPoint(customer.getPoint() - point);
         }
@@ -173,25 +174,25 @@ public class VNPAYController {
             session1.setAttribute("billTickets", billTickets);
             session1.setAttribute("tickets", tickets);
         }
-////thêm bill_food
-        List<BillFood> billFoods = new ArrayList<>();
-        if (selectedFood == null || selectedFood.isEmpty()) {
-            // Xử lý khi selectedFood là null hoặc rỗng
+////thêm bill_Service
+        List<BillService> billServices = new ArrayList<>();
+        if (selectedService == null || selectedService.isEmpty()) {
+            // Xử lý khi selectedService là null hoặc rỗng
         } else {
-            for (int i = 0; i < selectedFood.size() && i < selectedQuantity.size() && i < selectedPrice.size(); i++) {
-                Food food = selectedFood.get(i);
+            for (int i = 0; i < selectedService.size() && i < selectedQuantity.size() && i < selectedPrice.size(); i++) {
+                Service Service = selectedService.get(i);
                 Integer quantity = selectedQuantity.get(i);
                 BigDecimal price = selectedPrice.get(i);
-                BillFood billFood = new BillFood();
+                BillService billService = new BillService();
 
-                billFood.setBill(bill);
-                billFood.setStatus(0);
-                billFood.setFood(food);
-                billFood.setQuantity(quantity);
-                billFood.setTotalMoney(price);
-//            billFoodService.save(billFood);
-                billFoods.add(billFood);
-                session1.setAttribute("billFoods", billFoods);
+                billService.setBill(bill);
+                billService.setStatus(0);
+                billService.setService(Service);
+                billService.setQuantity(quantity);
+                billService.setTotalMoney(price);
+//            billServiceService.save(billService);
+                billServices.add(billService);
+                session1.setAttribute("billServices", billServices);
             }
         }
 
@@ -233,17 +234,17 @@ public class VNPAYController {
             emailContent.append("Rạp/Phòng chiếu : ").append(roomm).append("\n");
             emailContent.append("Ngày chiếu : ").append(datedate).append("\n");
             emailContent.append("Giờ chiếu : ").append(timetime).append("\n");
-            if (foodfood == null || foodfood.isEmpty()) {
+            if (ServiceService == null || ServiceService.isEmpty()) {
                 emailContent.append("Đồ ăn : ").append(thongbao).append("\n");
             } else {
-                emailContent.append("Đồ ăn : ").append(foodfood).append("\n");
+                emailContent.append("Đồ ăn : ").append(ServiceService).append("\n");
             }
             emailContent.append("Ghế : ").append("(" + seatCountCount + ")" + seatseat).append("\n");
             emailContent.append("Tổng tiền vé : ").append(priceSeatSeat).append("\n");
-            if (priceFoodFood == null || priceFoodFood.isEmpty()) {
+            if (priceServiceService == null || priceServiceService.isEmpty()) {
                 emailContent.append("Tổng tiền đồ ăn : ").append(thongbaos).append("\n");
             } else {
-                emailContent.append("Tổng tiền đồ ăn : ").append(priceFoodFood).append("\n");
+                emailContent.append("Tổng tiền đồ ăn : ").append(priceServiceService).append("\n");
             }
             if (discountcount == null || discountcount.isEmpty()) {
                 emailContent.append("Tiền được giảm : ").append(thongbaos).append("\n");
@@ -270,18 +271,18 @@ public class VNPAYController {
                                @RequestParam("room") String room,
                                @RequestParam("date") String date,
                                @RequestParam("time") String time,
-                               @RequestParam("foodd") String foodd,
+                               @RequestParam("Serviced") String Serviced,
                                @RequestParam("seat") String seat,
                                @RequestParam("seatCount") String seatCount,
                                @RequestParam("priceSeat") String priceSeat,
-                               @RequestParam("priceFood") String priceFood,
+                               @RequestParam("priceService") String priceService,
                                @RequestParam("discount") String discount,
                                Model model,
                                HttpServletRequest request,
                                RedirectAttributes ra,
                                @RequestParam("selectedSeats1") List<Ticket> selectedSeats1,
                                @RequestParam("priceTicket1") BigDecimal priceTicket1,
-                               @RequestParam(value = "selectedFood1", required = false) List<Food> selectedFood1,
+                               @RequestParam(value = "selectedService1", required = false) List<Service> selectedService1,
                                @RequestParam(value = "selectedQuantity1", required = false) List<Integer> selectedQuantity1,
                                @RequestParam(value = "selectedPrice1", required = false) List<BigDecimal> selectedPrice1,
                                @RequestParam(value = "selectedPromition1", required = false) Promotion selectedPromition1, @RequestParam(value = "point", required = false) Integer point,
@@ -342,7 +343,7 @@ public class VNPAYController {
         bill.setUsepoints(pointt);
 
         if (selectedPromition1 == null) {
-            // Xử lý khi selectedFood là null hoặc rỗng
+            // Xử lý khi selectedService là null hoặc rỗng
         } else {
             Promotion promotion = promotionService.findById(selectedPromition1.getId());
             bill.setPromotion(selectedPromition1);
@@ -367,22 +368,22 @@ public class VNPAYController {
             ticket.setStatus("đã bán");
             ticketService.save(ticket);
         }
-////thêm bill_food
-        if (selectedFood1 == null || selectedFood1.isEmpty()) {
-            // Xử lý khi selectedFood là null hoặc rỗng
+////thêm bill_Service
+        if (selectedService1 == null || selectedService1.isEmpty()) {
+            // Xử lý khi selectedService là null hoặc rỗng
         } else {
-            for (int i = 0; i < selectedFood1.size() && i < selectedQuantity1.size() && i < selectedPrice1.size(); i++) {
-                Food food = selectedFood1.get(i);
+            for (int i = 0; i < selectedService1.size() && i < selectedQuantity1.size() && i < selectedPrice1.size(); i++) {
+                Service Service = selectedService1.get(i);
                 Integer quantity = selectedQuantity1.get(i);
                 BigDecimal price = selectedPrice1.get(i);
-                BillFood billFood = new BillFood();
+                BillService billService = new BillService();
 
-                billFood.setBill(createdBill);
-                billFood.setStatus(0);
-                billFood.setFood(food);
-                billFood.setQuantity(quantity);
-                billFood.setTotalMoney(price);
-                billFoodService.save(billFood);
+                billService.setBill(createdBill);
+                billService.setStatus(0);
+                billService.setService(Service);
+                billService.setQuantity(quantity);
+                billService.setTotalMoney(price);
+                billServiceService.save(billService);
 
             }
         }
@@ -424,17 +425,17 @@ public class VNPAYController {
             emailContent.append("Rạp/Phòng chiếu : ").append(room).append("\n");
             emailContent.append("Ngày chiếu : ").append(date).append("\n");
             emailContent.append("Giờ chiếu : ").append(time).append("\n");
-            if (foodd == null || foodd.isEmpty()) {
+            if (Serviced == null || Serviced.isEmpty()) {
                 emailContent.append("Đồ ăn : ").append(thongbao).append("\n");
             } else {
-                emailContent.append("Đồ ăn : ").append(foodd).append("\n");
+                emailContent.append("Đồ ăn : ").append(Serviced).append("\n");
             }
             emailContent.append("Ghế : ").append("(" + seatCount + ")" + seat).append("\n");
             emailContent.append("Tổng tiền vé : ").append(priceSeat).append("\n");
-            if (priceFood == null || priceFood.isEmpty()) {
+            if (priceService == null || priceService.isEmpty()) {
                 emailContent.append("Tổng tiền đồ ăn : ").append(thongbaos).append("\n");
             } else {
-                emailContent.append("Tổng tiền đồ ăn : ").append(priceFood).append("\n");
+                emailContent.append("Tổng tiền đồ ăn : ").append(priceService).append("\n");
             }
             if (discount == null || discount.isEmpty()) {
                 emailContent.append("Tiền được giảm : ").append(thongbaos).append("\n");
@@ -501,14 +502,14 @@ public class VNPAYController {
             Customer customerr = (Customer) session.getAttribute("customer");
             Promotion promotion = (Promotion) session.getAttribute("selectedPromition");
             List<BillTicket> billTickets = (List<BillTicket>) session.getAttribute("billTickets");
-            List<BillFood> billFoods = (List<BillFood>) session.getAttribute("billFoods");
+            List<BillService> billServices = (List<BillService>) session.getAttribute("billServices");
             List<Ticket> tickets = (List<Ticket>) session.getAttribute("tickets");
 // Lưu đối tượng Bill vào cơ sở dữ liệu
             bill.setTradingCode(transactionId);
             billService.save(bill);
             customerRepository.save(customerr);
             if (promotion == null) {
-                // Xử lý khi selectedFood là null hoặc rỗng
+                // Xử lý khi selectedService là null hoặc rỗng
             } else {
                 promotionService.save(promotion);
             }
@@ -519,11 +520,11 @@ public class VNPAYController {
                 ticket.setStatus("đã bán");
                 ticketService.save(ticket);
             }
-            if (billFoods == null || billFoods.isEmpty()) {
-                // Xử lý khi selectedFood là null hoặc rỗng
+            if (billServices == null || billServices.isEmpty()) {
+                // Xử lý khi selectedService là null hoặc rỗng
             } else {
-                for (BillFood billFood : billFoods) {
-                    billFoodService.save(billFood);
+                for (BillService billService : billServices) {
+                    billServiceService.save(billService);
                 }
             }
 //

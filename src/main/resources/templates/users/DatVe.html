@@ -172,17 +172,17 @@
                 <div id="wrapper">
                     <div class="scrollbar" id="style-default">
                         <div class="force-overflow">
-                            <th:block th:each="food : ${listFood}">
+                            <th:block th:each="Service : ${listService}">
                                 <div class="combo_tt">
-                                    <img th:src="'http://localhost:8080/admin/assets/img/'+${food.image}" alt=""
+                                    <img th:src="'http://localhost:8080/admin/assets/img/'+${Service.image}" alt=""
                                          width="70px" height="70px">
-                                    <b style="margin-left: -110px" id="namefood"
-                                       th:value="${food.id}">[[${food.name}]] </b>
-                                    <p style="margin-left: -80px" class="mot">[[${food.description}]] => Giá : <b
-                                            class="priceFood">[[${food.price}]]</b></p>
+                                    <b style="margin-left: -110px" id="nameService"
+                                       th:value="${Service.id}">[[${Service.name}]] </b>
+                                    <p style="margin-left: -80px" class="mot">[[${Service.description}]] => Giá : <b
+                                            class="priceService">[[${Service.price}]]</b></p>
                                     <div class="cart-quantity cart-column">
                                         <input class="cart-quantity-input" type="number" min="0" value="0"
-                                               onchange="sumFood()">
+                                               onchange="sumService()">
                                         <!--                                        <button onclick="increaseValue()">+</button>-->
                                         <!--                                        <button onclick="decreaseValue()">-</button>-->
                                     </div>
@@ -393,7 +393,7 @@
                         <div class="card_info_movie">
                             <b>Đồ ăn: </b>
                             <p id="doan">không có</p>
-                            <input type="hidden" name="foodfood" value="">
+                            <input type="hidden" name="ServiceService" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Tên ghế: <p id="sove"></p></b>
@@ -411,7 +411,7 @@
                         <div class="card_info_movie">
                             <b>Tổng đồ ăn: </b>
                             <p id="tongtiendoan">0</p>
-                            <input type="hidden" name="priceFoodFood" value="">
+                            <input type="hidden" name="priceServiceService" value="">
 
                         </div>
                         <div class="card_info_movie">
@@ -433,7 +433,7 @@
 
                         <input type="hidden" id="selectedSeats" name="selectedSeats">
                         <input type="hidden" id="priceTicket" name="priceTicket">
-                        <input type="hidden" id="selectedFood" name="selectedFood">
+                        <input type="hidden" id="selectedService" name="selectedService">
                         <input type="hidden" id="selectedQuantity" name="selectedQuantity">
                         <input type="hidden" id="selectedPrice" name="selectedPrice">
                         <input type="hidden" id="selectedPromition" name="selectedPromition">
@@ -474,7 +474,7 @@
                         <div class="card_info_movie">
                             <b>Đồ ăn: </b>
                             <p id="doan1">không có</p>
-                            <input type="hidden" name="foodd" value="">
+                            <input type="hidden" name="Serviced" value="">
                         </div>
                         <div class="card_info_movie">
                             <b>Tên ghế: <p id="sove1"></p></b>
@@ -490,7 +490,7 @@
                         <div class="card_info_movie">
                             <b>Tổng đồ ăn: </b>
                             <p id="tongtiendoan1">0</p>
-                            <input type="hidden" name="priceFood" value="">
+                            <input type="hidden" name="priceService" value="">
 
                         </div>
                         <div class="card_info_movie">
@@ -513,7 +513,7 @@
 
                         <input type="hidden" id="selectedSeats1" name="selectedSeats1">
                         <input type="hidden" id="priceTicket1" name="priceTicket1">
-                        <input type="hidden" id="selectedFood1" name="selectedFood1">
+                        <input type="hidden" id="selectedService1" name="selectedService1">
                         <input type="hidden" id="selectedQuantity1" name="selectedQuantity1">
                         <input type="hidden" id="selectedPrice1" name="selectedPrice1">
                         <input type="hidden" id="selectedPromition1" name="selectedPromition1">
@@ -706,11 +706,11 @@
     }
 
 
-    var priceFoodd = document.getElementsByClassName("priceFood");
-    for (var i = 0; i < priceFoodd.length; i++) {
-        var giaTri = parseInt(priceFoodd[i].innerHTML);
+    var priceServiced = document.getElementsByClassName("priceService");
+    for (var i = 0; i < priceServiced.length; i++) {
+        var giaTri = parseInt(priceServiced[i].innerHTML);
         let formattedGiaTri = giaTri.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
-        priceFoodd[i].innerHTML = formattedGiaTri;
+        priceServiced[i].innerHTML = formattedGiaTri;
 
     }
 
@@ -722,8 +722,8 @@
         const thanhtien = document.getElementById("thanhtien");
 
         const selectedSeats = document.querySelectorAll(".container .selected");
-        let price_Food = document.getElementById("totalPrice").textContent;
-        let total_priceFood = price_Food.replace("₫", "").replace(".", "");
+        let price_Service = document.getElementById("totalPrice").textContent;
+        let total_priceService = price_Service.replace("₫", "").replace(".", "");
         let price_Count = document.getElementById("voucher").textContent;
         let total_priceCount = price_Count.replace("₫", "").replace(".", "").replace("-", "");
 
@@ -757,7 +757,7 @@
             var number = selectedSeatsCount + " x " + price_ticket + " = " + formattedTotalPrice;
 
             let Number = parseFloat(summoney);
-            let Number1 = parseFloat(total_priceFood);
+            let Number1 = parseFloat(total_priceService);
             let Number2 = parseFloat(total_priceCount);
 
 

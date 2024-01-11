@@ -8,7 +8,7 @@ public interface DtoBill {
      String getCustomerName();
      String getMovieImage();
      String getMovieName();
-     String getFoodName();
+     String getServiceName();
      Date getDateCreate();
      String getTicketCode();
      String getTicketStatus();

@@ -23,16 +23,16 @@
             href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
             rel="stylesheet"
     />
-<!--    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/home.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/room.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/movie.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/customer.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/home.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/promotion.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/room.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/schedule.css}">-->
     <link rel="stylesheet" th:href="@{/admin/css/seat.css}">
-<!--    &lt;!&ndash;    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">&ndash;&gt;-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">-->
-<!--    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">-->
+    <!--    &lt;!&ndash;    <link rel="stylesheet" th:href="@{/admin/css/seat-manager.css}">&ndash;&gt;-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/modal.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/admin/css/phan-trang.css}">-->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.css"
           integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA=="
@@ -44,7 +44,7 @@
     <div class="spinner"></div>
 </div>
 
-<section class="seat-html" >
+<section class="seat-html">
 
     <section>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -58,7 +58,8 @@
                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
             </symbol>
         </svg>
-        <div th:if="${successMessage}" style="margin-left: 70px" class="alert alert-success d-flex align-items-center" role="alert">
+        <div th:if="${successMessage}" style="margin-left: 70px" class="alert alert-success d-flex align-items-center"
+             role="alert">
             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
                 <use xlink:href="#check-circle-fill"/>
             </svg>
@@ -80,18 +81,18 @@
                                     <label>Phòng chiếu</label>
                                     <select class="form-select" aria-label="Default select example" name="roomName"
                                             id="roomName">
-                                        <option th:each="cinema : ${getAll}" th:value="${cinema.name}"
-                                                th:text="${cinema.name}"></option>
-
+                                        <option th:each="room : ${getAll}" th:value="${room.name}"
+                                                th:text="${room.name}">
+                                        </option>
                                     </select>
                                 </div>
-<!--                                <button-->
-<!--                                        type="submit"-->
-<!--                                        class="btn btn-outline-success"-->
-<!--                                        onclick="overLoad()"-->
-<!--                                >-->
-<!--                                    Tìm ghế theo phòng-->
-<!--                                </button>-->
+                                <!--                                <button-->
+                                <!--                                        type="submit"-->
+                                <!--                                        class="btn btn-outline-success"-->
+                                <!--                                        onclick="overLoad()"-->
+                                <!--                                >-->
+                                <!--                                    Tìm ghế theo phòng-->
+                                <!--                                </button>-->
                             </div>
                         </div>
                     </form>
