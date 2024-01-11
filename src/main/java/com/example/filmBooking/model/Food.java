@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.ToString;
 
 import java.io.File;
@@ -24,7 +26,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "food")
+@Table(name = "service")
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -45,4 +47,8 @@ public class Food {
 
     @Column(name = "description", length = 560)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "service_type_id")
+    private ServiceType serviceType;
 }
