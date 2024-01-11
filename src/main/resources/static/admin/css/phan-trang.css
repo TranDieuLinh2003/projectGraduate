@@ -9,6 +9,7 @@
 .phanTrang_Movie {
   margin: 40px 0px 0px 0px;
   padding-bottom: 10px;
+  margin: 40px 0px 0px -100px;
 }
 .phanTrang_Movie nav {
   margin-left: 630px;
