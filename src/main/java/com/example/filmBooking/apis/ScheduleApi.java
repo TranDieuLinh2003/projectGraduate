@@ -1,7 +1,7 @@
 package com.example.filmBooking.apis;
 
 import com.example.filmBooking.model.Cinema;
-import com.example.filmBooking.model.Food;
+
 import com.example.filmBooking.model.Movie;
 import com.example.filmBooking.model.Schedule;
 import com.example.filmBooking.model.dto.DtoMovie;

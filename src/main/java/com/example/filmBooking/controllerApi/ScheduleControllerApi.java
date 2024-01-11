@@ -124,6 +124,7 @@ public class ScheduleControllerApi {
                 listRequestParam
         );
         Movie[] listmovie = responseMovie.getBody();
+        System.out.println("tôi là:"+listmovie);
         model.addAttribute("listmovie", listmovie);
         return "users/Schedule";
     }

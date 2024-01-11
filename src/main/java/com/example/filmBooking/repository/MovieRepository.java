@@ -22,13 +22,13 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     @Query(" from Movie m where m.status in ('Sắp chiếu', 'Đang chiếu')")
     List<Movie> showPhimSapChieuAndDangChieu();
 
-    String movie = ("SELECT DISTINCT  m.*" +
-            "\tfrom projectLinh.cinema c" +
-            "\tjoin projectLinh.room r on r.cinema_id = c.id" +
-            "\tjoin projectLinh.schedule s on s.room_id = r.id" +
-            "\tjoin projectLinh.movie m on m.id = s.movie_id" +
-            "where m.id=:movieId" +
-            " and c.id =:cinemaId");
+    String movie = ("SELECT DISTINCT  m.*\n" +
+            "            from projectLinh.cinema c\n" +
+            "            join projectLinh.room r on r.cinema_id = c.id\n" +
+            "            join projectLinh.schedule s on s.room_id = r.id\n" +
+            "           join projectLinh.movie m on m.id = s.movie_id\n" +
+            "            where m.id=:movieId\n" +
+            "            and c.id =:cinemaId");
 
     @Query(value = movie, nativeQuery = true)
     List<Movie> getMovie(@Param("movieId") String movieId, @Param("cinemaId") String cinemaId);
