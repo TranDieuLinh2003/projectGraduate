@@ -7,6 +7,9 @@ import com.example.filmBooking.repository.MovieTypeRepository;
 import com.example.filmBooking.service.MovieTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.filmBooking.model.Movie;
+import com.example.filmBooking.repository.MovieRepository;
+
 
 import java.util.List;
 import java.util.Random;
@@ -16,6 +19,9 @@ public class MovieTypeServiceImpl implements MovieTypeService {
 
     @Autowired
     private MovieTypeRepository movieTypeRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
 
     @Override
     public List<MovieType> fillAll() {
@@ -50,5 +56,17 @@ public class MovieTypeServiceImpl implements MovieTypeService {
     @Override
     public List<MovieType> searchNameMovieType(String keycode) {
         return movieTypeRepository.findByNameContains(keycode);
+    }
+    
+    @Override
+    public List<MovieType> findMovieTyprbyMovieId(String movieId) {
+        Movie movie = movieRepository.findById(movieId).get();
+        List<MovieType> movieTypes = movie.getMovieTypes();
+        return movieTypes;
+    }
+
+    @Override
+    public MovieType findByNameLike(String name) {
+        return movieTypeRepository.findByNameLike(name);
     }
 }
