@@ -17,4 +17,8 @@ public interface PerformerService {
     Performer findById(String id);
 
     List<Performer> searchNamePerformer(String keycode);
+    
+    List<Performer> findPerformerByMovieId(String id);
+
+    Performer findByNameLike(String name);
 }
