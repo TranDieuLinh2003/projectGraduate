@@ -17,4 +17,8 @@ public interface DirectorService {
     Director findById(String id);
 
     List<Director> searchNameDirector(String keycode);
+    
+    List<Director> findDireactorByMovieId(String movieId);
+
+    Director findByNameLike(String name);
 }
