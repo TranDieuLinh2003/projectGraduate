@@ -39,7 +39,8 @@
     <div class="row">
         <div class="col-5">
             <div class="item_movie_detail">
-                <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${detailMovie.image}}" alt="" width="400" height="600" />
+                <img th:src="@{'http://localhost:8080/admin/assets/img/' + ${detailMovie.image}}" alt="" width="400"
+                     height="600"/>
             </div>
         </div>
         <div class="col-7">
@@ -52,7 +53,7 @@
                             <h4>ĐẠO DIỄN:</h4>
                             <h4>DIỄN VIÊN:</h4>
                             <h4>THỂ LOẠI:</h4>
-                            <h4>THỜI LƯỢNG PHIM (phút):</h4>
+                            <h4>THỜI LƯỢNG PHIM:</h4>
                             <h4>NGÔN NGỮ:</h4>
                             <h4>NGÀY KHỞI CHIẾU:</h4>
                             <h4>NGÀY KẾT THÚC:</h4>
@@ -61,11 +62,33 @@
                     </div>
                     <div class="col-7">
                         <div class="text_thong_tin">
-                            <p>[[${detailMovie.director}]]</p>
-                            <p>[[${detailMovie.performers}]]</p>
-                            <p>[[${detailMovie.movieType}]]</p>
-                            <p>[[${detailMovie.movieDuration}]]</p>
-                            <p>[[${detailMovie.languages}]]</p>
+                            <p>
+                                 <span th:each="director : ${detailMovie.directors}">
+                                    <span th:text="${director.name}"></span>,
+                                     <!-- Add a comma or other separator between director names if needed -->
+<!--                                    <span th:if="${!#lists.last(directors)}">, </span>-->
+                                 </span>
+                            </p>
+                            <p>
+                                <span th:each="performer : ${detailMovie.performers}">
+                                    <span th:text="${performer.name}"></span>,
+                                <!-- Add a comma or other separator between director names if needed -->
+<!--                                    <span th:if="${!#lists.last(performers)}">, </span>-->
+                                 </span>
+                            </p>
+                            <p><span th:each="mt : ${detailMovie.movieTypes}">
+                                    <span th:text="${mt.name}"></span>,
+                                <!-- Add a comma or other separator between director names if needed -->
+<!--                                    <span th:if="${!#lists.last(directors)}">, </span>-->
+                                 </span>
+                            </p>
+                            <p>[[${detailMovie.movieDuration}]] phút</p>
+                            <p>
+                                <span th:each="lg : ${detailMovie.languages}">
+                                    <span th:text="${lg.name}"></span>,
+                                    <!-- Add a comma or other separator between director names if needed -->
+                                 </span>
+                            </p>
                             <p th:text="${#dates.format(detailMovie.premiereDate, 'dd/MM/yyyy')}"></p>
                             <p th:text="${#dates.format(detailMovie.endDate, 'dd/MM/yyyy')}"></p>
                             <p>[[${detailMovie.status}]]</p>
@@ -77,10 +100,10 @@
     </div>
     <hr class="hr-movie">
     <div class="trailer_detail_movie">
-        <iframe width="80%" height="700"  th:src="${detailMovie.trailer}"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
+        <iframe width="100%" height="600" th:src="${detailMovie.trailer}"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
     </div>
 </div>
 
