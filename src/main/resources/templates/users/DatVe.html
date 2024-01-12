@@ -104,7 +104,7 @@
                         <div class="text-wrapper">
                             <div id="seatOne" style="display: flex">
                                 <p class="text" id="priceDon"></p>
-                                <p class="text" id="count" style="margin-left: 245px;margin-top: -35px;;"></p>
+                                <p class="text" id="count" style="margin-left: 260px;margin-top: -35px;;"></p>
                             </div>
                             <div id="seatTow" style="display: flex;margin-top: -15px;">
                                 <p class="text" id="priceDoi"></p>
@@ -764,10 +764,10 @@
                 priceElement1.style.display = 'block';
                 countSeatTow.textContent = selectedSeatsCountTow;
             }
-            document.getElementById("sove").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + selectedSeatsCountTow + "ghế đôi" + ")";
-            document.getElementById("sove1").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + selectedSeatsCountTow + "ghế đôi" + ")";
-            document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + selectedSeatsCountTow + "ghế đôi" + ")";
-            document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementById("sove").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementById("sove1").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
 
             var seatDon = selectedSeatsCount * priceTicket1;
             var seatDoi = selectedSeatsCountTow * priceTicket2;
