@@ -82,6 +82,12 @@ public class TicketApi {
                                                     @RequestParam String nameRoom) {
         return new ResponseEntity<>(ticketRepository.ticketShow(cinemaId, movieId, startAt, startTime, nameRoom), HttpStatus.OK);
     }
+    @GetMapping("/show/ticket1")
+    private ResponseEntity<List<Ticket>> getSTicket1(@RequestParam String movieName,
+                                                    @RequestParam String startAt,
+                                                    @RequestParam String nameRoom) {
+        return new ResponseEntity<>(ticketRepository.ticketShow1(movieName, startAt, nameRoom), HttpStatus.OK);
+    }
 
     @GetMapping("/show/seat1")
     private ResponseEntity<List<DtoSeat>> getSeat1(@RequestParam String movieName,

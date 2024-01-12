@@ -41,6 +41,8 @@ public class BookingControllerApi {
     public static String apiVoucher = Api.baseURL + "/api/ticket/show/voucher";
     public static String apiGeneralSetting= Api.baseURL + "/api/ticket/show/generalSetting";
     public static String apiGetTicket= Api.baseURL + "/api/ticket/show/ticket";
+    public static String apiGetTicket1= Api.baseURL + "/api/ticket/show/ticket1";
+
 
 
     @GetMapping("/schedule")
@@ -286,9 +288,30 @@ public class BookingControllerApi {
                 listRequestParam1);
 
         DtoSeat[] listSeatDTOS = listSeat.getBody();
+        Map<Character, List<DtoSeat>> groupedSeats = new HashMap<>();
 
-        model.addAttribute("listSeatDTOS", listSeatDTOS);
+// Grouping seats by initial letter
+        for (DtoSeat seat : listSeatDTOS) {
+            char initialLetter = seat.getCode().charAt(0);
+            groupedSeats.computeIfAbsent(initialLetter, k -> new ArrayList<>()).add(seat);
+        }
 
+// Custom comparator to handle alphanumeric sorting
+        Comparator<DtoSeat> seatComparator = (s1, s2) -> {
+            String code1 = s1.getCode();
+            String code2 = s2.getCode();
+            String numericPart1 = code1.replaceAll("\\D", "");
+            String numericPart2 = code2.replaceAll("\\D", "");
+            if (numericPart1.length() == numericPart2.length()) {
+                return numericPart1.compareTo(numericPart2);
+            } else {
+                return Integer.compare(Integer.parseInt(numericPart1), Integer.parseInt(numericPart2));
+            }
+        };
+
+// Sorting seat codes within each group using the custom comparator
+        groupedSeats.values().forEach(seats -> seats.sort(seatComparator));
+        model.addAttribute("groupedSeats", groupedSeats);
 //
 
         //lấy ra foood
@@ -325,6 +348,21 @@ public class BookingControllerApi {
                 GeneralSetting[].class,
                 listRequestParam1);
         model.addAttribute("listGeneralSetting", listGeneralSetting.getBody());
+
+
+        String urlTemplateTicket1 = UriComponentsBuilder.fromHttpUrl(apiGetTicket1)
+                .queryParam("movieName", "{movieName}")
+                .queryParam("startAt", "{startAt}")
+                .queryParam("nameRoom", "{nameRoom}")
+                .encode()
+                .toUriString();
+        ResponseEntity<Ticket[]> listTicket = restTemplate.exchange(urlTemplateTicket1,
+                HttpMethod.GET,
+                entity,
+                Ticket[].class,
+                listRequestParam1);
+//        Ticket ticket =  listTicket.getBody()[0];
+        model.addAttribute("listTicket", listTicket.getBody());
         return "users/DatVe";
     }
 }
