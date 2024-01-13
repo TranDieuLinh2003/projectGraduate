@@ -4,6 +4,7 @@ import com.example.filmBooking.model.Schedule;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -42,5 +43,9 @@ public interface ScheduleService {
     List<String> listSchedule();
 
     List<Schedule> getScheduleByName(String name);
+    
+    List<Schedule>getAll();
+
+    List<Schedule> findByDateStartAt(String date);
 
 }
