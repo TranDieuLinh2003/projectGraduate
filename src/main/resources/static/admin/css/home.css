@@ -39,7 +39,8 @@
     border:1px solid darkgrey
 }
 .thong-ke-date button{
-    margin:20px;
+    margin: 17px 10px;
+    padding: 0px 25px;
 }
 .thong-ke-date .flex_one{
     width:690px;
