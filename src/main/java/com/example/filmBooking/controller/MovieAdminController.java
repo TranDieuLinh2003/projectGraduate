@@ -154,7 +154,7 @@ public class MovieAdminController {
                 model.addAttribute("thatBai", "Thêm thất bại");
             }
             model.addAttribute("movie", new Movie());
-            return "redirect:/movie/find-all";
+            return "redirect:/movie/find-all/page/1?status=&keyword=";
         } catch (Exception e) {
             e.printStackTrace();
             return "admin/movie";
@@ -164,7 +164,7 @@ public class MovieAdminController {
     @GetMapping("/delete/{id}")
     public String deleteMovie(@PathVariable(name = "id") String id) {
         service.delete(id);
-        return "redirect:/movie/find-all";
+        return "redirect:/movie/find-all/page/1?status=&keyword=";
     }
 
     @GetMapping("/update/{pageNumber}/{id}")
