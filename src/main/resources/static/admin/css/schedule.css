@@ -35,10 +35,9 @@
     margin: 40px 40px 0px 340px;
 }
 .them_lich_hang_loat{
-    background-color: #f2f6fb;
     transition: all 0.3s ease;
     margin: 0px 0px 50px 0px;
-    padding: 0px 0px 20px 0px;
+    padding: 0px 10px 50px 0px;
     border-radius: 30px;
 
 }
@@ -47,7 +46,7 @@
     transform: scale(1.02);
 }
 .them_lich_hang_loat .button_add_schedule{
-    margin: 30px 0px 40px 0px;
+    margin: 3px 0px 40px 0px;
     /*position: fixed;*/
 }
 .them_lich_hang_loat .button_add_schedule button{
@@ -89,14 +88,14 @@
     font-size: 18px
 }
 .form-loc-schedule{
-    margin: 0px 0px 30px 0px;
-    background-color: #f7f7f7;
-    box-shadow: 5px 5px 5px 5px darkgrey;
+    margin: 0px 0px 60px 0px;
+    /*background-color: #f7f7f7;*/
+    box-shadow: 1px 2px 15px 1px #979797;
     padding: 20px;
     border-radius:30px;
 }
 .form-loc-schedule select{
-    margin: 20px 0px 20px 0px
+    margin: 0px 0px 40px 0px
 }
 .form-update-schedule{
     margin: 40px 40px 0px 300px;
@@ -354,4 +353,7 @@
     /*justify-content: center;*/
     flex-wrap: nowrap;
 
+}
+.text_phim_vua_them{
+    margin: 20px;
 }
