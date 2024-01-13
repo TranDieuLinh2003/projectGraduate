@@ -43,66 +43,92 @@
     <h1>Cấu hình rạp chiếu</h1>
     <form onsubmit="validateSetting(event)" th:action="@{/general-setting/update}" method="post" th:object="${general}"  th:modelAttribute="${general}" >
         <th:block th:each="g : ${listSetting}">
-            <div class="input-box">
-                <label for="open_time">Thời gian mở cửa:</label>
-                <input type="time" id="open_time" th:field="*{businessHours}">
+            <div class="row">
+                <div class="col-xl-6">
+                    <label>Thời gian mở cửa:</label>
+                    <div>
+                        <input type="time" class="form-control" id="open_time" th:field="*{businessHours}">
+                    </div>
+                    <span id="open_time_err" style="color: red"></span>
+                </div>
+                <div class="col-xl-6">
+                    <label>Thời gian đóng cửa:</label>
+                    <div>
+                        <input type="time" class="form-control" id="close_time" th:field="*{closeTime}">
+                    </div>
+                    <span id="close_time_err" style="color: red"></span>
+                </div>
             </div>
-            <span id="open_time_err" style="color: red"></span>
             <br>
-            <div class="input-box">
-                <label for="close_time">Thời gian đóng cửa:</label>
-                <input type="time" id="close_time" th:field="*{closeTime}">
+            <div class="row">
+                <div class="col-xl-4">
+                    <label>Giá cố định:</label>
+                    <div>
+                        <input type="number" class="form-control" id="show_time" th:field="*{fixedTicketPrice}"><br>
+                    </div>
+                    <span id="show_time_err" style="color: red"></span>
+                </div>
+                <div class="col-xl-4">
+                    <label>Thời gian giao giữa các suất chiếu:</label>
+                    <div>
+                        <input type="number"  class="form-control" id="show_time_giao" th:field="*{breakTime}"><br>
+                    </div>
+                    <span id="show_time_giao_err" style="color: red"></span>
+                </div>
+                <div class="col-xl-4">
+                    <label>Thời gian thao tác đặt vé:</label>
+                    <div>
+                        <input type="number" class="form-control" id="payment_time" th:field="*{waitingTime}"><br>
+                    </div>
+                    <span id="payment_time_err" style="color: red"></span>
+                </div>
             </div>
-            <span id="close_time_err" style="color: red"></span>
-            <br>
-            <h2>Giá và giờ thay đổi giá:</h2>
-            <div class="input-box">
-                <label for="show_time">Giá cố định:</label>
-                <input type="number" id="show_time" th:field="*{fixedTicketPrice}"><br>
+            <div class="row">
+                <div class="col-xl-4">
+                    <label>Thời gian thay đổi giá:</label>
+                    <div>
+                        <input type="time"  class="form-control" id="price_change_time" th:field="*{timeBeginsToChange}"               >
+                    </div>
+                    <span id="price_change_time_err" style="color: red"></span>
+                </div>
+                <div class="col-xl-4">
+                    <label>Phần trăm tăng giá cuối tuần:</label>
+                    <div>
+                        <input type="number"  class="form-control" id="weekend_price_increase" th:field="*{percentWeekend}"><br>
+                    </div>
+                    <span id="weekend_price_increase_err" style="color: red"></span>
+                </div>
+                <div class="col-xl-4">
+                    <label>Phần trăm tăng giá sau 17h :</label>
+                    <div>
+                        <input type="number" class="form-control" id="weekday_price_increase" th:field="*{percentDay}"><br>
+                    </div>
+                </div>
             </div>
-            <span id="show_time_err" style="color: red"></span>
-            <div class="input-box">
-                <label for="show_time_giao">Thời gian giao giữa các suất chiếu:</label>
-                <input type="number" id="show_time_giao" th:field="*{breakTime}"><br>
+            <div class="row">
+                <div class="col-xl-4">
+                    <label>Thời gian chờ xác nhận hóa đơn:</label>
+                    <div>
+                        <input type="number"  class="form-control" th:field="*{confirmationWaitingTime}"><br>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <label>Phân trăm cộng điểm của tổng hóa đơn:</label>
+                    <div>
+                        <input type="number"  class="form-control" th:field="*{percentagePlusPoints}"><br>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <label>Phân trăm cộng điểm khi hóa đơn bị hủy:</label>
+                    <div>
+                        <input type="number"  class="form-control" th:field="*{pointsCompensationPercentage}"><br>
+                    </div>
+                    <span id="weekday_price_increase_err" style="color: red"></span>
+                </div>
             </div>
-            <span id="show_time_giao_err" style="color: red"></span>
-            <div class="input-box">
-                <label for="payment_time">Thời gian thao tác đặt vé:</label>
-                <input type="number" id="payment_time" th:field="*{waitingTime}"><br>
-            </div>
-            <span id="payment_time_err" style="color: red"></span>
-            <div class="input-box">
-                <label for="price_change_time">Thời gian thay đổi giá:</label>
-                <input type="time" id="price_change_time" th:field="*{timeBeginsToChange}"               >
-            </div>
-            <span id="price_change_time_err" style="color: red"></span>
-            <br>
-            <div class="input-box">
-                <label for="weekend_price_increase">Phần trăm tăng giá cuối tuần:</label>
-                <input type="number" id="weekend_price_increase" th:field="*{percentWeekend}"><br>
-            </div>
-            <span id="weekend_price_increase_err" style="color: red"></span>
-            <div class="input-box">
-                <label for="weekday_price_increase">Phần trăm tăng giá sau 17h :</label>
-                <input type="number" id="weekday_price_increase" th:field="*{percentDay}"><br>
-            </div>
-            <div class="input-box">
-                <label for="weekday_price_increase">Thời gian chờ xác nhận hóa đơn:</label>
-                <input type="number"  th:field="*{confirmationWaitingTime}"><br>
-            </div>
-            <div class="input-box">
-                <label for="weekday_price_increase">Phân trăm cộng điểm của tổng hóa đơn:</label>
-                <input type="number"  th:field="*{percentagePlusPoints}"><br>
-            </div>
-            <div class="input-box">
-                <label for="weekday_price_increase">Phân trăm cộng điểm khi hóa đơn bị hủy:</label>
-                <input type="number"  th:field="*{pointsCompensationPercentage}"><br>
-            </div>
-            <span id="weekday_price_increase_err" style="color: red"></span>
-<!--            <span ></span>-->
         </th:block>
         <br>
-        <button type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn cập nhật lại cài đặt !')">Xác nhận thay đổi</button>
+        <button style="margin-left: 10px" type="submit" class="btn btn-outline-success" onclick="return confirm('Bạn muốn cập nhật lại cài đặt !')">Cập nhật cài đặt</button>
     </form>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.9.0/sweetalert2.min.js"
