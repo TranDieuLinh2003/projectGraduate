@@ -128,7 +128,7 @@
                                                id="searchInput" name="keyword">
                                     </div>
                                 </nav>
-                                <ul class="checkbox-ul">
+                                <ul class="checkbox-ul" style="padding-left: 0px">
                                     <th:block th:each="m : ${movieId}">
                                         <div class="form-check">
                                             <li class="item" id="liMovie">
@@ -321,43 +321,46 @@
         </table>
     </div>
     </div>
-    <div class="phanTrang_Schedule">
-        <nav aria-label="Page navigation example" style="text-align: center">
-            <ul class="pagination">
-                <th:block th:if="${currentPage > 1}">
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage - 1}+ ${nameCinema
-                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}
-                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}
-                         + ${endTime == null ? '' : '&endTime=' + endTime}}"
-                           aria-label="Previous" onclick="overLoad()">
-                            &laquo;
-                        </a>
-                    </li>
-                </th:block>
-                <!--                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">-->
-                <!--                    <li class="page-item">-->
-                <!--                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${pageNumber} + ${nameCinema-->
-                <!--                         == null ? '' : '?nameCinema='+nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}-->
-                <!--                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}-->
-                <!--                         + ${endTime == null ? '' : '&endTime=' + endTime}}" onclick="overLoad()" aria-current="page">-->
-                <!--                            [[${pageNumber}]]-->
-                <!--                        </a>-->
-                <!--                    </li>-->
-                <!--                </th:block>-->
-                <th:block th:if="${currentPage < totalPages}">
-                    <li class="page-item">
-                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage + 1}  + ${nameCinema
-                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}
-                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}
-                         + ${endTime == null ? '' : '&endTime=' + endTime}}"
-                           aria-label="Next" onclick="overLoad()">
-                            &raquo;
-                        </a>
-                    </li>
-                </th:block>
-            </ul>
-        </nav>
+<!--    <div class="phanTrang_Schedule">-->
+<!--        <nav aria-label="Page navigation example" style="text-align: center">-->
+<!--            <ul class="pagination">-->
+<!--                <th:block th:if="${currentPage > 1}">-->
+<!--                    <li class="page-item">-->
+<!--                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage - 1}+ ${nameCinema-->
+<!--                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}-->
+<!--                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}-->
+<!--                         + ${endTime == null ? '' : '&endTime=' + endTime}}"-->
+<!--                           aria-label="Previous" onclick="overLoad()">-->
+<!--                            &laquo;-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--                &lt;!&ndash;                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <li class="page-item">&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${pageNumber} + ${nameCinema&ndash;&gt;-->
+<!--                &lt;!&ndash;                         == null ? '' : '?nameCinema='+nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}&ndash;&gt;-->
+<!--                &lt;!&ndash;                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}&ndash;&gt;-->
+<!--                &lt;!&ndash;                         + ${endTime == null ? '' : '&endTime=' + endTime}}" onclick="overLoad()" aria-current="page">&ndash;&gt;-->
+<!--                &lt;!&ndash;                            [[${pageNumber}]]&ndash;&gt;-->
+<!--                &lt;!&ndash;                        </a>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                &lt;!&ndash;                </th:block>&ndash;&gt;-->
+<!--                <th:block th:if="${currentPage < totalPages}">-->
+<!--                    <li class="page-item">-->
+<!--                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage + 1}  + ${nameCinema-->
+<!--                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}-->
+<!--                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}-->
+<!--                         + ${endTime == null ? '' : '&endTime=' + endTime}}"-->
+<!--                           aria-label="Next" onclick="overLoad()">-->
+<!--                            &raquo;-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--    </div>-->
+    <div class="pagination">
+        <!-- Pagination buttons will be added here dynamically using JavaScript -->
     </div>
 </section>
 <th:block th:each="schedule : ${listSchedule}">
@@ -490,6 +493,7 @@
         type="module"
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
 ></script>
+<script th:src="@{/admin/js/pagination.js}"></script>
 <script
         nomodule
         src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
