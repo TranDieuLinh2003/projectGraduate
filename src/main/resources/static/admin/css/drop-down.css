@@ -37,10 +37,10 @@
 }
 .checkbox-list{
     position: relative;
-    width: 460px;
+    width: 340px;
     margin-top: 15px;
     border-radius: 8px;
-    padding: 16px;
+    /*padding: 16px;*/
     background-color: #fff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     max-height: 265px;
