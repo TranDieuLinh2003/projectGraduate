@@ -54,7 +54,8 @@
 </div>
 <section class="promotion-html">
     <div th:replace="~{/layout/header-admin :: header}"></div>
-    <div class="containerCl" style="margin-left: 0px">
+    <div class="containerCl">
+        <div class="calendar">
         <label>Phòng chiếu</label>
         <select class="form-select" aria-label="Default select example" name="roomName"
                 id="roomName">
@@ -63,7 +64,6 @@
             </option>
         </select>
         <br>
-        <div class="calendar">
             <div class="header">
                 <div class="mouth"></div>
                 <div class="btns">
