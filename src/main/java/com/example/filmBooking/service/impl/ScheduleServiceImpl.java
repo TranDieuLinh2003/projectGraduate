@@ -455,7 +455,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         ticketRepository.saveAll(ticketList);
     }
-
+    
+    @Override
+    public List<Schedule> findByDateStartAt(String date) {
+        return repository.findByDateStartAt(date);
+    }
+    
+    @Override
+    public List<Schedule> getAll() {
+        return repository.findAll();
+    }
 }
 
 
