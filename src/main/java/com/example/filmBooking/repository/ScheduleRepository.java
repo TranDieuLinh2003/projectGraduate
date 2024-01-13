@@ -120,6 +120,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
 
     @Query("from Schedule s where s.name like %:name%")
     List<Schedule> findAllByName(String name);
+    
+    @Query(value = "select * from projectLinh.schedule s where DATE(s.start_at) = Date(?1)  and s.operating_status = 1", nativeQuery = true)
+    List<Schedule> findByDateStartAt(String date);
 
 }
 
