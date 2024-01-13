@@ -175,6 +175,18 @@ public class ScheduleAdminController {
         model.addAttribute("list", getAll);
         return new ResponseEntity<>(getAll, HttpStatus.OK);
     }
+    @GetMapping("/chi-tiet-calendar-schedule/detail")
+    @Operation(summary = "[tim kiếm theo ngày]")
+    public ResponseEntity<?> viewDate(@RequestParam("date") String date, Model model){
+        List<Schedule> schedule = scheduleService.findByDateStartAt(date);
+        return new ResponseEntity<>(schedule, HttpStatus.OK);
+    }
+    @GetMapping("/chi-tiet-calendar-schedule")
+    public String viewer(Model model){
+        List<Schedule> schedule = scheduleService.getAll();
+        model.addAttribute("list", schedule);
+        return "admin/chi-tiet-schedule";
+    }
 }
 
 
