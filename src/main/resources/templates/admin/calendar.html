@@ -54,11 +54,17 @@
 </div>
 <section class="promotion-html">
     <div th:replace="~{/layout/header-admin :: header}"></div>
+    <a th:href="@{/schedule/find-all}">
+        <div class="backPage">
+            <i class='bx bx-chevron-left'></i>
+            <span>Quay lại</span>
+        </div>
+    </a>
     <div class="containerCl">
         <div class="calendar">
         <label>Phòng chiếu</label>
         <select class="form-select" aria-label="Default select example" name="roomName"
-                id="roomName">
+                id="roomName" style="width: 400px">
             <option th:each="room : ${listRoom}" th:value="${room.id}"
                     th:text="${room.name}">
             </option>
@@ -114,6 +120,8 @@
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js"></script>
 <script th:src="@{/admin/js/index.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 <!--<script th:src="@{/admin/js/pagination.js}"></script>-->
 <script th:src="@{/admin/js/calendar.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
