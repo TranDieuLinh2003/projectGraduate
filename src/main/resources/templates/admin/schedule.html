@@ -81,8 +81,27 @@
                     aria-label="Close"></button>
         </div>
     </div>
-    <h2>QUẢN LÝ SUẤT CHIẾU</h2>
-    <hr>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-xl-6">
+            <h2>QUẢN LÝ SUẤT CHIẾU</h2>
+        </div>
+        <div class="col-xl-3" style="text-align: -webkit-right">
+            <a th:href="@{/schedule/chi-tiet-calendar-schedule}" onclick="overLoad()">
+                <button class="btn btn-outline-primary" style="display: flex; padding: 10px 20px 10px 20px">
+                    <i class='bx bx-calendar'></i>
+                    <span>Chi tiết lịch chiếu</span>
+                </button>
+            </a>
+        </div>
+        <div class="col-xl-3" style="text-align: -webkit-right">
+            <a th:href="@{/schedule}" onclick="overLoad()">
+                <button class="btn btn-outline-primary" style="display: flex; padding: 10px 20px 10px 20px">
+                    <i class='bx bx-calendar-check' ></i>
+                    <span>Xác nhận lịch chiếu</span>
+                </button>
+            </a>
+        </div>
+    </div>
     <div class="row">
         <form th:action="@{/schedule/batch-save/1}" method="post" class="them_lich_hang_loat"
               onsubmit="validateSchedule(event)">
@@ -392,7 +411,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Giá </label>
                         <input type="number" class="form-control" name="price" th:value="${schedule.price}"
-                               required>
+                               required disabled>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Thời gian bắt đầu</label>
@@ -402,7 +421,7 @@
                     <div class="col-md-6">
                         <label class="form-label">Thời điểm kết thúc </label>
                         <input type="datetime-local" class="form-control" id="finishAt" name="finishAt"
-                               th:value="${schedule.finishAt}"
+                               th:value="${schedule.finishAt}"0
                                disabled required>
                     </div>
                     <div class="col-md-6">
