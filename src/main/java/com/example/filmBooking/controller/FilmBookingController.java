@@ -3,6 +3,7 @@ package com.example.filmBooking.controller;
 import com.example.filmBooking.model.*;
 import com.example.filmBooking.model.dto.DtoMovie;
 import com.example.filmBooking.repository.*;
+import com.example.filmBooking.service.*;
 import com.example.filmBooking.service.impl.*;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,11 +45,42 @@ public class FilmBookingController {
     private RankCustomerServiceImpl rankCustomerService;
 
     @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
     private GeneralSettingRepository generalSettingRepository;
 
+    @Autowired
+    private RatedService ratedService;
+
+    @Autowired
+    private DirectorService directorService;
+
+    @Autowired
+    private LanguageService languageService;
+
+    @Autowired
+    private MovieTypeService movieTypeService;
+
+    @Autowired
+    private PerformerService performerService;
+
+
     @GetMapping("/trangchu")
-    public String getAllPosts(Model model, HttpServletRequest request) {
+    public String getAllPosts(Model model, HttpServletRequest request,
+                              @RequestParam(value = "keyword", required = false) String keyword,
+                              @RequestParam(value = "status", required = false) String status,
+                              @RequestParam(value = "director", required = false) String directors,
+                              @RequestParam(value = "movieType", required = false) String movieTypes,
+                              @RequestParam(value = "language", required = false) String languages,
+                              @RequestParam(value = "performer", required = false) String performers) {
 //        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();?
+        List<Movie> movieList = movieRepository.filterMoviesTrangChu(directors, languages, movieTypes, performers, status, keyword);
+        List<Rated> ratedId = ratedService.fillAll();
+        List<Director> directorId = directorService.fillAll();
+        List<Language> languageId = languageService.fillAll();
+        List<MovieType> movieTypeId = movieTypeService.fillAll();
+        List<Performer> performerId = performerService.fillAll();
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
@@ -68,7 +100,11 @@ public class FilmBookingController {
             String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
             model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
         }
-
+        model.addAttribute("ratedId", ratedId);
+        model.addAttribute("languages", languageId);
+        model.addAttribute("movieTypes", movieTypeId);
+        model.addAttribute("directors", directorId);
+        model.addAttribute("performers", performerId);
         return "users/FilmBooking";
     }
 

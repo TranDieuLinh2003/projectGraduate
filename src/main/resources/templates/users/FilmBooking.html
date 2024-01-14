@@ -7,6 +7,8 @@
     <link rel="icon" th:href="@{/users/img/logo.png}" type="image/x-icon"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/admin/css/mobiscroll.javascript.min.css}">
+    <script th:src="@{/admin/js/mobiscroll.javascript.min.js}"></script>
 </head>
 
 <body>
@@ -48,6 +50,61 @@
     </div>
     <div class="panels">
         <div class="panel" id="one-panel">
+            <div style="margin: 0px 0px 60px 0px;box-shadow: 1px 2px 15px 1px #979797;padding: 20px;border-radius: 30px;display: flex">
+<!--                <div class="multiSelect" style="margin-left: 20px">-->
+<!--                    <select multiple class="multiSelect_field" name="movieType" data-placeholder="Thể loại phim">-->
+<!--                        <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"-->
+<!--                                th:text="${movieType.name}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="multiSelect" style="margin-left: 20px">-->
+<!--                    <select multiple class="multiSelect_field1" name="director" data-placeholder="Đạo diễn">-->
+<!--                        <option th:each="director : ${directors}" th:value="${director.name}"-->
+<!--                                th:text="${director.name}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="multiSelect" style="margin-left: 20px">-->
+<!--                    <select multiple class="multiSelect_field2" data-placeholder="Diễn viên" name="performer">-->
+<!--                        <option th:each="performer : ${performers}" th:value="${performer.name}"-->
+<!--                                th:text="${performer.name}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="multiSelect" style="margin-left: 20px">-->
+<!--                    <select multiple class="multiSelect_field3" data-placeholder="Ngôn ngữ">-->
+<!--                        <option th:each="language : ${languages}" th:value="${language.name}"-->
+<!--                                th:text="${language.name}">-->
+<!--                        </option>-->
+<!--                    </select>-->
+<!--                </div>-->
+                <div class="col-lg-3">
+                    <div style="width: 280px; margin: 0px 0px 0px -15px">
+                        <div mbsc-page class="demo-multiple-select">
+                            <div style="height: 100%">
+                                <label>
+                                    Đạo diễn
+                                    <input
+                                            mbsc-input
+                                            id="demo-multiple-select-input1"
+                                            placeholder="Please select..."
+                                            data-dropdown="true"
+                                            data-input-style="outline"
+                                            data-label-style="stacked"
+                                            data-tags="true"
+                                    />
+                                </label>
+                                <select id="demo-multiple-select1" name="director" multiple>
+                                    <option  th:each="director : ${directors}" th:value="${director.name}"
+                                            th:text="${director.name}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="khoi">
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
@@ -69,7 +126,8 @@
                                 </span>
                                 <br>
                                 - Thời lượng: [[${movie.movieDuration}]] phút <br>
-                                - Ngày khởi chiếu: <span th:text="${#dates.format(movie.premiereDate, 'yyyy-MM-dd')}"></span><br>
+                                - Ngày khởi chiếu: <span
+                                    th:text="${#dates.format(movie.premiereDate, 'yyyy-MM-dd')}"></span><br>
                             </p>
 
                             <th:block th:if="${customer == null}">
@@ -107,7 +165,8 @@
                                         <span th:if="${!iterStat.last}">, </span>
                                 </span>
                                 - Thời lượng: [[${movie1.movieDuration}]] phút<br>
-                                - Ngày khởi chiếu: <span th:text="${#dates.format(movie1.premiereDate, 'yyyy-MM-dd')}"></span><br>
+                                - Ngày khởi chiếu: <span
+                                    th:text="${#dates.format(movie1.premiereDate, 'yyyy-MM-dd')}"></span><br>
                             </p>
                             <!--                            <button ><a th:href="@{'/rap?movieId='+${movie1.id}}">Đặt vé</a>          </button>  -->
                         </figcaption>
@@ -212,8 +271,29 @@
 
 <div th:replace="~{/layout/Footer :: footer}"></div>
 <script src="https://tudongchat.com/js/chatbox.js"></script>
-<script>const tudong_chatbox = new TuDongChat("C1tWgbGRbc6iYpd-oBqPI");
-tudong_chatbox.initial();</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script th:inline="javascript">const tudong_chatbox = new TuDongChat("C1tWgbGRbc6iYpd-oBqPI");
+tudong_chatbox.initial();
+    mobiscroll.setOptions({
+        locale: mobiscroll.localeEn,
+        theme: "ios",
+        themeVariant: "light",
+    });
+
+    mobiscroll.select("#demo-multiple-select1", {
+        inputElement: document.getElementById("demo-multiple-select-input1"),
+    });
+    mobiscroll.select("#demo-multiple-select2", {
+        inputElement: document.getElementById("demo-multiple-select-input2"),
+    });
+    mobiscroll.select("#demo-multiple-select3", {
+        inputElement: document.getElementById("demo-multiple-select-input3"),
+    });
+    mobiscroll.select("#demo-multiple-select4", {
+        inputElement: document.getElementById("demo-multiple-select-input4"),
+    });
+</script>
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>

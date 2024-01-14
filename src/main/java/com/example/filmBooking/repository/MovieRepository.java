@@ -63,4 +63,33 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
                              @Param("status") String status,
                              @Param("keyword") String keyword
     );
+
+
+    @Query(" SELECT DISTINCT m" +
+            " FROM Movie m " +
+            "LEFT JOIN m.directors d " +
+            "LEFT JOIN m.languages lang " +
+            "LEFT JOIN m.movieTypes type " +
+            "LEFT JOIN m.performers performer " +
+            "WHERE " +
+            "    COALESCE(:directors, :languages, :movieTypes, :performers, :status, :keyword) IS NOT NULL" +
+            "    AND (:directors IS NULL OR d.name IN :directors)    " +
+            "    AND (:languages IS NULL OR lang.name IN :languages) " +
+            "    AND (:movieTypes IS NULL OR type.name IN :movieTypes) " +
+            "    AND (:performers IS NULL OR performer.name IN :performers)" +
+            "    AND (:status IS NULL OR m.status IS NULL OR m.status LIKE %:status%)" +
+            "    AND (:keyword IS NULL OR m.name LIKE %:keyword% " +
+            "        OR d.name LIKE %:keyword% " +
+            "        OR lang.name LIKE %:keyword% " +
+            "        OR type.name LIKE %:keyword% " +
+            "        OR performer.name LIKE %:keyword% )" +
+            "AND m.status like 'Đang chiếu'")
+    List<Movie> filterMoviesTrangChu(
+                             @Param("directors") String directors,
+                             @Param("languages") String languages,
+                             @Param("movieTypes") String movieTypes,
+                             @Param("performers") String performers,
+                             @Param("status") String status,
+                             @Param("keyword") String keyword
+    );
 }
