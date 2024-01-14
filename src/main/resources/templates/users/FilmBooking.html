@@ -4,7 +4,7 @@
 <head>
     <title>FILMBOOKING</title>
     <link rel="stylesheet" th:href="@{/users/css/web.css}">
-    <link rel="icon" th:href="@{/users/img/logo.png}" type="image/x-icon"/>
+    <link rel="icon" th:href="@{/users/img/logo.png}" type="ima ge/x-icon"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" th:href="@{/admin/css/mobiscroll.javascript.min.css}">
@@ -50,61 +50,116 @@
     </div>
     <div class="panels">
         <div class="panel" id="one-panel">
-            <div style="margin: 0px 0px 60px 0px;box-shadow: 1px 2px 15px 1px #979797;padding: 20px;border-radius: 30px;display: flex">
-<!--                <div class="multiSelect" style="margin-left: 20px">-->
-<!--                    <select multiple class="multiSelect_field" name="movieType" data-placeholder="Thể loại phim">-->
-<!--                        <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"-->
-<!--                                th:text="${movieType.name}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <div class="multiSelect" style="margin-left: 20px">-->
-<!--                    <select multiple class="multiSelect_field1" name="director" data-placeholder="Đạo diễn">-->
-<!--                        <option th:each="director : ${directors}" th:value="${director.name}"-->
-<!--                                th:text="${director.name}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <div class="multiSelect" style="margin-left: 20px">-->
-<!--                    <select multiple class="multiSelect_field2" data-placeholder="Diễn viên" name="performer">-->
-<!--                        <option th:each="performer : ${performers}" th:value="${performer.name}"-->
-<!--                                th:text="${performer.name}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <div class="multiSelect" style="margin-left: 20px">-->
-<!--                    <select multiple class="multiSelect_field3" data-placeholder="Ngôn ngữ">-->
-<!--                        <option th:each="language : ${languages}" th:value="${language.name}"-->
-<!--                                th:text="${language.name}">-->
-<!--                        </option>-->
-<!--                    </select>-->
-<!--                </div>-->
-                <div class="col-lg-3">
-                    <div style="width: 280px; margin: 0px 0px 0px -15px">
-                        <div mbsc-page class="demo-multiple-select">
-                            <div style="height: 100%">
-                                <label>
-                                    Đạo diễn
-                                    <input
-                                            mbsc-input
-                                            id="demo-multiple-select-input1"
-                                            placeholder="Please select..."
-                                            data-dropdown="true"
-                                            data-input-style="outline"
-                                            data-label-style="stacked"
-                                            data-tags="true"
-                                    />
-                                </label>
-                                <select id="demo-multiple-select1" name="director" multiple>
-                                    <option  th:each="director : ${directors}" th:value="${director.name}"
-                                            th:text="${director.name}">
-                                    </option>
-                                </select>
+
+            <form th:action="@{/filmbooking/trangchu}">
+                <div style="margin: 0px 0px 60px 0px;box-shadow: 1px 2px 15px 1px #979797;padding: 20px;border-radius: 30px;display: flex">
+
+                    <div class="col-lg-3">
+                        <div style="width: 280px">
+                            <div mbsc-page class="demo-multiple-select">
+                                <div style="height: 100%">
+                                    <label>
+                                        Thể loại phim
+                                        <input
+                                                mbsc-input
+                                                id="demo-multiple-select-input2"
+                                                placeholder="Please select..."
+                                                data-dropdown="true"
+                                                data-input-style="outline"
+                                                data-label-style="stacked"
+                                                data-tags="true"
+                                        />
+                                    </label>
+                                    <select id="demo-multiple-select2" name="movieType" multiple>
+                                        <option th:each="movieType : ${movieTypes}" th:value="${movieType.name}"
+                                                th:text="${movieType.name}">
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-3">
+                        <div style="width: 280px; margin: 0px 0px 0px -15px">
+                            <div mbsc-page class="demo-multiple-select">
+                                <div style="height: 100%">
+                                    <label>
+                                        Đạo diễn
+                                        <input
+                                                mbsc-input
+                                                id="demo-multiple-select-input1"
+                                                placeholder="Please select..."
+                                                data-dropdown="true"
+                                                data-input-style="outline"
+                                                data-label-style="stacked"
+                                                data-tags="true"
+                                        />
+                                    </label>
+                                    <select id="demo-multiple-select1" name="director" multiple>
+                                        <option th:each="director : ${directors}" th:value="${director.name}"
+                                                th:text="${director.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div style="width: 280px">
+                            <div mbsc-page class="demo-multiple-select">
+                                <div style="height: 100%">
+                                    <label>
+                                        Diễn viên
+                                        <input
+                                                mbsc-input
+                                                id="demo-multiple-select-input4"
+                                                placeholder="Please select..."
+                                                data-dropdown="true"
+                                                data-input-style="outline"
+                                                data-label-style="stacked"
+                                                data-tags="true"
+                                        />
+                                    </label>
+                                    <select id="demo-multiple-select4" name="performer" multiple>
+                                        <option th:each="performer : ${performers}" th:value="${performer.name}"
+                                                th:text="${performer.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div style="width: 280px">
+                            <div mbsc-page class="demo-multiple-select">
+                                <div style="height: 100%">
+                                    <label>
+                                        Ngôn ngữ
+                                        <input
+                                                mbsc-input
+                                                id="demo-multiple-select-input3"
+                                                placeholder="Please select..."
+                                                data-dropdown="true"
+                                                data-input-style="outline"
+                                                data-label-style="stacked"
+                                                data-tags="true"
+                                        />
+                                    </label>
+                                    <select id="demo-multiple-select3" name="language" multiple>
+                                        <option th:each="language : ${languages}" th:value="${language.name}"
+                                                th:text="${language.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button style="width: 100px;height: 50px;margin-top: 26px;" type="submit" class="btn btn-success"
+                            onclick="overLoad()">Tìm kiếm
+                    </button>
+
                 </div>
-            </div>
+            </form>
             <div class="khoi">
                 <th:block th:each="movie : ${listmovie}">
                     <figure class="snip1208">
@@ -275,24 +330,24 @@
 
 <script th:inline="javascript">const tudong_chatbox = new TuDongChat("C1tWgbGRbc6iYpd-oBqPI");
 tudong_chatbox.initial();
-    mobiscroll.setOptions({
-        locale: mobiscroll.localeEn,
-        theme: "ios",
-        themeVariant: "light",
-    });
+mobiscroll.setOptions({
+    locale: mobiscroll.localeEn,
+    theme: "ios",
+    themeVariant: "light",
+});
 
-    mobiscroll.select("#demo-multiple-select1", {
-        inputElement: document.getElementById("demo-multiple-select-input1"),
-    });
-    mobiscroll.select("#demo-multiple-select2", {
-        inputElement: document.getElementById("demo-multiple-select-input2"),
-    });
-    mobiscroll.select("#demo-multiple-select3", {
-        inputElement: document.getElementById("demo-multiple-select-input3"),
-    });
-    mobiscroll.select("#demo-multiple-select4", {
-        inputElement: document.getElementById("demo-multiple-select-input4"),
-    });
+mobiscroll.select("#demo-multiple-select1", {
+    inputElement: document.getElementById("demo-multiple-select-input1"),
+});
+mobiscroll.select("#demo-multiple-select2", {
+    inputElement: document.getElementById("demo-multiple-select-input2"),
+});
+mobiscroll.select("#demo-multiple-select3", {
+    inputElement: document.getElementById("demo-multiple-select-input3"),
+});
+mobiscroll.select("#demo-multiple-select4", {
+    inputElement: document.getElementById("demo-multiple-select-input4"),
+});
 </script>
 </body>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>

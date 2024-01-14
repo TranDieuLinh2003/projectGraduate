@@ -96,7 +96,7 @@ public class RoomServiceImpl implements RoomService {
     public Room save(Room room) {
         Random generator = new Random();
         int value = generator.nextInt((100000 - 1) + 1) + 1;
-//        room.setId(UUID.randomUUID().toString());
+        room.setId(UUID.randomUUID().toString());
         room.setCode("ROOM" + value);
         room.setName("Room" + value + "_" + room.getCinema().getName());
         room.setCapacity(0);

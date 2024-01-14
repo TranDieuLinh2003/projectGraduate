@@ -187,6 +187,19 @@ public class ScheduleAdminController {
         model.addAttribute("list", schedule);
         return "admin/chi-tiet-schedule";
     }
+
+
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") String id, RedirectAttributes ra) {
+        try {
+            service.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công!!!");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại!!!");
+        }
+        return "redirect:/schedule";
+    }
 }
 
 

@@ -75,7 +75,7 @@ public class FilmBookingController {
                               @RequestParam(value = "language", required = false) String languages,
                               @RequestParam(value = "performer", required = false) String performers) {
 //        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();?
-        List<Movie> movieList = movieRepository.filterMoviesTrangChu(directors, languages, movieTypes, performers, status, keyword);
+        List<Movie> listmovie = movieRepository.filterMoviesTrangChu(directors, languages, movieTypes, performers, status, keyword);
         List<Rated> ratedId = ratedService.fillAll();
         List<Director> directorId = directorService.fillAll();
         List<Language> languageId = languageService.fillAll();
@@ -86,13 +86,13 @@ public class FilmBookingController {
         model.addAttribute("customer", customer);
         if (customer == null) {
             // Phim đang chiếu
-            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+//            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
             List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
             model.addAttribute("listmovie1", listmovie1);
         } else {
-            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+//            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
             model.addAttribute("listmovie", listmovie);
             // Phim sắp chiếu
             List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();

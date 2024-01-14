@@ -619,7 +619,7 @@ figure.snip1208.hover button {
 
 }
 
-/* footer */
+/*!* footer *!*/
 footer{
     width: auto;
     background-color: #333;
@@ -629,6 +629,7 @@ footer{
     grid-template-columns: 1fr 1fr 1fr 1fr;
     font-family: Arial;
 margin-bottom: -20px;
+    height: 500px;
 }
 
 footer p {
@@ -641,8 +642,7 @@ footer p:hover {
     color: #ff7200;
 }
 
-footer h6,
-div {
+footer h6{
     margin-bottom: 20px;
 }
 

@@ -390,19 +390,19 @@
         // Client-side validation for line containing numbers
         if (/\d/.test(line)) {
             errorSpan.textContent = "Tên hàng không được chứa số!";
-            submitButton.disabled = true; // Disable the submit button
+            // submitButton.disabled = true; // Disable the submit button
         } else {
             errorSpan.textContent = "";
-            submitButton.disabled = false; // Enable the submit button
+            // submitButton.disabled = TR; // Enable the submit button
             fetch('/seat/checkDuplicateLineForRoom?listLineCodes=' + line + "&idRoom=" + roomId)
                 .then(response => response.json())
                 .then(data => {
                     if (data.isDuplicate) {
                         errorSpan.textContent = "";
-                        submitButton.disabled = true; // Disable the submit button
+                        // submitButton.disabled = true; // Disable the submit button
                     } else {
                        errorSpan.textContent = "Hàng đã tồn tại trong phòng này!!!";
-                        submitButton.disabled = false; // Enable the submit button
+                        // submitButton.disabled = false; // Enable the submit button
                     }
                 })
                 .catch(error => console.error('Lỗi: ' + error));

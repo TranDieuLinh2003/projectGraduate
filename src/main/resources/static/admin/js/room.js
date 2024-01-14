@@ -1,8 +1,17 @@
 function validateFormRoom(event) {
     // Lấy các giá trị từ các trường dữ liệu
-    const quantitys = document.getElementById('quantity').value;
+    const height = document.getElementById('height').value;
+    const heightErr = document.getElementById('heightErr');
 
-    const quantityError = document.getElementById('quantityErr');
+    var width = document.getElementById('width').value;
+    var widthErr = document.getElementById('widthErr');
+
+    var other_equipment = document.getElementById('other_equipment').value;
+    var other_equipmentErr = document.getElementById('other_equipmentErr');
+
+    var description = document.getElementById('description').value;
+    var descriptionErr = document.getElementById('descriptionErr');
+
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -14,24 +23,41 @@ function validateFormRoom(event) {
             toast.onmouseleave = Swal.resumeTimer;
         }
     });
-
     // Đặt các biến kiểm tra
     let isValid = true;
 
     // Kiểm tra trường rỗng
-    if (quantitys.trim() === '') {
-        quantityError.textContent = 'Số lượng phòng không được để trống !';
-        isValid = false;
-    } else if(isNaN(quantitys) || quantitys <= 0 || quantitys >13) {
-        quantityError.textContent = 'Số lượng phòng phải lớn hơn 0 và nhỏ hơn 13 !';
+    if (height.trim() === '') {
+        heightErr.textContent = 'Không được để trống';
         isValid = false;
     } else {
-        movieDurationError.textContent = '';
+        heightErr.innerText = "";
     }
 
+    if(width.trim() === ''){
+        widthErr.textContent = "Không được để trống !";
+        isValid = false;
+    }else {
+        widthErr.innerText = "";
+    }
+
+
+    if(other_equipment.trim() === ''){
+        other_equipmentErr.textContent = "Không được để trống !";
+        isValid = false;
+    }else {
+        other_equipmentErr.innerText = "";
+    }
+
+    if(description.trim() === ''){
+        descriptionErr.textContent = "Không được để trống !";
+        isValid = false;
+    }else {
+        descriptionErr.innerText = "";
+    }
     // Nếu có bất kỳ lỗi nào, ngăn chặn sự kiện mặc định của form
     if (!isValid) {
-        event.preventDefault(); // This line prevents the default behavior without any visible indication
+        event.preventDefault();
     }
 }
 
