@@ -133,15 +133,25 @@ dayElements.forEach(day => {
                 return response.json();
             })
             .then(data => {
-                console.log(data)
-                itemMap = {};
-                startTime = undefined;
-                let scheduleModal = document.getElementById("big-task-container");
-                scheduleModal.innerHTML = '';
-                data.forEach(function (item, index) {
-                    itemMap[item.id] = item;
-                    if (index === 0) startTime = item.startAt;
-                    const newRowHTML = `<div class="task-item" id="${item.id}">
+                genItem(data);
+            })
+            .catch(error => {
+                console.log('fetch error:', error);
+            });
+    });
+})
+console.log(itemMap)
+
+function genItem(data){
+    console.log(data)
+    itemMap = {};
+    startTime = undefined;
+    let scheduleModal = document.getElementById("big-task-container");
+    scheduleModal.innerHTML = '';
+    data.forEach(function (item, index) {
+        itemMap[item.id] = item;
+        if (index === 0) startTime = item.startAt;
+        const newRowHTML = `<div class="task-item" id="${item.id}">
     <div class="row">
         <div class="col-3">
             ${item.movie.name}
@@ -154,31 +164,31 @@ dayElements.forEach(day => {
             <input type="text" class="form-control" style="width: 90%; margin-left: 40px; margin-top: -30px; margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
         </div>
         <div class="col-2" style="margin-left: 15px; margin-top: -8px;"> 
-            <a th:href="@{'/schedule/' + ${item.id}}" onclick="return confirm('Bạn muốn xóa  !')">
-                <button type="button" class="btn btn-outline-danger">
+            
+                <button type="button" class="btn btn-outline-danger" onclick="removeItem('${item.id}')">
                     <i class="bx bxs-trash"></i>
                 </button>
-            </a>
+            
         </div>
     </div>                        
 </div>
 `;
-                    convertToISOString(item.startAt);
-                    item.operatingStatus = 1;
-                    scheduleModal.innerHTML += newRowHTML;
+        convertToISOString(item.startAt);
+        item.operatingStatus = 1;
+        scheduleModal.innerHTML += newRowHTML;
 
-                })
-                Object.keys(inputValues2).forEach(function (itemI) {
-                    document.getElementById('price2').value = inputValues2[itemI];
-                    console.log(inputValues2[itemI] + 'kiki')
-                });
-            })
-            .catch(error => {
-                console.log('fetch error:', error);
-            });
+    })
+    Object.keys(inputValues2).forEach(function (itemI) {
+        document.getElementById('price2').value = inputValues2[itemI];
+        console.log(inputValues2[itemI] + 'kiki')
     });
-})
-console.log(itemMap)
+}
+
+function removeItem(itemId){
+    console.log(itemId);
+    itemMap.delete(itemId);
+    genItemMap();
+}
 
 function sendItemMapToServer() {
     const url = 'http://localhost:8080/schedule/update-all';
@@ -303,6 +313,10 @@ document.addEventListener("input", function (event) {
 });
 /////////////////////////////////
 drake.on("drop", function (el, target, source, sibling) {
+    genItemMap();
+});
+
+function genItemMap(){
     let items = Array.from(target.children);
     let draggedItemIndex = items.indexOf(el);
     let selectedItem = itemMap[el.id];
@@ -341,7 +355,7 @@ drake.on("drop", function (el, target, source, sibling) {
         }
         console.log(inputValues[itemId])
     });
-});
+}
 
 function updateItemPrice(itemId, element) {
     console.log(element.value);
