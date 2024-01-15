@@ -2,10 +2,10 @@ function validateFormMovie(event) {
     // Lấy các giá trị từ các trường dữ liệu
     const nameMovie = document.getElementById('nameMovie').value;
     const movieDurations = document.getElementById('movieDuration').value;
-    const directors = document.getElementById('director').value;
-    const performers = document.getElementById('performers').value;
-    const languages = document.getElementById('languages').value;
-    const movieTypes = document.getElementById('movieType').value;
+    const directors = document.getElementById('demo-multiple-select1').value; // Lấy giá trị từ đối tượng select
+    const performers = document.getElementById('demo-multiple-select4').value; // Lấy giá trị từ đối tượng select
+    const languages = document.getElementById('demo-multiple-select3').value; // Lấy giá trị từ đối tượng select
+    const movieTypes = document.getElementById('demo-multiple-select2').value; // Lấy giá trị từ đối tượng select
     const trailers = document.getElementById('trailler').value;
     const descriptions = document.getElementById('description').value;
     const premiereDate = document.getElementById('premiereDate').value;
@@ -55,29 +55,29 @@ function validateFormMovie(event) {
     } else {
         movieDurationError.textContent = '';
     }
-    if (directors.trim() === '') {
-        directorError.textContent = 'Tên đạo diễn không được để trống';
+    if (directors.length === 0) { // Kiểm tra trường "Đạo diễn"
+        directorError.textContent = 'Đạo diễn không được để trống';
         isValid = false;
     } else {
         directorError.textContent = '';
     }
-    if (performers.trim() === '') {
-        performerError.textContent = 'Tên diễn viên không được để trống';
+    if (performers.length === 0) { // Kiểm tra trường "Diễn viên"
+        performerError.textContent = 'Diễn viên không được để trống';
         isValid = false;
     } else {
         performerError.textContent = '';
     }
-    if (languages.trim() === '') {
+    if (languages.length === 0) { // Kiểm tra trường "Ngôn ngữ"
         languageError.textContent = 'Ngôn ngữ không được để trống';
         isValid = false;
     } else {
         languageError.textContent = '';
     }
-    if (movieTypes.trim() === '') {
+    if (movieTypes.length === 0) { // Kiểm tra trường "Thể loại phim"
         movieTypeError.textContent = 'Thể loại phim không được để trống';
         isValid = false;
     } else {
-        movieTypeError.textContent = '';
+        movieTypeError.textContent = ''; 
     }
     if (trailers.trim() === '') {
         trailerError.textContent = 'Trailer không được để trống';
