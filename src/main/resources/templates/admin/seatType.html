@@ -80,7 +80,7 @@
     <hr>
     <div class="room_add_all">
         <form th:action="@{/seatType/save}" th:object="${seatType}" method="post" class="form_add_room"
-              onsubmit="validateFormRoom(event)">
+              onsubmit="validateSeatType(event)">
             <input type="hidden" th:field="*{id}"/>
 
             <div class="seat_input">
