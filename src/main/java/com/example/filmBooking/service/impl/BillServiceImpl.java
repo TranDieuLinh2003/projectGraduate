@@ -49,7 +49,7 @@ public class BillServiceImpl implements BillService {
     public void updateBill(){
         for (Bill bill: findStatusZero2()
              ) {
-            if (bill.getWaitingTime().isBefore(LocalDateTime.now())){
+            if (bill.getWaitingTime() != null && bill.getWaitingTime().isBefore(LocalDateTime.now())){
                 bill.setStatus(2);
                 repository.save(bill);
             }

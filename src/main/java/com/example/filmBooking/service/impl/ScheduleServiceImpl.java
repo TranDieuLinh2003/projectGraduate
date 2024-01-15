@@ -177,7 +177,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleNew.setPrice(schedule.getPrice());
         scheduleNew.setStatus(schedule.getStatus());
         if (scheduleNew.getStatus().equals("Hủy")) {
-            System.out.println("trạng thái suất chiếu: " + scheduleNew.getStatus());
+//            System.out.println("trạng thái suất chiếu: " + scheduleNew.getStatus());
             updateTicket(id);
             updatePointCustomer(id);
             return repository.save(scheduleNew);
@@ -208,7 +208,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             //đổi trạng thái bill Service
             System.out.println(id);
             List<BillService> listBillService = billServiceRepository.findAllByBill(id);
-            System.out.println(listBillService);
+//            System.out.println(listBillService);
             for (BillService billService : listBillService
             ) {
                 billService.setStatus(2);
