@@ -142,18 +142,27 @@ dayElements.forEach(day => {
                     itemMap[item.id] = item;
                     if (index === 0) startTime = item.startAt;
                     const newRowHTML = `<div class="task-item" id="${item.id}">
-                            <div class="row">
-                                <div class="col-5">
-                                    ${item.movie.name}
-                                </div>
-                                <div class="col-3">
-                                    Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
-                                </div>
-                                <div class="col-4">
-                                    Giá: <input type="text" class="form-control" style="width: 90%;margin-left: 40px;margin-top: -30px; padding-top: -20px;margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
-                                </div>
-                            </div>                        
-                    </div>`;
+    <div class="row">
+        <div class="col-3">
+            ${item.movie.name}
+        </div>
+        <div class="col-3" style="margin-left: -20px">
+            Thời gian: ${formatCustomDate2(item.startAt)} - ${formatCustomDate2(item.finishAt)} 
+        </div>
+        <div class="col-4">
+            Giá: 
+            <input type="text" class="form-control" style="width: 90%; margin-left: 40px; margin-top: -30px; margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
+        </div>
+        <div class="col-2" style="margin-left: 15px; margin-top: -8px;"> 
+            <a th:href="@{'/schedule/' + ${item.id}}" onclick="return confirm('Bạn muốn xóa  !')">
+                <button type="button" class="btn btn-outline-danger">
+                    <i class="bx bxs-trash"></i>
+                </button>
+            </a>
+        </div>
+    </div>                        
+</div>
+`;
                     convertToISOString(item.startAt);
                     item.operatingStatus = 1;
                     scheduleModal.innerHTML += newRowHTML;
@@ -284,8 +293,8 @@ drake.on("dragend", function (el) {
 });
 let inputValues = {};
 /////////////////////////
-document.addEventListener("input", function(event) {
-    const { target } = event;
+document.addEventListener("input", function (event) {
+    const {target} = event;
     if (target.matches('.price-input')) {
         const id = target.getAttribute("data-id");
         const value = target.value;

@@ -129,13 +129,6 @@
                         </div>
                         <span id="widthErr" style="color: red; margin: 10px 0px 0px 0px"></span>
                     </div>
-                    <!--                    <div class="col-md-6">-->
-                    <!--                        <div class="input-box">-->
-                    <!--                            <label>Số ghế</label>-->
-                    <!--                            <input type="number" min 0 id="capacity" th:field="*{capacity}"/>-->
-                    <!--                        </div>-->
-                    <!--                        <span id="quantityErr" style="color: red; margin: 10px 0px 0px 0px"></span>-->
-                    <!--                    </div>-->
                     <div class="col-md-6">
                         <div class="input-box">
                             <label>Thiế bị khác</label>
@@ -167,6 +160,8 @@
                             <label>Mô tả phòng</label>
                             <input type="text" id="description" th:field="*{description}"/>
                         </div>
+                        <span id="descriptionErr" style="color: red; margin: 10px 0px 0px 0px"></span>
+
                     </div>
 
 
@@ -186,7 +181,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-outline-success" style="margin-top: 60px">
-              Thêm
+                Thêm
             </button>
         </form>
     </div>
@@ -216,7 +211,7 @@
                         <button
                                 type="button"
                                 class="btn btn-outline-danger"
-                                onclick="return confirm('Bạn muốn xóa khuyến mãi này !')"
+                                onclick="return confirm('Bạn muốn xóa  !')"
                         >
                             <i class="bx bxs-trash"></i>
                         </button>
@@ -255,7 +250,7 @@
 <th:block th:each="room : ${roomList}">
     <div class="modal" th:attrappend="id='exampleModal_' + ${room.id}">
         <div class="modal-dialog">
-            <div class="modal-content" style="height: 700px">
+            <div class="modal-content" style="height: 715px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Chi tiết phòng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

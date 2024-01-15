@@ -75,7 +75,8 @@ public class FilmBookingController {
                               @RequestParam(value = "language", required = false) String languages,
                               @RequestParam(value = "performer", required = false) String performers) {
 //        String soldTicketsCount = billRepository.countSoldTicketsWithStatusZero();?
-        List<Movie> movieList = movieRepository.filterMoviesTrangChu(directors, languages, movieTypes, performers, status, keyword);
+        List<Movie> listmovie = movieRepository.filterMoviesTrangChu(directors, languages, movieTypes, performers, status, keyword);
+        List<Movie> phimDangChieu = movieRepository.showPhimDangChieu();
         List<Rated> ratedId = ratedService.fillAll();
         List<Director> directorId = directorService.fillAll();
         List<Language> languageId = languageService.fillAll();
@@ -85,20 +86,36 @@ public class FilmBookingController {
         Customer customer = (Customer) session.getAttribute("customer");
         model.addAttribute("customer", customer);
         if (customer == null) {
-            // Phim đang chiếu
-            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
-            model.addAttribute("listmovie", listmovie);
-            // Phim sắp chiếu
-            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
-            model.addAttribute("listmovie1", listmovie1);
+            if((directors == null || directors.isEmpty()) && (movieTypes == null || movieTypes.isEmpty()) &&
+                    (languages == null || languages.isEmpty()) && (performers == null || performers.isEmpty())) {
+                model.addAttribute("listmovie", phimDangChieu);
+                List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+                model.addAttribute("listmovie1", listmovie1);
+            } else {
+                // Phim đang chiếu
+//            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+                model.addAttribute("listmovie", listmovie);
+                // Phim sắp chiếu
+                List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+                model.addAttribute("listmovie1", listmovie1);
+            }
         } else {
-            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
-            model.addAttribute("listmovie", listmovie);
-            // Phim sắp chiếu
-            List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
-            model.addAttribute("listmovie1", listmovie1);
-            String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
-            model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+            if ((directors == null || directors.isEmpty()) && (movieTypes == null || movieTypes.isEmpty()) &&
+                    (languages == null || languages.isEmpty()) && (performers == null || performers.isEmpty())) {
+                model.addAttribute("listmovie", phimDangChieu);
+                List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+                model.addAttribute("listmovie1", listmovie1);
+                String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+                model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+            } else {
+//            List<Movie> listmovie = (List<Movie>) service.showPhimDangChieu();
+                model.addAttribute("listmovie", listmovie);
+                // Phim sắp chiếu
+                List<Movie> listmovie1 = (List<Movie>) service.showPhimSapChieu();
+                model.addAttribute("listmovie1", listmovie1);
+                String soldTicketsCountBill = billRepository.countSoldTicket(customer.getId());
+                model.addAttribute("soldTicketsCountBill", soldTicketsCountBill);
+            }
         }
         model.addAttribute("ratedId", ratedId);
         model.addAttribute("languages", languageId);
