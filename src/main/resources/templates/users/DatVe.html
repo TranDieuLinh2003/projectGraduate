@@ -99,7 +99,7 @@
                             <!--                            <h2 th:text="'Seats starting with ' + ${entry.key}"></h2>-->
                             <div class="row">
                                 <div th:each="seat : ${entry.value}" class="seat" th:onclick="hienGiaMoi(this)"
-                                     data-selected="false"
+                                     data-selected="false" th:value="${seat.seatType.name}"
                                      th:disabled="${seat.isOccupied == '1'}" th:attr="data-value=${seat.ticketId}"
                                      th:classappend="${seat.isOccupied == '1'} ? 'occupied' : ''"
                                      th:class="${seat.status == 1 ? 'seat  black' : (seat.status == 0 ? (seat.seatType.name == 'Ghế đôi' ? 'seat seattow' : 'seat') : 'seat red')}">
@@ -625,6 +625,7 @@
     var uniquePricesArray = Array.from(uniquePrices);
 
     if (uniquePricesArray.length >= 2) {
+        uniquePricesArray.sort((a, b) => a - b);
         var priceTicket1 = uniquePricesArray[0];
         var priceTicket2 = uniquePricesArray[1];
 
@@ -643,9 +644,9 @@
 
     var price_ticket = formattedPriceticket;
     var price_ticket1 = formattedPriceticket1;
-
-    console.log(price_ticket)
-    console.log(price_ticket1)
+    //
+    // console.log(price_ticket)
+    // console.log(price_ticket1)
 
     var selectedSeatIds = [];
     var selectedSeatIds1 = [];
@@ -655,6 +656,7 @@
         var priceElement = document.getElementById("priceDon");
         var priceElement1 = document.getElementById("priceDoi");
         var seatIndex = clickedSeats.indexOf(seat);
+
 
         if (seat.classList.contains('occupied')) {
             alert("Ghế đã được bán!");
@@ -673,19 +675,23 @@
             clickedSeats.splice(seatIndex, 1);
             // seat.style.backgroundColor = "white";
         }
-
         if (clickedSeats.length === 0) {
             if (priceElement && priceElement1) { // Check if priceElement exists
                 priceElement.innerHTML = "";
                 priceElement1.innerHTML = "";
             }
         } else {
-            if (priceElement && priceElement1) { // Check if priceElement exists
-                if (seat.classList.contains('seattow') && seat.classList.contains('seat')) {
-                    priceElement1.innerHTML = "Giá ghế đôi: " + price_ticket + " x ";
-                } else  if ( seat.classList.contains('seat')) {
-                    priceElement.innerHTML = "Giá ghế đơn: " + price_ticket1;
-                }
+            var selectedValue = seat.getAttribute('value');
+            console.log(selectedValue)
+                console.log(price_ticket)
+            console.log(price_ticket1)
+            if (selectedValue === "Ghế đôi") {
+
+                priceElement1.innerHTML = "Giá ghế đôi: " + price_ticket + " x ";
+            } else {
+
+
+                priceElement.innerHTML = "Giá ghế đơn: " + price_ticket1;
             }
         }
 
@@ -779,17 +785,17 @@
             }
             document.getElementById("sove").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
             document.getElementById("sove1").innerHTML = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
-            document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
-            document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
+            document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," + selectedSeatsCountTow + "ghế đôi" + ")";
 
             var seatDon = selectedSeatsCount * priceTicket1;
             var seatDoi = selectedSeatsCountTow * priceTicket2;
-            console.log(selectedSeatsCount);
-            console.log(selectedSeatsCountTow);
-            console.log(priceTicket1);
-            console.log(priceTicket2);
-            console.log(seatDon);
-            console.log(seatDoi);
+            // console.log(selectedSeatsCount);
+            // console.log(selectedSeatsCountTow);
+            // console.log(priceTicket1);
+            // console.log(priceTicket2);
+            // console.log(seatDon);
+            // console.log(seatDoi);
             var summoney = parseFloat(seatDoi) + parseFloat(seatDon);
             let formattedTotalPrice = summoney.toLocaleString("vi-VN", {style: "currency", currency: "VND"});
             total.textContent = "Tổng tiền: " + formattedTotalPrice;
