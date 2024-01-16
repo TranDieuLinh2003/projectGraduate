@@ -108,17 +108,6 @@ public class MovieAdminController {
         return "admin/form-add-movie";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteMovie(@PathVariable(name = "id") String id, RedirectAttributes ra) {
-        try {
-            service.delete(id);
-            ra.addFlashAttribute("successMessage", "Xóa thành công");
-        } catch (Exception e) {
-            ra.addFlashAttribute("errorMessage", "Xóa thất bại");
-        }
-        return "redirect:/movie/find-all/page/1?status=&keyword=";
-    }
-
     @PostMapping("/save")
     @Operation(summary = "[Thêm mới]")
     public String save(Model model,
