@@ -108,11 +108,15 @@ public class MovieAdminController {
         return "admin/form-add-movie";
     }
 
-    @GetMapping("/detail/{id}")
-    public String detailMovie(Model model, @PathVariable(name = "id") String id) {
-        Movie movie = service.findById(id);
-        model.addAttribute("detailMovie", movie);
-        return "admin/chi-tiet-phim";
+    @GetMapping("/delete/{id}")
+    public String deleteMovie(@PathVariable(name = "id") String id, RedirectAttributes ra) {
+        try {
+            service.delete(id);
+            ra.addFlashAttribute("successMessage", "Xóa thành công");
+        } catch (Exception e) {
+            ra.addFlashAttribute("errorMessage", "Xóa thất bại");
+        }
+        return "redirect:/movie/find-all/page/1?status=&keyword=";
     }
 
     @PostMapping("/save")
