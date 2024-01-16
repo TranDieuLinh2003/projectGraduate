@@ -91,7 +91,7 @@ public class VNPAYController {
                               @RequestParam(value = "selectedQuantity", required = false) List<Integer> selectedQuantity,
                               @RequestParam(value = "selectedPrice", required = false) List<BigDecimal> selectedPrice,
                               @RequestParam(value = "selectedPromition", required = false) Promotion selectedPromition) {
-
+System.out.println("tao là"+orderTotal);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(orderTotal, orderInfo, baseUrl);
         HttpSession session = request.getSession();

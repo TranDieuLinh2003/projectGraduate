@@ -286,12 +286,14 @@ document
 
       let amount = document.getElementById("thanhtien").textContent;
       document.getElementById("amount").innerHTML = amount;
-      let amountt = parseInt(amount.replace("₫", "").replace(".", ""));
+
+      let amountt = parseInt(amount.replace(/\./g, "").replace("₫", ""));
+      console.log(amountt)
       document.getElementsByName("amount")[0].value = amountt;
 
       let amount1 = document.getElementById("thanhtien").textContent;
       document.getElementById("amount1").innerHTML = amount1;
-      let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+      let amountt1 = parseInt(amount1.replace(/\./g, "").replace("₫", ""));
       document.getElementsByName("amount1")[0].value = amountt1;
 
       document.getElementById("comeBack").style.display = "block";
@@ -308,11 +310,11 @@ document
 
       let amount = document.getElementById("thanhtien").textContent;
       document.getElementById("amount").innerHTML = amount;
-      let amountt = parseInt(amount.replace("₫", "").replace(".", ""));
+      let amountt = parseInt(amount.replace(/\./g, "").replace("₫", ""));
       document.getElementsByName("amount")[0].value = amountt;
       let amount1 = document.getElementById("thanhtien").textContent;
       document.getElementById("amount1").innerHTML = amount1;
-      let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+      let amountt1 = parseInt(amount1.replace(/\./g, "").replace("₫", ""));
       document.getElementsByName("amount1")[0].value = amountt1;
       document.getElementById("comeBack").style.display = "block";
       document.getElementById("showDivButton").style.display = "none";
@@ -341,7 +343,7 @@ document.getElementById("cancel2").addEventListener("click", function () {
 
   let amount1 = document.getElementById("thanhtien").textContent;
   document.getElementById("amount1").innerHTML = amount1;
-  let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+  let amountt1 = parseInt(amount1.replace(/\./g, "").replace("₫", ""));
   document.getElementsByName("amount1")[0].value = amountt1;
   document.getElementById("comeBack").style.display = "block";
   document.getElementById("showDivButton").style.display = "none";
@@ -369,7 +371,7 @@ document.getElementById("cancel2").addEventListener("click", function () {
 
   let amount1 = document.getElementById("thanhtien").textContent;
   document.getElementById("amount1").innerHTML = amount1;
-  let amountt1 = parseInt(amount1.replace("₫", "").replace(".", ""));
+  let amountt1 = parseInt(amount1.replace(/\./g, "").replace("₫", ""));
   document.getElementsByName("amount1")[0].value = amountt1;
   document.getElementById("comeBack").style.display = "block";
   document.getElementById("showDivButton").style.display = "none";
@@ -572,11 +574,11 @@ function getPhanTramGiam(checkbox) {
   var phantramgiamElement = row.querySelector(".phantramgiam"); // Tìm phần tử có lớp "phantramgiam" trong thẻ cha
   let tongtienElement = document.getElementById("tongtien");
   let tongtienData = tongtienElement.innerText;
-  let giaTriFormatted = tongtienData.replace("₫", "").replace(".", "");
+  let giaTriFormatted = tongtienData.replace(/\./g, "").replace("₫", "");
 
   let totalPriceElement = document.getElementById("totalPrice");
   let totalPriceData = totalPriceElement.innerText;
-  let totalPriceFormatted = totalPriceData.replace("₫", "").replace(".", "");
+  let totalPriceFormatted = totalPriceData.replace(/\./g, "").replace("₫", "");
 
   const number10 = giaTriFormatted;
   const number20 = totalPriceFormatted;
@@ -773,10 +775,10 @@ function captureInputAndDisplay() {
     .textContent.replace("₫", "")
     .replace(".", "");
   const tongtien1 = document.getElementById("tongtien").textContent;
-  let total_Sum1 = tongtien1.replace("₫", "").replace(".", "");
+  let total_Sum1 = tongtien1.replace(/\./g, "").replace("₫", "");
 
   const totalPrice1 = document.getElementById("totalPrice").textContent;
-  let total_totalPrice1 = totalPrice1.replace("₫", "").replace(".", "");
+  let total_totalPrice1 = totalPrice1.replace(/\./g, "").replace("₫", "");
 
   let Number1 = parseFloat(total_Sum1);
   let Number2 = parseFloat(total_totalPrice1);
@@ -800,10 +802,10 @@ function captureInputAndDisplay() {
   } else {
     document.getElementById("voucher").textContent = "-" + result;
     const tongtien = document.getElementById("tongtien").textContent;
-    let total_Sum = tongtien.replace("₫", "").replace(".", "");
+    let total_Sum = tongtien.replace(/\./g, "").replace("₫", "");
 
     const totalPrice = document.getElementById("totalPrice").textContent;
-    let total_totalPrice = totalPrice.replace("₫", "").replace(".", "");
+    let total_totalPrice = totalPrice.replace(/\./g, "").replace("₫", "");
 
     let Number = parseFloat(inputData);
     let Number1 = parseFloat(total_Sum);

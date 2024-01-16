@@ -614,6 +614,7 @@
     const point = document.getElementById("point").textContent;
 
     const sum = parseFloat(rank) - parseFloat(point);
+    console.log(sum)
     document.getElementById("rankpoint").innerHTML = sum + " điểm";
 
     const precent = (point / rank) * 100;

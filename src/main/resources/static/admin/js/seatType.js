@@ -1,9 +1,9 @@
 
-function validateCinema(event){
-    var nameCinema = document.getElementById('name').value;
-    var nameCinemaErr = document.getElementById('nameErr');
-    var addressCinema = document.getElementById('surcharge').value;
-    var addressCinemaErr = document.getElementById('surchargeErr');
+function validateSeatType(event){
+    var nameSeatType = document.getElementById('name').value;
+    var nameErr = document.getElementById('nameErr');
+    var surcharge = document.getElementById('surcharge').value;
+    var surchargeErr = document.getElementById('surchargeErr');
     const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -17,17 +17,20 @@ function validateCinema(event){
     });
     var isValid = true;
 
-    if(nameCinema.trim() === ''){
-        nameCinemaErr.textContent = "Không được để trống !";
+    if(nameSeatType.trim() === ''){
+        nameErr.textContent = "Không được để trống !";
         isValid = false;
     }else {
-        nameCinemaErr.innerText = "";
+        nameErr.innerText = "";
     }
-    if(addressCinema.trim() === ''){
-        addressCinemaErr.textContent = "Không được để trống !";
+    if(surcharge.trim() === '') {
+        surchargeErr.textContent = "Không được để trống !";
+        isValid = false;
+    }else if(isNaN(surcharge) || +surcharge < 0){
+        surchargeErr.textContent = "Phụ phí không thể < 0 !";
         isValid = false;
     }else {
-        addressCinemaErr.innerText = "";
+        surchargeErr.innerText = "";
     }
     if (!isValid) {
         event.preventDefault(); // This line prevents the default behavior without any visible indication
