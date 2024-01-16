@@ -250,137 +250,60 @@
             </div>
         </form>
     </div>
-    <div class="update-and-loc">
-        <div class="row">
-            <div class="col-12">
-                <div class="form-loc-schedule">
-                    <form th:action="@{/schedule/find-all/page/1}" method="get">
-                        <div class="row">
-                            <div class="col-2">
-                                <select size="1" id="nameCinema" name="nameCinema" class="form-select"
-                                        aria-label="Default select example">
-                                    <option value="">-- Chọn rạp --</option>
-                                    <option th:each="cinema : ${cinemaId}" th:value="${cinema.name}"
-                                            th:text="${cinema.name}"></option>
-                                </select>
-                            </div>
-                            <div class="col-2">
-                                <select size="1" id="nameMovie" name="nameMovie" class="form-select"
-                                        aria-label="Default select example">
-                                    <option value="">-- Chọn phim --</option>
-                                    <option th:each="movie : ${movieId}" th:value="${movie.name}"
-                                            th:text="${movie.name}"></option>
-                                </select>
-                            </div>
-                            <div class="col-2">
-                                <select size="1" id="startAt" name="startAt" class="form-select"
-                                        aria-label="Default select example">
-                                    <option value="">-- Chọn ngày --</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <select class="form-select" name="status" aria-label="Default select example">
-                                    <option value="">-- Chọn trạng thái--</option>
-                                    <option value="Đang chiếu" th:selected="${schedule.status == 'Đang chiếu'}">Đang
-                                        chiếu
-                                    </option>
-                                    <option value="Đã chiếu" th:selected="${schedule.status == 'Đã chiếu'}">Đã chiếu
-                                    </option>
-                                    <option value="Sắp chiếu" th:selected="${schedule.status == 'Sắp chiếu'}">Sắp
-                                        chiếu
-                                    </option>
-                                    <option value="Hủy" th:selected="${schedule.status == 'Hủy'}">Hủy</option>
-                                </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch
-                                    chiếu
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Mã lịch trình</th>
-                <th scope="col">Phim chiếu</th>
-                <th scope="col">Phòng chiếu</th>
-                <th scope="col">Giá vé</th>
-                <th scope="col">Giờ bắt đầu</th>
-                <th scope="col">Giờ kết thúc</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Hành động</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="schedule : ${listSchedule}">
-                <td>[[${schedule.code}]]</td>
-                <td>[[${schedule.movie.name}]]</td>
-                <td>[[${schedule.room.name}]]</td>
-                <td id="price">[[${schedule.price}]]</td>
-                <td id="ngaybatdau">[[${schedule.startAt}]]</td>
-                <td id="ngayketthuc">[[${schedule.finishAt}]]</td>
-                <td>[[${schedule.status}]]</td>
-                <td>
-                    <a>
-                        <button class="btn btn-outline-success"
-                                data-bs-toggle="modal"
-                                th:attr="data-bs-target='#exampleModal_' + ${schedule.id}">
-                            <i class='bx bxs-edit-alt'></i>
-                        </button>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
-<!--    <div class="phanTrang_Schedule">-->
-<!--        <nav aria-label="Page navigation example" style="text-align: center">-->
-<!--            <ul class="pagination">-->
-<!--                <th:block th:if="${currentPage > 1}">-->
-<!--                    <li class="page-item">-->
-<!--                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage - 1}+ ${nameCinema-->
-<!--                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}-->
-<!--                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}-->
-<!--                         + ${endTime == null ? '' : '&endTime=' + endTime}}"-->
-<!--                           aria-label="Previous" onclick="overLoad()">-->
-<!--                            &laquo;-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </th:block>-->
-<!--                &lt;!&ndash;                <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <li class="page-item">&ndash;&gt;-->
-<!--                &lt;!&ndash;                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${pageNumber} + ${nameCinema&ndash;&gt;-->
-<!--                &lt;!&ndash;                         == null ? '' : '?nameCinema='+nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}&ndash;&gt;-->
-<!--                &lt;!&ndash;                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}&ndash;&gt;-->
-<!--                &lt;!&ndash;                         + ${endTime == null ? '' : '&endTime=' + endTime}}" onclick="overLoad()" aria-current="page">&ndash;&gt;-->
-<!--                &lt;!&ndash;                            [[${pageNumber}]]&ndash;&gt;-->
-<!--                &lt;!&ndash;                        </a>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--                &lt;!&ndash;                </th:block>&ndash;&gt;-->
-<!--                <th:block th:if="${currentPage < totalPages}">-->
-<!--                    <li class="page-item">-->
-<!--                        <a class="page-link" th:href="@{'/schedule/find-all/page/' + ${currentPage + 1}  + ${nameCinema-->
-<!--                         == null ? '' : '?nameCinema=' + nameCinema} + ${nameMovie == null ? '' : '&nameMovie=' + nameMovie}-->
-<!--                         + ${startAt == null ? '' : '&startAt=' + startAt} + ${startTime == null ? '' : '&startTime=' + startTime}-->
-<!--                         + ${endTime == null ? '' : '&endTime=' + endTime}}"-->
-<!--                           aria-label="Next" onclick="overLoad()">-->
-<!--                            &raquo;-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </th:block>-->
-<!--            </ul>-->
-<!--        </nav>-->
+<!--    <div class="update-and-loc">-->
+<!--        <div class="row">-->
+<!--            <div class="col-12">-->
+<!--                <div class="form-loc-schedule">-->
+<!--                    <form th:action="@{/schedule/find-all/page/1}" method="get">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-2">-->
+<!--                                <select size="1" id="nameCinema" name="nameCinema" class="form-select"-->
+<!--                                        aria-label="Default select example">-->
+<!--                                    <option value="">&#45;&#45; Chọn rạp &#45;&#45;</option>-->
+<!--                                    <option th:each="cinema : ${cinemaId}" th:value="${cinema.name}"-->
+<!--                                            th:text="${cinema.name}"></option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="col-2">-->
+<!--                                <select size="1" id="nameMovie" name="nameMovie" class="form-select"-->
+<!--                                        aria-label="Default select example">-->
+<!--                                    <option value="">&#45;&#45; Chọn phim &#45;&#45;</option>-->
+<!--                                    <option th:each="movie : ${movieId}" th:value="${movie.name}"-->
+<!--                                            th:text="${movie.name}"></option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="col-2">-->
+<!--                                <select size="1" id="startAt" name="startAt" class="form-select"-->
+<!--                                        aria-label="Default select example">-->
+<!--                                    <option value="">&#45;&#45; Chọn ngày &#45;&#45;</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="col-3">-->
+<!--                                <select class="form-select" name="status" aria-label="Default select example">-->
+<!--                                    <option value="">&#45;&#45; Chọn trạng thái&#45;&#45;</option>-->
+<!--                                    <option value="Đang chiếu" th:selected="${schedule.status == 'Đang chiếu'}">Đang-->
+<!--                                        chiếu-->
+<!--                                    </option>-->
+<!--                                    <option value="Đã chiếu" th:selected="${schedule.status == 'Đã chiếu'}">Đã chiếu-->
+<!--                                    </option>-->
+<!--                                    <option value="Sắp chiếu" th:selected="${schedule.status == 'Sắp chiếu'}">Sắp-->
+<!--                                        chiếu-->
+<!--                                    </option>-->
+<!--                                    <option value="Hủy" th:selected="${schedule.status == 'Hủy'}">Hủy</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="col-2">-->
+<!--                                <button type="submit" class="btn btn-outline-success" onclick="overLoad()">Lọc lịch-->
+<!--                                    chiếu-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 <!--    </div>-->
-    <div class="pagination">
-        <!-- Pagination buttons will be added here dynamically using JavaScript -->
-    </div>
+
 </section>
 <th:block th:each="schedule : ${listSchedule}">
     <div class="modal" th:attrappend="id='exampleModal_' + ${schedule.id}">

@@ -200,6 +200,28 @@ public class ScheduleAdminController {
         }
         return "redirect:/schedule";
     }
+    
+    @PostMapping("/save")
+    @Operation(summary = "[Thêm mới]")
+    public String save(Model model, @RequestParam(name = "status") String status,@RequestParam(name = "id") String id, RedirectAttributes ra) {
+        try {
+            Schedule schedule = Schedule.builder()
+                    .id(id)
+                    .status(status)
+                    .build();
+
+            if (service.save(schedule) instanceof String) {
+                ra.addFlashAttribute("successMessage", "Thêm thành công");
+            } else {
+                ra.addFlashAttribute("thaerrorMessagetBai", "Thêm thất bại");
+            }
+            model.addAttribute("schedule", new Schedule());
+            return "redirect:/schedule/chi-tiet-calendar-schedule";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "admin/chi-tiet-schedule";
+        }
+    }
 }
 
 
