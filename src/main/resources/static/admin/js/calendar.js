@@ -163,13 +163,13 @@ function genItem(data){
             Giá: 
             <input type="text" class="form-control" style="width: 90%; margin-left: 40px; margin-top: -30px; margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
         </div>
-        <div class="col-2" style="margin-left: 15px; margin-top: -8px;"> 
-            
-                <button type="button" class="btn btn-outline-danger" onclick="removeItem('${item.id}')">
-                    <i class="bx bxs-trash"></i>
-                </button>
-            
-        </div>
+        // <div class="col-2" style="margin-left: 15px; margin-top: -8px;"> 
+        //    
+        //         <button type="button" class="btn btn-outline-danger" onclick="removeItem('${item.id}')">
+        //             <i class="bx bxs-trash"></i>
+        //         </button>
+        //    
+        // </div>
     </div>                        
 </div>
 `;
