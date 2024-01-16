@@ -682,9 +682,9 @@
         } else {
             if (priceElement && priceElement1) { // Check if priceElement exists
                 if (seat.classList.contains('seattow') && seat.classList.contains('seat')) {
-                    priceElement1.innerHTML = "Giá ghế đôi: " + price_ticket1 + " x ";
+                    priceElement1.innerHTML = "Giá ghế đôi: " + price_ticket + " x ";
                 } else  if ( seat.classList.contains('seat')) {
-                    priceElement.innerHTML = "Giá ghế đơn: " + price_ticket;
+                    priceElement.innerHTML = "Giá ghế đơn: " + price_ticket1;
                 }
             }
         }
@@ -782,8 +782,8 @@
             document.getElementsByName("seatCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
             document.getElementsByName("seatCountCount")[0].value = "(" + selectedSeatsCount + "ghế đơn" + "," +  selectedSeatsCountTow + "ghế đôi" + ")";
 
-            var seatDon = selectedSeatsCount * priceTicket2;
-            var seatDoi = selectedSeatsCountTow * priceTicket1;
+            var seatDon = selectedSeatsCount * priceTicket1;
+            var seatDoi = selectedSeatsCountTow * priceTicket2;
             console.log(selectedSeatsCount);
             console.log(selectedSeatsCountTow);
             console.log(priceTicket1);
