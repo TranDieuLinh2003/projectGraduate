@@ -274,7 +274,7 @@
                 <th:block th:if="${currentPage > 1}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/movie/find-all/page/' + ${currentPage - 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           th:href="@{'/movie/find-all/page/' + ${currentPage - 1} + ${status == null ? '' : '?status=' + status} + ${keyword == null ? '' : '&keyword=' + keyword}}"
                            aria-label="Previous" onclick="overLoad()">
                             &laquo;
                         </a>
@@ -283,7 +283,7 @@
                 <th:block th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/movie/find-all/page/' + ${pageNumber} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           th:href="@{'/movie/find-all/page/' + ${pageNumber} + ${status == null ? '' : '?status=' + status} + ${keyword == null ? '' : '&keyword=' + keyword}}"
                            onclick="overLoad()">
                             [[${pageNumber}]]
                         </a>
@@ -292,7 +292,7 @@
                 <th:block th:if="${currentPage < totalPages}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/movie/find-all/page/' + ${currentPage + 1} + ${keyword == null ? '' : '?keyword=' + keyword} + ${status == null ? '' : '?status=' + status}}"
+                           th:href="@{'/movie/find-all/page/' + ${currentPage + 1} + ${status == null ? '' : '?status=' + status} + ${keyword == null ? '' : '&keyword=' + keyword}}"
                            aria-label="Next" onclick="overLoad()">
                             &raquo;
                         </a>
