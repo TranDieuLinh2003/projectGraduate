@@ -133,7 +133,36 @@ dayElements.forEach(day => {
                 return response.json();
             })
             .then(data => {
-                genItem(data);
+                console.log(data)
+                itemMap = {};
+                startTime = undefined;
+                let scheduleModal = document.getElementById("big-task-container");
+                scheduleModal.innerHTML = '';
+                data.forEach(function (item, index) {
+                    itemMap[item.id] = item;
+                    if (index === 0) startTime = item.startAt;
+                    const newRowHTML = `<div class="task-item" id="${item.id}">
+                            <div class="row">
+                                <div class="col-5">
+                                    ${item.movie.name}
+                                </div>
+                                <div class="col-3">
+                                    Thời gian: ${formatCustomDate2(item.startAt)}- ${formatCustomDate2(item.finishAt)} 
+                                </div>
+                                <div class="col-4">
+                                    Giá: <input type="text" class="form-control" style="width: 90%;margin-left: 40px;margin-top: -30px; padding-top: -20px;margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
+                                </div>
+                            </div>                        
+                    </div>`;
+                    convertToISOString(item.startAt);
+                    item.operatingStatus = 1;
+                    scheduleModal.innerHTML += newRowHTML;
+
+                })
+                Object.keys(inputValues2).forEach(function (itemI) {
+                    document.getElementById('price2').value = inputValues2[itemI];
+                    console.log(inputValues2[itemI] + 'kiki')
+                });
             })
             .catch(error => {
                 console.log('fetch error:', error);
@@ -141,54 +170,6 @@ dayElements.forEach(day => {
     });
 })
 console.log(itemMap)
-
-function genItem(data){
-    console.log(data)
-    itemMap = {};
-    startTime = undefined;
-    let scheduleModal = document.getElementById("big-task-container");
-    scheduleModal.innerHTML = '';
-    data.forEach(function (item, index) {
-        itemMap[item.id] = item;
-        if (index === 0) startTime = item.startAt;
-        const newRowHTML = `<div class="task-item" id="${item.id}">
-    <div class="row">
-        <div class="col-3">
-            ${item.movie.name}
-        </div>
-        <div class="col-3" style="margin-left: -20px">
-            Thời gian: ${formatCustomDate2(item.startAt)} - ${formatCustomDate2(item.finishAt)} 
-        </div>
-        <div class="col-4">
-            Giá: 
-            <input type="text" class="form-control" style="width: 90%; margin-left: 40px; margin-top: -30px; margin-bottom: 28px;" value="${item.price}" onchange="updateItemPrice('${item.id}', this)"/>
-        </div>
-        // <div class="col-2" style="margin-left: 15px; margin-top: -8px;"> 
-        //    
-        //         <button type="button" class="btn btn-outline-danger" onclick="removeItem('${item.id}')">
-        //             <i class="bx bxs-trash"></i>
-        //         </button>
-        //    
-        // </div>
-    </div>                        
-</div>
-`;
-        convertToISOString(item.startAt);
-        item.operatingStatus = 1;
-        scheduleModal.innerHTML += newRowHTML;
-
-    })
-    Object.keys(inputValues2).forEach(function (itemI) {
-        document.getElementById('price2').value = inputValues2[itemI];
-        console.log(inputValues2[itemI] + 'kiki')
-    });
-}
-
-function removeItem(itemId){
-    console.log(itemId);
-    itemMap.delete(itemId);
-    genItemMap();
-}
 
 function sendItemMapToServer() {
     const url = 'http://localhost:8080/schedule/update-all';
@@ -303,8 +284,8 @@ drake.on("dragend", function (el) {
 });
 let inputValues = {};
 /////////////////////////
-document.addEventListener("input", function (event) {
-    const {target} = event;
+document.addEventListener("input", function(event) {
+    const { target } = event;
     if (target.matches('.price-input')) {
         const id = target.getAttribute("data-id");
         const value = target.value;
@@ -313,10 +294,6 @@ document.addEventListener("input", function (event) {
 });
 /////////////////////////////////
 drake.on("drop", function (el, target, source, sibling) {
-    genItemMap();
-});
-
-function genItemMap(){
     let items = Array.from(target.children);
     let draggedItemIndex = items.indexOf(el);
     let selectedItem = itemMap[el.id];
@@ -355,7 +332,7 @@ function genItemMap(){
         }
         console.log(inputValues[itemId])
     });
-}
+});
 
 function updateItemPrice(itemId, element) {
     console.log(element.value);

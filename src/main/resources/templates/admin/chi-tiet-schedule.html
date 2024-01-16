@@ -260,7 +260,6 @@
                                                 <th scope="col" style="text-align: center">Giờ kết thúc</th>
                                                 <th scope="col" style="text-align: center">Phòng chiếu</th>
                                                 <th scope="col" style="text-align: center">Giá vé</th>
-                                                <th scope="col" style="text-align: center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -272,13 +271,7 @@
                                             <td style="width: 200px; text-align: center; font-size: 20px; font-weight: bold">${getHourAndMinute(item.finishAt)}</td>
                                             <td style="width: 200px; font-size: 18px">${item.room.name}</td>
                                             <td style="width: 200px; font-size: 20px; color: red">${formatCurrency(item.price)}</td>
-                                            <td style="width: 120px">
-                                                <a href="/schedule/findById/1/${item.id}">
-                                                    <button class="btn btn-outline-success">
-                                                        <i class='bx bxs-edit-alt'></i>
-                                                    </button>
-                                                </a>
-                                            </td>
+
                                         </tbody>
                                     </table>
                                 `;
