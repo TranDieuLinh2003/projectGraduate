@@ -49,6 +49,9 @@ public class ScheduleAdminController {
     private ScheduleServiceImpl scheduleService;
 
     @Autowired
+    private TicketService ticketService;
+
+    @Autowired
     private MovieService movieService;
 
     @Autowired
@@ -56,6 +59,10 @@ public class ScheduleAdminController {
 
     @Autowired
     private CinemaService cinemaService;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @GetMapping("/find-all")
     public String viewSchedule(Model model) {
@@ -100,6 +107,41 @@ public class ScheduleAdminController {
         return "admin/schedule";
     }
 
+//    @PostMapping("/update/{id}")
+//    @Operation(summary = "[Thêm mới]")
+//    public String save(Model model,
+//                       @RequestParam(name = "id") String id,
+//                       @RequestParam(name = "room") Room room,
+//                       @RequestParam(name = "movie") Movie movie,
+//                       @RequestParam(name = "startAt") LocalDateTime startAt,
+//                       @RequestParam(name = "finishAt") LocalDateTime finishAt,
+////                       @RequestParam(name = "time") LocalTime time,
+//                       @RequestParam(name = "price") BigDecimal price,
+//                       @PathVariable("pageNumber") Integer currentPage,
+//                       RedirectAttributes ra
+//    ) {
+//        try {
+//            Schedule schedule = Schedule.builder()
+//                    .id(id)
+//                    .room(room)
+//                    .movie(movie)
+//                    .startAt(startAt)
+//                    .finishAt(finishAt)
+//                    .price(price)
+//                    .build();
+//            if (service.update(id, schedule) instanceof Schedule) {
+//                ra.addFlashAttribute("successMessage", "Sửa lịch chiếu thành công");
+//            } else {
+//                ra.addFlashAttribute("errorMessage", "Sửa lịch chiếu thất bại");
+//            }
+////            model.addAttribute("schedule", new Schedule());
+//            return "redirect:/schedule/find-all";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "admin/schedule";
+//        }
+//    }
+
     @PostMapping("/batch-save/{pageNumber}")
     @Operation(summary = "[Thêm mới]")
     public String generateSchedule(Model model,
@@ -109,6 +151,7 @@ public class ScheduleAdminController {
                                    @RequestParam(value = "endTime", required = false) LocalDateTime endTime,
                                    @PathVariable("pageNumber") Integer currentPage, RedirectAttributes ra, Schedule schedule
     ) {
+//        System.out.println("vào rồi");
         try {
 //            if (scheduleService.checkScheduleConflict(schedule, String.valueOf(listRoomChecked)) == false) {
 //                ra.addFlashAttribute("Message", "Tạo suất chiếu thất bại ");
